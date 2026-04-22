@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* Enable dark: utility classes when .dark is on <html> */
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #faf5ff;
+  --foreground: #1e1b4b;
+  --primary: #7c3aed;
+  --primary-light: #ede9fe;
+}
+
+.dark {
+  --background: #0d0a1a;
+  --foreground: #f5f3ff;
+  --primary: #a78bfa;
+  --primary-light: #1e1b4b;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-outfit), 'Outfit Fallback', system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit), 'Outfit Fallback', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ── Shimmer skeleton ───────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400% 0; }
+  100% { background-position:  400% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.dark .shimmer {
+  background: linear-gradient(90deg,
+    #1f2937 25%,
+    #374151 50%,
+    #1f2937 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+  50% { border-color: #a78bfa; box-shadow: 0 0 0 6px rgba(124, 58, 237, 0); }
+}
+
+.drop-zone-active {
+  animation: pulse-border 1s ease-in-out infinite;
+}
+
+/* ── Google Translate overrides ─────────────────────────────────────────── */
+
+/* Kill the injected top bar completely */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+div#goog-gt- { display: none !important; visibility: hidden !important; }
+
+/* Prevent Google Translate from pushing the page down */
+body { top: 0 !important; position: static !important; }
+html body { margin-top: 0 !important; }
+.goog-te-gadget span { display: none !important; }
+.goog-te-gadget { font-size: 0 !important; }
+.goog-te-combo {
+  font-size: 0.75rem !important;
+  font-family: var(--font-outfit), system-ui, sans-serif !important;
+  padding: 0.3rem 0.5rem !important;
+  border: 1px solid #ddd6fe !important;
+  border-radius: 0.5rem !important;
+  background: transparent !important;
+  color: #7c3aed !important;
+  cursor: pointer !important;
+  outline: none !important;
+  max-width: 120px;
+}
+.dark .goog-te-combo {
+  border-color: #4c1d95 !important;
+  color: #a78bfa !important;
+}
+.goog-te-combo:hover { border-color: #7c3aed !important; }
