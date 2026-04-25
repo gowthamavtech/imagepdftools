@@ -50,6 +50,7 @@ export function MetadataStripperUI() {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [results, setResults] = useState<StripResult[]>([]);
   const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
+  const [fileErrors, setFileErrors] = useState<Record<string, string>>({});
   const filesRef = useRef<FileEntry[]>([]);
   filesRef.current = files;
 
@@ -73,8 +74,8 @@ export function MetadataStripperUI() {
         ...prev.filter((r) => r.id !== entry.id),
         { id: entry.id, blob, name, size: blob.size },
       ]);
-    } catch {
-      // skip silently
+    } catch (err) {
+      setFileErrors((prev) => ({ ...prev, [entry.id]: (err as Error).message || 'Failed to process file.' }));
     } finally {
       setProcessingIds((prev) => {
         const s = new Set(prev);
@@ -157,6 +158,7 @@ export function MetadataStripperUI() {
             {files.map((file) => {
               const result = results.find((r) => r.id === file.id);
               const isProcessing = processingIds.has(file.id);
+              const fileError = fileErrors[file.id];
               const saved = result
                 ? Math.round(((file.file.size - result.size) / file.file.size) * 100)
                 : null;
@@ -192,6 +194,9 @@ export function MetadataStripperUI() {
                           </svg>
                           Stripping…
                         </span>
+                      )}
+                      {!isProcessing && fileError && (
+                        <span className="text-red-500 dark:text-red-400 font-medium">Failed</span>
                       )}
                       {!isProcessing && result && (
                         <>

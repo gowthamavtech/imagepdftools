@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { NextActions } from './NextActions';
 import { useHandoffStore } from '@/store/handoffStore';
+import { useHistoryStore } from '@/store/historyStore';
 
 type Rect   = { x: number; y: number; w: number; h: number };
 type Handle = 'nw' | 'ne' | 'sw' | 'se' | 'n' | 's' | 'e' | 'w' | 'body' | 'new';
@@ -112,8 +113,11 @@ export function ImageCropUI() {
   const [isDrop,       setIsDrop]       = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [croppedResult, setCroppedResult] = useState<{ blob: Blob; name: string; url: string } | null>(null);
+  const [cropError,    setCropError]    = useState<string | null>(null);
 
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const setHandoff     = useHandoffStore((s) => s.setHandoff);
+  const pushHistory    = useHistoryStore((s) => s.push);
 
   const imgRef       = useRef<HTMLImageElement>(null);
   const wrapRef      = useRef<HTMLDivElement>(null);
@@ -335,6 +339,8 @@ export function ImageCropUI() {
     if (!file || !crop || !imgRef.current || !displayBlob) return;
     setIsProcessing(true);
     setCroppedResult(null);
+    setCropError(null);
+    pushHistory({ blob: file, filename: file.name, toolHref: '/crop-image', toolLabel: 'Before crop' });
     try {
       const img    = imgRef.current;
       const b      = computeImageBounds(img);
@@ -365,6 +371,8 @@ export function ImageCropUI() {
         if (prev) URL.revokeObjectURL(prev.url);
         return { blob, name, url };
       });
+    } catch (err) {
+      setCropError((err as Error).message || 'Crop failed — the image may be too large or corrupted.');
     } finally {
       setIsProcessing(false);
     }
@@ -595,6 +603,16 @@ export function ImageCropUI() {
         </div>
       </div>
 
+      {/* ── Error banner ── */}
+      {cropError && (
+        <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
+          <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          <span>{cropError}</span>
+        </div>
+      )}
+
       {/* ── Action bar ── */}
       <div className="flex items-center gap-3 pt-1">
         {hasCrop && imgRef.current && (
@@ -633,7 +651,12 @@ export function ImageCropUI() {
         <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 space-y-3 shadow-sm">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={croppedResult.url} alt="Cropped" className="w-14 h-14 rounded-xl object-cover bg-violet-50 dark:bg-violet-950 ring-1 ring-violet-100 dark:ring-violet-900 shrink-0" />
+            <img
+              src={croppedResult.url} alt="Cropped"
+              className="w-14 h-14 rounded-xl object-cover bg-violet-50 dark:bg-violet-950 ring-1 ring-violet-100 dark:ring-violet-900 shrink-0 cursor-grab active:cursor-grabbing"
+              draggable
+              onDragStart={() => setHandoff(new File([croppedResult.blob], croppedResult.name, { type: croppedResult.blob.type }))}
+            />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{croppedResult.name}</p>
               <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1 mt-0.5">

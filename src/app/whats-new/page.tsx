@@ -31,6 +31,25 @@ const CHANGELOG: Month[] = [
     label: 'April 2026',
     releases: [
       {
+        title: 'Image Resize Tool — By Size, Percentage & Social Media',
+        date: '24 Apr 2026',
+        entries: [
+          { tag: 'NEW',      text: 'Resize Image tool at /resize-image — resize by exact pixel dimensions, percentage, or social media preset.' },
+          { tag: 'NEW',      text: 'Social Media tab with 7 platforms (Facebook, Instagram, Twitter/X, YouTube, LinkedIn, Pinterest, TikTok) and 25+ presets — auto-fills width and height.' },
+          { tag: 'NEW',      text: 'Background Fill option for social media exports — choose a solid fill colour or transparent (forces PNG output) to pad images that don\'t match the target aspect ratio.' },
+          { tag: 'NEW',      text: 'Live preview updates instantly as you change dimensions — see the output aspect ratio before exporting.' },
+          { tag: 'IMPROVED', text: 'Aspect ratio and "do not enlarge" controls hidden on the Percentage tab where they don\'t apply.' },
+        ],
+      },
+      {
+        title: 'Tool Chaining — Continue Without Re-uploading',
+        date: '21 Apr 2026',
+        entries: [
+          { tag: 'NEW',      text: 'After finishing any operation (compress, crop, resize, strip metadata, edit metadata) a "Continue with" bar appears — click any tool to open the result directly in that tool without re-uploading.' },
+          { tag: 'IMPROVED', text: 'Metadata Editor now shows "Continue with" suggestions immediately when no metadata is found, or after clicking Apply.' },
+        ],
+      },
+      {
         title: 'Image Editing Tools & Tools Navbar',
         date: '21 Apr 2026',
         entries: [
