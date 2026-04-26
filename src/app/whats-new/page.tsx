@@ -31,6 +31,20 @@ const CHANGELOG: Month[] = [
     label: 'April 2026',
     releases: [
       {
+        title: 'New Tools — Flip, Rotate, JPG↔PNG, WebP→JPG & Image to PDF',
+        date: '24 Apr 2026',
+        entries: [
+          { tag: 'NEW', text: 'Flip Image — mirror any image horizontally or vertically, with combined flip + rotate in one tool.' },
+          { tag: 'NEW', text: 'Rotate Image — rotate 90° left, 90° right, or 180° with instant preview.' },
+          { tag: 'NEW', text: 'JPG to PNG converter at /jpg-to-png — converts JPEG files to lossless PNG format.' },
+          { tag: 'NEW', text: 'WebP to JPG converter at /webp-to-jpg — converts WebP files to universally compatible JPEG.' },
+          { tag: 'NEW', text: 'Image to PDF at /image-to-pdf — bundle multiple images into a single PDF with A4, Letter, or fit-to-image page sizes, drag-to-reorder, and instant in-browser generation.' },
+          { tag: 'NEW', text: 'Undo last step — a back-arrow button in the "Continue with" bar lets you jump back to the previous tool with the previous file, up to 5 steps deep.' },
+          { tag: 'IMPROVED', text: 'Footer redesigned into a 4-column sitemap (Image Tools · Convert · Edit · About) matching industry standards.' },
+          { tag: 'IMPROVED', text: 'Header Tools dropdown now groups into three categories: Compress, Convert, and Edit.' },
+        ],
+      },
+      {
         title: 'Image Resize Tool — By Size, Percentage & Social Media',
         date: '24 Apr 2026',
         entries: [

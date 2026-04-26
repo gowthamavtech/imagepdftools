@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ImageCropUI } from '@/components/ImageCropUI';
+import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Crop Image Online — Free & Private | SquishIt',
@@ -40,6 +41,7 @@ export default function CropImagePage() {
           ))}
         </div>
 
+        <div className="mb-6"><AdBanner /></div>
         <ImageCropUI />
       </div>
     </main>

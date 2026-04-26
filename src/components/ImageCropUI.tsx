@@ -114,6 +114,8 @@ export function ImageCropUI() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [croppedResult, setCroppedResult] = useState<{ blob: Blob; name: string; url: string } | null>(null);
   const [cropError,    setCropError]    = useState<string | null>(null);
+  const [sourceLabel,  setSourceLabel]  = useState<string | null>(null);
+  const [downloaded,   setDownloaded]   = useState(false);
 
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   const setHandoff     = useHandoffStore((s) => s.setHandoff);
@@ -138,8 +140,8 @@ export function ImageCropUI() {
   }, [previewUrl]);
 
   useEffect(() => {
-    const f = consumeHandoff();
-    if (f) loadFile(f);
+    const { file: f, sourceLabel: sl } = consumeHandoff();
+    if (f) { setSourceLabel(sl); loadFile(f); }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Apply rotation → new display image ────────────────────────────────────
@@ -474,6 +476,16 @@ export function ImageCropUI() {
         </button>
       </div>
 
+      {/* Handoff source pill */}
+      {sourceLabel && (
+        <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          From: {sourceLabel}
+        </div>
+      )}
+
       {/* ── Aspect ratio row ── */}
       <div>
         <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1.5 px-1">Aspect Ratio</p>
@@ -490,6 +502,9 @@ export function ImageCropUI() {
             </button>
           ))}
         </div>
+        <p className="text-[11px] text-center text-gray-400 dark:text-gray-500 mt-1">
+          💡 Tip: Select a ratio above before dragging to lock your crop to that shape
+        </p>
       </div>
 
       {/* ── Rotation row ── */}
@@ -666,16 +681,15 @@ export function ImageCropUI() {
                 Cropped
               </span>
             </div>
-            <a
-              href={croppedResult.url}
-              download={croppedResult.name}
+            <button
+              onClick={() => { const a = document.createElement('a'); a.href = croppedResult.url; a.download = croppedResult.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
               className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              Save
-            </a>
+              {downloaded ? 'Downloaded ✓' : 'Download'}
+            </button>
           </div>
           <NextActions blob={croppedResult.blob} filename={croppedResult.name} currentTool="crop" />
         </div>

@@ -1,24 +1,86 @@
 import Link from 'next/link';
+import { AdBanner } from './AdBanner';
 
-const LINKS = [
-  { href: '/crop-image', label: 'Crop Image' },
-  { href: '/metadata-editor', label: 'Metadata Editor' },
-  { href: '/remove-metadata', label: 'Remove Metadata' },
-  { href: '/support', label: 'Support' },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/terms', label: 'Terms of Service' },
-  { href: '/whats-new', label: "What's New" },
+const COLUMNS = [
+  {
+    title: 'Image Tools',
+    links: [
+      { href: '/',                     label: 'Compress Image' },
+      { href: '/compress-png-online',  label: 'Compress PNG' },
+      { href: '/compress-jpeg-online', label: 'Compress JPEG' },
+      { href: '/reduce-image-size',    label: 'Reduce Image Size' },
+    ],
+  },
+  {
+    title: 'Convert',
+    links: [
+      { href: '/compress-pdf',           label: 'Compress PDF'    },
+      { href: '/convert-image-to-webp', label: 'Convert to WebP' },
+      { href: '/convert-png-to-jpeg',   label: 'PNG to JPG' },
+      { href: '/jpg-to-png',            label: 'JPG to PNG' },
+      { href: '/webp-to-jpg',           label: 'WebP to JPG' },
+      { href: '/image-to-pdf',          label: 'Image to PDF' },
+    ],
+  },
+  {
+    title: 'Edit',
+    links: [
+      { href: '/crop-image',      label: 'Crop Image' },
+      { href: '/resize-image',    label: 'Resize Image' },
+      { href: '/flip-image',      label: 'Flip Image' },
+      { href: '/rotate-image',    label: 'Rotate Image' },
+      { href: '/remove-metadata', label: 'Remove Metadata' },
+      { href: '/metadata-editor', label: 'Metadata Editor' },
+    ],
+  },
+  {
+    title: 'About',
+    links: [
+      { href: '/privacy-policy', label: 'Privacy Policy' },
+      { href: '/terms',          label: 'Terms of Service' },
+      { href: '/refund',         label: 'Refund Policy' },
+      { href: '/support',        label: 'Support' },
+      { href: '/whats-new',      label: "What's New" },
+      { href: '/pricing',        label: 'Pricing' },
+    ],
+  },
 ];
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-violet-100 dark:border-violet-900/30 bg-white dark:bg-gray-950">
-      <div className="max-w-6xl mx-auto px-4 py-4 space-y-3">
 
-        {/* Row 1: brand left · nav right (stacked + centered on mobile) */}
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+      {/* Ad slot — leaderboard above footer content */}
+      <div className="max-w-6xl mx-auto px-4 pt-6">
+        <AdBanner />
+      </div>
 
-          {/* Brand */}
+      {/* 4-column sitemap */}
+      <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+          {COLUMNS.map((col) => (
+            <div key={col.title}>
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-900 dark:text-white mb-3">
+                {col.title}
+              </p>
+              <ul className="space-y-2">
+                {col.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-xs text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-300 transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-8 pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-1.5 shrink-0">
             <div className="w-5 h-5 rounded-md bg-violet-600 flex items-center justify-center">
               <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -27,26 +89,10 @@ export function SiteFooter() {
             </div>
             <span className="text-sm font-bold text-gray-900 dark:text-white tracking-tight">SquishIt</span>
           </Link>
-
-          {/* Nav links */}
-          <nav className="flex items-center justify-center flex-wrap gap-x-5 gap-y-2">
-            {LINKS.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-xs text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-300 transition-colors whitespace-nowrap"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            © {new Date().getFullYear()} SquishIt · All image processing happens in your browser — nothing is uploaded.
+          </p>
         </div>
-
-        {/* Row 2: copyright centered */}
-        <p className="text-center text-xs text-gray-400 dark:text-gray-500">
-          © {new Date().getFullYear()} SquishIt
-        </p>
-
       </div>
     </footer>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CompressorUI } from "@/components/CompressorUI";
+import { AdBanner } from "@/components/AdBanner";
 
 const CONVERSIONS = [
     { slug: "jpg-to-png", from: "JPG", to: "PNG" },
@@ -84,6 +85,9 @@ export default function HomePage() {
                             </div>
                         ))}
                     </div>
+
+                    {/* Ad slot — between hero and tool */}
+                    <div className="mb-8"><AdBanner /></div>
 
                     {/* Drop zone + compressor — same section, no divider */}
                     <div className="text-left">

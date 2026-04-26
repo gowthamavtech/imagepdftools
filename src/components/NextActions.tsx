@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useHandoffStore } from '@/store/handoffStore';
 import { useHistoryStore } from '@/store/historyStore';
 
-type ToolId = 'compress' | 'crop' | 'strip' | 'edit' | 'resize';
+type ToolId = 'compress' | 'crop' | 'strip' | 'edit' | 'resize' | 'flip' | 'pdf';
 
 const TOOLS = [
   {
@@ -63,6 +63,28 @@ const TOOLS = [
       </svg>
     ),
   },
+  {
+    id: 'flip' as ToolId,
+    label: 'Flip / Rotate',
+    desc: 'Mirror or rotate',
+    href: '/flip-image',
+    icon: (
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'pdf' as ToolId,
+    label: 'Image to PDF',
+    desc: 'Bundle into PDF',
+    href: '/image-to-pdf',
+    icon: (
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+      </svg>
+    ),
+  },
 ];
 
 interface Props {
@@ -80,7 +102,7 @@ export function NextActions({ blob, filename, currentTool }: Props) {
 
   function go(tool: typeof TOOLS[number]) {
     const file = new File([blob], filename, { type: blob.type });
-    setHandoff(file);
+    setHandoff(file, tool.label);
     router.push(tool.href);
   }
 
@@ -119,7 +141,7 @@ export function NextActions({ blob, filename, currentTool }: Props) {
             onDragOver={(e) => { e.preventDefault(); setDragTarget(tool.id); }}
             onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragTarget(null); }}
             onDrop={(e) => { e.preventDefault(); setDragTarget(null); go(tool); }}
-            className={`inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-medium transition-all ${
+            className={`inline-flex items-center gap-2 px-3 py-2.5 sm:py-2 rounded-xl border text-xs font-medium transition-all ${
               dragTarget === tool.id
                 ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 scale-105'
                 : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/40 text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-300'

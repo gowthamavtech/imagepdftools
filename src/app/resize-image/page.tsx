@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ImageResizeUI } from '@/components/ImageResizeUI';
+import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Resize Image Online — Free & Private | SquishIt',
@@ -40,6 +41,7 @@ export default function ResizeImagePage() {
           ))}
         </div>
 
+        <div className="mb-6"><AdBanner /></div>
         <ImageResizeUI />
       </div>
     </main>

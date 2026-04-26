@@ -11,11 +11,21 @@ const TOOLS = [
   {
     group: 'Compress',
     items: [
-      { href: '/',                      label: 'Compress Image',   desc: 'JPEG, PNG, WebP' },
-      { href: '/compress-png-online',   label: 'Compress PNG',     desc: 'Lossy PNG optimisation' },
-      { href: '/compress-jpeg-online',  label: 'Compress JPEG',    desc: 'Shrink JPEG files' },
-      { href: '/convert-image-to-webp', label: 'Convert to WebP',  desc: 'Modern format, tiny size' },
-      { href: '/reduce-image-size',     label: 'Reduce Image Size', desc: 'Any format, any size' },
+      { href: '/',                     label: 'Compress Image',    desc: 'JPEG, PNG, WebP' },
+      { href: '/compress-png-online',  label: 'Compress PNG',      desc: 'Lossy PNG optimisation' },
+      { href: '/compress-jpeg-online', label: 'Compress JPEG',     desc: 'Shrink JPEG files' },
+      { href: '/reduce-image-size',    label: 'Reduce Image Size', desc: 'Any format, any size' },
+    ],
+  },
+  {
+    group: 'Convert',
+    items: [
+      { href: '/compress-pdf',           label: 'Compress PDF',    desc: 'Shrink PDF file size'  },
+      { href: '/convert-image-to-webp', label: 'Convert to WebP', desc: 'Modern format, tiny size' },
+      { href: '/convert-png-to-jpeg',   label: 'PNG to JPG',       desc: 'Convert PNG to JPEG' },
+      { href: '/jpg-to-png',            label: 'JPG to PNG',        desc: 'Convert JPEG to PNG' },
+      { href: '/webp-to-jpg',           label: 'WebP to JPG',       desc: 'Convert WebP to JPEG' },
+      { href: '/image-to-pdf',          label: 'Image to PDF',      desc: 'Bundle images into PDF' },
     ],
   },
   {
@@ -23,6 +33,8 @@ const TOOLS = [
     items: [
       { href: '/crop-image',      label: 'Crop Image',       desc: 'Trim or crop freely' },
       { href: '/resize-image',    label: 'Resize Image',     desc: 'Custom px dimensions' },
+      { href: '/flip-image',      label: 'Flip Image',       desc: 'Mirror H or V' },
+      { href: '/rotate-image',    label: 'Rotate Image',     desc: 'Rotate 90° or 180°' },
       { href: '/metadata-editor', label: 'Metadata Editor',  desc: 'View & edit EXIF data' },
       { href: '/remove-metadata', label: 'Remove Metadata',  desc: 'Strip EXIF for privacy' },
     ],

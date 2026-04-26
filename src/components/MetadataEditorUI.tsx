@@ -84,6 +84,7 @@ export function MetadataEditorUI() {
   const [isProcessing, setProcessing] = useState(false);
   const [isDragging, setIsDragging]   = useState(false);
   const [savedResult, setSavedResult] = useState<{ blob: Blob; name: string; url: string } | null>(null);
+  const [sourceLabel, setSourceLabel] = useState<string | null>(null);
 
   const isJpeg = file?.type === 'image/jpeg' || file?.type === 'image/jpg';
   const removedCount = groups.filter((g) => !keptGroups.has(g.id)).length;
@@ -108,8 +109,8 @@ export function MetadataEditorUI() {
 
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   useEffect(() => {
-    const f = consumeHandoff();
-    if (f) handleFile(f);
+    const { file: f, sourceLabel: sl } = consumeHandoff();
+    if (f) { setSourceLabel(sl); handleFile(f); }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onDrop = useCallback((e: React.DragEvent) => {
@@ -223,6 +224,16 @@ export function MetadataEditorUI() {
             Change
           </button>
         </div>
+
+        {/* Handoff source pill */}
+        {sourceLabel && (
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+            <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            From: {sourceLabel}
+          </div>
+        )}
 
         {/* Reading spinner */}
         {isReading && (

@@ -54,10 +54,11 @@ export function MetadataStripperUI() {
   const filesRef = useRef<FileEntry[]>([]);
   filesRef.current = files;
 
+  const [sourceLabel, setSourceLabel] = useState<string | null>(null);
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   useEffect(() => {
-    const f = consumeHandoff();
-    if (f) addFiles([f]);
+    const { file: f, sourceLabel: sl } = consumeHandoff();
+    if (f) { setSourceLabel(sl); addFiles([f]); }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const processFile = useCallback(async (entry: FileEntry) => {
@@ -112,6 +113,16 @@ export function MetadataStripperUI() {
 
       {files.length > 0 && (
         <div className="mt-6 space-y-4">
+
+          {/* Handoff source pill */}
+          {sourceLabel && (
+            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              From: {sourceLabel}
+            </div>
+          )}
 
           {/* Toolbar */}
           <div className="flex items-center justify-between gap-4">

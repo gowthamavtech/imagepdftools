@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
+import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Compress PNG Online — Free PNG Compressor',
@@ -17,6 +18,7 @@ export default function CompressPngPage() {
           Shrink PNG files by up to 80% using advanced quantisation — all inside your browser.
         </p>
       </div>
+      <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <CompressorUI />
     </main>
   );

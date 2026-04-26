@@ -107,6 +107,8 @@ export function ImageResizeUI() {
   const [isResizing,    setIsResizing]    = useState(false);
   const [result,        setResult]        = useState<{ blob: Blob; name: string; url: string; w: number; h: number } | null>(null);
   const [error,         setError]         = useState<string | null>(null);
+  const [sourceLabel,   setSourceLabel]   = useState<string | null>(null);
+  const [downloaded,    setDownloaded]    = useState(false);
 
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   const setHandoff     = useHandoffStore((s) => s.setHandoff);
@@ -130,8 +132,8 @@ export function ImageResizeUI() {
   }, [previewUrl]);
 
   useEffect(() => {
-    const f = consumeHandoff();
-    if (f) loadFile(f);
+    const { file: f, sourceLabel: sl } = consumeHandoff();
+    if (f) { setSourceLabel(sl); loadFile(f); }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => () => {
@@ -325,6 +327,16 @@ export function ImageResizeUI() {
           <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors shrink-0">Change</button>
         </div>
 
+        {/* Handoff source pill */}
+        {sourceLabel && (
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+            <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            From: {sourceLabel}
+          </div>
+        )}
+
         {/* Live preview */}
         {previewW > 0 && previewH > 0 && (
           <div className="space-y-1.5">
@@ -365,6 +377,14 @@ export function ImageResizeUI() {
                 }}
                 onTouchEnd={() => { isDraggingCover.current = false; }}
               >
+                {isResizing && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-gray-900/60 rounded-2xl z-10">
+                    <svg className="w-6 h-6 animate-spin text-violet-500" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                  </div>
+                )}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={isResult ? result.url : (previewUrl ?? undefined)}
@@ -435,6 +455,9 @@ export function ImageResizeUI() {
               <>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Resize image to an <span className="font-semibold text-gray-700 dark:text-gray-200">exact size</span> of
+                </p>
+                <p className="text-[11px] text-center text-gray-400 dark:text-gray-500 -mt-1">
+                  💡 Tip: Use the Percentage tab to halve or double your image size quickly
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
@@ -692,14 +715,15 @@ export function ImageResizeUI() {
                   </span>
                 </div>
               </div>
-              <a href={result.url} download={result.name}
+              <button
+                onClick={() => { const a = document.createElement('a'); a.href = result.url; a.download = result.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
                 className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                Save
-              </a>
+                {downloaded ? 'Downloaded ✓' : 'Download'}
+              </button>
             </div>
             <NextActions blob={result.blob} filename={result.name} currentTool="resize" />
           </div>

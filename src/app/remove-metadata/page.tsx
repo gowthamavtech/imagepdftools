@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { MetadataStripperUI } from '@/components/MetadataStripperUI';
+import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Remove Image Metadata — Strip EXIF, GPS & More',
@@ -42,6 +43,7 @@ export default function RemoveMetadataPage() {
         </div>
       </div>
 
+      <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <MetadataStripperUI />
 
       {/* Info section */}
