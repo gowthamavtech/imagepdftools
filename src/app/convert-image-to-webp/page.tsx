@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 
 export const metadata: Metadata = {
   title: 'Convert Image to WebP — Free Online WebP Converter',
   description:
     'Convert JPEG and PNG images to WebP format online for free. Smaller file sizes, same quality — no upload required.',
-  alternates: { canonical: 'https://squishit.app/convert-image-to-webp' },
+  alternates: { canonical: 'https://imagepdf.tools/convert-image-to-webp' },
 };
 
 export default function ConvertToWebpPage() {

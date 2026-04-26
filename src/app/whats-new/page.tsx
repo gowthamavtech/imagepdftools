@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -209,7 +209,7 @@ export default function WhatsNewPage() {
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-1">What&apos;s New</h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500">The latest features and improvements in SquishIt.</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">The latest features and improvements in ImagePDF.Tools.</p>
         </div>
 
         <div>

@@ -1,6 +1,6 @@
-import type { MetadataRoute } from 'next';
+﻿import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://squishit.app';
+const BASE_URL = 'https://imagepdf.tools';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

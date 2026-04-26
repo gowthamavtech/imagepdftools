@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { FlipRotateUI } from '@/components/FlipRotateUI';
 import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Rotate Image Online — Free & Instant',
   description: 'Rotate any image 90°, 180° or 270° in your browser — no upload, no server, 100% private. Supports JPEG, PNG and WebP.',
-  alternates: { canonical: 'https://squishit.app/rotate-image' },
+  alternates: { canonical: 'https://imagepdf.tools/rotate-image' },
 };
 
 export default function RotateImagePage() {

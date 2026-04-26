@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
@@ -139,7 +139,7 @@ export function SiteHeader() {
             </svg>
           </div>
           <span className="text-lg font-bold bg-linear-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
-            SquishIt
+            ImagePDF.Tools
           </span>
         </Link>
 

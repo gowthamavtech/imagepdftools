@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { CompressorUI } from "@/components/CompressorUI";
 
 export const metadata: Metadata = {
-    title: "SquishIt — Free Image Compressor Online",
+    title: "ImagePDF.Tools — Free Image Compressor Online",
     description: "Compress JPEG, PNG, and WebP images in your browser instantly. No uploads, no server, no limits. 100% private.",
-    alternates: { canonical: "https://squishit.app" },
+    alternates: { canonical: "https://imagepdf.tools" },
 };
 
 const jsonLd = {
@@ -12,7 +12,7 @@ const jsonLd = {
     "@graph": [
         {
             "@type": "SoftwareApplication",
-            name: "SquishIt",
+            name: "ImagePDF.Tools",
             operatingSystem: "Any (browser-based)",
             applicationCategory: "UtilitiesApplication",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

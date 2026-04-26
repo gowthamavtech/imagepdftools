@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'Read the SquishIt Terms of Service — the rules governing use of our browser-based image compression tool.',
-  alternates: { canonical: 'https://squishit.app/terms' },
+  description: 'Read the ImagePDF.Tools Terms of Service — the rules governing use of our browser-based image compression tool.',
+  alternates: { canonical: 'https://imagepdf.tools/terms' },
 };
 
 function Section({ num, title, children }: { num: number; title: string; children: React.ReactNode }) {
@@ -48,17 +48,17 @@ export default function TermsPage() {
         {/* Sections */}
         <Section num={1} title="Acceptance of Terms">
           <p>
-            By using SquishIt ("the Service"), you agree to these Terms of Service. If you do not
-            agree, please do not use the Service. SquishIt is operated by its creator ("we", "us")
+            By using ImagePDF.Tools ("the Service"), you agree to these Terms of Service. If you do not
+            agree, please do not use the Service. ImagePDF.Tools is operated by its creator ("we", "us")
             and is currently in active development.
           </p>
         </Section>
 
         <Section num={2} title="What the Service Does">
           <p>
-            SquishIt is a suite of browser-based image tools — including image compression, cropping,
+            ImagePDF.Tools is a suite of browser-based image tools — including image compression, cropping,
             and EXIF metadata viewing and editing. All processing runs entirely within your browser tab.
-            No image data is ever transmitted to or stored on our servers. SquishIt is a utility tool
+            No image data is ever transmitted to or stored on our servers. ImagePDF.Tools is a utility tool
             and any output is provided for informational and practical purposes only.
           </p>
         </Section>
@@ -75,7 +75,7 @@ export default function TermsPage() {
 
         <Section num={4} title="Your Data">
           <p>
-            You retain full ownership of all images you process through SquishIt. Because compression
+            You retain full ownership of all images you process through ImagePDF.Tools. Because compression
             runs entirely in your browser, we never receive, store, or have access to your image
             files. You can delete your account at any time from the account settings page.
           </p>
@@ -102,7 +102,7 @@ export default function TermsPage() {
 
         <Section num={6} title="Disclaimer of Warranties">
           <p>
-            SquishIt is provided "as is" and "as available" without warranties of any kind, whether
+            ImagePDF.Tools is provided "as is" and "as available" without warranties of any kind, whether
             express or implied. We do not guarantee that the Service will be uninterrupted,
             error-free, or that output file sizes will meet any particular target. Use the Service at
             your own risk and always keep backups of your original images.
@@ -111,7 +111,7 @@ export default function TermsPage() {
 
         <Section num={7} title="Limitation of Liability">
           <p>
-            To the maximum extent permitted by law, SquishIt and its operators shall not be liable
+            To the maximum extent permitted by law, ImagePDF.Tools and its operators shall not be liable
             for any indirect, incidental, or consequential damages arising from your use of the
             Service. Our total liability shall not exceed the amount you paid for the Service in the
             12 months preceding the claim.
@@ -119,7 +119,7 @@ export default function TermsPage() {
         </Section>
 
         <Section num={8} title="Plans and Pricing">
-          <p>SquishIt offers a Free tier and a Pro tier:</p>
+          <p>ImagePDF.Tools offers a Free tier and a Pro tier:</p>
           <Ul items={[
             <><strong className="text-gray-700 dark:text-gray-300">Free:</strong> Up to 5 files per session, up to 25 MB each. No payment required.</>,
             <><strong className="text-gray-700 dark:text-gray-300">Pro Monthly:</strong> $4.99 / month. Unlimited files, up to 100 MB each, ZIP export, format conversion, ad-free. Billed monthly via Stripe.</>,
@@ -153,8 +153,8 @@ export default function TermsPage() {
           <SubHeading>How to request a refund:</SubHeading>
           <p>
             Email{' '}
-            <a href="mailto:support@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline">
-              support@squishit.app
+            <a href="mailto:support@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
+              support@imagepdf.tools
             </a>{' '}
             with your registered email address and order details. Refunds are processed within 5–7
             business days to the original payment method.
@@ -183,7 +183,7 @@ export default function TermsPage() {
         <Section num={11} title="Changes to These Terms">
           <p>
             We may update these terms from time to time. Changes will be posted on this page with an
-            updated date. Continued use of SquishIt after changes constitutes acceptance of the
+            updated date. Continued use of ImagePDF.Tools after changes constitutes acceptance of the
             updated terms. We will notify subscribed users of material changes via email.
           </p>
         </Section>
@@ -199,8 +199,8 @@ export default function TermsPage() {
         <Section num={13} title="Contact">
           <p>
             For any questions about these terms, refunds, or cancellations, email{' '}
-            <a href="mailto:support@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline">
-              support@squishit.app
+            <a href="mailto:support@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
+              support@imagepdf.tools
             </a>
             .
           </p>

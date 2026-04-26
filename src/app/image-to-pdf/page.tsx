@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ImageToPdfUI } from '@/components/ImageToPdfUI';
 
 export const metadata: Metadata = {
   title: 'Image to PDF — Free Online Converter',
   description: 'Convert multiple images to a single PDF in your browser. Choose A4, Letter, or fit-to-image page size. No upload, no server — 100% private.',
-  alternates: { canonical: 'https://squishit.app/image-to-pdf' },
+  alternates: { canonical: 'https://imagepdf.tools/image-to-pdf' },
 };
 
 export default function ImageToPdfPage() {

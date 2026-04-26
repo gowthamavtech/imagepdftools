@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 
 export const metadata: Metadata = {
   title: 'Reduce Image Size Online — Free Image Resizer & Compressor',
   description:
     'Reduce image size online for free. Compress JPEG, PNG, and WebP images without losing quality. All processing happens in your browser.',
-  alternates: { canonical: 'https://squishit.app/reduce-image-size' },
+  alternates: { canonical: 'https://imagepdf.tools/reduce-image-size' },
 };
 
 export default function ReduceImageSizePage() {

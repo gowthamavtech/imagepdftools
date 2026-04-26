@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Compress JPEG Online — Free JPEG Compressor',
   description:
     'Compress JPEG images online for free. Reduce file size while keeping great quality — all processing happens in your browser.',
-  alternates: { canonical: 'https://squishit.app/compress-jpeg-online' },
+  alternates: { canonical: 'https://imagepdf.tools/compress-jpeg-online' },
 };
 
 export default function CompressJpegPage() {

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -142,7 +142,7 @@ export function ImageToPdfUI() {
       }
 
       const pdfBytes = await pdfDoc.save();
-      const filename = `squishit-images-${Date.now()}.pdf`;
+      const filename = `ImagePDF.Tools-images-${Date.now()}.pdf`;
       const blob     = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
       const blobUrl  = URL.createObjectURL(blob);
       prevBlobUrl.current = blobUrl;

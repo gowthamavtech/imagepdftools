@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Refund & Cancellation Policy',
-  description: 'SquishIt refund and cancellation policy — 7-day money-back guarantee on annual plans, no partial-month refunds on monthly.',
-  alternates: { canonical: 'https://squishit.app/refund' },
+  description: 'ImagePDF.Tools refund and cancellation policy — 7-day money-back guarantee on annual plans, no partial-month refunds on monthly.',
+  alternates: { canonical: 'https://imagepdf.tools/refund' },
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -42,7 +42,7 @@ export default function RefundPage() {
         {/* Overview */}
         <Section title="Overview">
           <p>
-            SquishIt offers a Free tier that never expires. Pro upgrades are available in four
+            ImagePDF.Tools offers a Free tier that never expires. Pro upgrades are available in four
             flexible billing periods: 1 day ($0.49), 1 week ($1), 1 month ($3/month), or 1 year
             ($20/year). This policy explains how refunds and cancellations work for each plan type.
           </p>
@@ -132,7 +132,7 @@ export default function RefundPage() {
         <Section title="Account deletion">
           <p>
             You can permanently delete your account from Account → Settings. Deletion is immediate
-            and irreversible. Because SquishIt processes images entirely in your browser, no image
+            and irreversible. Because ImagePDF.Tools processes images entirely in your browser, no image
             data is stored on our end. Deleting your account removes your email, billing records,
             and plan status. If you have an active Pro subscription, please cancel it first to avoid
             being charged after deletion.
@@ -144,8 +144,8 @@ export default function RefundPage() {
           <div className="bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl px-5 py-4 space-y-3">
             <p>
               Email{' '}
-              <a href="mailto:support@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline">
-                support@squishit.app
+              <a href="mailto:support@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
+                support@imagepdf.tools
               </a>{' '}
               with the following details:
             </p>
@@ -166,8 +166,8 @@ export default function RefundPage() {
         <Section title="Questions?">
           <p>
             For any billing questions, refund requests, or cancellation help, reach out at{' '}
-            <a href="mailto:support@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline">
-              support@squishit.app
+            <a href="mailto:support@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
+              support@imagepdf.tools
             </a>. Also see our{' '}
             <Link href="/terms" className="text-violet-600 dark:text-violet-400 hover:underline">
               Terms of Service

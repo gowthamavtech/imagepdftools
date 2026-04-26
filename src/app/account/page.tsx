@@ -1,11 +1,11 @@
-import { auth } from '@clerk/nextjs/server';
+﻿import { auth } from '@clerk/nextjs/server';
 import { clerkClient } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Account',
-  description: 'Manage your SquishIt account and subscription.',
+  description: 'Manage your ImagePDF.Tools account and subscription.',
 };
 
 export default async function AccountPage() {

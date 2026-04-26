@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ImageCropUI } from '@/components/ImageCropUI';
 import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
-  title: 'Crop Image Online — Free & Private | SquishIt',
+  title: 'Crop Image Online — Free & Private | ImagePDF.Tools',
   description: 'Crop any image directly in your browser. Select any area, choose aspect ratios like 1:1 or 16:9, and save. No upload, 100% private.',
-  alternates: { canonical: 'https://squishit.app/crop-image' },
+  alternates: { canonical: 'https://imagepdf.tools/crop-image' },
 };
 
 export default function CropImagePage() {

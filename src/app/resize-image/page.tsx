@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ImageResizeUI } from '@/components/ImageResizeUI';
 import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
-  title: 'Resize Image Online — Free & Private | SquishIt',
+  title: 'Resize Image Online — Free & Private | ImagePDF.Tools',
   description: 'Resize any image to exact pixel dimensions in your browser. Lock aspect ratio, use presets like HD or 4K, or enter custom width and height. No upload, 100% private.',
-  alternates: { canonical: 'https://squishit.app/resize-image' },
+  alternates: { canonical: 'https://imagepdf.tools/resize-image' },
 };
 
 export default function ResizeImagePage() {

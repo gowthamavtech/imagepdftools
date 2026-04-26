@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef, useCallback } from 'react';
 
@@ -196,7 +196,7 @@ function SuccessState({ onClose }: { onClose: () => void }) {
         </svg>
       </div>
       <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">Thanks for your feedback!</h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">We review every submission and use it to improve SquishIt.</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">We review every submission and use it to improve ImagePDF.Tools.</p>
       <button
         onClick={onClose}
         className="text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline"

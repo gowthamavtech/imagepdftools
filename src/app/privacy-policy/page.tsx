@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'SquishIt privacy policy — your images never leave your browser. Learn exactly what we collect and what we never do.',
-  alternates: { canonical: 'https://squishit.app/privacy-policy' },
+  description: 'ImagePDF.Tools privacy policy — your images never leave your browser. Learn exactly what we collect and what we never do.',
+  alternates: { canonical: 'https://imagepdf.tools/privacy-policy' },
 };
 
 function ShieldCheck() {
@@ -75,12 +75,12 @@ export default function PrivacyPolicyPage() {
 
         <div className="space-y-10 text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
 
-          {/* What makes SquishIt different */}
+          {/* What makes ImagePDF.Tools different */}
           <section>
-            <SectionHeader>What makes SquishIt different</SectionHeader>
+            <SectionHeader>What makes ImagePDF.Tools different</SectionHeader>
             <p className="mt-3 mb-4">
               Most image tools upload your files to a server, process them remotely, and store them temporarily.
-              SquishIt takes the opposite approach:
+              ImagePDF.Tools takes the opposite approach:
             </p>
             <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden mb-4">
               <table className="w-full text-sm">
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
                     <td className="py-3 px-4 text-red-500 dark:text-red-400">Upload to server, process remotely, store temporarily</td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-4 text-gray-500 dark:text-gray-400">SquishIt</td>
+                    <td className="py-3 px-4 text-gray-500 dark:text-gray-400">ImagePDF.Tools</td>
                     <td className="py-3 px-4 text-emerald-600 dark:text-emerald-400">
                       Compression, cropping, and metadata editing all run in your browser tab. Your images never leave your device.
                     </td>
@@ -253,8 +253,8 @@ export default function PrivacyPolicyPage() {
               {[
                 ['Right to access', 'all account data is visible to you in the app at all times.'],
                 ['Right to correction', 'you can edit your name and email directly via your account settings.'],
-                ['Right to erasure', 'email us at privacy@squishit.app to permanently delete your account and all associated data. We action this within 30 days.'],
-                ['Right to withdraw consent', 'you may stop using SquishIt at any time and delete your account. We do not retain data after deletion.'],
+                ['Right to erasure', 'email us at privacy@imagepdf.tools to permanently delete your account and all associated data. We action this within 30 days.'],
+                ['Right to withdraw consent', 'you may stop using ImagePDF.Tools at any time and delete your account. We do not retain data after deletion.'],
               ].map(([right, detail]) => (
                 <li key={right} className="flex items-start gap-2.5">
                   <Check />
@@ -268,14 +268,14 @@ export default function PrivacyPolicyPage() {
           <section>
             <SectionHeader>Children&apos;s data</SectionHeader>
             <p className="mt-3">
-              SquishIt is not intended for use by individuals under the age of 13. We do not knowingly collect personal data from children. If we become aware that we have collected data from a minor without appropriate consent, we will delete it promptly.
+              ImagePDF.Tools is not intended for use by individuals under the age of 13. We do not knowingly collect personal data from children. If we become aware that we have collected data from a minor without appropriate consent, we will delete it promptly.
             </p>
           </section>
 
           {/* Cookies */}
           <section>
             <SectionHeader>Cookies</SectionHeader>
-            <p className="mt-3">SquishIt uses the following cookies:</p>
+            <p className="mt-3">ImagePDF.Tools uses the following cookies:</p>
             <ul className="mt-3 space-y-2">
               <li className="flex items-start gap-2.5">
                 <Check />
@@ -287,7 +287,7 @@ export default function PrivacyPolicyPage() {
               </li>
               <li className="flex items-start gap-2.5">
                 <Cross />
-                <span>No advertising cookies, no third-party trackers, no analytics cookies are set by SquishIt itself.</span>
+                <span>No advertising cookies, no third-party trackers, no analytics cookies are set by ImagePDF.Tools itself.</span>
               </li>
             </ul>
           </section>
@@ -313,8 +313,8 @@ export default function PrivacyPolicyPage() {
             <SectionHeader>Contact us</SectionHeader>
             <p className="mt-3">
               If you have questions or concerns about your data, reach out at{' '}
-              <a href="mailto:privacy@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">
-                privacy@squishit.app
+              <a href="mailto:privacy@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">
+                privacy@imagepdf.tools
               </a>
               . We will respond to your enquiries within 2 weeks.
             </p>

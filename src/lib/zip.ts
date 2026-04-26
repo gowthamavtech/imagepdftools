@@ -1,4 +1,4 @@
-export interface ZipEntry {
+﻿export interface ZipEntry {
   name: string;
   blob: Blob;
 }
@@ -27,7 +27,7 @@ export async function downloadAllAsZip(results: ZipEntry[]): Promise<void> {
   const url = URL.createObjectURL(content);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'squishit-compressed.zip';
+  a.download = 'ImagePDF.Tools-compressed.zip';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

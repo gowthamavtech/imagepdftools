@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { AdBanner } from './AdBanner';
 
 const COLUMNS = [
@@ -87,10 +87,10 @@ export function SiteFooter() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
               </svg>
             </div>
-            <span className="text-sm font-bold text-gray-900 dark:text-white tracking-tight">SquishIt</span>
+            <span className="text-sm font-bold text-gray-900 dark:text-white tracking-tight">ImagePDF.Tools</span>
           </Link>
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            © {new Date().getFullYear()} SquishIt · All image processing happens in your browser — nothing is uploaded.
+            © {new Date().getFullYear()} ImagePDF.Tools · All image processing happens in your browser — nothing is uploaded.
           </p>
         </div>
       </div>

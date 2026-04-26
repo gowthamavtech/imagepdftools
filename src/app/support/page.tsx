@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Support',
-  description: 'Get help with SquishIt — contact us, find answers to common questions, or report a bug.',
-  alternates: { canonical: 'https://squishit.app/support' },
+  description: 'Get help with ImagePDF.Tools — contact us, find answers to common questions, or report a bug.',
+  alternates: { canonical: 'https://imagepdf.tools/support' },
 };
 
 const FAQS = [
   {
     q: 'Do my images get uploaded to your servers?',
-    a: 'No. Every tool on SquishIt — compression, cropping, and metadata editing — runs entirely inside your browser tab. Your images never leave your device.',
+    a: 'No. Every tool on ImagePDF.Tools — compression, cropping, and metadata editing — runs entirely inside your browser tab. Your images never leave your device.',
   },
   {
     q: 'Which file formats are supported?',
@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: 'I cancelled but I am still being charged.',
-    a: 'Please email support@squishit.app with your registered email address and order details and we will investigate immediately.',
+    a: 'Please email support@imagepdf.tools with your registered email address and order details and we will investigate immediately.',
   },
   {
     q: 'Can I get a refund?',
@@ -58,13 +58,13 @@ export default function SupportPage() {
             For billing questions, bug reports, refund requests, or anything else — reach us at:
           </p>
           <a
-            href="mailto:support@squishit.app"
+            href="mailto:support@imagepdf.tools"
             className="inline-flex items-center gap-2 text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            support@squishit.app
+            support@imagepdf.tools
           </a>
         </div>
 

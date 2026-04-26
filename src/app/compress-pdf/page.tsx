@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { PdfCompressUI } from '@/components/PdfCompressUI';
 import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Compress PDF Online — Free & Private',
   description: 'Reduce PDF file size in your browser. No upload, no server — renders each page and recompresses at your chosen quality. 100% private.',
-  alternates: { canonical: 'https://squishit.app/compress-pdf' },
+  alternates: { canonical: 'https://imagepdf.tools/compress-pdf' },
 };
 
 export default function CompressPdfPage() {

@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy & How It Works',
-  description: 'Learn how SquishIt compresses your images entirely in your browser. No uploads, no servers, no data stored — ever.',
-  alternates: { canonical: 'https://squishit.app/privacy' },
+  description: 'Learn how ImagePDF.Tools compresses your images entirely in your browser. No uploads, no servers, no data stored — ever.',
+  alternates: { canonical: 'https://imagepdf.tools/privacy' },
 };
 
 export default function PrivacyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           </div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">Privacy & How It Works</h1>
           <p className="text-lg text-gray-500 dark:text-gray-400">
-            SquishIt was built on a single principle: <strong className="text-gray-700 dark:text-gray-200">your images never leave your device</strong>.
+            ImagePDF.Tools was built on a single principle: <strong className="text-gray-700 dark:text-gray-200">your images never leave your device</strong>.
             Here is exactly how it works.
           </p>
         </div>
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-3">No uploads. Ever.</h2>
             <p>
-              When you drag an image onto SquishIt, it is read directly by your browser using the{' '}
+              When you drag an image onto ImagePDF.Tools, it is read directly by your browser using the{' '}
               <strong className="text-gray-700 dark:text-gray-200">File API</strong>. The file is passed to compression
               code that runs entirely inside your browser tab — the same environment that renders
               this page. At no point does the file travel over the internet to any server.
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-3">How our tools work</h2>
             <p>
-              Every tool on SquishIt — compression, cropping, and metadata editing — runs locally in your browser using these algorithms and APIs:
+              Every tool on ImagePDF.Tools — compression, cropping, and metadata editing — runs locally in your browser using these algorithms and APIs:
             </p>
             <div className="mt-5 space-y-4">
               <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
               <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">SVG — Metadata strip + coordinate rounding</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  SVG files contain no pixel data — they are XML documents describing shapes. SquishIt
+                  SVG files contain no pixel data — they are XML documents describing shapes. ImagePDF.Tools
                   parses the XML and removes invisible bloat: <code className="font-mono text-xs bg-gray-100 dark:bg-gray-800 dark:text-gray-300 px-1 rounded">&lt;metadata&gt;</code>,{' '}
                   <code className="font-mono text-xs bg-gray-100 dark:bg-gray-800 dark:text-gray-300 px-1 rounded">&lt;title&gt;</code>,{' '}
                   <code className="font-mono text-xs bg-gray-100 dark:bg-gray-800 dark:text-gray-300 px-1 rounded">&lt;desc&gt;</code> tags
@@ -213,8 +213,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-3">Contact</h2>
             <p>
               Questions about privacy or data handling? Reach us at{' '}
-              <a href="mailto:privacy@squishit.app" className="text-violet-600 dark:text-violet-400 hover:underline">
-                privacy@squishit.app
+              <a href="mailto:privacy@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
+                privacy@imagepdf.tools
               </a>
               . We aim to reply within 48 hours.
             </p>

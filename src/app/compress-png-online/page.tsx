@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Compress PNG Online — Free PNG Compressor',
   description:
     'Reduce PNG file size online for free. No upload needed — compression happens in your browser.',
-  alternates: { canonical: 'https://squishit.app/compress-png-online' },
+  alternates: { canonical: 'https://imagepdf.tools/compress-png-online' },
 };
 
 export default function CompressPngPage() {

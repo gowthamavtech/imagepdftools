@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import Script from 'next/script';
@@ -13,8 +13,8 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'SquishIt — Free Image Compressor Online',
-    template: '%s | SquishIt',
+    default: 'ImagePDF.Tools — Free Image Compressor Online',
+    template: '%s | ImagePDF.Tools',
   },
   description:
     'Compress JPEG, PNG, and WebP images in your browser. No uploads, no limits. Free online image compressor.',
@@ -27,12 +27,12 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: 'website',
-    url: 'https://squishit.app',
+    url: 'https://imagepdf.tools',
     images: ['/og-image.png'],
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
-  alternates: { canonical: 'https://squishit.app' },
+  alternates: { canonical: 'https://imagepdf.tools' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

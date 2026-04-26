@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef, useEffect } from 'react';
 
@@ -57,7 +57,7 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
 
   // Read from localStorage first (survives both GT DOM mutations and page reloads)
   useEffect(() => {
-    const stored = localStorage.getItem('squishit-lang');
+    const stored = localStorage.getItem('imagepdf-lang');
     const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
     const code = stored ?? match?.[1] ?? 'en';
     setCurrent(LANGUAGES.find((l) => l.code === code) ?? LANGUAGES[0]);
@@ -66,7 +66,7 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
   function switchLanguage(lang: typeof LANGUAGES[number]) {
     // Update flag immediately and persist so it survives remounts/reloads
     setCurrent(lang);
-    localStorage.setItem('squishit-lang', lang.code);
+    localStorage.setItem('imagepdf-lang', lang.code);
 
     // Map our codes to Google Translate's internal codes ('' = restore original)
     const gtCode = lang.code === 'en' ? '' : lang.code === 'zh' ? 'zh-CN' : lang.code;

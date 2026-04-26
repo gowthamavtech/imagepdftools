@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 
 export const metadata: Metadata = {
   title: 'Convert PNG to JPEG Online — Free & Private',
   description:
     'Convert PNG images to JPEG instantly in your browser. No upload, no server — 100% private. Reduce file size by up to 80%.',
-  alternates: { canonical: 'https://squishit.app/convert-png-to-jpeg' },
+  alternates: { canonical: 'https://imagepdf.tools/convert-png-to-jpeg' },
 };
 
 const STEPS = [

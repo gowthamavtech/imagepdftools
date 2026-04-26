@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { MetadataStripperUI } from '@/components/MetadataStripperUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Remove Image Metadata — Strip EXIF, GPS & More',
   description:
     'Remove EXIF data, GPS location, camera info, and all hidden metadata from your images — free, instant, and entirely in your browser. No uploads.',
-  alternates: { canonical: 'https://squishit.app/remove-metadata' },
+  alternates: { canonical: 'https://imagepdf.tools/remove-metadata' },
 };
 
 export default function RemoveMetadataPage() {
