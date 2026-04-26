@@ -43,7 +43,17 @@ function Flag({ iso, label }: { iso: string; label: string }) {
 export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'right' } = {}) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<typeof LANGUAGES[number]>(LANGUAGES[0]);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref        = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleMouseEnter() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  }
+
+  function handleMouseLeave() {
+    closeTimer.current = setTimeout(() => setOpen(false), 150);
+  }
 
   // Read from localStorage first (survives both GT DOM mutations and page reloads)
   useEffect(() => {
@@ -104,7 +114,12 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
   }, []);
 
   return (
-    <div ref={ref} className="relative shrink-0">
+    <div
+      ref={ref}
+      className="relative shrink-0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-violet-200 dark:border-violet-800 bg-white dark:bg-gray-900 hover:border-violet-400 dark:hover:border-violet-600 transition-colors"
@@ -122,6 +137,8 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
         <div
           className={`absolute top-full mt-2 z-50 w-44 bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl overflow-hidden ${mobileAlign === 'right' ? 'right-0' : 'left-0'}`}
           role="listbox"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <div className="max-h-72 overflow-y-auto py-1">
             {LANGUAGES.map((lang) => (

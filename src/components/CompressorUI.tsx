@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { useState, useCallback, useEffect } from 'react';
 import { useCompressor } from '@/hooks/useCompressor';
 import { DropZone } from './DropZone';
-import { AdBanner } from './AdBanner';
 import { UpgradeModal } from './UpgradeModal';
 import { useHandoffStore } from '@/store/handoffStore';
 
@@ -156,8 +155,6 @@ export function CompressorUI({ initialFormat }: { initialFormat?: string } = {})
               </button>
             </div>
           </div>
-
-          <AdBanner />
 
           {/* Image cards */}
           <div className="grid gap-3">

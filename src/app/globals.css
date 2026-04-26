@@ -3,6 +3,11 @@
 /* Enable dark: utility classes when .dark is on <html> */
 @variant dark (&:where(.dark, .dark *));
 
+/* Custom breakpoint: >1440px — both skyscrapers visible */
+@theme {
+  --breakpoint-wide: 1441px;
+}
+
 :root {
   --background: #faf5ff;
   --foreground: #1e1b4b;

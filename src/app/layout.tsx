@@ -6,6 +6,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { FeedbackButton } from '@/components/FeedbackModal';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { AdBanner } from '@/components/AdBanner';
 import './globals.css';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -49,7 +50,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className="min-h-full flex flex-col bg-violet-50/50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
           <ThemeProvider>
             <SiteHeader />
-            {children}
+
+            {/* Top banner ad — full-width strip below header */}
+            <AdBanner variant="banner" />
+
+            {/* Page content + skyscrapers: left (>1440px), right (≥1024px) */}
+            <div className="flex flex-1">
+              <AdBanner variant="skyscraper" side="left" />
+              <div className="flex-1 min-w-0 flex flex-col">
+                {children}
+              </div>
+              <AdBanner variant="skyscraper" side="right" />
+            </div>
+
+            {/* Bottom leaderboard — full-width strip above footer */}
+            <AdBanner variant="leaderboard" />
+
             <SiteFooter />
             <FeedbackButton />
           </ThemeProvider>

@@ -9,8 +9,19 @@ declare global {
   }
 }
 
-export function AdBanner() {
+type AdVariant = 'banner' | 'leaderboard' | 'skyscraper' | 'inline';
+type AdSide = 'left' | 'right';
+
+const CONFIG: Record<AdVariant, { minH: number; minW: number; format: string; fullWidth: string }> = {
+  banner:      { minH: 90,  minW: 320, format: 'horizontal', fullWidth: 'true'  },
+  leaderboard: { minH: 90,  minW: 320, format: 'horizontal', fullWidth: 'true'  },
+  skyscraper:  { minH: 600, minW: 160, format: 'vertical',   fullWidth: 'false' },
+  inline:      { minH: 90,  minW: 320, format: 'auto',       fullWidth: 'true'  },
+};
+
+export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdVariant; side?: AdSide }) {
   const { isPro } = usePlan();
+  const c = CONFIG[variant];
 
   useEffect(() => {
     if (isPro) return;
@@ -23,19 +34,54 @@ export function AdBanner() {
 
   if (isPro || !process.env.NEXT_PUBLIC_ADSENSE_ID) return null;
 
-  return (
+  const insEl = (
     <div
-      className="ad-container w-full overflow-hidden rounded-xl"
-      style={{ minHeight: 90, minWidth: 320 }}
+      className="ad-container overflow-hidden"
+      style={{ minHeight: c.minH, minWidth: c.minW }}
     >
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
         data-ad-slot="AUTO"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
+        data-ad-format={c.format}
+        data-full-width-responsive={c.fullWidth}
       />
     </div>
   );
+
+  // Banner: full-width horizontal strip below the header
+  if (variant === 'banner') {
+    return (
+      <div className="w-full bg-white/70 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-800 flex justify-center items-center py-1.5 px-4">
+        {insEl}
+      </div>
+    );
+  }
+
+  // Leaderboard: full-width horizontal strip above the footer
+  if (variant === 'leaderboard') {
+    return (
+      <div className="w-full bg-white/70 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800 flex justify-center items-center py-1.5 px-4">
+        {insEl}
+      </div>
+    );
+  }
+
+  // Skyscraper: sticky sidebar — breakpoint depends on side
+  // Right: shows at lg (≥1024px) — standard desktop and up
+  // Left:  shows at wide (≥1441px) — widescreen only
+  if (variant === 'skyscraper') {
+    const isLeft = side === 'left';
+    return (
+      <aside className={`flex-col items-center w-44 shrink-0 pt-6 ${isLeft ? 'hidden wide:flex pl-4 pr-1' : 'hidden lg:flex pr-4 pl-1'}`}>
+        <div className="sticky top-20">
+          {insEl}
+        </div>
+      </aside>
+    );
+  }
+
+  // Inline: drop-in inside content areas
+  return insEl;
 }
