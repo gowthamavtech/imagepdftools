@@ -969,7 +969,7 @@ const jpegBlob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95)
       { type: 'code', lang: 'bash', text: code`# Batch export to WebP using cwebp
 # Best for: photo libraries, portfolio galleries
 for f in exports/*.jpg; do
-  cwebp -q 78 -metadata none "$f" -o "${f%.jpg}.webp"
+  cwebp -q 78 -metadata none "$f" -o "\${f%.jpg}.webp"
 done
 
 # Or with ImageMagick for mixed formats:
