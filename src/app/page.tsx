@@ -253,48 +253,78 @@ export default function HomePage() {
         <section className="max-w-5xl mx-auto px-4 pt-14 sm:pt-20 pb-14 text-center">
           <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            100% Browser-Based &middot; Zero Uploads &middot; Always Free
+            No upload &middot; 100% private &middot; Always free
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
-            Free Image &amp; PDF Tools
-            <span className="block text-3xl sm:text-4xl md:text-5xl mt-1 italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-              Right in Your Browser
+            Compress Images &amp; PDFs Online
+            <span className="block text-3xl sm:text-4xl md:text-5xl mt-2 bg-linear-to-r from-violet-600 via-blue-500 to-blue-400 bg-clip-text text-transparent">
+              Free · Instant · No Upload Needed
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-8 leading-relaxed">
-            Compress JPEG, PNG and WebP images. Convert between formats. Crop, resize, flip and rotate.
-            Compress PDFs and convert images to PDF — no uploads, no account, no server.
+          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-6 leading-relaxed">
+            The fastest way to compress JPEG, PNG, and WebP images online — reduce file size by up to 90% without losing quality.
+            Also compress PDFs, convert image formats, crop, resize, rotate, and remove metadata.
+            Everything runs in your browser. Nothing is ever uploaded.
           </p>
+
+          {/* Keyword feature strip */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8 text-xs font-medium">
+            {[
+              { label: 'Compress Image',    href: '/compress-image',       color: 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/50' },
+              { label: 'Compress PDF',      href: '/compress-pdf',         color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
+              { label: 'Convert to WebP',   href: '/convert-image-to-webp',color: 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/50' },
+              { label: 'PNG to JPG',        href: '/convert-png-to-jpeg',  color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
+              { label: 'Resize Image',      href: '/resize-image',         color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
+              { label: 'Crop Image',        href: '/crop-image',           color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
+              { label: 'Image to PDF',      href: '/image-to-pdf',         color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
+              { label: 'Remove Metadata',   href: '/remove-metadata',      color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
+            ].map(({ label, href, color }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`border px-3 py-1.5 rounded-full transition-opacity hover:opacity-80 ${color}`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
             <Link
-              href="/image-tools"
-              className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-colors shadow-lg shadow-violet-500/20"
+              href="/compress-image"
+              className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl transition-all shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
               </svg>
-              Image Tools
+              Compress Image Free
             </Link>
             <Link
-              href="/pdf-tools"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-colors shadow-lg shadow-blue-500/20"
+              href="/compress-pdf"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              PDF Tools
+              Compress PDF Free
+            </Link>
+            <Link
+              href="/image-tools"
+              className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/70 font-semibold text-sm px-6 py-3 rounded-xl transition-all"
+            >
+              All Tools →
             </Link>
           </div>
 
           {/* Stats */}
-          <div className="flex justify-center gap-8 sm:gap-12">
+          <div className="flex justify-center gap-8 sm:gap-14">
             {[
-              { value: '16+', label: 'Free Tools' },
+              { value: '16+',  label: 'Free Tools' },
+              { value: '90%',  label: 'Size Reduction' },
               { value: '100%', label: 'Private' },
-              { value: '0',   label: 'Uploads' },
+              { value: '0',    label: 'Uploads Ever' },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
                 <div className="text-2xl font-bold text-violet-500 dark:text-violet-400">{value}</div>
