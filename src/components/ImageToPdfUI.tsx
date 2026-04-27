@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -186,7 +186,7 @@ export function ImageToPdfUI() {
         onDrop={(e) => { e.preventDefault(); setIsDrop(false); loadImages(Array.from(e.dataTransfer.files)); }}
         onClick={() => document.getElementById('pdf-input')?.click()}
         className={`mt-6 flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed cursor-pointer py-12 px-8 transition-colors ${
-          isDrop ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30' : 'border-violet-200 dark:border-violet-800 hover:border-violet-400 dark:hover:border-violet-600'
+          isDrop ? 'border-violet-500 bg-blue-950/20' : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
         }`}
       >
         <div className="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
@@ -195,11 +195,11 @@ export function ImageToPdfUI() {
           </svg>
         </div>
         <div className="text-center">
-          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop images here</p>
-          <p className="text-xs text-gray-400 mt-0.5">JPEG · PNG · WebP — multiple files supported</p>
+          <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop images here</p>
+          <p className="text-xs text-slate-500 mt-0.5">JPEG · PNG · WebP · multiple files supported</p>
         </div>
         <button type="button" onClick={(e) => { e.stopPropagation(); document.getElementById('pdf-input')?.click(); }}
-          className="whitespace-nowrap bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md transition-all">
+          className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md transition-all">
           Browse Files
         </button>
         <input id="pdf-input" type="file" multiple accept="image/jpeg,image/jpg,image/png,image/webp" className="sr-only"
@@ -210,15 +210,15 @@ export function ImageToPdfUI() {
         <div className="mt-6 space-y-4">
 
           {/* Page size selector */}
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-sm">
-            <p className="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-3">Page Size</p>
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-4 shadow-sm">
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-3">Page Size</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {PAGE_SIZES.map((ps) => (
                 <button key={ps.id} onClick={() => { setPageSize(ps.id); setGenerated(null); }}
                   className={`flex flex-col items-center py-2.5 px-2 rounded-xl border text-xs font-medium transition-all ${
                     pageSize === ps.id
-                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300'
+                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                      : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400'
                   }`}>
                   <span className="font-bold">{ps.label}</span>
                   <span className="text-[10px] opacity-70 mt-0.5">{ps.desc}</span>
@@ -230,36 +230,36 @@ export function ImageToPdfUI() {
           {/* Image list */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                 {images.length} image{images.length !== 1 ? 's' : ''}
               </p>
               <button onClick={() => { images.forEach((e) => URL.revokeObjectURL(e.previewUrl)); setImages([]); setGenerated(null); }}
-                className="text-xs text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
+                className="text-xs text-slate-500 hover:text-red-500 transition-colors">Clear all</button>
             </div>
             {images.map((entry, i) => (
-              <div key={entry.id} className="flex items-center gap-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-sm">
+              <div key={entry.id} className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-3 shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={entry.previewUrl} alt={entry.file.name} className="w-12 h-12 rounded-lg object-cover shrink-0 ring-1 ring-gray-200 dark:ring-gray-700" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{entry.file.name}</p>
-                  <p className="text-xs text-gray-400">{entry.w} × {entry.h} px · {formatBytes(entry.file.size)}</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-50 truncate">{entry.file.name}</p>
+                  <p className="text-xs text-slate-500">{entry.w} × {entry.h} px · {formatBytes(entry.file.size)}</p>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <button onClick={() => moveImage(entry.id, -1)} disabled={i === 0}
-                    className="p-1 text-gray-400 hover:text-violet-600 disabled:opacity-20 transition-colors">
+                    className="p-1 text-slate-500 hover:text-violet-600 disabled:opacity-20 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
                     </svg>
                   </button>
                   <button onClick={() => moveImage(entry.id, 1)} disabled={i === images.length - 1}
-                    className="p-1 text-gray-400 hover:text-violet-600 disabled:opacity-20 transition-colors">
+                    className="p-1 text-slate-500 hover:text-violet-600 disabled:opacity-20 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
                 </div>
                 <button onClick={() => removeImage(entry.id)}
-                  className="p-1.5 text-gray-400 hover:text-red-500 transition-colors shrink-0">
+                  className="p-1.5 text-slate-500 hover:text-red-500 transition-colors shrink-0">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -280,7 +280,7 @@ export function ImageToPdfUI() {
 
           {/* Handoff source pill */}
           {sourceLabel && (
-            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
               <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
               </svg>
@@ -290,7 +290,7 @@ export function ImageToPdfUI() {
 
           {/* Result card — shown after successful generation */}
           {generated && (
-            <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 shadow-sm space-y-3">
+            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm space-y-3">
               {/* File info row */}
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/30 flex items-center justify-center shrink-0">
@@ -299,8 +299,8 @@ export function ImageToPdfUI() {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate" title={generated.filename}>{generated.filename}</p>
-                  <p className="text-xs text-gray-400">{images.length} page{images.length !== 1 ? 's' : ''} · {formatBytes(generated.size)}</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-50 truncate" title={generated.filename}>{generated.filename}</p>
+                  <p className="text-xs text-slate-500">{images.length} page{images.length !== 1 ? 's' : ''} · {formatBytes(generated.size)}</p>
                 </div>
                 <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-1 rounded-full shrink-0">
                   Ready
@@ -310,14 +310,14 @@ export function ImageToPdfUI() {
               {/* Action buttons */}
               <div className="grid grid-cols-2 gap-2">
                 <button onClick={handleDownload}
-                  className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold text-sm py-2.5 rounded-xl transition-all">
+                  className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                  {downloaded ? 'Downloaded ✓' : 'Download'}
+                  {downloaded ? 'Downloaded ?' : 'Download'}
                 </button>
                 <button onClick={handleView}
-                  className="inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700 bg-violet-50 dark:bg-violet-950/30 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-700 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all">
+                  className="inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 dark:hover:bg-blue-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -328,12 +328,12 @@ export function ImageToPdfUI() {
 
               {/* Compress PDF option */}
               <button onClick={handleCompressPdf}
-                className="w-full inline-flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-700 hover:border-violet-400 dark:hover:border-violet-600 bg-white dark:bg-gray-900 hover:bg-violet-50 dark:hover:bg-violet-950/30 text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-300 text-sm font-medium py-2.5 rounded-xl transition-all">
+                className="w-full inline-flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 bg-white dark:bg-slate-800 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-600 dark:text-slate-300 hover:text-violet-700 dark:hover:text-violet-300 text-sm font-medium py-2.5 rounded-xl transition-all">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
                 </svg>
                 {generated.size > 1048576
-                  ? `PDF is ${formatBytes(generated.size)} — Compress to reduce size`
+                  ? `PDF is ${formatBytes(generated.size)} · Compress to reduce size`
                   : 'Compress PDF'}
               </button>
             </div>
@@ -341,7 +341,7 @@ export function ImageToPdfUI() {
 
           {/* Generate button */}
           <button onClick={buildPdf} disabled={isBuilding}
-            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
+            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
             {isBuilding ? (
               <>
                 <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">

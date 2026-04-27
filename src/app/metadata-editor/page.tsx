@@ -12,21 +12,20 @@ export default function MetadataEditorPage() {
   return (
     <main className="flex-1 py-10">
       <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
           Image Metadata Editor
         </h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
-          See exactly what's embedded in your image — GPS coordinates, camera make and model,
-          timestamps, author info — and remove only the groups you don't want.
+        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+          See exactly what&apos;s embedded in your image — GPS coordinates, camera make and model,
+          timestamps, author info — and remove only the groups you don&apos;t want.
           Nothing leaves your browser.
         </p>
 
-        {/* Feature pills */}
         <div className="flex flex-wrap justify-center gap-2 mt-5">
           {['GPS & Location', 'Camera Info', 'Timestamps', 'Author & Copyright', 'Software'].map((tag) => (
             <span
               key={tag}
-              className="text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 px-3 py-1 rounded-full"
+              className="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full"
             >
               {tag}
             </span>
@@ -37,10 +36,9 @@ export default function MetadataEditorPage() {
       <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <MetadataEditorUI />
 
-      {/* Info section */}
-      <section className="max-w-2xl mx-auto px-4 mt-12 space-y-6 text-sm text-gray-500 dark:text-gray-400">
+      <section className="max-w-2xl mx-auto px-4 mt-12 space-y-6 text-sm text-slate-500 dark:text-slate-400">
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-1">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-1">
             What is image metadata?
           </h2>
           <p className="leading-relaxed">
@@ -50,17 +48,17 @@ export default function MetadataEditorPage() {
           </p>
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-1">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-1">
             Why remove it selectively?
           </h2>
           <p className="leading-relaxed">
             You may want to keep camera info for portfolio purposes while removing GPS coordinates
             before sharing online. Selective removal lets you stay in control — strip only what
-            you don't need, keep what you do.
+            you don&apos;t need, keep what you do.
           </p>
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-1">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-1">
             Is this private?
           </h2>
           <p className="leading-relaxed">

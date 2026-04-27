@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -46,15 +46,15 @@ export default function SupportPage() {
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-2">Support</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             We aim to respond to all enquiries within 24 hours.
           </p>
         </div>
 
         {/* Contact card */}
-        <div className="border border-violet-200 dark:border-violet-800 rounded-2xl p-6 mb-10 bg-violet-50/50 dark:bg-violet-950/20">
-          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">Email support</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6 mb-10 bg-violet-50 dark:bg-violet-950/20">
+          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50 mb-1">Email support</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
             For billing questions, bug reports, refund requests, or anything else — reach us at:
           </p>
           <a
@@ -72,19 +72,19 @@ export default function SupportPage() {
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-50 mb-5">Frequently asked questions</h2>
         <div className="space-y-4">
           {FAQS.map(({ q, a }) => (
-            <div key={q} className="border border-gray-200 dark:border-gray-700 rounded-xl p-5 bg-white dark:bg-gray-900/40">
-              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-1.5">{q}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{a}</p>
+            <div key={q} className="border border-slate-200 dark:border-slate-600 rounded-xl p-5 bg-white dark:bg-slate-800/40">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-1.5">{q}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{a}</p>
             </div>
           ))}
         </div>
 
         {/* Useful links */}
-        <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-4 text-sm">
+        <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-wrap gap-4 text-sm">
           <Link href="/privacy-policy" className="text-violet-600 dark:text-violet-400 hover:underline">Privacy Policy</Link>
           <Link href="/terms" className="text-violet-600 dark:text-violet-400 hover:underline">Terms of Service</Link>
           <Link href="/whats-new" className="text-violet-600 dark:text-violet-400 hover:underline">What&apos;s New</Link>
-          <Link href="/" className="text-violet-600 dark:text-violet-400 hover:underline">← Back to app</Link>
+          <Link href="/" className="text-violet-600 dark:text-violet-400 hover:underline">&#8592; Back to app</Link>
         </div>
 
       </div>

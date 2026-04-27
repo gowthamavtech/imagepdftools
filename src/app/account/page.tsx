@@ -1,4 +1,4 @@
-﻿import { auth } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 import { clerkClient } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -20,18 +20,18 @@ export default async function AccountPage() {
   return (
     <main className="flex-1 py-16 px-4">
       <div className="max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Account</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-8">Account</h1>
 
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-4">
-          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6 mb-4">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
             Current Plan
           </h2>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">
+              <p className="text-xl font-bold text-slate-900 dark:text-slate-50">
                 {isPro ? 'Pro' : 'Free'}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+              <p className="text-sm text-slate-500 mt-0.5">
                 {isPro
                   ? 'Unlimited files, ZIP export, ad-free.'
                   : 'Up to 5 files per session, ads shown.'}
@@ -45,39 +45,39 @@ export default async function AccountPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-4">
-          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6 mb-4">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
             Profile
           </h2>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-slate-700 dark:text-slate-300">
             {user.emailAddresses?.[0]?.emailAddress ?? 'No email on file'}
           </p>
         </div>
 
         {isPro ? (
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
-            <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6">
+            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
               Billing
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
               Manage your subscription, update payment method, or cancel at any time via the
               Stripe billing portal.
             </p>
             <form action="/api/portal" method="POST">
               <button
                 type="submit"
-                className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+                className="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
               >
                 Open Billing Portal
               </button>
             </form>
           </div>
         ) : (
-          <div className="bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800 rounded-2xl p-6">
+          <div className="bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6">
             <h2 className="text-sm font-semibold text-violet-700 dark:text-violet-400 uppercase tracking-wide mb-2">
               Upgrade to Pro
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
               Unlock unlimited files, batch ZIP export, format conversion, and an ad-free
               experience for $4.99/month.
             </p>

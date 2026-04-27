@@ -116,15 +116,15 @@ export function NextActions({ blob, filename, currentTool }: Props) {
   const suggestions = TOOLS.filter((t) => t.id !== currentTool);
 
   return (
-    <div className="pt-3 border-t border-gray-100 dark:border-gray-800 space-y-2">
+    <div className="pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
           Continue with
         </p>
         {entries.length > 0 && (
           <button
             onClick={handleUndo}
-            className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+            className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -144,16 +144,16 @@ export function NextActions({ blob, filename, currentTool }: Props) {
             className={`inline-flex items-center gap-2 px-3 py-2.5 sm:py-2 rounded-xl border text-xs font-medium transition-all ${
               dragTarget === tool.id
                 ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 scale-105'
-                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/40 text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-300'
+                : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-700 dark:hover:text-violet-300'
             }`}
           >
-            <span className={dragTarget === tool.id ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}>{tool.icon}</span>
+            <span className={dragTarget === tool.id ? 'text-violet-500' : 'text-slate-500 dark:text-slate-400'}>{tool.icon}</span>
             <span>{tool.label}</span>
-            <span className="text-gray-400 dark:text-gray-500 text-[10px] hidden sm:inline">{tool.desc}</span>
+            <span className="text-slate-500 dark:text-slate-400 text-[10px] hidden sm:inline">{tool.desc}</span>
           </button>
         ))}
       </div>
-      <p className="text-[10px] text-gray-300 dark:text-gray-600">Tip: drag the result image onto a tool to continue</p>
+      <p className="text-[10px] text-slate-500 dark:text-slate-400">Tip: drag the result image onto a tool to continue</p>
     </div>
   );
 }

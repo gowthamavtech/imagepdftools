@@ -18,7 +18,7 @@ export function FormatSelector({ value, onChange }: Props) {
   return (
     <div className="flex flex-col gap-1.5">
       <div
-        className="flex items-center gap-1 bg-violet-50 dark:bg-violet-950/50 rounded-xl p-1"
+        className="flex items-center gap-1 bg-slate-100 dark:bg-blue-950/40 rounded-xl p-1"
         role="group"
         aria-label="Output format"
       >
@@ -29,8 +29,8 @@ export function FormatSelector({ value, onChange }: Props) {
             onClick={() => onChange(fv)}
             className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
               value === fv
-                ? 'bg-linear-to-r from-violet-600 to-purple-600 text-white shadow-sm'
-                : 'text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400'
+                ? 'bg-linear-to-r from-blue-600 to-blue-500 text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400'
             }`}
             aria-pressed={value === fv}
           >
@@ -39,7 +39,7 @@ export function FormatSelector({ value, onChange }: Props) {
         ))}
       </div>
       {active && (
-        <p className="text-xs text-gray-400 text-right pr-1">{active.tip}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 text-right pr-1">{active.tip}</p>
       )}
     </div>
   );

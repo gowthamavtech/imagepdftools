@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 function Section({ num, title, children }: { num: number; title: string; children: React.ReactNode }) {
   return (
     <section className="mb-8">
-      <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-2">
+      <h2 className="text-base font-bold text-slate-900 dark:text-slate-50 mb-2">
         {num}. {title}
       </h2>
-      <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed space-y-3">
+      <div className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -31,7 +31,7 @@ function Ul({ items }: { items: React.ReactNode[] }) {
 }
 
 function SubHeading({ children }: { children: React.ReactNode }) {
-  return <p className="font-semibold text-gray-700 dark:text-gray-300">{children}</p>;
+  return <p className="font-semibold text-slate-800 dark:text-slate-300">{children}</p>;
 }
 
 export default function TermsPage() {
@@ -42,7 +42,7 @@ export default function TermsPage() {
         {/* Page header */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-1">Terms of Service</h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500">Last updated: April 2026</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Last updated: April 2026</p>
         </div>
 
         {/* Sections */}
@@ -121,9 +121,9 @@ export default function TermsPage() {
         <Section num={8} title="Plans and Pricing">
           <p>ImagePDF.Tools offers a Free tier and a Pro tier:</p>
           <Ul items={[
-            <><strong className="text-gray-700 dark:text-gray-300">Free:</strong> Up to 5 files per session, up to 25 MB each. No payment required.</>,
-            <><strong className="text-gray-700 dark:text-gray-300">Pro Monthly:</strong> $4.99 / month. Unlimited files, up to 100 MB each, ZIP export, format conversion, ad-free. Billed monthly via Stripe.</>,
-            <><strong className="text-gray-700 dark:text-gray-300">Pro Annual:</strong> $39 / year (~35% savings). Same Pro features, billed annually.</>,
+            <><strong className="text-slate-800 dark:text-slate-300">Free:</strong> Up to 5 files per session, up to 25 MB each. No payment required.</>,
+            <><strong className="text-slate-800 dark:text-slate-300">Pro Monthly:</strong> $4.99 / month. Unlimited files, up to 100 MB each, ZIP export, format conversion, ad-free. Billed monthly via Stripe.</>,
+            <><strong className="text-slate-800 dark:text-slate-300">Pro Annual:</strong> $39 / year (~35% savings). Same Pro features, billed annually.</>,
           ]} />
           <p>
             Prices include applicable taxes where required. We reserve the right to change pricing

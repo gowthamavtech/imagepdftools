@@ -84,7 +84,7 @@ export function CompressorUI({ initialFormat }: { initialFormat?: string } = {})
       <DropZone onFiles={addFiles} />
 
       {sourceLabel && (
-        <div className="mt-4 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+        <div className="mt-4 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
           <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
           </svg>
@@ -103,21 +103,21 @@ export function CompressorUI({ initialFormat }: { initialFormat?: string } = {})
                 type="checkbox"
                 checked={allSelected}
                 onChange={toggleSelectAll}
-                className="w-4 h-4 accent-violet-600 cursor-pointer shrink-0"
+                className="w-4 h-4 accent-blue-500 cursor-pointer shrink-0"
                 aria-label="Select all files"
                 title="Select all"
               />
-              <div className="text-xs text-gray-400 dark:text-gray-500">
+              <div className="text-xs text-slate-500 dark:text-slate-400">
                 {allDone ? (
                   <span className="text-emerald-500 font-semibold">{results.length} of {files.length} compressed ✓</span>
                 ) : (
                   <span>
-                    <span className="font-semibold text-violet-600 dark:text-violet-400">{results.length}</span>
+                    <span className="font-semibold text-violet-400">{results.length}</span>
                     {' '}of{' '}
                     <span className="font-semibold">{files.length}</span>
                     {' '}compressed
                     {processingIds.size > 0 && (
-                      <span className="ml-2 inline-flex items-center gap-1 text-gray-400">
+                      <span className="ml-2 inline-flex items-center gap-1 text-slate-500">
                         <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -146,7 +146,7 @@ export function CompressorUI({ initialFormat }: { initialFormat?: string } = {})
               <button
                 onClick={downloadZip}
                 disabled={!allDone}
-                className="inline-flex items-center gap-1.5 whitespace-nowrap bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold py-2 px-4 rounded-xl transition-colors"
+                className="inline-flex items-center gap-1.5 whitespace-nowrap bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold py-2 px-4 rounded-xl transition-colors"
               >
                 <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

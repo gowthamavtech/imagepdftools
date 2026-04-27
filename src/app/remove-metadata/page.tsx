@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { MetadataStripperUI } from '@/components/MetadataStripperUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -13,28 +13,27 @@ export default function RemoveMetadataPage() {
   return (
     <main className="flex-1 py-10">
       <div className="max-w-4xl mx-auto px-4 text-center mb-10">
-        <span className="inline-block mb-4 text-xs font-semibold tracking-widest uppercase text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/50 border border-violet-100 dark:border-violet-900/40 px-3 py-1 rounded-full">
+        <span className="inline-block mb-4 text-xs font-semibold tracking-widest uppercase text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-white/8 px-3 py-1 rounded-full">
           Privacy tool
         </span>
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
           Remove Image Metadata
         </h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
+        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
           Strip EXIF data, GPS coordinates, camera model, timestamps, and all hidden
           metadata from JPEG, PNG, and WebP files — instantly, privately, in your browser.
         </p>
 
-        {/* What gets removed */}
         <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm max-w-2xl mx-auto">
           {[
             { icon: '📍', label: 'GPS Location' },
             { icon: '📷', label: 'Camera Info' },
             { icon: '🕐', label: 'Timestamps' },
-            { icon: '🏷️', label: 'Author & Copyright' },
+            { icon: '✍️', label: 'Author & Copyright' },
           ].map(({ icon, label }) => (
             <div
               key={label}
-              className="flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-gray-600 dark:text-gray-400 font-medium"
+              className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-400 font-medium"
             >
               <span>{icon}</span>
               <span className="text-xs">{label}</span>
@@ -46,10 +45,9 @@ export default function RemoveMetadataPage() {
       <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <MetadataStripperUI />
 
-      {/* Info section */}
-      <section className="max-w-2xl mx-auto px-4 mt-12 space-y-6 text-sm text-gray-500 dark:text-gray-400">
+      <section className="max-w-2xl mx-auto px-4 mt-12 space-y-6 text-sm text-slate-500 dark:text-slate-400">
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">
             What is image metadata?
           </h2>
           <p className="leading-relaxed">
@@ -60,7 +58,7 @@ export default function RemoveMetadataPage() {
           </p>
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">
             Why remove it?
           </h2>
           <p className="leading-relaxed">
@@ -70,7 +68,7 @@ export default function RemoveMetadataPage() {
           </p>
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h2 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">
             Is it safe?
           </h2>
           <p className="leading-relaxed">

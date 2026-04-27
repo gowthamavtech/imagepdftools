@@ -30,10 +30,10 @@ const PRO_FEATURES = [
   'Priority compression queue',
 ];
 
-function Check({ dark }: { dark?: boolean }) {
+function Check({ accent }: { accent?: boolean }) {
   return (
     <svg
-      className={`w-4 h-4 shrink-0 mt-0.5 ${dark ? 'text-violet-600' : 'text-gray-500 dark:text-gray-400'}`}
+      className={`w-4 h-4 shrink-0 mt-0.5 ${accent ? 'text-violet-600 dark:text-violet-400' : 'text-slate-400'}`}
       fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -61,31 +61,26 @@ function PricingContent() {
   }
 
   return (
-    <main className="flex-1 py-14 sm:py-20 px-4 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-violet-50 to-pink-50 dark:from-violet-950/20 dark:to-pink-950/20 opacity-60 pointer-events-none" />
+    <main className="flex-1 py-14 sm:py-20 px-4">
+      <div className="max-w-5xl mx-auto">
 
-      <div className="relative max-w-5xl mx-auto">
-
-        {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
             Choose your right plan!
           </h1>
-          <p className="text-gray-400 dark:text-gray-500 max-w-md mx-auto leading-relaxed">
+          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
             Select from our flexible plans. Need access for just a day or a full year — we&apos;ve got you covered.
           </p>
 
-          {/* Billing period toggle */}
-          <div className="mt-8 inline-flex items-center bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-1.5 gap-1 shadow-sm">
+          <div className="mt-8 inline-flex items-center bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-full p-1.5 gap-1 shadow-sm">
             {PLANS.map((plan) => (
               <button
                 key={plan.id}
                 onClick={() => setBilling(plan.id)}
                 className={`relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
                   billing === plan.id
-                    ? 'bg-violet-600 text-white shadow-md shadow-violet-200 dark:shadow-violet-900'
-                    : 'text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                    ? 'bg-violet-600 text-white shadow-md shadow-blue-900/20'
+                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                 }`}
               >
                 {plan.label}
@@ -99,57 +94,50 @@ function PricingContent() {
           </div>
         </div>
 
-        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Free card */}
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-8 flex flex-col">
-            {/* Badge */}
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 flex flex-col">
             <div className="mb-6">
-              <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-bold px-4 py-1.5 rounded-full">
+              <span className="inline-block bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold px-4 py-1.5 rounded-full">
                 Free
               </span>
             </div>
 
-            <p className="text-sm text-gray-400 dark:text-gray-500 leading-relaxed mb-8">
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
               Everything you need for occasional image compression — no account required.
             </p>
 
-            {/* Price */}
-            <div className="mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
-              <span className="text-6xl font-bold text-gray-900 dark:text-white">$0</span>
-              <span className="text-gray-400 ml-2 text-base">/ forever</span>
+            <div className="mb-8 pb-8 border-b border-slate-200 dark:border-slate-700">
+              <span className="text-6xl font-bold text-slate-900 dark:text-slate-50">$0</span>
+              <span className="text-slate-500 dark:text-slate-400 ml-2 text-base">/ forever</span>
             </div>
 
-            {/* Features */}
             <ul className="space-y-4 flex-1 mb-8">
               {FREE_FEATURES.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-gray-600 dark:text-gray-400">
+                <li key={f} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                   <Check />
                   {f}
                 </li>
               ))}
             </ul>
 
-            {/* CTA */}
-            <button className="w-full py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+            <button className="w-full py-3.5 rounded-2xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
               Get started
             </button>
           </div>
 
           {/* Pro card */}
-          <div className="bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/50 rounded-3xl p-8 flex flex-col relative overflow-hidden">
-            {/* Subtle glow */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-violet-200 dark:bg-violet-800/20 rounded-full -translate-y-1/3 translate-x-1/3 blur-3xl pointer-events-none" />
+          <div className="bg-violet-50 dark:bg-blue-950/20 border border-violet-200 dark:border-violet-800/60 rounded-3xl p-8 flex flex-col relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-violet-200/50 dark:bg-violet-800/20 rounded-full -translate-y-1/3 translate-x-1/3 blur-3xl pointer-events-none" />
 
             <div className="relative">
-              {/* Badge */}
               <div className="flex items-center justify-between mb-6">
-                <span className="inline-block bg-violet-600 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md shadow-violet-200 dark:shadow-violet-900">
+                <span className="inline-block bg-violet-600 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md shadow-blue-900/20">
                   Pro
                 </span>
                 {selected.save && (
-                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1 rounded-full">
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1 rounded-full">
                     {selected.save}
                   </span>
                 )}
@@ -162,28 +150,25 @@ function PricingContent() {
                 {billing === 'annual' && 'Full Pro access for a full year — our best value, lowest monthly cost.'}
               </p>
 
-              {/* Price */}
               <div className="mb-8 pb-8 border-b border-violet-200 dark:border-violet-800/50">
-                <span className="text-6xl font-bold text-gray-900 dark:text-white">{selected.price}</span>
-                <span className="text-violet-500 dark:text-violet-400 ml-2 text-base">{selected.sub}</span>
+                <span className="text-6xl font-bold text-slate-900 dark:text-slate-50">{selected.price}</span>
+                <span className="text-violet-600 dark:text-violet-400 ml-2 text-base">{selected.sub}</span>
                 {billing === 'annual' && (
                   <p className="text-xs text-violet-500 dark:text-violet-400 mt-1.5">~$1.67/month — vs $3/month billed monthly</p>
                 )}
               </div>
 
-              {/* Features */}
               <ul className="space-y-4 flex-1 mb-8">
                 {PRO_FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-3 text-sm text-gray-700 dark:text-gray-300">
-                    <Check dark />
+                  <li key={f} className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+                    <Check accent />
                     {f}
                   </li>
                 ))}
               </ul>
 
-              {/* CTA */}
               {isPro ? (
-                <div className="w-full text-center py-3.5 rounded-2xl bg-violet-600/20 text-violet-700 dark:text-violet-300 text-sm font-semibold">
+                <div className="w-full text-center py-3.5 rounded-2xl bg-violet-100 dark:bg-violet-600/20 text-violet-700 dark:text-violet-300 text-sm font-semibold">
                   You&apos;re on Pro ✓
                 </div>
               ) : (
@@ -192,14 +177,14 @@ function PricingContent() {
                     <button
                       onClick={handleUpgrade}
                       disabled={loading}
-                      className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3.5 rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-60 shadow-lg"
+                      className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3.5 rounded-2xl transition-colors disabled:opacity-60 shadow-lg shadow-violet-500/20"
                     >
                       {loading ? 'Redirecting…' : `Get started — ${selected.price}`}
                     </button>
                   </Show>
                   <Show when="signed-out">
                     <SignInButton mode="modal">
-                      <button className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3.5 rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-lg">
+                      <button className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3.5 rounded-2xl transition-colors shadow-lg shadow-violet-500/20">
                         Sign in to upgrade
                       </button>
                     </SignInButton>
@@ -210,8 +195,8 @@ function PricingContent() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-400 dark:text-gray-600 mt-8">
-          Secure payment via Stripe · Cancel anytime · No questions asked
+        <p className="text-center text-xs text-slate-500 mt-8">
+          Secure payment via Stripe &middot; Cancel anytime &middot; No questions asked
         </p>
       </div>
     </main>

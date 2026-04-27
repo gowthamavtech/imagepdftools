@@ -17,8 +17,8 @@ const GROUP_ICONS: Record<string, string> = {
 function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
     <label className="relative w-9 h-5 cursor-pointer shrink-0" onClick={() => onChange(!checked)}>
-      <div className={`w-9 h-5 rounded-full transition-colors ${checked ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
-      <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${checked ? 'left-4' : 'left-0.5'}`} />
+      <div className={`w-9 h-5 rounded-full transition-colors ${checked ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
+      <div className={`absolute top-0.5 w-4 h-4 bg-white dark:bg-slate-800 rounded-full shadow transition-all ${checked ? 'left-4' : 'left-0.5'}`} />
     </label>
   );
 }
@@ -33,20 +33,20 @@ function GroupCard({ group, kept, onToggle }: {
   return (
     <div className={`border rounded-xl overflow-hidden transition-colors ${
       kept
-        ? 'border-violet-100 dark:border-violet-900/30'
+        ? 'border-white/8'
         : 'border-red-200 dark:border-red-900/30 opacity-60'
     }`}>
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 dark:bg-gray-800/50">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-50 dark:bg-slate-700/50">
         <span className="text-base">{GROUP_ICONS[group.id]}</span>
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="flex-1 text-left text-sm font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-1.5"
+          className="flex-1 text-left text-sm font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"
         >
           {group.label}
-          <span className="text-xs font-normal text-gray-400">({group.fields.length})</span>
+          <span className="text-xs font-normal text-slate-500">({group.fields.length})</span>
           <svg
-            className={`w-3.5 h-3.5 ml-auto text-gray-400 transition-transform ${expanded ? '' : '-rotate-90'}`}
+            className={`w-3.5 h-3.5 ml-auto text-slate-500 transition-transform ${expanded ? '' : '-rotate-90'}`}
             fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -62,11 +62,11 @@ function GroupCard({ group, kept, onToggle }: {
 
       {/* Fields */}
       {expanded && (
-        <div className="divide-y divide-gray-100 dark:divide-gray-800">
+        <div className="divide-y divide-slate-200 dark:divide-slate-700">
           {group.fields.map((field) => (
             <div key={field.key} className="flex items-start gap-3 px-4 py-2 text-xs">
-              <span className="text-gray-400 dark:text-gray-500 shrink-0 w-36 truncate pt-px">{field.label}</span>
-              <span className="text-gray-700 dark:text-gray-300 break-all">{field.value}</span>
+              <span className="text-slate-500 dark:text-slate-400 shrink-0 w-36 truncate pt-px">{field.label}</span>
+              <span className="text-slate-700 dark:text-slate-300 break-all">{field.value}</span>
             </div>
           ))}
         </div>
@@ -175,8 +175,8 @@ export function MetadataEditorUI() {
           onDragLeave={onDragLeave}
           className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed transition-colors cursor-pointer py-20 px-8 ${
             isDragging
-              ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30'
-              : 'border-violet-200 dark:border-violet-800 hover:border-violet-400 dark:hover:border-violet-600'
+              ? 'border-violet-500 bg-blue-950/20'
+              : 'border-violet-300 dark:border-violet-800/60 hover:border-violet-500 dark:hover:border-violet-500'
           }`}
           onClick={() => document.getElementById('meta-file-input')?.click()}
         >
@@ -186,13 +186,13 @@ export function MetadataEditorUI() {
             </svg>
           </div>
           <div className="text-center">
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop an image here</p>
-            <p className="text-xs text-gray-400 mt-1">JPEG · PNG · WebP</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
+            <p className="text-xs text-slate-500 mt-1">JPEG · PNG · WebP</p>
           </div>
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); document.getElementById('meta-file-input')?.click(); }}
-            className="bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
+            className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
           >
             Browse Files
           </button>
@@ -211,23 +211,23 @@ export function MetadataEditorUI() {
       <div className="mt-6 space-y-4">
 
         {/* File info bar */}
-        <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl shadow-sm">
+        <div className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl shadow-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {previewUrl && <img src={previewUrl} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0 ring-1 ring-violet-100 dark:ring-violet-900" />}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{file.name}</p>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{file.name}</p>
+            <p className="text-xs text-slate-500 mt-0.5">
               {(file.size / 1024).toFixed(1)} KB · {file.type.split('/')[1].toUpperCase()}
             </p>
           </div>
-          <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors shrink-0">
+          <button onClick={reset} className="text-xs text-slate-500 hover:text-slate-300 dark:hover:text-slate-300 transition-colors shrink-0">
             Change
           </button>
         </div>
 
         {/* Handoff source pill */}
         {sourceLabel && (
-          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
             <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -237,7 +237,7 @@ export function MetadataEditorUI() {
 
         {/* Reading spinner */}
         {isReading && (
-          <div className="flex items-center justify-center gap-2 py-8 text-sm text-gray-400">
+          <div className="flex items-center justify-center gap-2 py-8 text-sm text-slate-500">
             <svg className="w-4 h-4 animate-spin text-violet-400" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
@@ -248,7 +248,7 @@ export function MetadataEditorUI() {
 
         {/* No metadata */}
         {!isReading && groups.length === 0 && (
-          <div className="text-center py-10 text-sm text-gray-400">
+          <div className="text-center py-10 text-sm text-slate-500">
             No metadata found in this image.
           </div>
         )}
@@ -282,7 +282,7 @@ export function MetadataEditorUI() {
           <button
             onClick={handleDownload}
             disabled={removedCount === 0 || isProcessing}
-            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
           >
             {isProcessing ? (
               <>
@@ -307,14 +307,14 @@ export function MetadataEditorUI() {
 
         {/* Saved result card */}
         {savedResult && !isProcessing && (
-          <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 shadow-sm">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3">
               {previewUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={previewUrl} alt="" className="w-14 h-14 rounded-xl object-cover shrink-0 ring-1 ring-violet-100 dark:ring-violet-900" />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{savedResult.name}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{savedResult.name}</p>
                 <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1 mt-0.5">
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -325,7 +325,7 @@ export function MetadataEditorUI() {
               <a
                 href={savedResult.url}
                 download={savedResult.name}
-                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
+                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -338,7 +338,7 @@ export function MetadataEditorUI() {
 
         {/* Continue with — shown after Apply or when no metadata found */}
         {!isReading && (savedResult || groups.length === 0) && (
-          <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 shadow-sm">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm">
             <NextActions blob={continueBlob} filename={continueFilename} currentTool="edit" />
           </div>
         )}

@@ -1,4 +1,4 @@
-﻿import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://imagepdf.tools';
 
@@ -120,5 +120,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified,
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    ...['online-file-converters-security-risk','safely-compress-sensitive-pdf-documents','what-is-image-metadata-exif-explained','webp-vs-avif-image-format-seo-2026','core-web-vitals-image-optimization','ultimate-guide-pdf-compression-levels','convert-jpg-to-pdf-without-losing-quality','shrink-pdf-for-email-attachments','batch-resize-images-social-media','png-to-webp-why-website-owners-should-switch','building-private-image-compressor-webassembly','client-side-processing-saves-your-data'].map((slug) => ({
+      url: `${BASE_URL}/blog/${slug}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
   ];
 }

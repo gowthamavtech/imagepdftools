@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -13,8 +13,8 @@ export default function CompressJpegPage() {
   return (
     <main className="flex-1 py-10">
       <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">Compress JPEG Online</h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">Compress JPEG Online</h1>
+        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
           Reduce JPEG file sizes by up to 90% with fine-grained quality control. Private,
           fast, and free — nothing ever leaves your device.
         </p>

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ImageCropUI } from '@/components/ImageCropUI';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -10,32 +10,28 @@ export const metadata: Metadata = {
 
 export default function CropImagePage() {
   return (
-    <main className="relative flex-1 overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-br from-violet-600 via-purple-600 to-pink-500 opacity-[0.08] dark:opacity-[0.15]" />
-
-      <div className="relative max-w-4xl mx-auto px-4 pt-10 sm:pt-16 pb-16">
-        {/* Badge */}
+    <main className="flex-1">
+      <div className="max-w-4xl mx-auto px-4 pt-10 sm:pt-16 pb-6">
         <div className="flex justify-center mb-5">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950 border border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full">
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            No upload · 100% Private · Instant
+            No upload &middot; 100% Private &middot; Instant
           </div>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-bold text-center text-gray-900 dark:text-white leading-tight mb-3">
+        <h1 className="text-4xl sm:text-5xl font-bold text-center text-slate-900 dark:text-slate-50 leading-tight mb-3">
           Crop Image{' '}
-          <span className="italic bg-linear-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
             Online
           </span>
         </h1>
-        <p className="text-center text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-2">
+        <p className="text-center text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-2">
           Drag to select any area. Choose from preset aspect ratios or crop freely. Everything runs in your browser.
         </p>
 
-        {/* Feature pills */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {['Free selection', '1:1 Square', '4:3', '16:9', 'Rule of thirds', 'JPEG · PNG · WebP'].map((f) => (
-            <span key={f} className="text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 px-3 py-1 rounded-full">
+            <span key={f} className="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">
               {f}
             </span>
           ))}

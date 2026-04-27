@@ -147,6 +147,9 @@ export function ImageCropUI() {
   // ── Apply rotation → new display image ────────────────────────────────────
   useEffect(() => {
     if (!file || !previewUrl) return;
+    // Rotation changes image geometry entirely — clear the crop so stale
+    // screen-space coordinates from the old orientation don't survive.
+    setCrop(null);
     if (rotation === 0) {
       if (prevRotUrl.current) { URL.revokeObjectURL(prevRotUrl.current); prevRotUrl.current = null; }
       setDisplayUrl(previewUrl);
@@ -160,19 +163,6 @@ export function ImageCropUI() {
       prevRotUrl.current = url;
       setDisplayUrl(url);
       setDisplayBlob(blob);
-      // Clamp existing crop to new container bounds after the image re-renders
-      requestAnimationFrame(() => {
-        if (!imgRef.current) return;
-        const b = computeImageBounds(imgRef.current);
-        setCrop(prev => {
-          if (!prev) return prev;
-          const x = clamp(prev.x, b.x, b.x + b.w);
-          const y = clamp(prev.y, b.y, b.y + b.h);
-          const w = clamp(prev.w, 0, b.x + b.w - x);
-          const h = clamp(prev.h, 0, b.y + b.h - y);
-          return (w < MIN_CROP || h < MIN_CROP) ? null : { x, y, w, h };
-        });
-      });
     });
     return () => { cancelled = true; };
   }, [rotation, file, previewUrl]);
@@ -428,8 +418,8 @@ export function ImageCropUI() {
         onClick={() => document.getElementById('crop-input')?.click()}
         className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer py-20 px-8 transition-colors ${
           isDrop
-            ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30'
-            : 'border-violet-200 dark:border-violet-800 hover:border-violet-400 dark:hover:border-violet-600'
+            ? 'border-violet-500 bg-blue-950/20'
+            : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
         }`}
       >
         <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
@@ -438,13 +428,13 @@ export function ImageCropUI() {
           </svg>
         </div>
         <div className="text-center">
-          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop an image here</p>
-          <p className="text-xs text-gray-400 mt-1">JPEG · JPG · PNG · WebP</p>
+          <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
+          <p className="text-xs text-slate-500 mt-1">JPEG · JPG · PNG · WebP</p>
         </div>
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); document.getElementById('crop-input')?.click(); }}
-          className="bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
+          className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
         >
           Browse Files
         </button>
@@ -462,12 +452,12 @@ export function ImageCropUI() {
 
       {/* ── File info bar ── */}
       <div className="flex items-center gap-2 px-1">
-        <p className="text-xs text-gray-500 dark:text-gray-400 truncate flex-1 min-w-0">
-          <span className="font-medium text-gray-700 dark:text-gray-200">{file.name}</span>
-          <span className="ml-1 text-gray-400">· {formatBytes(file.size)}</span>
+        <p className="text-xs text-slate-400 dark:text-slate-400 truncate flex-1 min-w-0">
+          <span className="font-medium text-slate-800 dark:text-slate-200">{file.name}</span>
+          <span className="ml-1 text-slate-500">· {formatBytes(file.size)}</span>
         </p>
         {hasCrop && (
-          <button onClick={() => setCrop(null)} className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors shrink-0">
+          <button onClick={() => setCrop(null)} className="text-xs text-slate-500 hover:text-slate-300 dark:hover:text-slate-300 transition-colors shrink-0">
             Reset crop
           </button>
         )}
@@ -478,7 +468,7 @@ export function ImageCropUI() {
 
       {/* Handoff source pill */}
       {sourceLabel && (
-        <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+        <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
           <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
           </svg>
@@ -488,21 +478,21 @@ export function ImageCropUI() {
 
       {/* ── Aspect ratio row ── */}
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1.5 px-1">Aspect Ratio</p>
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1.5 px-1">Aspect Ratio</p>
         <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
           {RATIOS.map(({ label, value }) => (
             <button key={label} onClick={() => changeRatio(value)}
               className={`shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
                 ratio === value
                   ? 'bg-violet-600 border-violet-600 text-white'
-                  : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-violet-400 dark:hover:border-violet-500 hover:text-violet-600 dark:hover:text-violet-400'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-500 hover:text-violet-600 dark:hover:text-violet-400'
               }`}
             >
               {label}
             </button>
           ))}
         </div>
-        <p className="text-[11px] text-center text-gray-400 dark:text-gray-500 mt-1">
+        <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-1">
           💡 Tip: Select a ratio above before dragging to lock your crop to that shape
         </p>
       </div>
@@ -510,11 +500,11 @@ export function ImageCropUI() {
       {/* ── Rotation row ── */}
       <div>
         <div className="flex items-center justify-between mb-1.5 px-1">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Rotate</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Rotate</p>
           <div className="flex items-center gap-1">
             {/* −90° */}
             <button onClick={() => rotate90(-1)}
-              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-violet-50 dark:hover:bg-violet-950/50 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600/60 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
               title="Rotate −90°"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -529,14 +519,14 @@ export function ImageCropUI() {
               className={`text-xs font-mono font-semibold px-2 py-1 rounded-lg min-w-12 text-center transition-colors ${
                 rotation !== 0
                   ? 'bg-violet-100 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 hover:bg-violet-200 dark:hover:bg-violet-900/60'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
               }`}
             >
               {rotation}°
             </button>
             {/* +90° */}
             <button onClick={() => rotate90(1)}
-              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-violet-50 dark:hover:bg-violet-950/50 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600/60 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
               title="Rotate +90°"
             >
               <span className="hidden sm:inline">+90°</span>
@@ -550,15 +540,15 @@ export function ImageCropUI() {
         <input
           type="range" min={-180} max={180} value={rotation}
           onChange={(e) => setRotation(Number(e.target.value))}
-          className="w-full h-1.5 appearance-none rounded-full bg-gray-200 dark:bg-gray-700 accent-violet-600 cursor-pointer"
+          className="w-full h-1.5 appearance-none rounded-full bg-slate-300 dark:bg-slate-600 accent-blue-500 cursor-pointer"
         />
-        <div className="flex justify-between text-[10px] text-gray-400 dark:text-gray-500 mt-1 px-0.5">
+        <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 mt-1 px-0.5">
           <span>−180°</span><span>0°</span><span>+180°</span>
         </div>
       </div>
 
       {/* ── Image canvas ── */}
-      <div className="rounded-xl overflow-hidden bg-gray-900 flex justify-center">
+      <div className="rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-800 flex justify-center">
         <div
           ref={wrapRef}
           className="relative select-none w-full"
@@ -589,7 +579,7 @@ export function ImageCropUI() {
                   {Array.from({ length: 9 }).map((_, i) => <div key={i} className="border border-white/20" />)}
                 </div>
                 {(['nw','ne','sw','se'] as const).map((h) => (
-                  <div key={h} className="absolute w-4 h-4 bg-white rounded-sm border border-gray-300 shadow"
+                  <div key={h} className="absolute w-4 h-4 bg-white dark:bg-slate-800 rounded-sm border border-gray-400 shadow"
                     style={{
                       top:    h.startsWith('n') ? -HANDLE_PX : undefined,
                       bottom: h.startsWith('s') ? -HANDLE_PX : undefined,
@@ -600,10 +590,10 @@ export function ImageCropUI() {
                   />
                 ))}
                 {/* Edge handles — N/S/E/W midpoints */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-2 bg-white rounded-sm border border-gray-300 shadow" style={{ cursor: 'ns-resize' }} />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-5 h-2 bg-white rounded-sm border border-gray-300 shadow" style={{ cursor: 'ns-resize' }} />
-                <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-5 bg-white rounded-sm border border-gray-300 shadow" style={{ cursor: 'ew-resize' }} />
-                <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-5 bg-white rounded-sm border border-gray-300 shadow" style={{ cursor: 'ew-resize' }} />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-2 bg-white dark:bg-slate-800 rounded-sm border border-gray-400 shadow" style={{ cursor: 'ns-resize' }} />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-5 h-2 bg-white dark:bg-slate-800 rounded-sm border border-gray-400 shadow" style={{ cursor: 'ns-resize' }} />
+                <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-5 bg-white dark:bg-slate-800 rounded-sm border border-gray-400 shadow" style={{ cursor: 'ew-resize' }} />
+                <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-5 bg-white dark:bg-slate-800 rounded-sm border border-gray-400 shadow" style={{ cursor: 'ew-resize' }} />
               </div>
             </div>
           )}
@@ -631,7 +621,7 @@ export function ImageCropUI() {
       {/* ── Action bar ── */}
       <div className="flex items-center gap-3 pt-1">
         {hasCrop && imgRef.current && (
-          <span className="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
+          <span className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">
             {Math.round(crop.w * (imgRef.current.naturalWidth  / imgRef.current.offsetWidth))}
             {' × '}
             {Math.round(crop.h * (imgRef.current.naturalHeight / imgRef.current.offsetHeight))} px
@@ -640,7 +630,7 @@ export function ImageCropUI() {
         <button
           onClick={applyCrop}
           disabled={!hasCrop || isProcessing}
-          className="ml-auto inline-flex items-center gap-2 bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition-all"
+          className="ml-auto inline-flex items-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition-all"
         >
           {isProcessing ? (
             <>
@@ -663,17 +653,17 @@ export function ImageCropUI() {
 
       {/* ── Crop result ── */}
       {croppedResult && !isProcessing && (
-        <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 space-y-3 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 space-y-3 shadow-sm">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={croppedResult.url} alt="Cropped"
-              className="w-14 h-14 rounded-xl object-cover bg-violet-50 dark:bg-violet-950 ring-1 ring-violet-100 dark:ring-violet-900 shrink-0 cursor-grab active:cursor-grabbing"
+              className="w-14 h-14 rounded-xl object-cover bg-blue-950/30 ring-1 ring-violet-100 dark:ring-violet-900 shrink-0 cursor-grab active:cursor-grabbing"
               draggable
               onDragStart={() => setHandoff(new File([croppedResult.blob], croppedResult.name, { type: croppedResult.blob.type }))}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{croppedResult.name}</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{croppedResult.name}</p>
               <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1 mt-0.5">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -683,7 +673,7 @@ export function ImageCropUI() {
             </div>
             <button
               onClick={() => { const a = document.createElement('a'); a.href = croppedResult.url; a.download = croppedResult.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-              className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
+              className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

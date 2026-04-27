@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
@@ -52,7 +52,7 @@ function AuthSection() {
   if (isSignedIn) {
     return (
       <div className="flex items-center gap-2">
-        <Link href="/account" className="text-sm text-gray-500 dark:text-gray-400 hover:text-violet-600 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-950 transition-colors">
+        <Link href="/account" className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-blue-900/30 transition-colors">
           Account
         </Link>
         <UserButton />
@@ -62,7 +62,7 @@ function AuthSection() {
   return (
     <Show when="signed-out">
       <SignInButton mode="modal">
-        <button className="text-sm bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-full font-medium transition-all shadow-sm shadow-violet-200 dark:shadow-violet-900">
+        <button className="text-sm bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-4 py-2 rounded-full font-medium transition-all shadow-sm shadow-blue-900/40">
           Sign In
         </button>
       </SignInButton>
@@ -76,8 +76,8 @@ function NavButton({ label, open, onClick }: { label: string; open: boolean; onC
       onClick={onClick}
       className={`inline-flex items-center gap-1 text-sm px-3 py-1.5 rounded-lg transition-colors ${
         open
-          ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950'
-          : 'text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950'
+          ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30'
+          : 'text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-blue-900/20'
       }`}
     >
       {label}
@@ -94,14 +94,15 @@ function NavButton({ label, open, onClick }: { label: string; open: boolean; onC
 export function SiteHeader() {
   const [menuOpen,     setMenuOpen]     = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
-  const menuRef      = useRef<HTMLDivElement>(null);
   const headerRef    = useRef<HTMLDivElement>(null);
   const hoverTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
-      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpenDropdown(null);
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+        setOpenDropdown(null);
+      }
     }
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -127,18 +128,18 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="border-b border-violet-100 dark:border-violet-900/30 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md sticky top-0 z-40">
+    <header className="border-b border-black/8 dark:border-white/8 bg-white/90 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
       {/* Inner container — mega menu is positioned absolute relative to this */}
       <div ref={headerRef} className="relative max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={closeAll}>
-          <div className="w-7 h-7 rounded-lg bg-linear-to-br from-violet-600 to-pink-500 flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-600 to-blue-400 flex items-center justify-center">
             <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
             </svg>
           </div>
-          <span className="text-lg font-bold bg-linear-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="text-lg font-bold bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
             ImagePDF.Tools
           </span>
         </Link>
@@ -171,19 +172,19 @@ export function SiteHeader() {
             />
             {openDropdown === 'pdf' && (
               <div className="absolute right-0 top-full pt-2 w-56" onMouseEnter={() => openMenu('pdf')}>
-                <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/40 rounded-2xl shadow-xl shadow-violet-100/50 dark:shadow-black/30 overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
                   <div className="px-3 pt-3 pb-3">
                     {PDF_TOOLS.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
                         onClick={closeAll}
-                        className="flex flex-col px-2 py-2 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-950/60 transition-colors group"
+                        className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
                       >
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                        <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                           {item.label}
                         </p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{item.desc}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
                       </Link>
                     ))}
                   </div>
@@ -192,7 +193,7 @@ export function SiteHeader() {
             )}
           </div>
 
-          <Link href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-950 transition-colors">
+          <Link href="/privacy" className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors">
             Privacy
           </Link>
 
@@ -207,11 +208,11 @@ export function SiteHeader() {
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
-            <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/40 rounded-2xl shadow-xl shadow-violet-100/50 dark:shadow-black/30 overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
               <div className="grid grid-cols-3 p-4 gap-1">
                 {IMAGE_TOOLS.map((group, gi) => (
-                  <div key={group.group} className={gi > 0 ? 'border-l border-violet-50 dark:border-violet-900/30 pl-3' : ''}>
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-2 mb-1 pt-1">
+                  <div key={group.group} className={gi > 0 ? 'border-l border-slate-200 dark:border-slate-700 pl-3' : ''}>
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 px-2 mb-1 pt-1">
                       {group.group}
                     </p>
                     {group.items.map((item) => (
@@ -219,12 +220,12 @@ export function SiteHeader() {
                         key={item.href}
                         href={item.href}
                         onClick={closeAll}
-                        className="flex flex-col px-2 py-1.5 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-950/60 transition-colors group"
+                        className="flex flex-col px-2 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
                       >
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-tight">
+                        <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-tight">
                           {item.label}
                         </p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 leading-tight mt-0.5">{item.desc}</p>
+                        <p className="text-xs text-slate-400 leading-tight mt-0.5">{item.desc}</p>
                       </Link>
                     ))}
                   </div>
@@ -240,7 +241,7 @@ export function SiteHeader() {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
-            className="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/60 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors"
           >
             {menuOpen ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -257,15 +258,15 @@ export function SiteHeader() {
 
       {/* Mobile dropdown menu */}
       {menuOpen && (
-        <div ref={menuRef} className="md:hidden border-t border-violet-100 dark:border-violet-900/30 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md px-4 py-4 space-y-1">
+        <div className="md:hidden border-t border-black/8 dark:border-white/8 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-4 space-y-1">
 
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-1 pb-1 pt-1">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-1 pb-1 pt-1">
             Image Tools
           </p>
           {IMAGE_TOOLS.map((group, gi) => (
             <div key={group.group}>
-              {gi > 0 && <div className="h-px bg-violet-50 dark:bg-violet-900/30 my-2" />}
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-violet-400 dark:text-violet-600 px-1 pb-1 pt-2">
+              {gi > 0 && <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />}
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-violet-500 dark:text-violet-400 px-1 pb-1 pt-2">
                 {group.group}
               </p>
               {group.items.map((item) => (
@@ -273,18 +274,18 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between py-2 px-1 text-sm text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                  className="flex items-center justify-between py-2 px-1 text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
                 >
                   <span>{item.label}</span>
-                  <span className="text-xs text-gray-400 dark:text-gray-500">{item.desc}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</span>
                 </Link>
               ))}
             </div>
           ))}
 
-          <div className="h-px bg-violet-100 dark:bg-violet-900/30 my-2" />
+          <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />
 
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-1 pb-1 pt-1">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-1 pb-1 pt-1">
             PDF Tools
           </p>
           {PDF_TOOLS.map((item) => (
@@ -292,28 +293,28 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="flex items-center justify-between py-2 px-1 text-sm text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+              className="flex items-center justify-between py-2 px-1 text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
             >
               <span>{item.label}</span>
-              <span className="text-xs text-gray-400 dark:text-gray-500">{item.desc}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</span>
             </Link>
           ))}
 
-          <div className="h-px bg-violet-100 dark:bg-violet-900/30 my-2" />
+          <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />
 
           <div className="flex items-center justify-between py-1">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Language</span>
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Language</span>
             <LanguageSelector mobileAlign="right" />
           </div>
 
           <Link
             href="/privacy"
             onClick={() => setMenuOpen(false)}
-            className="block text-sm text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 py-2 transition-colors"
+            className="block text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 py-2 transition-colors"
           >
             Privacy & How It Works
           </Link>
-          <div className="h-px bg-violet-100 dark:bg-violet-900/30" />
+          <div className="h-px bg-slate-200 dark:bg-slate-700/50" />
           <AuthSection />
         </div>
       )}

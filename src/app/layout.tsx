@@ -1,5 +1,5 @@
-﻿import type { Metadata } from 'next';
-import { Outfit } from 'next/font/google';
+import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import Script from 'next/script';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -9,7 +9,8 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { AdBanner } from '@/components/AdBanner';
 import './globals.css';
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', weight: ['400', '500', '600'] });
 
 export const metadata: Metadata = {
   title: {
@@ -38,16 +39,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${outfit.variable} h-full antialiased`} suppressHydrationWarning>
+      <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`} suppressHydrationWarning>
         <head>
           {/* Apply theme before React hydrates to prevent flash */}
           <script
             dangerouslySetInnerHTML={{
-              __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||((!t||t==='system')&&d)){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+              __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
             }}
           />
         </head>
-        <body className="min-h-full flex flex-col bg-violet-50/50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+        <body className="min-h-full flex flex-col" style={{ background: 'var(--background)', color: 'var(--text-1)' }}>
           <ThemeProvider>
             <SiteHeader />
 

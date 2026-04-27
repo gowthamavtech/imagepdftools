@@ -1,20 +1,20 @@
-﻿'use client';
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 
 // iso: ISO 3166-1 alpha-2 country code for flagcdn.com
 const LANGUAGES = [
   { code: 'en', label: 'English',    iso: 'gb' },
-  { code: 'hi', label: 'हिन्दी',       iso: 'in' },
-  { code: 'zh', label: '中文',         iso: 'cn' },
+  { code: 'hi', label: 'हिंदी',       iso: 'in' },
+  { code: 'zh', label: '中文',        iso: 'cn' },
   { code: 'ar', label: 'العربية',     iso: 'sa' },
   { code: 'es', label: 'Español',    iso: 'es' },
   { code: 'fr', label: 'Français',   iso: 'fr' },
   { code: 'de', label: 'Deutsch',    iso: 'de' },
   { code: 'pt', label: 'Português',  iso: 'br' },
   { code: 'ru', label: 'Русский',    iso: 'ru' },
-  { code: 'ja', label: '日本語',       iso: 'jp' },
-  { code: 'ko', label: '한국어',       iso: 'kr' },
+  { code: 'ja', label: '日本語',      iso: 'jp' },
+  { code: 'ko', label: '한국어',      iso: 'kr' },
   { code: 'it', label: 'Italiano',   iso: 'it' },
   { code: 'tr', label: 'Türkçe',     iso: 'tr' },
   { code: 'pl', label: 'Polski',     iso: 'pl' },
@@ -122,20 +122,20 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
     >
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-violet-200 dark:border-violet-800 bg-white dark:bg-gray-900 hover:border-violet-400 dark:hover:border-violet-600 transition-colors"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-violet-200 dark:border-violet-800/60 bg-white dark:bg-slate-800 hover:border-violet-400 dark:hover:border-violet-600 transition-colors"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Select language"
       >
         <Flag iso={current.iso} label={current.label} />
-        <svg className={`w-3 h-3 text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className={`w-3 h-3 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {open && (
         <div
-          className={`absolute top-full mt-2 z-50 w-44 bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl overflow-hidden ${mobileAlign === 'right' ? 'right-0' : 'left-0'}`}
+          className={`absolute top-full mt-2 z-50 w-44 bg-white dark:bg-slate-800 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl overflow-hidden ${mobileAlign === 'right' ? 'right-0' : 'left-0'}`}
           role="listbox"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -149,8 +149,8 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
                 onClick={() => { setOpen(false); switchLanguage(lang); }}
                 className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-colors text-left ${
                   current.code === lang.code
-                    ? 'bg-violet-50 dark:bg-violet-950 text-violet-700 dark:text-violet-300 font-semibold'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-violet-50 dark:hover:bg-violet-950/60 hover:text-violet-700 dark:hover:text-violet-300'
+                    ? 'bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300 font-semibold'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-violet-50 dark:hover:bg-blue-900/30 hover:text-violet-700 dark:hover:text-violet-300'
                 }`}
               >
                 <Flag iso={lang.iso} label={lang.label} />

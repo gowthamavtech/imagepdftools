@@ -170,7 +170,7 @@ function CompareSlider({ originalSrc, compressedSrc, splitPct, onSplitChange, cl
     return (
         <div
             ref={containerRef}
-            className={`relative w-full rounded-xl overflow-hidden select-none bg-gray-100 dark:bg-gray-800 ${cursor} ${className}`}
+            className={`relative w-full rounded-xl overflow-hidden select-none bg-slate-200 dark:bg-slate-700 ${cursor} ${className}`}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -203,11 +203,11 @@ function CompareSlider({ originalSrc, compressedSrc, splitPct, onSplitChange, cl
 
             {/* Divider — always in screen space at splitPct% */}
             <div
-                className="absolute top-0 bottom-0 w-0.5 bg-white shadow-md pointer-events-none"
+                className="absolute top-0 bottom-0 w-px bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,0.2)] pointer-events-none"
                 style={{ left: `${splitPct}%` }}
             >
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-7 bg-white rounded-full shadow-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 bg-white rounded-full shadow-lg border border-black/10 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l-3 3 3 3M16 9l3 3-3 3" />
                     </svg>
                 </div>
@@ -242,9 +242,9 @@ export function CompareView({ originalSrc, compressedSrc, originalSize, compress
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2 px-1">
-                <span>Before: <span className="font-semibold text-gray-700 dark:text-gray-200">{formatBytes(originalSize)}</span></span>
-                <span className={`font-bold text-sm ${savings > 0 ? "text-green-600" : "text-gray-500"}`}>
+            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2 px-1">
+                <span>Before: <span className="font-semibold text-slate-800 dark:text-slate-200">{formatBytes(originalSize)}</span></span>
+                <span className={`font-bold text-sm ${savings > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-slate-500 dark:text-slate-400"}`}>
                     {savings > 0 ? `−${savings}%` : "No change"}
                 </span>
                 <span>After: <span className="font-semibold text-violet-600">{formatBytes(compressedSize)}</span></span>
@@ -264,7 +264,7 @@ export function CompareView({ originalSrc, compressedSrc, originalSize, compress
                 max={100}
                 value={splitPct}
                 onChange={(e) => setSplitPct(Number(e.target.value))}
-                className="w-full mt-2 h-1.5 appearance-none rounded-full bg-gray-200 dark:bg-gray-700 accent-violet-600 cursor-pointer"
+                className="w-full mt-2 h-1.5 appearance-none rounded-full bg-slate-300 dark:bg-slate-600 accent-blue-500 cursor-pointer"
                 aria-label="Compare slider position"
             />
         </div>

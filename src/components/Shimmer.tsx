@@ -103,7 +103,7 @@ export function ChangelogSkeleton() {
         <ShimmerLine className="h-3 w-64 mb-10" />
 
         {[1, 2, 3].map((m) => (
-          <div key={m} className="border-b border-gray-100 dark:border-gray-800 py-4">
+          <div key={m} className="border-b border-slate-200 dark:border-slate-700 py-4">
             <div className="flex items-center justify-between mb-4">
               <ShimmerLine className="h-5 w-28" />
               <ShimmerBlock className="h-4 w-4 rounded" />

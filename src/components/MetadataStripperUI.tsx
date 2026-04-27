@@ -116,7 +116,7 @@ export function MetadataStripperUI() {
 
           {/* Handoff source pill */}
           {sourceLabel && (
-            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
               <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
               </svg>
@@ -126,14 +126,14 @@ export function MetadataStripperUI() {
 
           {/* Toolbar */}
           <div className="flex items-center justify-between gap-4">
-            <div className="text-xs text-gray-400 dark:text-gray-500">
+            <div className="text-xs text-slate-500 dark:text-slate-400">
               {allDone ? (
                 <span className="text-emerald-500 font-semibold">
                   {results.length} of {files.length} cleaned ✓
                 </span>
               ) : (
                 <span>
-                  <span className="font-semibold text-violet-600 dark:text-violet-400">
+                  <span className="font-semibold text-violet-400">
                     {results.length}
                   </span>
                   {' '}of{' '}
@@ -155,7 +155,7 @@ export function MetadataStripperUI() {
             <button
               onClick={downloadAll}
               disabled={!allDone}
-              className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-2 px-5 rounded-xl transition-colors"
+              className="inline-flex items-center gap-2 bg-slate-800 dark:bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-2 px-5 rounded-xl transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -177,11 +177,11 @@ export function MetadataStripperUI() {
               return (
                 <div
                   key={file.id}
-                  className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 flex flex-col gap-3 shadow-sm"
+                  className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 flex flex-col gap-3 shadow-sm"
                 >
                   <div className="flex items-center gap-4">
                   {/* Thumbnail */}
-                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-violet-50 dark:bg-violet-950 shrink-0 ring-1 ring-violet-100 dark:ring-violet-900">
+                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-blue-950/30 shrink-0 ring-1 ring-violet-100 dark:ring-violet-900">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={file.previewUrl}
@@ -192,13 +192,13 @@ export function MetadataStripperUI() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate" title={file.file.name}>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate" title={file.file.name}>
                       {truncateMiddle(file.file.name)}
                     </p>
                     <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
-                      <span className="text-gray-400">{formatBytes(file.file.size)}</span>
+                      <span className="text-slate-500 dark:text-slate-400">{formatBytes(file.file.size)}</span>
                       {isProcessing && (
-                        <span className="text-violet-400 dark:text-violet-500 flex items-center gap-1">
+                        <span className="text-violet-500 dark:text-violet-400 flex items-center gap-1">
                           <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -211,7 +211,7 @@ export function MetadataStripperUI() {
                       )}
                       {!isProcessing && result && (
                         <>
-                          <span className="text-violet-600 dark:text-violet-400 font-medium">
+                          <span className="text-violet-400 font-medium">
                             → {formatBytes(result.size)}
                           </span>
                           {saved !== null && saved > 0 && (
@@ -232,7 +232,7 @@ export function MetadataStripperUI() {
                   <button
                     onClick={() => result && handleDownload(result)}
                     disabled={!result || isProcessing}
-                    className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
+                    className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
                   >
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

@@ -45,12 +45,12 @@ export function UpgradeModal({ onClose }: Props) {
       aria-modal="true"
       aria-labelledby="upgrade-modal-title"
     >
-      <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-md w-full p-8 relative overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-violet-600 via-purple-500 to-pink-500" />
 
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-gray-300 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          className="absolute top-5 right-5 text-gray-300 hover:text-slate-300 dark:hover:text-slate-300 transition-colors"
           aria-label="Close"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,22 +59,22 @@ export function UpgradeModal({ onClose }: Props) {
         </button>
 
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-linear-to-br from-violet-500 to-pink-500 rounded-2xl mb-4 shadow-lg shadow-violet-200 dark:shadow-violet-900">
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-linear-to-br from-blue-500 to-blue-400 rounded-2xl mb-4 shadow-lg shadow-blue-900/40">
             <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h2 id="upgrade-modal-title" className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 id="upgrade-modal-title" className="text-2xl font-bold text-slate-900 dark:text-slate-50">
             Upgrade to Pro
           </h2>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-slate-500 text-sm mt-2">
             You&apos;ve reached the 5-file limit. Your current files keep processing — Pro unlocks unlimited batches.
           </p>
         </div>
 
         <ul className="space-y-2.5 mb-6">
           {PRO_FEATURES.map((f) => (
-            <li key={f} className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-300">
+            <li key={f} className="flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
               <span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0">
                 <svg className="w-3 h-3 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -86,16 +86,16 @@ export function UpgradeModal({ onClose }: Props) {
         </ul>
 
         <div className="text-center mb-5">
-          <span className="text-4xl font-bold text-gray-900 dark:text-white">$4.99</span>
-          <span className="text-gray-400 ml-1 text-sm">/ month</span>
-          <p className="text-xs text-gray-400 mt-0.5">or $39/year — save 35%</p>
+          <span className="text-4xl font-bold text-slate-900 dark:text-slate-50">$4.99</span>
+          <span className="text-slate-500 ml-1 text-sm">/ month</span>
+          <p className="text-xs text-slate-500 mt-0.5">or $39/year — save 35%</p>
         </div>
 
         <Show when="signed-in">
           <button
             onClick={handleUpgrade}
             disabled={loading}
-            className="w-full bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-60 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md shadow-violet-200 dark:shadow-violet-900"
+            className="w-full bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-60 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md shadow-blue-900/40"
           >
             {loading ? 'Redirecting to checkout…' : 'Upgrade to Pro — $4.99/mo'}
           </button>
@@ -103,13 +103,13 @@ export function UpgradeModal({ onClose }: Props) {
 
         <Show when="signed-out">
           <SignInButton mode="modal">
-            <button className="w-full bg-linear-to-r from-violet-600 to-purple-600 text-white font-semibold py-3.5 rounded-2xl shadow-md shadow-violet-200 dark:shadow-violet-900">
+            <button className="w-full bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold py-3.5 rounded-2xl shadow-md shadow-blue-900/40">
               Sign In to Upgrade
             </button>
           </SignInButton>
         </Show>
 
-        <button onClick={onClose} className="w-full mt-3 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors py-2">
+        <button onClick={onClose} className="w-full mt-3 text-sm text-slate-500 hover:text-slate-300 dark:hover:text-slate-300 transition-colors py-2">
           Maybe Later
         </button>
       </div>

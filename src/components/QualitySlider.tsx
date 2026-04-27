@@ -63,12 +63,12 @@ export function QualitySlider({ quality, format, files, onChange }: QualityProps
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-semibold text-gray-700">
+        <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           Quality: <span className="text-violet-600">{quality}</span>
         </label>
-        {estimating && <span className="text-xs text-gray-400 animate-pulse">Estimating…</span>}
+        {estimating && <span className="text-xs text-slate-500 dark:text-slate-400 animate-pulse">Estimating…</span>}
         {!estimating && estimatedSize != null && savingsPct !== null && (
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
             Est.{' '}
             <span className="font-semibold text-violet-600">{formatBytes(estimatedSize)}</span>
             {savingsPct > 0 && (
@@ -83,10 +83,10 @@ export function QualitySlider({ quality, format, files, onChange }: QualityProps
         max={100}
         value={quality}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 appearance-none rounded-full bg-gray-200 accent-violet-600 cursor-pointer"
+        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-blue-500 cursor-pointer"
         aria-label="Compression quality"
       />
-      <div className="flex justify-between text-xs text-gray-400 mt-1">
+      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">
         <span>Smaller file</span>
         <span>Better quality</span>
       </div>
@@ -105,10 +105,10 @@ export function PrecisionSlider({ precision, onChange }: PrecisionProps) {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-semibold text-gray-700">
+        <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           Decimal precision: <span className="text-violet-600">{precision}</span>
         </label>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-slate-500 dark:text-slate-400">
           {precision === 0 ? 'Maximum compression' : precision <= 2 ? 'Recommended' : 'High fidelity'}
         </span>
       </div>
@@ -119,14 +119,14 @@ export function PrecisionSlider({ precision, onChange }: PrecisionProps) {
         step={1}
         value={precision}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 appearance-none rounded-full bg-gray-200 accent-violet-600 cursor-pointer"
+        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-blue-500 cursor-pointer"
         aria-label="SVG coordinate decimal precision"
       />
-      <div className="flex justify-between text-xs text-gray-400 mt-1">
+      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">
         <span>0 decimals (smallest)</span>
         <span>6 decimals (exact)</span>
       </div>
-      <p className="text-xs text-gray-400 mt-1">
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
         Rounds path coordinates and transform values. Also strips{' '}
         <code className="font-mono">&lt;metadata&gt;</code>,{' '}
         <code className="font-mono">&lt;title&gt;</code>, and XML comments.

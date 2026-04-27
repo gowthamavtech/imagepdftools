@@ -120,16 +120,14 @@ export function DropZone({ onFiles }: Props) {
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
-      className={`relative border-2 border-dashed rounded-3xl p-14 text-center cursor-pointer transition-all select-none overflow-hidden ${
+      className={`relative border-2 border-dashed rounded-3xl p-14 text-center cursor-pointer transition-all select-none overflow-hidden glass ${
         pasteFlash
-          ? 'border-emerald-400 bg-emerald-50/60 dark:bg-emerald-950/20'
+          ? 'border-emerald-400 bg-emerald-950/30'
           : isDragging
-          ? 'drop-zone-active border-violet-500 bg-violet-100/60 dark:bg-violet-950/30'
-          : 'border-violet-200/70 dark:border-violet-700/50 hover:border-violet-400 dark:hover:border-violet-600 bg-white/50 dark:bg-gray-900/40'
+          ? 'drop-zone-active border-blue-500 bg-blue-950/30'
+          : 'border-white/10 hover:border-blue-500/50'
       }`}
     >
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-linear-to-br from-violet-50 to-pink-50 dark:from-violet-950/20 dark:to-pink-950/20 opacity-60 pointer-events-none" />
 
       <input
         ref={inputRef}
@@ -142,7 +140,7 @@ export function DropZone({ onFiles }: Props) {
 
       <div className="relative flex flex-col items-center gap-4">
         {/* Icon */}
-        <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-violet-500 to-pink-500 flex items-center justify-center shadow-lg shadow-violet-200 dark:shadow-violet-900">
+        <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-blue-400 flex items-center justify-center shadow-lg shadow-blue-900/40">
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -150,10 +148,10 @@ export function DropZone({ onFiles }: Props) {
         </div>
 
         <div>
-          <p className="text-xl font-bold text-gray-800 dark:text-gray-100">
+          <p className="text-xl font-bold text-slate-900 dark:text-slate-50">
             Drop your images here
           </p>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             JPG · JPEG · PNG · WebP · SVG &nbsp;·&nbsp; up to {MAX_FREE_MB} MB each
           </p>
         </div>
@@ -161,7 +159,7 @@ export function DropZone({ onFiles }: Props) {
         <div className="flex items-center gap-3 mt-1">
           <button
             type="button"
-            className="whitespace-nowrap bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md shadow-violet-200 dark:shadow-violet-900 transition-all"
+            className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md shadow-blue-900/40 transition-all"
             onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}
           >
             Browse Files
@@ -170,13 +168,13 @@ export function DropZone({ onFiles }: Props) {
           <button
             type="button"
             onClick={handlePasteButton}
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800 bg-white/70 dark:bg-gray-900/60 hover:bg-violet-50 dark:hover:bg-violet-950/50 px-4 py-2.5 rounded-full transition-all"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-slate-800/60 hover:bg-violet-100 dark:hover:bg-slate-700/60 px-4 py-2.5 rounded-full transition-all"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
             Paste
-            <kbd className="hidden sm:inline text-[10px] font-mono bg-violet-50 dark:bg-violet-950/60 border border-violet-200 dark:border-violet-800 text-violet-400 px-1.5 py-0.5 rounded">
+            <kbd className="hidden sm:inline text-[10px] font-mono bg-violet-100 dark:bg-violet-950/60 border border-violet-300 dark:border-violet-800/60 text-violet-600 dark:text-violet-400 px-1.5 py-0.5 rounded">
               {isMac ? '⌘V' : 'Ctrl+V'}
             </kbd>
           </button>

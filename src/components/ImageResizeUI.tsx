@@ -282,8 +282,8 @@ export function ImageResizeUI() {
           onClick={() => document.getElementById('resize-input')?.click()}
           className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer py-20 px-8 transition-colors ${
             isDrop
-              ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30'
-              : 'border-violet-200 dark:border-violet-800 hover:border-violet-400 dark:hover:border-violet-600'
+              ? 'border-violet-500 bg-blue-950/20'
+              : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
           }`}
         >
           <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
@@ -292,13 +292,13 @@ export function ImageResizeUI() {
             </svg>
           </div>
           <div className="text-center">
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop an image here</p>
-            <p className="text-xs text-gray-400 mt-1">JPEG · PNG · WebP</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
+            <p className="text-xs text-slate-500 mt-1">JPEG · PNG · WebP</p>
           </div>
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); document.getElementById('resize-input')?.click(); }}
-            className="whitespace-nowrap bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
+            className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
           >
             Browse Files
           </button>
@@ -315,21 +315,21 @@ export function ImageResizeUI() {
       <div className="mt-6 space-y-4">
 
         {/* File info bar */}
-        <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl shadow-sm">
+        <div className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl shadow-sm">
           {previewUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={previewUrl} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0 ring-1 ring-violet-100 dark:ring-violet-900" />
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{file.name}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{origW} × {origH} px · {formatBytes(file.size)}</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{file.name}</p>
+            <p className="text-xs text-slate-500 mt-0.5">{origW} × {origH} px &middot; {formatBytes(file.size)}</p>
           </div>
-          <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors shrink-0">Change</button>
+          <button onClick={reset} className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors shrink-0">Change</button>
         </div>
 
         {/* Handoff source pill */}
         {sourceLabel && (
-          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-100 dark:border-violet-800 px-3 py-1.5 rounded-full w-fit">
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
             <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -340,7 +340,7 @@ export function ImageResizeUI() {
         {/* Live preview */}
         {previewW > 0 && previewH > 0 && (
           <div className="space-y-1.5">
-            <div className="rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center" style={{ minHeight: 120, maxHeight: '50vh' }}>
+            <div className="rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-700 flex items-center justify-center" style={{ minHeight: 120, maxHeight: '50vh' }}>
               <div
                 ref={previewRef}
                 className={`relative overflow-hidden select-none ${!isResult && fitMode === 'cover' ? 'cursor-grab active:cursor-grabbing' : ''}`}
@@ -378,7 +378,7 @@ export function ImageResizeUI() {
                 onTouchEnd={() => { isDraggingCover.current = false; }}
               >
                 {isResizing && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-gray-900/60 rounded-2xl z-10">
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-800/60 dark:bg-slate-800/60 rounded-2xl z-10">
                     <svg className="w-6 h-6 animate-spin text-violet-500" viewBox="0 0 24 24" fill="none">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -402,8 +402,8 @@ export function ImageResizeUI() {
                     style={{ left: `${coverX}%`, top: `${coverY}%`, transform: 'translate(-50%, -50%)' }}
                   >
                     <div className="absolute inset-0 rounded-full border-2 border-white shadow-md" />
-                    <div className="absolute top-1/2 left-0 right-0 h-px bg-white opacity-80" />
-                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white opacity-80" />
+                    <div className="absolute top-1/2 left-0 right-0 h-px bg-slate-800 opacity-80" />
+                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-800 opacity-80" />
                   </div>
                 )}
                 {/* Drag hint */}
@@ -414,9 +414,9 @@ export function ImageResizeUI() {
                 )}
               </div>
             </div>
-            <p className="text-center text-xs text-gray-400 dark:text-gray-500">
+            <p className="text-center text-xs text-slate-500 dark:text-slate-400">
               {isResult
-                ? <span className="text-violet-600 dark:text-violet-400 font-medium">Resized · {result.w} × {result.h} px</span>
+                ? <span className="text-violet-400 font-medium">Resized · {result.w} × {result.h} px</span>
                 : <span>Preview · {previewW} × {previewH} px</span>
               }
             </p>
@@ -424,10 +424,10 @@ export function ImageResizeUI() {
         )}
 
         {/* Resize options card */}
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl overflow-hidden shadow-sm">
 
           {/* Tabs */}
-          <div className="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="grid grid-cols-3 border-b border-slate-200 dark:border-slate-600">
             {([
               { value: 'pixels',     label: 'By Size',       short: 'Pixels'  },
               { value: 'percentage', label: 'As Percentage', short: '%'       },
@@ -438,8 +438,8 @@ export function ImageResizeUI() {
                 onClick={() => { setTab(t.value); setResult(null); setError(null); }}
                 className={`py-3 text-xs font-semibold transition-colors border-b-2 ${
                   tab === t.value
-                    ? 'border-violet-600 text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30'
-                    : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                    ? 'border-violet-600 text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/20'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
                 }`}
               >
                 <span className="hidden sm:inline">{t.label}</span>
@@ -453,43 +453,43 @@ export function ImageResizeUI() {
             {/* ── By Size tab ── */}
             {tab === 'pixels' && (
               <>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Resize image to an <span className="font-semibold text-gray-700 dark:text-gray-200">exact size</span> of
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Resize image to an <span className="font-semibold text-slate-700 dark:text-slate-200">exact size</span> of
                 </p>
-                <p className="text-[11px] text-center text-gray-400 dark:text-gray-500 -mt-1">
+                <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 -mt-1">
                   💡 Tip: Use the Percentage tab to halve or double your image size quickly
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
-                    <label className="block text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">Width (px)</label>
+                    <label className="block text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Width (px)</label>
                     <input type="number" min={1} max={16000} value={width}
                       onChange={(e) => onWidthChange(e.target.value)}
-                      className="w-full text-sm font-semibold text-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
+                      className="w-full text-sm font-semibold text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
                     />
                   </div>
-                  <div className="pt-5 text-gray-300 dark:text-gray-600">
+                  <div className="pt-5 text-slate-400 dark:text-slate-300">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <label className="block text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">Height (px)</label>
+                    <label className="block text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Height (px)</label>
                     <input type="number" min={1} max={16000} value={height}
                       onChange={(e) => onHeightChange(e.target.value)}
-                      className="w-full text-sm font-semibold text-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
+                      className="w-full text-sm font-semibold text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
                     />
                   </div>
                 </div>
                 <div className="space-y-3">
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={maintainRatio} onChange={(e) => setMaintainRatio(e.target.checked)}
-                      className="w-4 h-4 rounded accent-violet-600 cursor-pointer" />
-                    <span className="text-sm text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors">Maintain aspect ratio</span>
+                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">Maintain aspect ratio</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={noEnlarge} onChange={(e) => setNoEnlarge(e.target.checked)}
-                      className="w-4 h-4 rounded accent-violet-600 cursor-pointer" />
-                    <span className="text-sm text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors">Do not enlarge if smaller</span>
+                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">Do not enlarge if smaller</span>
                   </label>
                 </div>
               </>
@@ -498,16 +498,16 @@ export function ImageResizeUI() {
             {/* ── As Percentage tab ── */}
             {tab === 'percentage' && (
               <>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Resize image to <span className="font-semibold text-gray-700 dark:text-gray-200">{pct || '—'}%</span> of original size
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Resize image to <span className="font-semibold text-slate-700 dark:text-slate-200">{pct || '—'}%</span> of original size
                 </p>
                 <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">Percentage (%)</label>
+                  <label className="block text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Percentage (%)</label>
                   <input type="number" min={1} max={1000} value={pct}
                     onChange={(e) => onPctChange(e.target.value)}
-                    className="w-full text-sm font-semibold text-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
+                    className="w-full text-sm font-semibold text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 outline-none transition-colors"
                   />
-                  <p className="text-xs text-gray-400 mt-1.5 px-1">
+                  <p className="text-xs text-slate-500 mt-1.5 px-1">
                     → {Math.round(origW * (parseFloat(pct) || 0) / 100)} × {Math.round(origH * (parseFloat(pct) || 0) / 100)} px
                   </p>
                 </div>
@@ -519,20 +519,20 @@ export function ImageResizeUI() {
               <>
                 {/* Platform selector */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     Choose the Social Media Platform
                   </label>
                   <div className="relative">
                     <select
                       value={platformId}
                       onChange={(e) => onPlatformChange(e.target.value)}
-                      className="w-full appearance-none text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 pr-8 outline-none transition-colors cursor-pointer"
+                      className="w-full appearance-none text-sm font-medium text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 pr-8 outline-none transition-colors cursor-pointer"
                     >
                       {SOCIAL_PLATFORMS.map((p) => (
                         <option key={p.id} value={p.id}>{p.label}</option>
                       ))}
                     </select>
-                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -540,20 +540,20 @@ export function ImageResizeUI() {
 
                 {/* Preset type selector */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     Preset Type
                   </label>
                   <div className="relative">
                     <select
                       value={presetIdx}
                       onChange={(e) => onPresetChange(Number(e.target.value))}
-                      className="w-full appearance-none text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 pr-8 outline-none transition-colors cursor-pointer"
+                      className="w-full appearance-none text-sm font-medium text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-violet-400 dark:focus:border-violet-500 rounded-xl px-3 py-2.5 pr-8 outline-none transition-colors cursor-pointer"
                     >
                       {currentPlatform.presets.map((p, i) => (
                         <option key={i} value={i}>{p.label}</option>
                       ))}
                     </select>
-                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -562,43 +562,43 @@ export function ImageResizeUI() {
                 {/* Dimension display */}
                 <div className="flex gap-3">
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">Width</p>
-                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5">
+                    <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Width</p>
+                    <div className="text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5">
                       {currentPreset.w}
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">Height</p>
-                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5">
+                    <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Height</p>
+                    <div className="text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5">
                       {currentPreset.h}
                     </div>
                   </div>
                 </div>
 
                 {/* Background fill — only relevant when fitting (contain), not when cropping (cover) */}
-                {fitMode === 'contain' && <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-                  <label className="flex items-center justify-between gap-3 px-3 py-2.5 cursor-pointer bg-gray-50 dark:bg-gray-800/50">
-                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">Background Fill</span>
+                {fitMode === 'contain' && <div className="border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+                  <label className="flex items-center justify-between gap-3 px-3 py-2.5 cursor-pointer bg-slate-50 dark:bg-slate-700/50">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Background Fill</span>
                     <input type="checkbox" checked={bgFill} onChange={(e) => setBgFill(e.target.checked)}
-                      className="w-4 h-4 rounded accent-violet-600 cursor-pointer" />
+                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
                   </label>
                   {bgFill && (
-                    <div className="px-3 py-3 space-y-2 border-t border-gray-200 dark:border-gray-700">
+                    <div className="px-3 py-3 space-y-2 border-t border-slate-200 dark:border-slate-600">
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="radio" checked={bgMode === 'color'} onChange={() => setBgMode('color')}
-                          className="accent-violet-600 cursor-pointer" />
-                        <span className="text-sm text-gray-600 dark:text-gray-300 flex-1">Pick a color</span>
+                          className="accent-blue-500 cursor-pointer" />
+                        <span className="text-sm text-slate-700 dark:text-slate-300 flex-1">Pick a color</span>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-400 font-mono">{bgColor}</span>
+                          <span className="text-xs text-slate-500 font-mono">{bgColor}</span>
                           <input type="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value); setBgMode('color'); }}
                             className="w-6 h-6 rounded cursor-pointer border-0 p-0 bg-transparent" />
                         </div>
                       </label>
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="radio" checked={bgMode === 'transparent'} onChange={() => setBgMode('transparent')}
-                          className="accent-violet-600 cursor-pointer" />
-                        <span className="text-sm text-gray-600 dark:text-gray-300">Transparent</span>
-                        <span className="text-[10px] text-gray-400 dark:text-gray-500 ml-auto">PNG output</span>
+                          className="accent-blue-500 cursor-pointer" />
+                        <span className="text-sm text-slate-700 dark:text-slate-300">Transparent</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400 ml-auto">PNG output</span>
                       </label>
                     </div>
                   )}
@@ -608,16 +608,16 @@ export function ImageResizeUI() {
 
           {/* Fit mode — shown when output aspect ratio can differ from input */}
           {(tab === 'social' || tab === 'pixels') && (
-            <div className="border-t border-gray-100 dark:border-gray-800 pt-4 space-y-2">
-              <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">When aspect ratios differ</p>
+            <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-2">
+              <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">When aspect ratios differ</p>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => { setFitMode('contain'); setCoverX(50); setCoverY(50); setResult(null); }}
                   className={`flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-medium transition-all ${
                     fitMode === 'contain'
-                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300'
+                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                      : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-gray-300'
                   }`}
                 >
                   {/* Contain icon: image smaller inside frame with bars */}
@@ -632,8 +632,8 @@ export function ImageResizeUI() {
                   onClick={() => { setFitMode('cover'); setResult(null); }}
                   className={`flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-medium transition-all ${
                     fitMode === 'cover'
-                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300'
+                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                      : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-gray-300'
                   }`}
                 >
                   {/* Cover icon: image fills frame, edges clipped */}
@@ -646,7 +646,7 @@ export function ImageResizeUI() {
                 </button>
               </div>
               {fitMode === 'cover' && (
-                <p className="text-[10px] text-gray-400 dark:text-gray-500 leading-relaxed">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
                   Image fills the canvas — excess is cropped. Drag the preview to set the focal point
                   {coverX !== 50 || coverY !== 50 ? ` (currently ${coverX}%, ${coverY}%)` : ' (currently centred)'}.
                 </p>
@@ -671,7 +671,7 @@ export function ImageResizeUI() {
         <button
           onClick={applyResize}
           disabled={!canResize}
-          className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+          className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
         >
           {isResizing ? (
             <>
@@ -693,7 +693,7 @@ export function ImageResizeUI() {
 
         {/* Result card */}
         {result && !isResizing && (
-          <div className="bg-white dark:bg-gray-900 border border-violet-100 dark:border-violet-900/30 rounded-2xl p-4 space-y-3 shadow-sm">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 space-y-3 shadow-sm">
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -703,10 +703,10 @@ export function ImageResizeUI() {
                 onDragStart={() => setHandoff(new File([result.blob], result.name, { type: result.blob.type }))}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{result.name}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{result.name}</p>
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-0.5 text-xs">
-                  <span className="text-violet-600 dark:text-violet-400 font-medium">{result.w} × {result.h} px</span>
-                  <span className="text-gray-400">{formatBytes(result.blob.size)}</span>
+                  <span className="text-violet-400 font-medium">{result.w} × {result.h} px</span>
+                  <span className="text-slate-500">{formatBytes(result.blob.size)}</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -717,7 +717,7 @@ export function ImageResizeUI() {
               </div>
               <button
                 onClick={() => { const a = document.createElement('a'); a.href = result.url; a.download = result.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
+                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

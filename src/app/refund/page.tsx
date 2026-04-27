@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-8">
-      <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3">{title}</h2>
-      <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed space-y-3">
+      <h2 className="text-base font-bold text-slate-900 dark:text-slate-50 mb-3">{title}</h2>
+      <div className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -36,7 +36,7 @@ export default function RefundPage() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-1">
             Refund &amp; Cancellation Policy
           </h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500">Last updated: April 2026</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Last updated: April 2026</p>
         </div>
 
         {/* Overview */}
@@ -50,41 +50,41 @@ export default function RefundPage() {
 
         {/* Plans table */}
         <section className="mb-8">
-          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3">Our plans</h2>
-          <div className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 text-sm">
+          <h2 className="text-base font-bold text-slate-900 dark:text-slate-50 mb-3">Our plans</h2>
+          <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-600 text-sm">
             <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-800/60">
+              <thead className="bg-slate-100 dark:bg-slate-700/60">
                 <tr>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Plan</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Price</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Refund</th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Plan</th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Price</th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Refund</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                <tr className="bg-white dark:bg-gray-900/40">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">Free</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">$0</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">N/A</td>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                <tr className="bg-white dark:bg-slate-800/40">
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">Free</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">$0</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">N/A</td>
                 </tr>
-                <tr className="bg-white dark:bg-gray-900/40">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">Pro — 1 Day</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">$0.49 one-time</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">Non-refundable</td>
+                <tr className="bg-white dark:bg-slate-800/40">
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">Pro — 1 Day</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">$0.49 one-time</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">Non-refundable</td>
                 </tr>
-                <tr className="bg-white dark:bg-gray-900/40">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">Pro — 1 Week</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">$1 one-time</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">Non-refundable</td>
+                <tr className="bg-white dark:bg-slate-800/40">
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">Pro — 1 Week</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">$1 one-time</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">Non-refundable</td>
                 </tr>
-                <tr className="bg-white dark:bg-gray-900/40">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">Pro — Monthly</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">$3/month</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">No partial-month refunds</td>
+                <tr className="bg-white dark:bg-slate-800/40">
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">Pro — Monthly</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">$3/month</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">No partial-month refunds</td>
                 </tr>
-                <tr className="bg-white dark:bg-gray-900/40">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">Pro — Annual</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">$20/year</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400">Full refund within 7 days</td>
+                <tr className="bg-white dark:bg-slate-800/40">
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">Pro — Annual</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">$20/year</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-400">Full refund within 7 days</td>
                 </tr>
               </tbody>
             </table>
@@ -104,7 +104,7 @@ export default function RefundPage() {
         {/* Pro Annual */}
         <Section title="Pro Annual refund policy">
           <Ul items={[
-            <span key="7day">Annual purchases are eligible for a <strong className="text-gray-700 dark:text-gray-300">full refund within 7 days</strong> of purchase, no questions asked.</span>,
+            <span key="7day">Annual purchases are eligible for a <strong className="text-slate-800 dark:text-slate-300">full refund within 7 days</strong> of purchase, no questions asked.</span>,
             'After 7 days, annual purchases are non-refundable as you retain Pro access for the remainder of the subscription year.',
             'Upon refund, your account reverts to the Free tier immediately.',
           ]} />
@@ -116,7 +116,7 @@ export default function RefundPage() {
             You can cancel your Pro subscription at any time from the Account page. There are no
             cancellation fees or penalties.
           </p>
-          <p className="font-semibold text-gray-700 dark:text-gray-300">
+          <p className="font-semibold text-slate-800 dark:text-slate-300">
             What happens when you cancel or downgrade:
           </p>
           <Ul items={[
@@ -141,7 +141,7 @@ export default function RefundPage() {
 
         {/* How to request */}
         <Section title="How to request a refund">
-          <div className="bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl px-5 py-4 space-y-3">
+          <div className="bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl px-5 py-4 space-y-3">
             <p>
               Email{' '}
               <a href="mailto:support@imagepdf.tools" className="text-violet-600 dark:text-violet-400 hover:underline">
@@ -156,7 +156,7 @@ export default function RefundPage() {
             ]} />
             <p>
               Refunds are processed within{' '}
-              <strong className="text-gray-700 dark:text-gray-300">5–7 business days</strong>{' '}
+              <strong className="text-slate-800 dark:text-slate-300">5–7 business days</strong>{' '}
               to the original payment method.
             </p>
           </div>

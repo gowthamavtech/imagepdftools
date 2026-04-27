@@ -53,7 +53,7 @@ export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdV
   // Banner: full-width horizontal strip below the header
   if (variant === 'banner') {
     return (
-      <div className="w-full bg-white/70 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-800 flex justify-center items-center py-1.5 px-4">
+      <div className="w-full bg-slate-100 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700 flex justify-center items-center py-1.5 px-4">
         {insEl}
       </div>
     );
@@ -62,7 +62,7 @@ export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdV
   // Leaderboard: full-width horizontal strip above the footer
   if (variant === 'leaderboard') {
     return (
-      <div className="w-full bg-white/70 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800 flex justify-center items-center py-1.5 px-4">
+      <div className="w-full bg-slate-100 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 flex justify-center items-center py-1.5 px-4">
         {insEl}
       </div>
     );

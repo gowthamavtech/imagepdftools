@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -31,7 +31,7 @@ const CHANGELOG: Month[] = [
     label: 'April 2026',
     releases: [
       {
-        title: 'New Tools — Flip, Rotate, JPG↔PNG, WebP→JPG & Image to PDF',
+        title: 'New Tools — Flip, Rotate, JPG→PNG, WebP→JPG & Image to PDF',
         date: '24 Apr 2026',
         entries: [
           { tag: 'NEW', text: 'Flip Image — mirror any image horizontally or vertically, with combined flip + rotate in one tool.' },
@@ -161,14 +161,14 @@ function MonthSection({ month }: { month: Month }) {
   const [open, setOpen] = useState(month.label.includes('April'));
 
   return (
-    <div className="border-b border-gray-100 dark:border-gray-800">
+    <div className="border-b border-slate-200 dark:border-slate-700">
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between py-4 text-left"
       >
-        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">{month.label}</span>
+        <span className="text-base font-semibold text-slate-900 dark:text-slate-50">{month.label}</span>
         <svg
-          className={`w-4 h-4 text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -178,17 +178,17 @@ function MonthSection({ month }: { month: Month }) {
       {open && (
         <div className="pb-6 space-y-3">
           {month.releases.map((release) => (
-            <div key={release.title} className="border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900/60 overflow-hidden">
+            <div key={release.title} className="border border-slate-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/60 overflow-hidden">
               {/* Release header */}
-              <div className="flex items-baseline gap-3 px-5 py-4 border-b border-gray-100 dark:border-gray-800">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{release.title}</h3>
-                <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap shrink-0">{release.date}</span>
+              <div className="flex items-baseline gap-3 px-5 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 text-sm">{release.title}</h3>
+                <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap shrink-0">{release.date}</span>
               </div>
 
               {/* Entries */}
               <ul className="px-5 py-3 space-y-2.5">
                 {release.entries.map((entry, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                  <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
                     <Tag type={entry.tag} />
                     <span className="leading-relaxed">{entry.text}</span>
                   </li>
@@ -209,7 +209,7 @@ export default function WhatsNewPage() {
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-1">What&apos;s New</h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500">The latest features and improvements in ImagePDF.Tools.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">The latest features and improvements in ImagePDF.Tools.</p>
         </div>
 
         <div>
