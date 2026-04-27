@@ -5,7 +5,7 @@ const COLUMNS = [
   {
     title: 'Image Tools',
     links: [
-      { href: '/',                     label: 'Compress Image' },
+      { href: '/compress-image',       label: 'Compress Image' },
       { href: '/compress-png-online',  label: 'Compress PNG' },
       { href: '/compress-jpeg-online', label: 'Compress JPEG' },
       { href: '/reduce-image-size',    label: 'Reduce Image Size' },

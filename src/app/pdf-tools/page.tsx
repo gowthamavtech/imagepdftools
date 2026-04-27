@@ -1,0 +1,125 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'PDF Tools — Free Online PDF Compressor & Converter',
+  description:
+    'Free browser-based PDF tools: compress PDFs and convert images to PDF. No uploads required — everything runs in your browser.',
+  alternates: { canonical: 'https://imagepdf.tools/pdf-tools' },
+};
+
+const PDF_TOOLS = [
+  {
+    href: '/compress-pdf',
+    label: 'Compress PDF',
+    desc: 'Shrink PDF file size without visible quality loss. Great for email attachments and sharing.',
+    badge: 'Popular',
+    details: ['Reduces PDF size by up to 80%', 'Preserves text and image quality', 'Works with any PDF file'],
+  },
+  {
+    href: '/image-to-pdf',
+    label: 'Image to PDF',
+    desc: 'Bundle one or more images into a single PDF document. Supports JPEG, PNG, and WebP.',
+    badge: null,
+    details: ['Combine multiple images', 'Custom page order', 'Instant download'],
+  },
+];
+
+const FEATURES = [
+  { icon: '🔒', title: 'Zero Uploads', desc: 'PDF processing happens entirely in your browser. Your files never touch a server.' },
+  { icon: '⚡', title: 'Instant Results', desc: 'WebAssembly-powered compression — no waiting for a server response.' },
+  { icon: '🆓', title: 'Always Free', desc: 'Core PDF tools are permanently free. No account required.' },
+  { icon: '📱', title: 'Works Everywhere', desc: 'Chrome, Safari, Firefox, Edge — desktop and mobile.' },
+];
+
+export default function PdfToolsPage() {
+  return (
+    <main className="flex-1 py-12 px-4">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            No Uploads &middot; 100% Private &middot; Free
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
+          <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
+            2 free PDF tools that run entirely in your browser — your files never leave your device.
+          </p>
+        </div>
+
+        {/* Tool cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-14">
+          {PDF_TOOLS.map((tool) => (
+            <Link
+              key={tool.href}
+              href={tool.href}
+              className="group relative flex flex-col gap-3 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md dark:hover:shadow-slate-900/50 transition-all"
+            >
+              {tool.badge && (
+                <span className="absolute top-4 right-4 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full">
+                  {tool.badge}
+                </span>
+              )}
+              <div>
+                <p className="text-base font-bold text-slate-900 dark:text-slate-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-16">
+                  {tool.label}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                  {tool.desc}
+                </p>
+              </div>
+              <ul className="space-y-1">
+                {tool.details.map((d) => (
+                  <li key={d} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <span className="w-1 h-1 rounded-full bg-blue-400 shrink-0" />
+                    {d}
+                  </li>
+                ))}
+              </ul>
+              <span className="text-[11px] font-semibold mt-auto text-blue-600 dark:text-blue-400">
+                Open tool →
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Features */}
+        <section className="mb-14">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50 mb-1">
+            Why use our PDF tools?
+          </h2>
+          <div className="h-px bg-slate-200 dark:bg-slate-700 mb-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {FEATURES.map((f) => (
+              <div
+                key={f.title}
+                className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl"
+              >
+                <div className="text-xl mb-2">{f.icon}</div>
+                <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-1">{f.title}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Image tools cross-link */}
+        <div className="p-6 rounded-2xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-0.5">Need image tools?</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Compress, convert, crop, resize, flip and rotate images — all 100% in-browser.</p>
+          </div>
+          <Link
+            href="/image-tools"
+            className="shrink-0 inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
+          >
+            Image Tools →
+          </Link>
+        </div>
+
+      </div>
+    </main>
+  );
+}

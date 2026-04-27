@@ -11,7 +11,7 @@ const IMAGE_TOOLS = [
   {
     group: 'Compress',
     items: [
-      { href: '/',                     label: 'Compress Image',    desc: 'JPEG, PNG, WebP' },
+      { href: '/compress-image',        label: 'Compress Image',    desc: 'JPEG, PNG, WebP' },
       { href: '/compress-png-online',  label: 'Compress PNG',      desc: 'Lossy PNG optimisation' },
       { href: '/compress-jpeg-online', label: 'Compress JPEG',     desc: 'Shrink JPEG files' },
       { href: '/reduce-image-size',    label: 'Reduce Image Size', desc: 'Any format, any size' },
