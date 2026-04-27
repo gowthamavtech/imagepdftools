@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { FlipRotateUI } from '@/components/FlipRotateUI';
-import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Flip Image Online — Free & Instant',
@@ -27,7 +26,6 @@ export default function FlipImagePage() {
           ))}
         </div>
       </div>
-      <div className="max-w-2xl mx-auto px-4 mb-6"><AdBanner /></div>
       <FlipRotateUI />
     </main>
   );

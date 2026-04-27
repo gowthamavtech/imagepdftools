@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { NextActions } from './NextActions';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 import { useHistoryStore } from '@/store/historyStore';
 
@@ -19,7 +20,6 @@ export function FlipRotateUI() {
   const [flipH,      setFlipH]      = useState(false);
   const [flipV,      setFlipV]      = useState(false);
   const [rotation,   setRotation]   = useState(0);   // 0 | 90 | 180 | 270
-  const [isDrop,     setIsDrop]     = useState(false);
   const [isWorking,  setIsWorking]  = useState(false);
   const [result,     setResult]     = useState<{ blob: Blob; name: string; url: string; w: number; h: number } | null>(null);
   const [error,       setError]       = useState<string | null>(null);
@@ -101,30 +101,14 @@ export function FlipRotateUI() {
   if (!file) {
     return (
       <div className="w-full max-w-2xl mx-auto px-4 pb-16">
-        <div
-          onDragOver={(e) => { e.preventDefault(); setIsDrop(true); }}
-          onDragLeave={() => setIsDrop(false)}
-          onDrop={(e) => { e.preventDefault(); setIsDrop(false); const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) loadFile(f); }}
-          onClick={() => document.getElementById('fliprotate-input')?.click()}
-          className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer py-20 px-8 transition-colors ${
-            isDrop ? 'border-violet-500 bg-blue-950/20' : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
-          }`}
-        >
-          <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-            <svg className="w-7 h-7 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
-            <p className="text-xs text-slate-500 mt-1">JPEG · PNG · WebP</p>
-          </div>
-          <button type="button" onClick={(e) => { e.stopPropagation(); document.getElementById('fliprotate-input')?.click(); }}
-            className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all">
-            Browse Files
-          </button>
-          <input id="fliprotate-input" type="file" accept="image/jpeg,image/jpg,image/png,image/webp" className="sr-only"
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) loadFile(f); }} />
+        <div className="mt-6">
+          <DropZone
+            onFiles={(files) => { if (files[0]) loadFile(files[0]); }}
+            accept={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
+            multiple={false}
+            label="Drop an image here"
+            hint="JPEG · PNG · WebP"
+          />
         </div>
       </div>
     );

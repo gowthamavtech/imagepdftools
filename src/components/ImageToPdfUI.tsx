@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 
 interface ImageEntry {
@@ -41,7 +42,6 @@ export function ImageToPdfUI() {
 
   const [images,       setImages]       = useState<ImageEntry[]>([]);
   const [pageSize,     setPageSize]     = useState<PageSize>('a4');
-  const [isDrop,       setIsDrop]       = useState(false);
   const [isBuilding,   setIsBuilding]   = useState(false);
   const [error,        setError]        = useState<string | null>(null);
   const [generated,    setGenerated]    = useState<GeneratedPdf | null>(null);
@@ -180,30 +180,13 @@ export function ImageToPdfUI() {
     <div className="w-full max-w-2xl mx-auto px-4 pb-16">
 
       {/* Drop zone */}
-      <div
-        onDragOver={(e) => { e.preventDefault(); setIsDrop(true); }}
-        onDragLeave={() => setIsDrop(false)}
-        onDrop={(e) => { e.preventDefault(); setIsDrop(false); loadImages(Array.from(e.dataTransfer.files)); }}
-        onClick={() => document.getElementById('pdf-input')?.click()}
-        className={`mt-6 flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed cursor-pointer py-12 px-8 transition-colors ${
-          isDrop ? 'border-violet-500 bg-blue-950/20' : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
-        }`}
-      >
-        <div className="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-          <svg className="w-6 h-6 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-          </svg>
-        </div>
-        <div className="text-center">
-          <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop images here</p>
-          <p className="text-xs text-slate-500 mt-0.5">JPEG · PNG · WebP · multiple files supported</p>
-        </div>
-        <button type="button" onClick={(e) => { e.stopPropagation(); document.getElementById('pdf-input')?.click(); }}
-          className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md transition-all">
-          Browse Files
-        </button>
-        <input id="pdf-input" type="file" multiple accept="image/jpeg,image/jpg,image/png,image/webp" className="sr-only"
-          onChange={(e) => { loadImages(Array.from(e.target.files ?? [])); e.target.value = ''; }} />
+      <div className="mt-6">
+        <DropZone
+          onFiles={loadImages}
+          accept={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
+          label="Drop images here"
+          hint="JPEG · PNG · WebP · multiple files supported"
+        />
       </div>
 
       {images.length > 0 && (

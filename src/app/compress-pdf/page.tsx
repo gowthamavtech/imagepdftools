@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { PdfCompressUI } from '@/components/PdfCompressUI';
-import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Compress PDF Online — Free & Private',
@@ -27,7 +26,6 @@ export default function CompressPdfPage() {
           ))}
         </div>
       </div>
-      <div className="max-w-2xl mx-auto px-4 mb-6"><AdBanner /></div>
       <PdfCompressUI />
     </main>
   );

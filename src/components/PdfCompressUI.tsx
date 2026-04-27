@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 
 interface PageInfo {
@@ -30,7 +31,6 @@ export function PdfCompressUI() {
   const consumeRef     = useRef(consumeHandoff);
 
   const [file,         setFile]         = useState<File | null>(null);
-  const [isDrop,       setIsDrop]       = useState(false);
   const [quality,      setQuality]      = useState(65);   // 10–95 JPEG quality %
   const [progress,     setProgress]     = useState(0);    // 0–100
   const [isWorking,    setIsWorking]    = useState(false);
@@ -156,34 +156,14 @@ export function PdfCompressUI() {
 
       {/* Drop zone — hidden once a file is loaded */}
       {!file && (
-        <div
-          onDragOver={(e) => { e.preventDefault(); setIsDrop(true); }}
-          onDragLeave={() => setIsDrop(false)}
-          onDrop={(e) => {
-            e.preventDefault(); setIsDrop(false);
-            const f = e.dataTransfer.files[0];
-            if (f) handleFile(f);
-          }}
-          onClick={() => document.getElementById('pdf-compress-input')?.click()}
-          className={`mt-6 flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed cursor-pointer py-12 px-8 transition-colors ${
-            isDrop ? 'border-violet-500 bg-blue-950/20' : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
-          }`}
-        >
-          <div className="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-            <svg className="w-6 h-6 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop your PDF here</p>
-            <p className="text-xs text-slate-500 mt-0.5">PDF files only — processed entirely in your browser</p>
-          </div>
-          <button type="button" onClick={(e) => { e.stopPropagation(); document.getElementById('pdf-compress-input')?.click(); }}
-            className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md transition-all">
-            Browse PDF
-          </button>
-          <input id="pdf-compress-input" type="file" accept="application/pdf" className="sr-only"
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = ''; }} />
+        <div className="mt-6">
+          <DropZone
+            onFiles={(files) => { if (files[0]) handleFile(files[0]); }}
+            accept={['application/pdf']}
+            multiple={false}
+            label="Drop your PDF here"
+            browseLabel="Browse PDF"
+          />
         </div>
       )}
 

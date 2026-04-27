@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
-import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Compress JPEG Online — Free JPEG Compressor',
@@ -19,7 +18,6 @@ export default function CompressJpegPage() {
           fast, and free — nothing ever leaves your device.
         </p>
       </div>
-      <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <CompressorUI />
     </main>
   );

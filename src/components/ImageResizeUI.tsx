@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { NextActions } from './NextActions';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 import { useHistoryStore } from '@/store/historyStore';
 
@@ -103,7 +104,6 @@ export function ImageResizeUI() {
   const isDraggingCover = useRef(false);
   const previewRef      = useRef<HTMLDivElement>(null);
   // shared
-  const [isDrop,        setIsDrop]        = useState(false);
   const [isResizing,    setIsResizing]    = useState(false);
   const [result,        setResult]        = useState<{ blob: Blob; name: string; url: string; w: number; h: number } | null>(null);
   const [error,         setError]         = useState<string | null>(null);
@@ -271,39 +271,14 @@ export function ImageResizeUI() {
   if (!file) {
     return (
       <div className="w-full max-w-2xl mx-auto px-4 pb-16">
-        <div
-          onDragOver={(e) => { e.preventDefault(); setIsDrop(true); }}
-          onDragLeave={() => setIsDrop(false)}
-          onDrop={(e) => {
-            e.preventDefault(); setIsDrop(false);
-            const f = e.dataTransfer.files[0];
-            if (f && f.type.startsWith('image/')) loadFile(f);
-          }}
-          onClick={() => document.getElementById('resize-input')?.click()}
-          className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer py-20 px-8 transition-colors ${
-            isDrop
-              ? 'border-violet-500 bg-blue-950/20'
-              : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
-          }`}
-        >
-          <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-            <svg className="w-7 h-7 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
-            <p className="text-xs text-slate-500 mt-1">JPEG · PNG · WebP</p>
-          </div>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); document.getElementById('resize-input')?.click(); }}
-            className="whitespace-nowrap bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
-          >
-            Browse Files
-          </button>
-          <input id="resize-input" type="file" accept="image/jpeg,image/jpg,image/png,image/webp" className="sr-only"
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) loadFile(f); }} />
+        <div className="mt-6">
+          <DropZone
+            onFiles={(files) => { if (files[0]) loadFile(files[0]); }}
+            accept={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
+            multiple={false}
+            label="Drop an image here"
+            hint="JPEG · PNG · WebP"
+          />
         </div>
       </div>
     );

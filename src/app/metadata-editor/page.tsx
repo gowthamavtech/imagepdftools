@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { MetadataEditorUI } from '@/components/MetadataEditorUI';
-import { AdBanner } from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Image Metadata Viewer & Editor — View & Remove EXIF, GPS Data',
@@ -33,7 +32,6 @@ export default function MetadataEditorPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 mb-6"><AdBanner /></div>
       <MetadataEditorUI />
 
       <section className="max-w-2xl mx-auto px-4 mt-12 space-y-6 text-sm text-slate-500 dark:text-slate-400">

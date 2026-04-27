@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { MetadataGroup, MetadataGroups } from '@/lib/metadataEditor';
 import { NextActions } from './NextActions';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 
 const GROUP_ICONS: Record<string, string> = {
@@ -82,7 +83,6 @@ export function MetadataEditorUI() {
   const [isReading, setIsReading]     = useState(false);
   const [keptGroups, setKeptGroups]   = useState<Set<string>>(new Set());
   const [isProcessing, setProcessing] = useState(false);
-  const [isDragging, setIsDragging]   = useState(false);
   const [savedResult, setSavedResult] = useState<{ blob: Blob; name: string; url: string } | null>(null);
   const [sourceLabel, setSourceLabel] = useState<string | null>(null);
 
@@ -113,22 +113,6 @@ export function MetadataEditorUI() {
     if (f) { setSourceLabel(sl); handleFile(f); }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const f = e.dataTransfer.files[0];
-    if (f && (f.type === 'image/jpeg' || f.type === 'image/jpg' || f.type === 'image/png' || f.type === 'image/webp')) {
-      handleFile(f);
-    }
-  }, [handleFile]);
-
-  const onDragOver = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragging(true); }, []);
-  const onDragLeave = useCallback(() => setIsDragging(false), []);
-
-  const onInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (f) handleFile(f);
-  }, [handleFile]);
 
   const handleDownload = useCallback(async () => {
     if (!file) return;
@@ -169,34 +153,14 @@ export function MetadataEditorUI() {
   if (!file) {
     return (
       <div className="w-full max-w-2xl mx-auto px-4 pb-16">
-        <div
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onDragLeave={onDragLeave}
-          className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed transition-colors cursor-pointer py-20 px-8 ${
-            isDragging
-              ? 'border-violet-500 bg-blue-950/20'
-              : 'border-violet-300 dark:border-violet-800/60 hover:border-violet-500 dark:hover:border-violet-500'
-          }`}
-          onClick={() => document.getElementById('meta-file-input')?.click()}
-        >
-          <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-            <svg className="w-7 h-7 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
-            <p className="text-xs text-slate-500 mt-1">JPEG · PNG · WebP</p>
-          </div>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); document.getElementById('meta-file-input')?.click(); }}
-            className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
-          >
-            Browse Files
-          </button>
-          <input id="meta-file-input" type="file" accept="image/jpeg,image/jpg,image/png,image/webp" className="sr-only" onChange={onInputChange} />
+        <div className="mt-6">
+          <DropZone
+            onFiles={(files) => { if (files[0]) handleFile(files[0]); }}
+            accept={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
+            multiple={false}
+            label="Drop an image here"
+            hint="JPEG · PNG · WebP"
+          />
         </div>
       </div>
     );

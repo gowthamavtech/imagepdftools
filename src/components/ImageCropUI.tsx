@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { NextActions } from './NextActions';
+import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
 import { useHistoryStore } from '@/store/historyStore';
 
@@ -27,7 +28,7 @@ const RATIOS: { label: string; value: number | null }[] = [
   { label: '21:9',  value: 21 / 9    },
 ];
 
-const ACCEPTED = 'image/jpeg,image/jpg,image/png,image/webp,image/svg+xml';
+const ACCEPTED = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
 
 function clamp(v: number, lo: number, hi: number) { return Math.min(hi, Math.max(lo, v)); }
 
@@ -110,7 +111,6 @@ export function ImageCropUI() {
   const [crop,         setCrop]         = useState<Rect | null>(null);
   const [ratio,        setRatio]        = useState<number | null>(null);
   const [isDragging,   setIsDragging]   = useState(false);
-  const [isDrop,       setIsDrop]       = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [croppedResult, setCroppedResult] = useState<{ blob: Blob; name: string; url: string } | null>(null);
   const [cropError,    setCropError]    = useState<string | null>(null);
@@ -407,39 +407,14 @@ export function ImageCropUI() {
   // ── Drop zone ──────────────────────────────────────────────────────────────
   if (!file) {
     return (
-      <div
-        onDragOver={(e) => { e.preventDefault(); setIsDrop(true); }}
-        onDragLeave={() => setIsDrop(false)}
-        onDrop={(e) => {
-          e.preventDefault(); setIsDrop(false);
-          const f = e.dataTransfer.files[0];
-          if (f && f.type.startsWith('image/')) loadFile(f);
-        }}
-        onClick={() => document.getElementById('crop-input')?.click()}
-        className={`mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer py-20 px-8 transition-colors ${
-          isDrop
-            ? 'border-violet-500 bg-blue-950/20'
-            : 'border-violet-800/60 hover:border-violet-400 dark:hover:border-violet-600'
-        }`}
-      >
-        <div className="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-          <svg className="w-7 h-7 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </div>
-        <div className="text-center">
-          <p className="text-sm font-semibold text-slate-900 dark:text-slate-200">Drop an image here</p>
-          <p className="text-xs text-slate-500 mt-1">JPEG · JPG · PNG · WebP</p>
-        </div>
-        <button
-          type="button"
-          onClick={(e) => { e.stopPropagation(); document.getElementById('crop-input')?.click(); }}
-          className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-md transition-all"
-        >
-          Browse Files
-        </button>
-        <input id="crop-input" type="file" accept={ACCEPTED} className="sr-only"
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) loadFile(f); }} />
+      <div className="mt-6">
+        <DropZone
+          onFiles={(files) => { if (files[0]) loadFile(files[0]); }}
+          accept={ACCEPTED}
+          multiple={false}
+          label="Drop an image here"
+          hint="JPEG · JPG · PNG · WebP"
+        />
       </div>
     );
   }
