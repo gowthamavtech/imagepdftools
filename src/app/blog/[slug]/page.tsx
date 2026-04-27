@@ -101,6 +101,43 @@ function BlockRenderer({ block }: { block: Block }) {
           </pre>
         </div>
       );
+    case 'table':
+      return (
+        <figure className="my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-slate-50 dark:bg-slate-800/80">
+              <tr>
+                {block.headers.map((h) => (
+                  <th
+                    key={h}
+                    className="px-4 py-3 font-semibold text-slate-700 dark:text-slate-200 text-xs uppercase tracking-wide border-b border-slate-200 dark:border-slate-700 whitespace-nowrap"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
+              {block.rows.map((row, ri) => (
+                <tr key={ri} className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors">
+                  {row.map((cell, ci) => (
+                    <td
+                      key={ci}
+                      className="px-4 py-3 text-slate-700 dark:text-slate-300 leading-snug"
+                      dangerouslySetInnerHTML={{ __html: cell }}
+                    />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {block.caption && (
+            <figcaption className="px-4 py-2 text-xs text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 text-center">
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
     case 'ad':
       return (
         <div className="my-8">

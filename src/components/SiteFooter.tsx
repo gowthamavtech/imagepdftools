@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { AdBanner } from './AdBanner';
 
 const COLUMNS = [
   {
@@ -51,11 +50,6 @@ const COLUMNS = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
-
-      {/* Ad slot — leaderboard above footer content */}
-      <div className="max-w-6xl mx-auto px-4 pt-6">
-        <AdBanner />
-      </div>
 
       {/* 4-column sitemap */}
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
