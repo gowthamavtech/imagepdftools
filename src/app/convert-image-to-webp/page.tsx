@@ -151,7 +151,7 @@ export default function ConvertToWebpPage() {
           </div>
         </section>
 
-        <RelatedTools hrefs={['/compress-image', '/convert-png-to-jpeg', '/jpg-to-png', '/reduce-image-size']} />
+        <RelatedTools hrefs={['/jpg-to-webp', '/png-to-webp', '/webp-to-jpg', '/webp-to-png']} />
       </main>
     </>
   );

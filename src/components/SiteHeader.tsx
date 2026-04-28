@@ -159,7 +159,6 @@ export function SiteHeader() {
             />
           </div>
 
-          {/* PDF Tools — small dropdown, stays relative to its own button */}
           <div
             className="relative"
             onMouseEnter={() => openMenu('pdf')}
@@ -171,9 +170,13 @@ export function SiteHeader() {
               onClick={() => setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf')}
             />
             {openDropdown === 'pdf' && (
-              <div className="absolute right-0 top-full pt-2 w-56" onMouseEnter={() => openMenu('pdf')}>
+              <div
+                className="absolute right-0 top-[calc(100%+12px)] w-56 z-50"
+                onMouseEnter={() => openMenu('pdf')}
+                onMouseLeave={scheduleClose}
+              >
                 <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
-                  <div className="px-3 pt-3 pb-3">
+                  <div className="px-3 py-3">
                     {PDF_TOOLS.map((item) => (
                       <Link
                         key={item.href}
@@ -204,7 +207,7 @@ export function SiteHeader() {
         {/* Mega menu for Image Tools — centered under the header container */}
         {openDropdown === 'image' && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-140 z-50"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-140 z-50"
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >

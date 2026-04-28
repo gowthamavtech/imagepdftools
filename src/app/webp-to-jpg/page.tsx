@@ -132,7 +132,7 @@ export default function WebpToJpgPage() {
           </div>
         </section>
 
-        <RelatedTools hrefs={['/convert-png-to-jpeg', '/jpg-to-png', '/compress-jpeg-online', '/compress-image']} />
+        <RelatedTools hrefs={['/convert-png-to-jpeg', '/jpg-to-png', '/webp-to-png', '/jpg-to-webp']} />
       </main>
     </>
   );

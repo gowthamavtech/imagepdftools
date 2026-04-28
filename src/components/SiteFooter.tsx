@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const COLUMNS = [
   {
-    title: 'Image Tools',
+    title: 'Compress',
     color: 'text-violet-600 dark:text-violet-400',
     links: [
       { href: '/compress-image',       label: 'Compress Image' },
@@ -15,12 +15,16 @@ const COLUMNS = [
     title: 'Convert',
     color: 'text-blue-600 dark:text-blue-400',
     links: [
-      { href: '/compress-pdf',          label: 'Compress PDF' },
-      { href: '/convert-image-to-webp', label: 'Convert to WebP' },
-      { href: '/convert-png-to-jpeg',   label: 'PNG to JPG' },
-      { href: '/jpg-to-png',            label: 'JPG to PNG' },
-      { href: '/webp-to-jpg',           label: 'WebP to JPG' },
-      { href: '/image-to-pdf',          label: 'Image to PDF' },
+      { href: '/convert-image-to-webp',  label: 'Any to WebP' },
+      { href: '/convert-png-to-jpeg',    label: 'PNG to JPG' },
+      { href: '/jpg-to-png',             label: 'JPG to PNG' },
+      { href: '/webp-to-jpg',            label: 'WebP to JPG' },
+      { href: '/jpg-to-webp',            label: 'JPG to WebP' },
+      { href: '/png-to-webp',            label: 'PNG to WebP' },
+      { href: '/webp-to-png',            label: 'WebP to PNG' },
+      { href: '/convert/svg-to-png',     label: 'SVG to PNG' },
+      { href: '/convert/svg-to-jpg',     label: 'SVG to JPG' },
+      { href: '/convert/svg-to-webp',    label: 'SVG to WebP' },
     ],
   },
   {
@@ -33,6 +37,14 @@ const COLUMNS = [
       { href: '/rotate-image',    label: 'Rotate Image' },
       { href: '/remove-metadata', label: 'Remove Metadata' },
       { href: '/metadata-editor', label: 'Metadata Editor' },
+    ],
+  },
+  {
+    title: 'PDF',
+    color: 'text-blue-600 dark:text-blue-400',
+    links: [
+      { href: '/compress-pdf',  label: 'Compress PDF' },
+      { href: '/image-to-pdf',  label: 'Image to PDF' },
     ],
   },
   {
@@ -121,7 +133,7 @@ export function SiteFooter() {
 
       {/* 4-column sitemap */}
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
           {COLUMNS.map((col) => (
             <div key={col.title}>
               <p className={`text-[10px] font-bold uppercase tracking-widest mb-3 ${col.color}`}>

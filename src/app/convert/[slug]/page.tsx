@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CompressorUI } from '@/components/CompressorUI';
+import Link from 'next/link';
 
 /* ── Conversion config ─────────────────────────────────────────────────── */
 
 interface ConversionConfig {
-  from: string;      // display label  e.g. "PNG"
-  to: string;        // display label  e.g. "JPEG"
-  toMime: string;    // output MIME    e.g. "image/jpeg"
-  why: string;       // one-liner explaining why you'd do this
+  from: string;
+  to: string;
+  toMime: string;
+  why: string;
 }
 
 export const CONVERSIONS: Record<string, ConversionConfig> = {
@@ -17,7 +18,7 @@ export const CONVERSIONS: Record<string, ConversionConfig> = {
     why: 'JPEGs are up to 80% smaller than PNGs for photos — great for web pages, email attachments, and social media.',
   },
   'png-to-jpg': {
-    from: 'PNG', to: 'JPG', toMime: 'image/jpg',
+    from: 'PNG', to: 'JPG', toMime: 'image/jpeg',
     why: 'JPGs are up to 80% smaller than PNGs for photos — great for web pages, email attachments, and social media.',
   },
   'jpeg-to-png': {
@@ -45,7 +46,7 @@ export const CONVERSIONS: Record<string, ConversionConfig> = {
     why: 'JPEG is universally supported — convert WebP when you need a file that works in every app and OS.',
   },
   'webp-to-jpg': {
-    from: 'WebP', to: 'JPG', toMime: 'image/jpg',
+    from: 'WebP', to: 'JPG', toMime: 'image/jpeg',
     why: 'JPG is universally supported — convert WebP when you need a file that works in every app and OS.',
   },
   'webp-to-png': {
@@ -57,12 +58,24 @@ export const CONVERSIONS: Record<string, ConversionConfig> = {
     why: 'Rename your .jpg file to the standard .jpeg extension — same format, broader compatibility with some tools.',
   },
   'jpeg-to-jpg': {
-    from: 'JPEG', to: 'JPG', toMime: 'image/jpg',
+    from: 'JPEG', to: 'JPG', toMime: 'image/jpeg',
     why: 'Save as .jpg — the shorter extension used by most cameras and Windows apps.',
   },
   'svg-to-png': {
     from: 'SVG', to: 'PNG', toMime: 'image/png',
-    why: 'Rasterise SVG to a fixed-size PNG when you need a bitmap for apps, presentations, or platforms that don\'t support SVG.',
+    why: "Rasterise SVG to a fixed-size PNG when you need a bitmap for apps, presentations, or platforms that don't support SVG.",
+  },
+  'svg-to-jpg': {
+    from: 'SVG', to: 'JPG', toMime: 'image/jpeg',
+    why: 'Convert SVG to a compressed JPEG for use in documents, emails, or platforms that require a standard photo format.',
+  },
+  'svg-to-jpeg': {
+    from: 'SVG', to: 'JPEG', toMime: 'image/jpeg',
+    why: 'Convert SVG to JPEG for universal compatibility with every app, document, and platform.',
+  },
+  'svg-to-webp': {
+    from: 'SVG', to: 'WebP', toMime: 'image/webp',
+    why: 'Convert SVG to WebP for the web — smaller than PNG and JPEG, with broad browser support.',
   },
 };
 
@@ -83,7 +96,7 @@ export async function generateMetadata(
   return {
     title: `Convert ${cfg.from} to ${cfg.to} Online — Free & Private`,
     description: `Convert ${cfg.from} to ${cfg.to} instantly in your browser. No upload, no server — 100% private. ${cfg.why}`,
-    alternates: { canonical: `https://squishit.app/convert/${slug}` },
+    alternates: { canonical: `https://imagepdf.tools/convert/${slug}` },
   };
 }
 
@@ -95,16 +108,16 @@ function OtherConversions({ current, from }: { current: string; from: string }) 
   );
   if (others.length === 0) return null;
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-2 justify-center text-sm text-gray-400 dark:text-gray-500">
-      <span>Also convert {from} to:</span>
+    <div className="mt-4 flex flex-wrap items-center gap-2 justify-center">
+      <span className="text-sm text-slate-500 dark:text-slate-400">Also convert {from} to:</span>
       {others.map(([slug, cfg]) => (
-        <a
+        <Link
           key={slug}
           href={`/convert/${slug}`}
-          className="inline-flex items-center gap-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-violet-400 dark:hover:border-violet-600 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1 rounded-full text-xs font-medium transition-colors"
+          className="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-blue-400 dark:hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full text-xs font-medium transition-colors"
         >
           {cfg.from} → {cfg.to}
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -120,72 +133,62 @@ export default async function ConvertPage(
   if (!cfg) notFound();
 
   return (
-    <main className="relative flex-1 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-violet-600 via-purple-600 to-pink-500 opacity-[0.08] dark:opacity-[0.15]" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-400 rounded-full blur-3xl opacity-10 dark:opacity-5 pointer-events-none" />
-      <div className="absolute top-10 right-1/4 w-72 h-72 bg-pink-400 rounded-full blur-3xl opacity-10 dark:opacity-5 pointer-events-none" />
+    <main className="flex-1 py-10">
+      <div className="max-w-4xl mx-auto px-4 text-center mb-8">
 
-      <div className="relative max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-16 text-center">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          Free &middot; No Upload &middot; Private
+        </span>
 
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950 border border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-          <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-          No upload · 100% Private · Instant
-        </div>
-
-        {/* Heading */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
           Convert{' '}
-          <span className="italic bg-linear-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
             {cfg.from}
           </span>
           {' '}to{' '}
-          <span className="italic bg-linear-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
             {cfg.to}
           </span>
         </h1>
-        <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-6">
+
+        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed mb-6">
           {cfg.why}
         </p>
 
         {/* Format pill */}
-        <div className="inline-flex items-center gap-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full px-5 py-2 mb-3 shadow-sm">
-          <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">
+        <div className="inline-flex items-center gap-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-full px-5 py-2 mb-4 shadow-sm">
+          <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 px-2.5 py-1 rounded-full">
             {cfg.from}
           </span>
-          <svg className="w-4 h-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-          <span className="text-sm font-semibold text-white bg-violet-600 px-2.5 py-1 rounded-full">
+          <span className="text-sm font-semibold text-white bg-blue-600 px-2.5 py-1 rounded-full">
             {cfg.to}
           </span>
         </div>
 
-        {/* Other format suggestions */}
         <OtherConversions current={slug} from={cfg.from} />
 
-        {/* How it works */}
+        {/* Steps */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mt-8 mb-10 text-left">
           {[
             { n: '1', text: `Drop your ${cfg.from} file below` },
             { n: '2', text: `Output is pre-set to ${cfg.to} — change if needed` },
-            { n: '3', text: 'Click Convert & Compress, then download' },
+            { n: '3', text: 'Click Compress All, then download' },
           ].map(({ n, text }) => (
-            <div key={n} className="flex items-center gap-3 bg-white/60 dark:bg-gray-900/60 border border-violet-100 dark:border-violet-900/30 rounded-xl px-4 py-3">
-              <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-950 text-violet-600 dark:text-violet-400 text-xs font-bold flex items-center justify-center shrink-0">
+            <div key={n} className="flex items-center gap-3 bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3">
+              <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center justify-center shrink-0">
                 {n}
               </span>
-              <span className="text-xs text-gray-600 dark:text-gray-400 leading-snug">{text}</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 leading-snug">{text}</span>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Compressor — output format locked to target */}
-        <div className="text-left">
-          <CompressorUI initialFormat={cfg.toMime} />
-        </div>
-
+      <div className="text-left">
+        <CompressorUI initialFormat={cfg.toMime} />
       </div>
     </main>
   );

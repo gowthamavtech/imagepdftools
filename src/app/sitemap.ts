@@ -79,6 +79,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/jpg-to-webp`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/png-to-webp`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/webp-to-png`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/convert/svg-to-png`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/convert/svg-to-jpg`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/convert/svg-to-webp`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/image-to-pdf`,
       lastModified,
       changeFrequency: 'weekly',
@@ -120,7 +156,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-    ...['png-to-jpeg','jpeg-to-png','png-to-webp','jpeg-to-webp','webp-to-jpeg','webp-to-png','svg-to-png'].map((slug) => ({
+    ...['png-to-jpeg','jpeg-to-png','png-to-webp','jpeg-to-webp','webp-to-jpeg','webp-to-png','svg-to-png','svg-to-jpg','svg-to-webp'].map((slug) => ({
       url: `${BASE_URL}/convert/${slug}`,
       lastModified,
       changeFrequency: 'weekly' as const,

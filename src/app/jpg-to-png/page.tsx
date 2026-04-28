@@ -144,7 +144,7 @@ export default function JpgToPngPage() {
           </div>
         </section>
 
-        <RelatedTools hrefs={['/convert-png-to-jpeg', '/convert-image-to-webp', '/compress-image', '/remove-metadata']} />
+        <RelatedTools hrefs={['/convert-png-to-jpeg', '/jpg-to-webp', '/png-to-webp', '/webp-to-png']} />
       </main>
     </>
   );

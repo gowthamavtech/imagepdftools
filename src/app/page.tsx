@@ -79,7 +79,7 @@ const jsonLd = [
     '@type': 'ItemList',
     name: 'Free Image & PDF Tools',
     description: 'Browser-based image and PDF tools — no uploads required.',
-    numberOfItems: 16,
+    numberOfItems: 19,
     itemListElement: [
       { '@type': 'ListItem', position: 1,  name: 'Compress Image',    url: 'https://imagepdf.tools/compress-image' },
       { '@type': 'ListItem', position: 2,  name: 'Compress PNG',      url: 'https://imagepdf.tools/compress-png-online' },
@@ -89,14 +89,17 @@ const jsonLd = [
       { '@type': 'ListItem', position: 6,  name: 'PNG to JPG',        url: 'https://imagepdf.tools/convert-png-to-jpeg' },
       { '@type': 'ListItem', position: 7,  name: 'JPG to PNG',        url: 'https://imagepdf.tools/jpg-to-png' },
       { '@type': 'ListItem', position: 8,  name: 'WebP to JPG',       url: 'https://imagepdf.tools/webp-to-jpg' },
-      { '@type': 'ListItem', position: 9,  name: 'Crop Image',        url: 'https://imagepdf.tools/crop-image' },
-      { '@type': 'ListItem', position: 10, name: 'Resize Image',      url: 'https://imagepdf.tools/resize-image' },
-      { '@type': 'ListItem', position: 11, name: 'Flip Image',        url: 'https://imagepdf.tools/flip-image' },
-      { '@type': 'ListItem', position: 12, name: 'Rotate Image',      url: 'https://imagepdf.tools/rotate-image' },
-      { '@type': 'ListItem', position: 13, name: 'Remove Metadata',   url: 'https://imagepdf.tools/remove-metadata' },
-      { '@type': 'ListItem', position: 14, name: 'Metadata Editor',   url: 'https://imagepdf.tools/metadata-editor' },
-      { '@type': 'ListItem', position: 15, name: 'Compress PDF',      url: 'https://imagepdf.tools/compress-pdf' },
-      { '@type': 'ListItem', position: 16, name: 'Image to PDF',      url: 'https://imagepdf.tools/image-to-pdf' },
+      { '@type': 'ListItem', position: 9,  name: 'JPG to WebP',       url: 'https://imagepdf.tools/jpg-to-webp' },
+      { '@type': 'ListItem', position: 10, name: 'PNG to WebP',       url: 'https://imagepdf.tools/png-to-webp' },
+      { '@type': 'ListItem', position: 11, name: 'WebP to PNG',       url: 'https://imagepdf.tools/webp-to-png' },
+      { '@type': 'ListItem', position: 12, name: 'Crop Image',        url: 'https://imagepdf.tools/crop-image' },
+      { '@type': 'ListItem', position: 13, name: 'Resize Image',      url: 'https://imagepdf.tools/resize-image' },
+      { '@type': 'ListItem', position: 14, name: 'Flip Image',        url: 'https://imagepdf.tools/flip-image' },
+      { '@type': 'ListItem', position: 15, name: 'Rotate Image',      url: 'https://imagepdf.tools/rotate-image' },
+      { '@type': 'ListItem', position: 16, name: 'Remove Metadata',   url: 'https://imagepdf.tools/remove-metadata' },
+      { '@type': 'ListItem', position: 17, name: 'Metadata Editor',   url: 'https://imagepdf.tools/metadata-editor' },
+      { '@type': 'ListItem', position: 18, name: 'Compress PDF',      url: 'https://imagepdf.tools/compress-pdf' },
+      { '@type': 'ListItem', position: 19, name: 'Image to PDF',      url: 'https://imagepdf.tools/image-to-pdf' },
     ],
   },
   {
@@ -206,6 +209,36 @@ const IMAGE_GROUPS = [
         desc: 'Convert WebP images to JPEG for maximum compatibility — all in your browser.',
         icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
       },
+      {
+        href: '/jpg-to-webp', label: 'JPG to WebP',
+        desc: 'Convert JPEG to modern WebP — up to 35% smaller at the same visual quality.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/png-to-webp', label: 'PNG to WebP',
+        desc: 'Shrink PNG files by up to 50% converting to WebP — transparency preserved.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/webp-to-png', label: 'WebP to PNG',
+        desc: 'Convert WebP to lossless PNG — full quality, transparency, universal compatibility.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/convert/svg-to-png', label: 'SVG to PNG',
+        desc: 'Rasterise SVG to a fixed-size PNG — perfect for apps, emails, and platforms that need a bitmap.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/convert/svg-to-jpg', label: 'SVG to JPG',
+        desc: 'Convert SVG to JPEG for documents, emails, or platforms that require a standard photo format.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/convert/svg-to-webp', label: 'SVG to WebP',
+        desc: 'Convert SVG to modern WebP — smaller than PNG, great for web use with broad browser support.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
     ],
   },
   {
@@ -227,9 +260,14 @@ const IMAGE_GROUPS = [
         icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />,
       },
       {
-        href: '/flip-image', label: 'Flip & Rotate Image',
-        desc: 'Rotate images 90° clockwise or counter-clockwise, flip horizontal or vertical — right in your browser.',
+        href: '/flip-image', label: 'Flip Image',
+        desc: 'Mirror your image horizontally or vertically in one click — browser-based, instant.',
         icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.657 48.657 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />,
+      },
+      {
+        href: '/rotate-image', label: 'Rotate Image',
+        desc: 'Rotate 90°, 180°, 270°, or any custom angle — fix EXIF orientation issues instantly.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />,
       },
       {
         href: '/remove-metadata', label: 'Remove Metadata',
@@ -361,7 +399,7 @@ export default function HomePage() {
           {/* Stats */}
           <div className="flex justify-center gap-8 sm:gap-14">
             {[
-              { value: '16+',  label: 'Free Tools' },
+              { value: '20+',  label: 'Free Tools' },
               { value: '100%', label: 'Private' },
               { value: '0',    label: 'Uploads Ever' },
             ].map(({ value, label }) => (
