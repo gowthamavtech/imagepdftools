@@ -12,6 +12,7 @@ interface Props {
   label?: string;
   hint?: string;
   browseLabel?: string;
+  fileTypeName?: string;
 }
 
 export function DropZone({
@@ -21,10 +22,17 @@ export function DropZone({
   label = 'Drop your images here',
   hint,
   browseLabel = 'Browse Files',
+  fileTypeName,
 }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const [pasteFlash, setPasteFlash] = useState(false);
+  const [securityFlash, setSecurityFlash] = useState(false);
   const [isMac, setIsMac] = useState(false);
+
+  function triggerSecurityFlash() {
+    setSecurityFlash(true);
+    setTimeout(() => setSecurityFlash(false), 2200);
+  }
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isPdf = accept.includes('application/pdf');
@@ -58,6 +66,7 @@ export function DropZone({
       if (valid.length) {
         setPasteFlash(true);
         setTimeout(() => setPasteFlash(false), 600);
+        triggerSecurityFlash();
         onFiles(valid);
       }
     },
@@ -91,6 +100,7 @@ export function DropZone({
         if (valid.length) {
           setPasteFlash(true);
           setTimeout(() => setPasteFlash(false), 600);
+          triggerSecurityFlash();
           onFiles(valid);
         }
       } catch {
@@ -105,7 +115,7 @@ export function DropZone({
       e.preventDefault();
       setIsDragging(false);
       const valid = filterFiles(Array.from(e.dataTransfer.files));
-      if (valid.length) onFiles(valid);
+      if (valid.length) { triggerSecurityFlash(); onFiles(valid); }
     },
     [onFiles, filterFiles]
   );
@@ -114,7 +124,7 @@ export function DropZone({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
         const valid = filterFiles(Array.from(e.target.files));
-        if (valid.length) onFiles(valid);
+        if (valid.length) { triggerSecurityFlash(); onFiles(valid); }
         e.target.value = '';
       }
     },
@@ -141,6 +151,18 @@ export function DropZone({
     >
       {/* Radial gradient background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(59,130,246,0.07),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(59,130,246,0.12),transparent)] pointer-events-none" />
+
+      {/* Security flash — appears briefly after files are added */}
+      <div className={`absolute inset-x-0 bottom-0 flex items-center justify-center gap-2.5 px-4 py-3 bg-emerald-500/10 dark:bg-emerald-500/15 border-t border-emerald-500/20 rounded-b-3xl transition-all duration-500 pointer-events-none ${
+        securityFlash ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+      }`}>
+        <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+        </svg>
+        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+          Processing securely on your device — no data sent to any server
+        </span>
+      </div>
 
       <input
         ref={inputRef}
@@ -190,13 +212,26 @@ export function DropZone({
 
         {/* Buttons */}
         <div className="flex items-center gap-3 flex-wrap justify-center">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}
-            className="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
-          >
-            {browseLabel}
-          </button>
+          <div className="relative group/privtip">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+            >
+              {browseLabel}
+              {/* Info icon */}
+              <svg className="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+            </button>
+            {/* Privacy tooltip */}
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 group-hover/privtip:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+              <div className="bg-slate-900 dark:bg-slate-800 border border-slate-700/80 text-white text-[11px] px-3.5 py-2.5 rounded-xl shadow-xl leading-relaxed">
+                <span className="text-emerald-400 font-semibold">Privacy Note:</span> We use your browser&apos;s hardware to process this file. Your {fileTypeName ?? (isPdf ? 'PDF' : 'image')} stays on your computer throughout the entire process — nothing is transmitted.
+              </div>
+              <div className="w-2.5 h-2.5 bg-slate-900 dark:bg-slate-800 border-r border-b border-slate-700/80 rotate-45 mx-auto -mt-1.5" />
+            </div>
+          </div>
 
           {!isPdf && (
             <button

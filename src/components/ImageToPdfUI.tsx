@@ -186,6 +186,7 @@ export function ImageToPdfUI() {
           accept={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
           label="Drop images here"
           hint="JPEG · PNG · WebP · multiple files supported"
+          fileTypeName="images"
         />
       </div>
 

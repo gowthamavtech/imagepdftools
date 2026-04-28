@@ -9,7 +9,7 @@ import { useHandoffStore } from '@/store/handoffStore';
 
 const ImageCard = dynamic(() => import('./ImageCard').then((m) => m.ImageCard), { ssr: false });
 
-export function CompressorUI({ initialFormat }: { initialFormat?: string } = {}) {
+export function CompressorUI({ initialFormat, dropLabel, dropHint, dropFileTypeName, dropAccept }: { initialFormat?: string; dropLabel?: string; dropHint?: string; dropFileTypeName?: string; dropAccept?: string[] } = {}) {
   const {
     files,
     results,
@@ -81,7 +81,7 @@ export function CompressorUI({ initialFormat }: { initialFormat?: string } = {})
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-16">
-      <DropZone onFiles={addFiles} />
+      <DropZone onFiles={addFiles} label={dropLabel} hint={dropHint} fileTypeName={dropFileTypeName} accept={dropAccept} />
 
       {sourceLabel && (
         <div className="mt-4 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">

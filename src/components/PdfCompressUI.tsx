@@ -162,7 +162,9 @@ export function PdfCompressUI() {
             accept={['application/pdf']}
             multiple={false}
             label="Drop your PDF here"
+            hint="PDF files only · processed entirely in your browser"
             browseLabel="Browse PDF"
+            fileTypeName="PDF"
           />
         </div>
       )}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'ImagePDF.Tools — Free Image & PDF Tools Online',
   description:
-    'Compress, convert, crop, resize images and PDFs — all free, all in your browser. No uploads, no account, 100% private. JPEG, PNG, WebP, PDF supported.',
+    'Free private image compressor & converter online — JPEG, PNG, WebP, PDF. No-upload image tools powered by WebAssembly. Files never leave your browser. 100% secure.',
   keywords: [
     'image compressor',
     'compress image online',
@@ -375,7 +375,7 @@ export default function HomePage() {
             Everything runs in your browser. Nothing is ever uploaded.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
             <Link
               href="/compress-image"
               className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl transition-all shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5"
@@ -394,6 +394,32 @@ export default function HomePage() {
               </svg>
               Compress PDF Free
             </Link>
+          </div>
+
+          {/* ── Privacy Trust Bar ── */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex items-center gap-4 bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/50 rounded-2xl px-5 py-3.5 shadow-sm shadow-slate-200/60 dark:shadow-black/20">
+              {/* Laptop + shield badge icon */}
+              <div className="relative shrink-0">
+                <svg className="w-9 h-9 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3" />
+                </svg>
+                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-800 flex items-center justify-center">
+                  <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+              </div>
+              {/* Copy */}
+              <div className="text-left">
+                <p className="text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider leading-none mb-1">
+                  Zero-Server Processing
+                </p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
+                  Files processed locally via <span className="font-semibold text-slate-700 dark:text-slate-300">WebAssembly</span> — no data ever touches our servers.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Stats */}
