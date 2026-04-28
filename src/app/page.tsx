@@ -151,43 +151,111 @@ const IMAGE_GROUPS = [
   {
     label: 'Compress',
     color: 'text-violet-600 dark:text-violet-400',
-    bg: 'bg-violet-50 dark:bg-violet-900/20',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    iconColor: 'text-violet-600 dark:text-violet-400',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+    hoverShadow: 'hover:shadow-violet-100 dark:hover:shadow-violet-900/20',
     tools: [
-      { href: '/compress-image',      label: 'Compress Image',      desc: 'JPEG · PNG · WebP · SVG' },
-      { href: '/compress-png-online',  label: 'Compress PNG',         desc: 'Lossy PNG quantisation' },
-      { href: '/compress-jpeg-online', label: 'Compress JPEG',        desc: 'Shrink JPEG files' },
-      { href: '/reduce-image-size',    label: 'Reduce Image Size',    desc: 'Any format, any size' },
+      {
+        href: '/compress-image', label: 'Image Compressor',
+        desc: 'Compress PNG, JPG, and WebP images up to 80% smaller. Your files never leave your device.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+      },
+      {
+        href: '/compress-png-online', label: 'PNG Compressor',
+        desc: 'Reduce PNG file size with lossy quantisation — up to 70% smaller, fully in your browser.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+      },
+      {
+        href: '/compress-jpeg-online', label: 'JPEG Compressor',
+        desc: 'Shrink JPEG files with fine-grained quality control. Fast, private, free — nothing uploaded.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+      },
+      {
+        href: '/reduce-image-size', label: 'Reduce Image Size',
+        desc: 'Reduce any image format to a target file size — JPEG, PNG, WebP, or SVG.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />,
+      },
     ],
   },
   {
     label: 'Convert',
     color: 'text-blue-600 dark:text-blue-400',
-    bg: 'bg-blue-50 dark:bg-blue-900/20',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    iconColor: 'text-blue-600 dark:text-blue-400',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+    hoverShadow: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/20',
     tools: [
-      { href: '/convert-image-to-webp', label: 'Convert to WebP', desc: 'Modern format, tiny size' },
-      { href: '/convert-png-to-jpeg',   label: 'PNG to JPG',       desc: 'Convert PNG to JPEG' },
-      { href: '/jpg-to-png',            label: 'JPG to PNG',        desc: 'Convert JPEG to PNG' },
-      { href: '/webp-to-jpg',           label: 'WebP to JPG',       desc: 'Convert WebP to JPEG' },
+      {
+        href: '/convert-image-to-webp', label: 'Convert to WebP',
+        desc: 'Convert JPEG, PNG, or any image to WebP — the modern format with smaller file sizes.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/convert-png-to-jpeg', label: 'PNG to JPG',
+        desc: 'Convert PNG images to JPEG format instantly — right in your browser.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/jpg-to-png', label: 'JPG to PNG',
+        desc: 'Convert JPEG to lossless PNG with transparency support — no quality loss.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
+      {
+        href: '/webp-to-jpg', label: 'WebP to JPG',
+        desc: 'Convert WebP images to JPEG for maximum compatibility — all in your browser.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+      },
     ],
   },
   {
     label: 'Edit',
     color: 'text-emerald-600 dark:text-emerald-400',
-    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+    hoverShadow: 'hover:shadow-emerald-100 dark:hover:shadow-emerald-900/20',
     tools: [
-      { href: '/crop-image',      label: 'Crop Image',       desc: 'Trim freely or by ratio' },
-      { href: '/resize-image',    label: 'Resize Image',     desc: 'Custom px dimensions' },
-      { href: '/flip-image',      label: 'Flip Image',       desc: 'Mirror horizontal or vertical' },
-      { href: '/rotate-image',    label: 'Rotate Image',     desc: 'Rotate 90° or any angle' },
-      { href: '/remove-metadata', label: 'Remove Metadata',  desc: 'Strip EXIF for privacy' },
-      { href: '/metadata-editor', label: 'Metadata Editor',  desc: 'View & edit EXIF data' },
+      {
+        href: '/resize-image', label: 'Image Resizer',
+        desc: 'Resize images to exact dimensions or percentages — right in your browser. Maintain aspect ratio or set custom size.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />,
+      },
+      {
+        href: '/crop-image', label: 'Image Cropper',
+        desc: 'Crop images to any size — right in your browser. Drag to select the area you want, or choose a preset aspect ratio.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />,
+      },
+      {
+        href: '/flip-image', label: 'Flip & Rotate Image',
+        desc: 'Rotate images 90° clockwise or counter-clockwise, flip horizontal or vertical — right in your browser.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.657 48.657 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />,
+      },
+      {
+        href: '/remove-metadata', label: 'Remove Metadata',
+        desc: 'Strip EXIF GPS location, camera data, and private info from images before sharing.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z M6 6h.008v.008H6V6z" />,
+      },
+      {
+        href: '/metadata-editor', label: 'Metadata Editor',
+        desc: 'View and edit EXIF metadata in your images — camera settings, GPS, timestamps and more.',
+        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />,
+      },
     ],
   },
 ];
 
 const PDF_TOOLS = [
-  { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size without quality loss', icon: '🗜️' },
-  { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle multiple images into a single PDF',  icon: '📄' },
+  {
+    href: '/compress-pdf', label: 'Compress PDF',
+    desc: 'Shrink PDF file size without quality loss — fully processed in your browser, nothing uploaded.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />,
+  },
+  {
+    href: '/image-to-pdf', label: 'Image to PDF',
+    desc: 'Bundle multiple JPEG, PNG, or WebP images into a single PDF — right in your browser.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+  },
 ];
 
 const FEATURES = [
@@ -269,28 +337,6 @@ export default function HomePage() {
             Everything runs in your browser. Nothing is ever uploaded.
           </p>
 
-          {/* Keyword feature strip */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8 text-xs font-medium">
-            {[
-              { label: 'Compress Image',    href: '/compress-image',       color: 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/50' },
-              { label: 'Compress PDF',      href: '/compress-pdf',         color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
-              { label: 'Convert to WebP',   href: '/convert-image-to-webp',color: 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/50' },
-              { label: 'PNG to JPG',        href: '/convert-png-to-jpeg',  color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
-              { label: 'Resize Image',      href: '/resize-image',         color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
-              { label: 'Crop Image',        href: '/crop-image',           color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
-              { label: 'Image to PDF',      href: '/image-to-pdf',         color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50' },
-              { label: 'Remove Metadata',   href: '/remove-metadata',      color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50' },
-            ].map(({ label, href, color }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`border px-3 py-1.5 rounded-full transition-opacity hover:opacity-80 ${color}`}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-
           <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
             <Link
               href="/compress-image"
@@ -310,19 +356,12 @@ export default function HomePage() {
               </svg>
               Compress PDF Free
             </Link>
-            <Link
-              href="/image-tools"
-              className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/70 font-semibold text-sm px-6 py-3 rounded-xl transition-all"
-            >
-              All Tools →
-            </Link>
           </div>
 
           {/* Stats */}
           <div className="flex justify-center gap-8 sm:gap-14">
             {[
               { value: '16+',  label: 'Free Tools' },
-              { value: '90%',  label: 'Size Reduction' },
               { value: '100%', label: 'Private' },
               { value: '0',    label: 'Uploads Ever' },
             ].map(({ value, label }) => (
@@ -335,33 +374,44 @@ export default function HomePage() {
         </section>
 
         {/* ── Image Tools ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-14" aria-label="Image tools">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">Image Tools</h2>
-            <Link href="/image-tools" className="text-xs text-violet-600 dark:text-violet-400 hover:underline font-medium">
+        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Image tools">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Image Tools</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress, convert, and edit — all in your browser</p>
+            </div>
+            <Link href="/image-tools" className="text-xs font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-lg transition-colors">
               View all →
             </Link>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-8">
             {IMAGE_GROUPS.map((group) => (
               <div key={group.label}>
-                <p className={`text-[10px] font-bold uppercase tracking-widest mb-3 ${group.color}`}>
-                  {group.label}
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest ${group.color}`}>{group.label}</span>
+                  <div className="flex-1 h-px bg-slate-100 dark:bg-slate-800" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {group.tools.map((tool) => (
                     <Link
                       key={tool.href}
                       href={tool.href}
-                      className="group flex flex-col gap-1 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-sm transition-all"
+                      className={`group flex items-start gap-4 p-5 bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${group.hoverBorder}`}
                     >
-                      <span className="text-sm font-semibold text-slate-900 dark:text-slate-50 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-snug">
-                        {tool.label}
-                      </span>
-                      <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
-                        {tool.desc}
-                      </span>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${group.iconBg}`}>
+                        <svg className={`w-5 h-5 ${group.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                          {tool.icon}
+                        </svg>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-slate-900 dark:text-slate-50 leading-snug mb-1">
+                          {tool.label}
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+                          {tool.desc}
+                        </p>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -371,32 +421,36 @@ export default function HomePage() {
         </section>
 
         {/* ── PDF Tools ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-14" aria-label="PDF tools">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">PDF Tools</h2>
-            <Link href="/pdf-tools" className="text-xs text-violet-600 dark:text-violet-400 hover:underline font-medium">
+        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="PDF tools">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">PDF Tools</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress and build PDFs without any upload</p>
+            </div>
+            <Link href="/pdf-tools" className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800/60 bg-blue-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors">
               View all →
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {PDF_TOOLS.map((tool) => (
               <Link
                 key={tool.href}
                 href={tool.href}
-                className="group flex items-start gap-4 p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm transition-all"
+                className="group flex items-start gap-4 p-5 bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700"
               >
-                <span className="text-2xl shrink-0">{tool.icon}</span>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                    {tool.icon}
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 leading-snug mb-1">
                     {tool.label}
                   </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
                     {tool.desc}
                   </p>
                 </div>
-                <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors ml-auto shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
               </Link>
             ))}
           </div>
