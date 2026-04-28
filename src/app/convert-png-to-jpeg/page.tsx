@@ -1,5 +1,29 @@
 import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
+import { RelatedTools } from '@/components/RelatedTools';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: 'ImagePDF.Tools — PNG to JPEG Converter',
+      operatingSystem: 'Any (browser-based)',
+      applicationCategory: 'UtilitiesApplication',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description: 'Free online tool to convert PNG images to JPEG format. Runs entirely in your browser — no upload required.',
+    },
+    {
+      '@type': 'HowTo',
+      name: 'How to convert PNG to JPEG online',
+      step: [
+        { '@type': 'HowToStep', text: 'Drop your PNG file onto the converter below.' },
+        { '@type': 'HowToStep', text: 'Adjust the quality slider for the JPEG output.' },
+        { '@type': 'HowToStep', text: 'Download your converted JPEG file.' },
+      ],
+    },
+  ],
+};
 
 export const metadata: Metadata = {
   title: 'Convert PNG to JPEG Online — Free & Private',
@@ -63,7 +87,9 @@ const FAQS = [
 
 export default function ConvertPngToJpegPage() {
   return (
-    <main className="flex-1">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="flex-1">
       <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-16 text-center">
 
         <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
@@ -151,6 +177,9 @@ export default function ConvertPngToJpegPage() {
         </div>
 
       </div>
+
+      <RelatedTools hrefs={['/compress-image', '/jpg-to-png', '/convert-image-to-webp', '/compress-png-online']} />
     </main>
+    </>
   );
 }

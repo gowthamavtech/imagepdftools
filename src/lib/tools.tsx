@@ -1,0 +1,158 @@
+import type { ReactNode } from 'react';
+
+export type ToolDef = {
+  href: string;
+  label: string;
+  desc: string;
+  icon: ReactNode;
+  color: string;
+  iconBg: string;
+  hoverBorder: string;
+};
+
+export const TOOLS: Record<string, ToolDef> = {
+  '/compress-image': {
+    href: '/compress-image',
+    label: 'Compress Image',
+    desc: 'Reduce JPEG, PNG, WebP and SVG file sizes by up to 90% — all in your browser.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+    color: 'text-violet-600 dark:text-violet-400',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+  },
+  '/compress-png-online': {
+    href: '/compress-png-online',
+    label: 'Compress PNG',
+    desc: 'Shrink PNG files by up to 80% using pngquant quantisation — no upload.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+    color: 'text-violet-600 dark:text-violet-400',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+  },
+  '/compress-jpeg-online': {
+    href: '/compress-jpeg-online',
+    label: 'Compress JPEG',
+    desc: 'Reduce JPEG file sizes with fine-grained quality control. Fast, free, private.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+    color: 'text-violet-600 dark:text-violet-400',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+  },
+  '/reduce-image-size': {
+    href: '/reduce-image-size',
+    label: 'Reduce Image Size',
+    desc: 'Make images smaller for web, email, or social media — any format.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />,
+    color: 'text-violet-600 dark:text-violet-400',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+  },
+  '/convert-image-to-webp': {
+    href: '/convert-image-to-webp',
+    label: 'Convert to WebP',
+    desc: 'Convert JPEG or PNG to modern WebP — up to 35% smaller at the same quality.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+  '/convert-png-to-jpeg': {
+    href: '/convert-png-to-jpeg',
+    label: 'PNG to JPG',
+    desc: 'Convert PNG images to JPEG format — reduce file size by up to 80%.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+  '/jpg-to-png': {
+    href: '/jpg-to-png',
+    label: 'JPG to PNG',
+    desc: 'Convert JPEG to lossless PNG with transparency support — no quality loss.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+  '/webp-to-jpg': {
+    href: '/webp-to-jpg',
+    label: 'WebP to JPG',
+    desc: 'Convert WebP to JPEG for maximum compatibility with all apps and devices.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+  '/crop-image': {
+    href: '/crop-image',
+    label: 'Crop Image',
+    desc: 'Crop to any size or aspect ratio — 1:1, 16:9, free selection, and more.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/resize-image': {
+    href: '/resize-image',
+    label: 'Resize Image',
+    desc: 'Resize to exact pixel dimensions or scale by percentage — aspect ratio lock included.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/flip-image': {
+    href: '/flip-image',
+    label: 'Flip Image',
+    desc: 'Mirror your image horizontally or vertically in one click.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.657 48.657 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/rotate-image': {
+    href: '/rotate-image',
+    label: 'Rotate Image',
+    desc: 'Rotate 90°, 180°, 270°, or any custom angle — browser-based, instant.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/remove-metadata': {
+    href: '/remove-metadata',
+    label: 'Remove Metadata',
+    desc: 'Strip GPS location, camera data, and all EXIF info before sharing.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z M6 6h.008v.008H6V6z" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/metadata-editor': {
+    href: '/metadata-editor',
+    label: 'Metadata Editor',
+    desc: 'View and selectively remove EXIF metadata fields — GPS, timestamps, camera info.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+  },
+  '/compress-pdf': {
+    href: '/compress-pdf',
+    label: 'Compress PDF',
+    desc: 'Shrink PDF file size by re-rendering pages at your chosen quality level.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+  '/image-to-pdf': {
+    href: '/image-to-pdf',
+    label: 'Image to PDF',
+    desc: 'Bundle multiple JPEG, PNG, or WebP images into a single PDF file.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
+    color: 'text-blue-600 dark:text-blue-400',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+  },
+};
