@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePlan } from '@/hooks/usePlan';
 
 declare global {
@@ -22,13 +22,15 @@ const CONFIG: Record<AdVariant, { minH: number; minW: number; format: string; fu
 export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdVariant; side?: AdSide }) {
   const { isPro } = usePlan();
   const c = CONFIG[variant];
+  const pushed = useRef(false);
 
   useEffect(() => {
-    if (isPro) return;
+    if (isPro || pushed.current || !process.env.NEXT_PUBLIC_ADSENSE_ID) return;
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      pushed.current = true;
     } catch {
-      // adsbygoogle may not be loaded yet
+      // adsbygoogle not yet loaded
     }
   }, [isPro]);
 
