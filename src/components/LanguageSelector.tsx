@@ -135,12 +135,27 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
 
       {open && (
         <div
-          className={`absolute top-full mt-2 z-50 w-44 bg-white dark:bg-slate-800 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl overflow-hidden ${mobileAlign === 'right' ? 'right-0' : 'left-0'}`}
+          className={`absolute z-50 w-44 bg-white dark:bg-slate-800 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40 overflow-hidden ${
+            mobileAlign !== undefined
+              ? `top-full mt-2 ${mobileAlign === 'left' ? 'left-0' : 'right-0'}`
+              : 'right-0'
+          }`}
+          style={mobileAlign === undefined ? { top: 'calc(100% + 15.5px)' } : undefined}
           role="listbox"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="max-h-72 overflow-y-auto py-1">
+          <style>{`
+            .lang-scroll::-webkit-scrollbar { width: 4px; }
+            .lang-scroll::-webkit-scrollbar-track { background: transparent; }
+            .lang-scroll::-webkit-scrollbar-thumb { background: rgb(203 213 225); border-radius: 99px; }
+            .dark .lang-scroll::-webkit-scrollbar-thumb { background: rgb(71 85 105); }
+          `}</style>
+          <div
+            className="lang-scroll max-h-56 overflow-y-auto py-1"
+            style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(203 213 225) transparent' }}
+            translate="no"
+          >
             {LANGUAGES.map((lang) => (
               <button
                 key={lang.code}
@@ -154,7 +169,7 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
                 }`}
               >
                 <Flag iso={lang.iso} label={lang.label} />
-                <span>{lang.label}</span>
+                <span className="notranslate" translate="no">{lang.label}</span>
               </button>
             ))}
           </div>

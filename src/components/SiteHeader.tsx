@@ -94,7 +94,9 @@ function NavButton({ label, open, onClick }: { label: string; open: boolean; onC
 export function SiteHeader() {
   const [menuOpen,     setMenuOpen]     = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
+  const [pdfRight,     setPdfRight]     = useState(0);
   const headerRef    = useRef<HTMLDivElement>(null);
+  const pdfBtnRef    = useRef<HTMLDivElement>(null);
   const hoverTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -120,6 +122,11 @@ export function SiteHeader() {
 
   function openMenu(key: DropdownKey) {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    if (key === 'pdf' && pdfBtnRef.current && headerRef.current) {
+      const btn    = pdfBtnRef.current.getBoundingClientRect();
+      const header = headerRef.current.getBoundingClientRect();
+      setPdfRight(header.right - btn.right);
+    }
     setOpenDropdown(key);
   }
 
@@ -160,40 +167,15 @@ export function SiteHeader() {
           </div>
 
           <div
-            className="relative"
+            ref={pdfBtnRef}
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
             <NavButton
               label="PDF Tools"
               open={openDropdown === 'pdf'}
-              onClick={() => setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf')}
+              onClick={() => { openMenu('pdf'); setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf'); }}
             />
-            {openDropdown === 'pdf' && (
-              <div
-                className="absolute right-0 top-[calc(100%+12px)] w-56 z-50"
-                onMouseEnter={() => openMenu('pdf')}
-                onMouseLeave={scheduleClose}
-              >
-                <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
-                  <div className="px-3 py-3">
-                    {PDF_TOOLS.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={closeAll}
-                        className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
-                      >
-                        <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
-                          {item.label}
-                        </p>
-                        <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           <Link href="/privacy" className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors">
@@ -232,6 +214,34 @@ export function SiteHeader() {
                       </Link>
                     ))}
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PDF Tools dropdown — headerRef level for flush vertical alignment; right measured from btn */}
+        {openDropdown === 'pdf' && (
+          <div
+            className="absolute top-full w-56 z-50"
+            style={{ right: pdfRight }}
+            onMouseEnter={() => openMenu('pdf')}
+            onMouseLeave={scheduleClose}
+          >
+            <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
+              <div className="px-3 py-3">
+                {PDF_TOOLS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeAll}
+                    className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
+                  >
+                    <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                      {item.label}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+                  </Link>
                 ))}
               </div>
             </div>
