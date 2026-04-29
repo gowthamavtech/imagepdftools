@@ -140,8 +140,8 @@ export function ImageCard({
                 Compressing…
               </span>
             )}
-            {!isCompressing && result && (
-              <>
+            {result && (
+              <span className={`inline-flex items-center gap-2 transition-opacity ${isCompressing ? 'opacity-40' : ''}`}>
                 <span className="font-data text-violet-400 font-medium">
                   → {formatBytes(result.size)}
                 </span>
@@ -154,7 +154,7 @@ export function ImageCard({
                 {savings !== null && savings < 0 && (
                   <span className="font-bold text-amber-500">+{Math.abs(savings)}% larger</span>
                 )}
-              </>
+              </span>
             )}
           </div>
 
@@ -252,11 +252,15 @@ export function ImageCard({
 
       {/* ── Action row: Compare · Remove · Download ── */}
       <div className="flex items-center gap-2">
-        {/* Compare — only when result is ready */}
-        {result && !isCompressing && (
+        {/* Compare — shown once result exists; disabled while recompressing */}
+        {result && (
           <button
-            onClick={() => setShowCompare((v) => !v)}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-200 bg-violet-50 dark:bg-blue-950/30 hover:bg-violet-100 dark:hover:bg-blue-950/50 px-3 py-1.5 rounded-lg transition-colors"
+            onClick={() => !isCompressing && setShowCompare((v) => !v)}
+            className={`inline-flex items-center gap-1.5 text-xs font-medium bg-violet-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors ${
+              isCompressing
+                ? 'opacity-40 cursor-not-allowed text-violet-400'
+                : 'text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-200 hover:bg-violet-100 dark:hover:bg-blue-950/50'
+            }`}
           >
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 0v10m0-10a2 2 0 012 2h2a2 2 0 012-2" />
@@ -289,8 +293,10 @@ export function ImageCard({
       )}
 
       {/* ── Next actions ── */}
-      {result && !isCompressing && (
-        <NextActions blob={result.blob} filename={result.name} currentTool="compress" />
+      {result && (
+        <div className={`transition-opacity ${isCompressing ? 'opacity-40 pointer-events-none' : ''}`}>
+          <NextActions blob={result.blob} filename={result.name} currentTool="compress" />
+        </div>
       )}
 
       {/* ── Metadata strip toggle ── */}

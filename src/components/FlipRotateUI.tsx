@@ -271,14 +271,14 @@ export function FlipRotateUI() {
           </div>
         )}
 
-        {/* Result card */}
-        {result && !isWorking && (
-          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 space-y-3 shadow-sm">
+        {/* Result card — stays visible while re-processing to avoid flicker */}
+        {result && (
+          <div className={`bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 space-y-3 shadow-sm transition-opacity ${isWorking ? 'opacity-50' : ''}`}>
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={result.url} alt="Result"
                 className="w-14 h-14 rounded-xl object-cover shrink-0 ring-1 ring-violet-100 dark:ring-violet-900 cursor-grab active:cursor-grabbing"
-                draggable
+                draggable={!isWorking}
                 onDragStart={() => setHandoff(new File([result.blob], result.name, { type: result.blob.type }))}
               />
               <div className="flex-1 min-w-0">
@@ -286,24 +286,37 @@ export function FlipRotateUI() {
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-0.5 text-xs">
                   <span className="text-violet-400 font-medium">{result.w} × {result.h} px</span>
                   <span className="text-slate-500 dark:text-slate-400">{formatBytes(result.blob.size)}</span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Ready
-                  </span>
+                  {isWorking ? (
+                    <span className="text-slate-400 inline-flex items-center gap-1">
+                      <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                      </svg>
+                      Processing…
+                    </span>
+                  ) : (
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Ready
+                    </span>
+                  )}
                 </div>
               </div>
               <button
+                disabled={isWorking}
                 onClick={() => { const a = document.createElement('a'); a.href = result.url; a.download = result.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0">
+                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 {downloaded ? 'Downloaded ✓' : 'Download'}
               </button>
             </div>
-            <NextActions blob={result.blob} filename={result.name} currentTool="flip" />
+            <div className={isWorking ? 'pointer-events-none' : ''}>
+              <NextActions blob={result.blob} filename={result.name} currentTool="flip" />
+            </div>
           </div>
         )}
 
