@@ -42,14 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         }}
                     />
 
-                    {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-                        // eslint-disable-next-line @next/next/no-sync-scripts
-                        <script
-                            async
-                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-                            crossOrigin="anonymous"
-                        />
-                    )}
                 </head>
                 <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text-1)" }}>
                     <ThemeProvider>
@@ -72,6 +64,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <FeedbackButton />
                         <OfflineBanner />
                     </ThemeProvider>
+
+                    {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+                        <Script
+                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+                            strategy="lazyOnload"
+                            crossOrigin="anonymous"
+                        />
+                    )}
 
                     {/* Google Translate mount point — must NOT be display:none or GT won't init */}
                     <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
