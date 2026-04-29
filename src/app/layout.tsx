@@ -43,9 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     />
 
                     {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-                        <Script
+                        // eslint-disable-next-line @next/next/no-sync-scripts
+                        <script
+                            async
                             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-                            strategy="afterInteractive"
                             crossOrigin="anonymous"
                         />
                     )}

@@ -34,7 +34,9 @@ export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdV
     }
   }, [isPro]);
 
-  if (isPro || !process.env.NEXT_PUBLIC_ADSENSE_ID) return null;
+  const slotId = process.env.NEXT_PUBLIC_ADSENSE_SLOT_ID;
+
+  if (isPro || !process.env.NEXT_PUBLIC_ADSENSE_ID || !slotId) return null;
 
   const insEl = (
     <div
@@ -45,7 +47,7 @@ export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdV
         className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
-        data-ad-slot="AUTO"
+        data-ad-slot={slotId}
         data-ad-format={c.format}
         data-full-width-responsive={c.fullWidth}
       />
