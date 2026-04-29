@@ -42,8 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         }}
                     />
 
-                    {/* Google Translate mount point — must NOT be display:none or GT won't init */}
-                    <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
                     {process.env.NEXT_PUBLIC_ADSENSE_ID && (
                         <Script
                             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
@@ -73,6 +71,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <FeedbackButton />
                         <OfflineBanner />
                     </ThemeProvider>
+
+                    {/* Google Translate mount point — must NOT be display:none or GT won't init */}
+                    <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
 
                     {/* Google Translate script — loaded after page content */}
                     <Script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" strategy="lazyOnload" />
