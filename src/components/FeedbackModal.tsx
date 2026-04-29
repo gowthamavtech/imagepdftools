@@ -48,21 +48,22 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
   const [feedbackType, setFeedbackType] = useState<FeedbackType>('feature');
   const [text, setText] = useState('');
   const [fileName, setFileName] = useState<string | null>(null);
-  const [sending, setSending] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const handleSend = useCallback(async () => {
+  const handleSend = useCallback(() => {
     if (!text.trim()) return;
-    setSending(true);
-    // Simulate sending
-    await new Promise((r) => setTimeout(r, 800));
+    const typeLabel = TYPE_CONFIG[feedbackType].label;
+    const body = `Feedback type: ${typeLabel}\n\n${text.trim()}`;
+    window.location.href =
+      `mailto:support@imagepdf.tools` +
+      `?subject=${encodeURIComponent(`[${typeLabel}] Feedback from ImagePDF.Tools`)}` +
+      `&body=${encodeURIComponent(body)}`;
     onSuccess({
       id: Math.random().toString(36).slice(2),
       type: feedbackType,
       text: text.trim(),
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
     });
-    setSending(false);
   }, [text, feedbackType, onSuccess]);
 
   return (
@@ -131,20 +132,10 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
       <div className="flex gap-2 pt-1">
         <button
           onClick={handleSend}
-          disabled={!text.trim() || sending}
+          disabled={!text.trim()}
           className="flex-1 flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all"
         >
-          {sending ? (
-            <>
-              <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Sending…
-            </>
-          ) : (
-            'Send Feedback'
-          )}
+          Send Feedback
         </button>
       </div>
     </div>

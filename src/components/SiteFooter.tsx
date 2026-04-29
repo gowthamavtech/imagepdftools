@@ -52,6 +52,7 @@ const COLUMNS = [
     color: 'text-slate-500 dark:text-slate-400',
     links: [
       { href: '/pricing',        label: 'Pricing', highlight: true },
+      { href: '/about',          label: 'About Us' },
       { href: '/blog',           label: 'Blog' },
       { href: '/whats-new',      label: "What's New" },
       { href: '/support',        label: 'Support' },
@@ -120,7 +121,7 @@ export function SiteFooter() {
             {TRUST_BADGES.map(({ label, icon }) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 px-3 py-1.5 rounded-full"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/30 px-3 py-1.5 rounded-full"
               >
                 {icon}
                 {label}

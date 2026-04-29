@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { FeedbackButton } from '@/components/FeedbackModal';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AdBanner } from '@/components/AdBanner';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <SiteFooter />
             <FeedbackButton />
+            <OfflineBanner />
           </ThemeProvider>
           {/* Google Translate mount point — must NOT be display:none or GT won't init */}
           <div id="gt-hidden" style={{ position: 'absolute', top: '-9999px', left: '-9999px', height: 0, overflow: 'hidden' }} />
