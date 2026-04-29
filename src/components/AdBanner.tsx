@@ -1,13 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import { usePlan } from '@/hooks/usePlan';
-
-declare global {
-  interface Window {
-    adsbygoogle: unknown[];
-  }
-}
 
 type AdVariant = 'banner' | 'leaderboard' | 'skyscraper' | 'inline';
 type AdSide = 'left' | 'right';
@@ -22,17 +15,6 @@ const CONFIG: Record<AdVariant, { minH: number; minW: number; format: string; fu
 export function AdBanner({ variant = 'inline', side = 'right' }: { variant?: AdVariant; side?: AdSide }) {
   const { isPro } = usePlan();
   const c = CONFIG[variant];
-  const pushed = useRef(false);
-
-  useEffect(() => {
-    if (isPro || pushed.current || !process.env.NEXT_PUBLIC_ADSENSE_ID) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      pushed.current = true;
-    } catch {
-      // adsbygoogle not yet loaded
-    }
-  }, [isPro]);
 
   const slotId = process.env.NEXT_PUBLIC_ADSENSE_SLOT_ID;
 
