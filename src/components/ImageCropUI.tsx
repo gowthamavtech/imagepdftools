@@ -644,6 +644,7 @@ export function ImageCropUI() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
                 Cropped
+                <span className="text-slate-400 dark:text-slate-500 font-normal">· {formatBytes(croppedResult.blob.size)}</span>
               </span>
             </div>
             <button

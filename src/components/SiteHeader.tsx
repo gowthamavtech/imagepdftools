@@ -118,6 +118,18 @@ export function SiteHeader() {
     return () => document.removeEventListener('keydown', handler);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const handler = (e: MediaQueryListEvent) => { if (e.matches) setMenuOpen(false); };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   function closeAll() { setOpenDropdown(null); setMenuOpen(false); }
 
   function openMenu(key: DropdownKey) {
@@ -271,7 +283,7 @@ export function SiteHeader() {
 
       {/* Mobile dropdown menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-black/8 dark:border-white/8 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-4 space-y-1">
+        <div className="md:hidden border-t border-black/8 dark:border-white/8 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-4 space-y-1 overflow-y-auto max-h-[calc(100dvh-56px)]">
 
           <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-1 pb-1 pt-1">
             Image Tools
