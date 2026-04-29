@@ -41,6 +41,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
                         }}
                     />
+
+                    {/* Google Translate mount point — must NOT be display:none or GT won't init */}
+                    <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
+                    {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+                        <Script
+                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+                            strategy="afterInteractive"
+                            crossOrigin="anonymous"
+                        />
+                    )}
                 </head>
                 <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text-1)" }}>
                     <ThemeProvider>
@@ -63,11 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <FeedbackButton />
                         <OfflineBanner />
                     </ThemeProvider>
-                    {/* Google Translate mount point — must NOT be display:none or GT won't init */}
-                    <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
-                    {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-                        <Script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`} crossOrigin="anonymous" />
-                    )}
+
                     {/* Google Translate script — loaded after page content */}
                     <Script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" strategy="lazyOnload" />
                     {/* Init function for cookie-based language switching */}
