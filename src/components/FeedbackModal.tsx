@@ -321,13 +321,13 @@ export function FeedbackButton() {
       {/* Floating trigger */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 dark:hover:border-violet-700 text-sm font-medium px-4 py-2.5 rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 transition-all hover:shadow-xl hover:scale-105 active:scale-100"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 dark:hover:border-violet-700 text-sm font-medium p-2.5 md:px-4 md:py-2.5 rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 transition-all hover:shadow-xl hover:scale-105 active:scale-100"
         aria-label="Open feedback"
       >
-        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        Feedback
+        <span className="hidden md:inline">Feedback</span>
       </button>
 
       <FeedbackModal isOpen={open} onClose={() => setOpen(false)} />
