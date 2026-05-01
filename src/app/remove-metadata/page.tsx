@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Remove Image Metadata',
+      url: 'https://imagepdf.tools/remove-metadata',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG, PNG, or WebP image onto the tool.' },
         { '@type': 'HowToStep', text: 'The tool reads and displays all embedded metadata fields.' },
         { '@type': 'HowToStep', text: 'Click Remove Metadata and download your privacy-safe image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'What types of metadata are removed?', acceptedAnswer: { '@type': 'Answer', text: 'The tool removes all EXIF data including GPS coordinates, camera make and model, lens information, shutter speed, ISO, focal length, timestamps, author name, copyright notice, and software used to edit the image.' } },
+        { '@type': 'Question', name: 'Does removing metadata affect image quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. The pixel data is preserved at 95%+ fidelity. The only data removed is the invisible metadata fields embedded alongside the image. The visible image remains identical.' } },
+        { '@type': 'Question', name: 'Do social media platforms remove metadata automatically?', acceptedAnswer: { '@type': 'Answer', text: 'Most major platforms — Instagram, Twitter/X, Facebook — strip metadata when you upload images. However, some platforms (like Flickr, LinkedIn in some cases, and direct file sharing) may not. Removing metadata before uploading is the safest approach.' } },
+        { '@type': 'Question', name: 'Can someone recover the metadata after I remove it?', acceptedAnswer: { '@type': 'Answer', text: 'No. Once metadata is stripped and the new image is saved, the data is gone. There is no steganographic or recoverable version of the metadata in the output file.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally in your browser using the Canvas API. Your images are never uploaded to any server. We never see your files.' } },
       ],
     },
   ],

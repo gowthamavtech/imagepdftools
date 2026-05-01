@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — JPG to PNG Converter',
+      url: 'https://imagepdf.tools/jpg-to-png',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG or JPG file onto the converter.' },
         { '@type': 'HowToStep', text: 'Select PNG as the output format.' },
         { '@type': 'HowToStep', text: 'Download your converted PNG file instantly.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why would I convert a JPG to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'The most common reason is to enable transparency. PNG supports transparent backgrounds, while JPEG does not. If you need to overlay an image onto a different background — for a logo, a watermark, or a design composite — you need PNG. PNG is also lossless, so it does not introduce further compression artefacts when you edit and re-save.' } },
+        { '@type': 'Question', name: 'Will converting JPG to PNG improve quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. Converting a JPEG to PNG does not recover quality lost during the original JPEG compression. The PNG output is a lossless snapshot of the current JPEG — no better or worse in terms of pixel quality. But re-saving it as PNG means future edits and re-saves will not introduce additional JPEG degradation.' } },
+        { '@type': 'Question', name: 'Will the PNG file be larger than the JPG?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. PNG uses lossless compression, which means the files are typically 2–4× larger than their JPEG equivalents for photographs. This is the trade-off for lossless quality and transparency support.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your file never leaves your device.' } },
+        { '@type': 'Question', name: 'Can I convert multiple JPGs to PNG at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 files at once on the Free tier, or unlimited with Pro.' } },
       ],
     },
   ],

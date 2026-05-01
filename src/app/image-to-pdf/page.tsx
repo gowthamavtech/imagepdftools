@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image to PDF Converter',
+      url: 'https://imagepdf.tools/image-to-pdf',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG, PNG, or WebP images onto the tool. Add multiple images for a multi-page PDF.' },
         { '@type': 'HowToStep', text: 'Choose a page size: A4, Letter, or Fit to Image.' },
         { '@type': 'HowToStep', text: 'Reorder images by dragging, then click Generate PDF to download.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Can I convert multiple images into one PDF?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can drop multiple images at once. Each image becomes a separate page in the PDF. You can reorder the pages by dragging before generating the final file.' } },
+        { '@type': 'Question', name: 'What page sizes are supported?', acceptedAnswer: { '@type': 'Answer', text: 'You can choose A4 (210 × 297 mm — standard in most of the world), US Letter (8.5 × 11 inches — standard in North America), or Fit to Image (the page dimensions match the image dimensions exactly).' } },
+        { '@type': 'Question', name: 'What image formats are accepted?', acceptedAnswer: { '@type': 'Answer', text: 'JPEG, JPG, PNG, and WebP are all supported. You can mix formats in the same PDF — for example, combine a PNG logo with JPEG photos.' } },
+        { '@type': 'Question', name: 'Is there a limit on the number of images?', acceptedAnswer: { '@type': 'Answer', text: 'The Free tier supports up to 5 images per PDF. Pro users can create PDFs with unlimited images.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally in your browser using jsPDF and the Canvas API. Your files never leave your device.' } },
       ],
     },
   ],

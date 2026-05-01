@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — WebP to PNG Converter',
+      url: 'https://imagepdf.tools/webp-to-png',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your WebP file onto the converter below.' },
         { '@type': 'HowToStep', text: 'The tool converts to PNG automatically — no quality settings needed (PNG is lossless).' },
         { '@type': 'HowToStep', text: 'Download your PNG file.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why convert WebP to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'PNG is a lossless format supported by every image editor, design tool, and platform. If you need to edit a WebP image in Photoshop, Illustrator, or Figma — or upload it to a platform that does not accept WebP — converting to PNG gives you maximum compatibility.' } },
+        { '@type': 'Question', name: 'Does converting WebP to PNG lose quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. PNG is a lossless format. Once your WebP is decoded and exported as PNG, every pixel is preserved without any additional compression artefacts. The PNG will look identical to the WebP at the same resolution.' } },
+        { '@type': 'Question', name: 'Is transparency preserved when converting WebP to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Both WebP and PNG support alpha-channel transparency. Converting a transparent WebP image to PNG preserves the transparent areas exactly.' } },
+        { '@type': 'Question', name: 'Will the PNG file be larger than the WebP?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. PNG uses lossless compression, which is less efficient than WebP for photographs and complex images. A WebP photo converted to PNG will typically be 3–5× larger. PNG is best when you need to edit the file further or need guaranteed lossless quality.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your WebP file never leaves your device.' } },
       ],
     },
   ],

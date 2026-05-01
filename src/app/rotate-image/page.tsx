@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Rotate Image Online',
+      url: 'https://imagepdf.tools/rotate-image',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Upload your JPEG, PNG, or WebP image.' },
         { '@type': 'HowToStep', text: 'Click Rotate Left or Rotate Right to rotate 90° at a time.' },
         { '@type': 'HowToStep', text: 'Download your correctly oriented image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why is my photo showing sideways on some devices but correctly on others?', acceptedAnswer: { '@type': 'Answer', text: 'Photos taken in portrait mode on many cameras are stored rotated, with an EXIF orientation flag telling software to display them correctly. Some software reads this flag; others ignore it. Rotating the image and re-saving it bakes the correct orientation into the pixel data so every viewer shows it the right way.' } },
+        { '@type': 'Question', name: 'Does rotating reduce image quality?', acceptedAnswer: { '@type': 'Answer', text: 'For 90°, 180°, and 270° rotations of JPEG images, quality is technically reduced because the image must be re-encoded. However, at a high quality setting, the difference is imperceptible. PNG rotations are lossless because PNG uses lossless compression.' } },
+        { '@type': 'Question', name: 'Can I rotate by a custom angle like 45°?', acceptedAnswer: { '@type': 'Answer', text: 'The main rotation buttons rotate in 90° steps. For custom angles, use the angle input to set any degree value between 0 and 360.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All rotation happens in your browser using the Canvas API. Your file never leaves your device.' } },
       ],
     },
   ],

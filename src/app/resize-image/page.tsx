@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image Resizer',
+      url: 'https://imagepdf.tools/resize-image',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Upload your image by dropping it onto the resize tool.' },
         { '@type': 'HowToStep', text: 'Enter your desired width and height in pixels, or choose a preset.' },
         { '@type': 'HowToStep', text: 'Click Resize and download your resized image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'What is the difference between resizing and cropping?', acceptedAnswer: { '@type': 'Answer', text: 'Resizing scales the entire image — all pixels are kept but scaled up or down to the new dimensions. Cropping removes pixels outside a selected region without scaling. Use resize to change the canvas size; use crop to change the composition.' } },
+        { '@type': 'Question', name: 'Will resizing reduce image quality?', acceptedAnswer: { '@type': 'Answer', text: 'Shrinking an image (downscaling) produces very good results with minimal quality loss. Enlarging an image (upscaling) beyond its original dimensions will result in some blurring because new pixel information is interpolated. For best results, start with the largest version of the image available.' } },
+        { '@type': 'Question', name: 'Can I resize to a specific file size rather than pixel dimensions?', acceptedAnswer: { '@type': 'Answer', text: 'This tool resizes by pixel dimensions. To reduce file size specifically, use the Image Compressor tool which lets you control quality and file size output directly.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The resize operation runs entirely in your browser using the Canvas API. Your file never leaves your device.' } },
+        { '@type': 'Question', name: 'What is the maximum dimensions I can resize to?', acceptedAnswer: { '@type': 'Answer', text: 'There is no hard limit enforced by the tool, but browsers have memory constraints. Very large output dimensions (above 10,000 × 10,000 pixels) may cause the browser tab to slow down on lower-spec devices.' } },
       ],
     },
   ],

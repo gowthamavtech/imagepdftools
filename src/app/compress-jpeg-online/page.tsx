@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — JPEG Compressor',
+      url: 'https://imagepdf.tools/compress-jpeg-online',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG or JPG file onto the compressor.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider — lower values produce smaller files.' },
         { '@type': 'HowToStep', text: 'Download your compressed JPEG.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'What JPEG quality setting should I use?', acceptedAnswer: { '@type': 'Answer', text: 'For websites and social media, 70–85 is the sweet spot — files are typically 60–75% smaller than quality 100 with virtually no visible difference at screen sizes. For print or archival, use 90–95. For thumbnails or previews, 50–65 is acceptable.' } },
+        { '@type': 'Question', name: 'Does JPEG compression permanently reduce quality?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. JPEG is a lossy format — each time you compress and re-save a JPEG, some image data is discarded. Keep the original file and use the compressed version only for its intended purpose (web, email, etc.).' } },
+        { '@type': 'Question', name: 'What is the difference between this and converting to WebP?', acceptedAnswer: { '@type': 'Answer', text: 'WebP achieves smaller file sizes than JPEG at equivalent visual quality. If you need a JPEG specifically — for a platform requirement, email compatibility, or printing — use this compressor. If format does not matter, converting to WebP will give you an even smaller file.' } },
+        { '@type': 'Question', name: 'Is my JPEG uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All compression runs in your browser using the Canvas API. Your file never leaves your device — not even temporarily.' } },
       ],
     },
   ],

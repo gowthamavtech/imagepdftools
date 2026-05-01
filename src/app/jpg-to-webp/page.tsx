@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — JPG to WebP Converter',
+      url: 'https://imagepdf.tools/jpg-to-webp',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG file onto the converter below.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider if needed (default 80 is a great starting point).' },
         { '@type': 'HowToStep', text: 'Download your converted WebP file instantly.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why convert JPG to WebP?', acceptedAnswer: { '@type': 'Answer', text: 'WebP produces files that are 25–35% smaller than JPEG at the same visual quality. For websites, this means faster page load times and better Core Web Vitals scores. Google recommends WebP as the preferred format for web images.' } },
+        { '@type': 'Question', name: 'Does WebP look better than JPEG at the same file size?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP uses a more efficient compression algorithm than JPEG. A WebP file at quality 80 typically looks as good as a JPEG at quality 90 — while being significantly smaller.' } },
+        { '@type': 'Question', name: 'Will WebP work on all browsers?', acceptedAnswer: { '@type': 'Answer', text: 'WebP is supported by Chrome, Firefox, Safari (since 14), Edge, and Opera — covering over 97% of global browser usage as of 2024. For the small percentage of users on unsupported browsers, you can serve a JPEG fallback using the HTML picture element.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your file never leaves your device.' } },
+        { '@type': 'Question', name: 'Can I convert multiple JPEG files to WebP at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 files at once on the Free tier, or unlimited files with Pro.' } },
       ],
     },
   ],

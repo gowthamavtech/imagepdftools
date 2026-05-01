@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Reduce Image Size',
+      url: 'https://imagepdf.tools/reduce-image-size',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG, PNG, or WebP image onto the tool.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider to control the degree of compression.' },
         { '@type': 'HowToStep', text: 'Download your smaller image file.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'How much can you reduce image size without losing quality?', acceptedAnswer: { '@type': 'Answer', text: 'For JPEG and WebP images, you can typically reduce file size by 60–80% at quality 75–85 with minimal visible quality loss at screen sizes. PNG can be reduced by 40–70% using colour quantisation. The quality slider lets you find the right balance.' } },
+        { '@type': 'Question', name: 'What is the difference between reducing image size and resizing an image?', acceptedAnswer: { '@type': 'Answer', text: 'Reducing image size (compression) makes the file smaller in kilobytes while keeping the same pixel dimensions. Resizing changes the pixel dimensions — the canvas size — which also makes the file smaller but changes how large the image appears. For web performance, you often want both: resize to the correct display dimensions, then compress to reduce the file size further.' } },
+        { '@type': 'Question', name: 'Which format gives the smallest file size?', acceptedAnswer: { '@type': 'Answer', text: 'WebP typically produces the smallest files — 25–35% smaller than JPEG and 25% smaller than PNG at equivalent quality. If you are not restricted to a specific format, converting to WebP will give you the smallest file.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All compression happens in your browser using the Canvas API and pngquant WASM for PNG. Your file never leaves your device.' } },
       ],
     },
   ],

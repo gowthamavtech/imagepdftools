@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — PNG Compressor',
+      url: 'https://imagepdf.tools/compress-png-online',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your PNG file onto the compressor.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider to control compression aggressiveness.' },
         { '@type': 'HowToStep', text: 'Download your compressed PNG — typically 40–80% smaller.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'How does PNG compression work?', acceptedAnswer: { '@type': 'Answer', text: 'This tool uses pngquant, the industry-standard lossy PNG compression algorithm. It reduces the number of colours in the image from 16.7 million (24-bit) to 256 (8-bit) using a technique called quantisation. The result is a smaller file that looks nearly identical to the original at normal viewing sizes.' } },
+        { '@type': 'Question', name: 'Will lossy compression ruin my PNG?', acceptedAnswer: { '@type': 'Answer', text: 'At quality settings above 70, the visual difference between the original and the compressed PNG is virtually imperceptible on screen. At lower settings, you may notice slight banding in gradients or flat colour areas. The quality slider lets you find the right balance for your use case.' } },
+        { '@type': 'Question', name: 'Should I compress PNG or convert to JPEG?', acceptedAnswer: { '@type': 'Answer', text: 'If your image has transparency or is a logo/icon with flat colours, compress the PNG. If your image is a photograph without transparency, converting to JPEG or WebP will give you a much smaller file than any PNG compressor can achieve.' } },
+        { '@type': 'Question', name: 'Is my PNG uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The pngquant compression runs in your browser as a WebAssembly module. Your PNG file never leaves your device — not even temporarily.' } },
       ],
     },
   ],

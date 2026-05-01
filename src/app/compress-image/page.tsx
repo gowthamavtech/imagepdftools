@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image Compressor',
+      url: 'https://imagepdf.tools/compress-image',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,36 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drag and drop your image onto the drop zone or click to browse.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider to control compression level.' },
         { '@type': 'HowToStep', text: 'Click Download to save your compressed image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How much can I compress an image without losing quality?',
+          acceptedAnswer: { '@type': 'Answer', text: 'For JPEG and WebP, compressing at quality 75–85 typically reduces file size by 60–75% with no perceptible quality loss at normal screen viewing sizes. PNG compressed with pngquant achieves 40–70% reduction. The comparison slider lets you see the difference before downloading.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is there a file size limit?',
+          acceptedAnswer: { '@type': 'Answer', text: 'The free tier supports images up to 50 MB each. Pro users have no file size limit. All processing happens locally in your browser regardless of file size.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I compress multiple images at once?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 images at once on the Free tier. Pro users can compress unlimited images in a single batch and download them all as a ZIP.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is my image uploaded to a server?',
+          acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs in your browser using the Canvas API and pngquant WebAssembly. Your files never leave your device — we never see them.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I compare the original and compressed image?',
+          acceptedAnswer: { '@type': 'Answer', text: 'After compression, each image card shows the original and compressed file sizes with the percentage reduction. Click the image to open the before/after comparison slider.' },
+        },
       ],
     },
   ],

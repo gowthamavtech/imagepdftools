@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Flip Image Online',
+      url: 'https://imagepdf.tools/flip-image',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Upload your JPEG, PNG, or WebP image.' },
         { '@type': 'HowToStep', text: 'Click Flip Horizontal or Flip Vertical.' },
         { '@type': 'HowToStep', text: 'Download your flipped image instantly.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'What is the difference between flip horizontal and flip vertical?', acceptedAnswer: { '@type': 'Answer', text: 'Flip horizontal (also called mirror) creates a left-to-right mirror image — like looking at the original in a mirror. Flip vertical flips the image upside down, creating a top-to-bottom mirror.' } },
+        { '@type': 'Question', name: 'Why do selfies often look wrong to others?', acceptedAnswer: { '@type': 'Answer', text: 'Front-facing cameras show a mirrored preview so you see yourself as you normally do in a mirror. But when the photo is saved, some phones save it as-is (mirrored) while others flip it back. If your selfie looks reversed to others, use Flip Horizontal to correct it.' } },
+        { '@type': 'Question', name: 'Does flipping reduce image quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. Flipping is a non-destructive pixel transformation — no pixels are added, removed, or recompressed in the flip operation itself. The output is identical in quality to the input.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All flipping happens in your browser using the Canvas API. Your file never leaves your device.' } },
       ],
     },
   ],

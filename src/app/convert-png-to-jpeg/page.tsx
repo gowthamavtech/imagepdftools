@@ -6,8 +6,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — PNG to JPEG Converter',
+      url: 'https://imagepdf.tools/convert-png-to-jpeg',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -20,6 +21,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your PNG file onto the converter below.' },
         { '@type': 'HowToStep', text: 'Adjust the quality slider for the JPEG output.' },
         { '@type': 'HowToStep', text: 'Download your converted JPEG file.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why convert PNG to JPEG?', acceptedAnswer: { '@type': 'Answer', text: 'JPEGs are significantly smaller than PNGs for photographs and complex images because they use lossy compression. If your image has no transparency and is a photo or detailed graphic, JPEG will give you a much smaller file with minimal visible quality loss.' } },
+        { '@type': 'Question', name: 'Will I lose transparency?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — JPEG does not support transparent pixels. Any transparent areas in your PNG will be filled with white. If you need to preserve transparency, keep the PNG format or export to WebP instead.' } },
+        { '@type': 'Question', name: 'What quality setting should I use?', acceptedAnswer: { '@type': 'Answer', text: 'For web use, 75–85 is the sweet spot: noticeably smaller files with near-identical visual quality. For print or archival purposes, use 90+.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All conversion happens entirely inside your browser using the Canvas API. Your files never leave your device.' } },
+        { '@type': 'Question', name: 'Can I convert multiple PNGs at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 files at once on the Free tier, or unlimited with Pro.' } },
       ],
     },
   ],

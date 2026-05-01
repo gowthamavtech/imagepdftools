@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image Metadata Editor',
+      url: 'https://imagepdf.tools/metadata-editor',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG, PNG, or WebP image onto the tool.' },
         { '@type': 'HowToStep', text: 'Review all embedded metadata fields — GPS, camera, timestamps, author.' },
         { '@type': 'HowToStep', text: 'Toggle which metadata groups to keep or remove, then download the modified image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'What is EXIF metadata and what does it contain?', acceptedAnswer: { '@type': 'Answer', text: 'EXIF (Exchangeable Image File Format) is a standard for storing metadata in image files. It typically includes GPS coordinates, camera make and model, lens information, shutter speed, aperture, ISO, focal length, flash mode, capture date and time, author name, and copyright notice.' } },
+        { '@type': 'Question', name: 'Can I remove only specific metadata fields?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Unlike a simple metadata stripper, the editor lets you selectively remove metadata groups — for example, keep camera settings for your portfolio but remove GPS location before sharing publicly.' } },
+        { '@type': 'Question', name: 'Does editing metadata change the image quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. Metadata is stored separately from the pixel data. Removing or editing metadata fields has no effect on the visual content or quality of the image.' } },
+        { '@type': 'Question', name: 'Which image formats support EXIF metadata?', acceptedAnswer: { '@type': 'Answer', text: 'JPEG is the primary format that carries EXIF data. PNG has its own metadata format (tEXt chunks and iTXt chunks). WebP supports EXIF embedded in its container. This tool reads and handles all three formats.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All metadata reading and modification happens locally in your browser using JavaScript. Your image never leaves your device.' } },
       ],
     },
   ],

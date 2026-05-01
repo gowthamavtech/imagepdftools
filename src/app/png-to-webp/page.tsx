@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — PNG to WebP Converter',
+      url: 'https://imagepdf.tools/png-to-webp',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your PNG file onto the converter below.' },
         { '@type': 'HowToStep', text: 'Adjust quality if needed — higher quality preserves transparency and fine detail.' },
         { '@type': 'HowToStep', text: 'Download your converted WebP file.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Does WebP support transparency like PNG?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP supports full alpha-channel transparency, just like PNG. Converting a PNG with a transparent background to WebP preserves the transparency completely — with a significantly smaller file size.' } },
+        { '@type': 'Question', name: 'How much smaller is WebP compared to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'WebP (lossy) is typically 50–75% smaller than PNG for the same image. Even WebP lossless is around 26% smaller than PNG. This makes PNG-to-WebP one of the most impactful file size reductions available for web images.' } },
+        { '@type': 'Question', name: 'Should I use lossy or lossless WebP for my PNG?', acceptedAnswer: { '@type': 'Answer', text: 'For photos or images where minor quality loss is acceptable, lossy WebP at quality 80 gives the best size reduction. For logos, icons, or images with sharp edges where quality must be pixel-perfect, use a higher quality setting (90+) to minimise compression artefacts on edges.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser using the Canvas API. Your file never leaves your device.' } },
+        { '@type': 'Question', name: 'Can I convert multiple PNGs to WebP at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 PNG files at once on the Free tier, or unlimited with Pro.' } },
       ],
     },
   ],

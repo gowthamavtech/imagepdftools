@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — PDF Compressor',
+      url: 'https://imagepdf.tools/compress-pdf',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your PDF file onto the upload zone or click to browse.' },
         { '@type': 'HowToStep', text: 'Choose a quality level: High, Medium, or Low.' },
         { '@type': 'HowToStep', text: 'Wait for each page to be processed, then download your smaller PDF.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'How much can I reduce my PDF size?', acceptedAnswer: { '@type': 'Answer', text: 'Results vary depending on the content. PDFs with large embedded images (photos, scans) typically compress by 50–80%. PDFs that are mostly text see smaller reductions of 10–30%, because text data is already efficient.' } },
+        { '@type': 'Question', name: 'Will the text in my PDF still be selectable after compression?', acceptedAnswer: { '@type': 'Answer', text: 'Our compressor re-renders each page as an image, so the output is a flattened image-based PDF. Text will not be selectable. If you need selectable text, choose the High quality setting to preserve legibility.' } },
+        { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'There is no hard file size limit since everything runs locally in your browser. Very large PDFs (100+ pages or 200 MB+) may take longer to process depending on your device\'s speed and available memory.' } },
+        { '@type': 'Question', name: 'Is my PDF file uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs in your browser using WebAssembly and the Canvas API. Your PDF never leaves your device, and we never see its contents.' } },
+        { '@type': 'Question', name: 'Which quality setting should I choose?', acceptedAnswer: { '@type': 'Answer', text: 'High quality is best for documents you\'ll print or archive. Medium works well for email attachments and sharing digitally. Low quality gives the smallest file size — ideal when the exact visual quality is less important than file size.' } },
       ],
     },
   ],

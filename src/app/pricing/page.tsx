@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Pricing — Coming Soon',
   description: 'Pro plan coming soon. All ImagePDF.Tools features are free while we prepare our Pro tier.',
   alternates: { canonical: 'https://imagepdf.tools/pricing' },
+  robots: { index: false, follow: false },
 };
 
 export default function PricingPage() {

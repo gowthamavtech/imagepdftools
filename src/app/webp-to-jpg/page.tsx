@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — WebP to JPG Converter',
+      url: 'https://imagepdf.tools/webp-to-jpg',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your WebP file onto the converter below.' },
         { '@type': 'HowToStep', text: 'The tool automatically detects and converts WebP to JPEG.' },
         { '@type': 'HowToStep', text: 'Download your JPG file instantly.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Why would I need to convert WebP to JPG?', acceptedAnswer: { '@type': 'Answer', text: 'WebP is a modern format, but many applications, devices, and platforms do not yet support it. Email clients like older versions of Outlook, eBay\'s product listing system, some printing services, and legacy software often require JPEG. Converting to JPG ensures your image works everywhere.' } },
+        { '@type': 'Question', name: 'Does converting WebP to JPG reduce quality?', acceptedAnswer: { '@type': 'Answer', text: 'There is a slight quality reduction since JPEG uses lossy compression. You can minimise this by choosing a high quality setting (90+). At quality 85, the result is virtually indistinguishable from the original WebP at a normal viewing size.' } },
+        { '@type': 'Question', name: 'Can I open a WebP file in Photoshop?', acceptedAnswer: { '@type': 'Answer', text: 'Older versions of Photoshop (before 23.2) cannot open WebP natively. Converting to JPEG first is the fastest workaround. Photoshop CC 2022 and newer versions support WebP natively.' } },
+        { '@type': 'Question', name: 'Is my WebP file uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your file never leaves your device.' } },
+        { '@type': 'Question', name: 'Can I convert multiple WebP files at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 WebP files at once on the Free tier, or unlimited files with Pro.' } },
       ],
     },
   ],

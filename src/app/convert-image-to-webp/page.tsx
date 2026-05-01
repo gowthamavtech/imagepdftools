@@ -13,8 +13,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image to WebP Converter',
+      url: 'https://imagepdf.tools/convert-image-to-webp',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -27,6 +28,16 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Drop your JPEG, PNG, or WebP image onto the converter.' },
         { '@type': 'HowToStep', text: 'Select WebP as the output format.' },
         { '@type': 'HowToStep', text: 'Adjust quality if needed, then download your WebP file.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Is WebP better than JPEG?', acceptedAnswer: { '@type': 'Answer', text: 'WebP is typically 25–35% smaller than JPEG at the same visual quality level. It also supports transparency (like PNG) and animation (like GIF). For web use, WebP is the superior format in almost every situation.' } },
+        { '@type': 'Question', name: 'Does every browser support WebP?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP is supported by all major browsers — Chrome, Firefox, Safari (since version 14), Edge, and Opera. As of 2025, global WebP support is above 97%.' } },
+        { '@type': 'Question', name: 'Will converting to WebP make my website faster?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Smaller images load faster, which directly improves your Google PageSpeed Insights score and Core Web Vitals (specifically Largest Contentful Paint). Google has recommended WebP for web images since 2018.' } },
+        { '@type': 'Question', name: 'Does WebP support transparency?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP supports both lossy and lossless compression, as well as transparency (alpha channel). This makes it a suitable replacement for both JPEG and PNG.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your file never leaves your device.' } },
       ],
     },
   ],

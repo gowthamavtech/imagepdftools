@@ -12,8 +12,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: 'ImagePDF.Tools — Image Cropper',
+      url: 'https://imagepdf.tools/crop-image',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -26,6 +27,15 @@ const jsonLd = {
         { '@type': 'HowToStep', text: 'Upload your image by dropping it onto the crop tool.' },
         { '@type': 'HowToStep', text: 'Drag the crop handles to select the area you want to keep, or choose a preset aspect ratio.' },
         { '@type': 'HowToStep', text: 'Click Crop and download your cropped image.' },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Can I crop to an exact pixel size?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the free crop mode and drag the handles to your desired area. The pixel dimensions of your crop selection are shown in real time so you can hit an exact size.' } },
+        { '@type': 'Question', name: 'What aspect ratios are available?', acceptedAnswer: { '@type': 'Answer', text: 'You can crop freely (no ratio lock), or choose from presets: 1:1 (square, for Instagram posts), 4:3, 16:9 (landscape video), 9:16 (portrait/Stories), and others.' } },
+        { '@type': 'Question', name: 'Does cropping reduce image quality?', acceptedAnswer: { '@type': 'Answer', text: 'Cropping itself does not degrade quality — it simply removes the pixels outside the selection. The retained pixels are exported at full quality.' } },
+        { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All cropping happens in your browser using the Canvas API. Your file never leaves your device.' } },
       ],
     },
   ],
