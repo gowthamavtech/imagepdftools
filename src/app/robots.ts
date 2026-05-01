@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://imagepdf.tools/sitemap.xml',
+    sitemap: 'https://www.imagepdf.tools/sitemap.xml',
   };
 }
