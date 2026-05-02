@@ -43,6 +43,7 @@ const COLUMNS = [
     title: 'PDF',
     color: 'text-blue-600 dark:text-blue-400',
     links: [
+      { href: '/merge-pdf',     label: 'Merge PDF' },
       { href: '/compress-pdf',  label: 'Compress PDF' },
       { href: '/image-to-pdf',  label: 'Image to PDF' },
     ],

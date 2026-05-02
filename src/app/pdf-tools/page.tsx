@@ -10,6 +10,13 @@ export const metadata: Metadata = {
 
 const PDF_TOOLS = [
   {
+    href: '/merge-pdf',
+    label: 'Merge PDF',
+    desc: 'Combine multiple PDF files into one. Reorder pages, then download your merged PDF instantly.',
+    badge: 'New',
+    details: ['Unlimited PDFs', 'Original quality preserved', 'Drag to reorder'],
+  },
+  {
     href: '/compress-pdf',
     label: 'Compress PDF',
     desc: 'Shrink PDF file size without visible quality loss. Great for email attachments and sharing.',
@@ -45,7 +52,7 @@ export default function PdfToolsPage() {
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
           <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            2 free PDF tools that run entirely in your browser — your files never leave your device.
+            3 free PDF tools that run entirely in your browser — your files never leave your device.
           </p>
         </div>
 
