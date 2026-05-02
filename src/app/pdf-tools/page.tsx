@@ -13,14 +13,14 @@ const PDF_TOOLS = [
     href: '/merge-pdf',
     label: 'Merge PDF',
     desc: 'Combine multiple PDF files into one. Reorder pages, then download your merged PDF instantly.',
-    badge: 'New',
+    badge: null,
     details: ['Unlimited PDFs', 'Original quality preserved', 'Drag to reorder'],
   },
   {
     href: '/split-pdf',
     label: 'Split PDF',
     desc: 'Extract individual pages or split into multiple parts by range. Downloads as ZIP when splitting.',
-    badge: 'New',
+    badge: null,
     details: ['Select pages visually', 'Split by range', 'ZIP multi-part download'],
   },
   {
@@ -36,6 +36,13 @@ const PDF_TOOLS = [
     desc: 'Bundle one or more images into a single PDF document. Supports JPEG, PNG, and WebP.',
     badge: null,
     details: ['Combine multiple images', 'Custom page order', 'Instant download'],
+  },
+  {
+    href: '/pdf-to-jpg',
+    label: 'PDF to JPG',
+    desc: 'Convert every page of a PDF to a high-quality JPEG image. Download individually or as ZIP.',
+    badge: 'New',
+    details: ['Every page → JPG', 'Adjustable quality', 'ZIP for multi-page'],
   },
 ];
 
@@ -59,7 +66,7 @@ export default function PdfToolsPage() {
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
           <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            4 free PDF tools that run entirely in your browser — your files never leave your device.
+            5 free PDF tools that run entirely in your browser — your files never leave your device.
           </p>
         </div>
 

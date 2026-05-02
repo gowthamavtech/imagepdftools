@@ -44,6 +44,7 @@ const PDF_TOOLS = [
   { href: '/split-pdf',    label: 'Split PDF',     desc: 'Extract pages or ranges' },
   { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size' },
   { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle images into a PDF' },
+  { href: '/pdf-to-jpg',   label: 'PDF to JPG',    desc: 'Convert pages to images' },
 ];
 
 type DropdownKey = 'image' | 'pdf' | null;
@@ -97,13 +98,14 @@ export function SiteHeader() {
   const [menuOpen,     setMenuOpen]     = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
   const [pdfRight,     setPdfRight]     = useState(0);
-  const headerRef    = useRef<HTMLDivElement>(null);
+  const outerRef     = useRef<HTMLElement>(null);  // entire <header> — for outside-click
+  const headerRef    = useRef<HTMLDivElement>(null); // inner nav div — for PDF dropdown positioning
   const pdfBtnRef    = useRef<HTMLDivElement>(null);
   const hoverTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+      if (outerRef.current && !outerRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
         setOpenDropdown(null);
       }
@@ -149,7 +151,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="border-b border-black/8 dark:border-white/8 bg-white/90 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+    <header ref={outerRef} className="border-b border-black/8 dark:border-white/8 bg-white/90 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
       {/* Inner container — mega menu is positioned absolute relative to this */}
       <div ref={headerRef} className="relative max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 

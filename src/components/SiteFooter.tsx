@@ -47,6 +47,7 @@ const COLUMNS = [
       { href: '/split-pdf',     label: 'Split PDF' },
       { href: '/compress-pdf',  label: 'Compress PDF' },
       { href: '/image-to-pdf',  label: 'Image to PDF' },
+      { href: '/pdf-to-jpg',    label: 'PDF to JPG' },
     ],
   },
   {

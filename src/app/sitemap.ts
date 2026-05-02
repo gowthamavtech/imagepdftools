@@ -73,6 +73,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.95,
         },
         {
+            url: `${BASE_URL}/pdf-to-jpg`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.95,
+        },
+        {
             url: `${BASE_URL}/compress-pdf`,
             lastModified,
             changeFrequency: "weekly",
