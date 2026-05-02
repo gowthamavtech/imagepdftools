@@ -44,11 +44,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                     {process.env.NEXT_PUBLIC_ADSENSE_ID && (
                         <Script
-                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
                             strategy="afterInteractive" // Change from lazyOnload
                             crossOrigin="anonymous"
                         />
                     )}
+
+                    {process.env.NEXT_PUBLIC_ADSENSE_ID && <meta name="google-adsense-account" content={`ca-pub-${process.env.NEXT_PUBLIC_ADSENSE_ID}`} />}
                 </head>
                 <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text-1)" }}>
                     <ThemeProvider>
