@@ -45,6 +45,7 @@ const PDF_TOOLS = [
   { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size' },
   { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle images into a PDF' },
   { href: '/pdf-to-jpg',   label: 'PDF to JPG',    desc: 'Convert pages to images' },
+  { href: '/rotate-pdf',  label: 'Rotate PDF',    desc: 'Fix page orientation' },
 ];
 
 type DropdownKey = 'image' | 'pdf' | null;

@@ -48,6 +48,7 @@ const COLUMNS = [
       { href: '/compress-pdf',  label: 'Compress PDF' },
       { href: '/image-to-pdf',  label: 'Image to PDF' },
       { href: '/pdf-to-jpg',    label: 'PDF to JPG' },
+      { href: '/rotate-pdf',    label: 'Rotate PDF' },
     ],
   },
   {

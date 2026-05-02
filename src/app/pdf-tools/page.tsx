@@ -41,8 +41,15 @@ const PDF_TOOLS = [
     href: '/pdf-to-jpg',
     label: 'PDF to JPG',
     desc: 'Convert every page of a PDF to a high-quality JPEG image. Download individually or as ZIP.',
-    badge: 'New',
+    badge: null,
     details: ['Every page → JPG', 'Adjustable quality', 'ZIP for multi-page'],
+  },
+  {
+    href: '/rotate-pdf',
+    label: 'Rotate PDF',
+    desc: 'Fix page orientation in one click — 90° CW, 90° CCW, or 180°. No re-encoding, no quality loss.',
+    badge: 'New',
+    details: ['All pages rotated', 'No quality loss', 'Instant download'],
   },
 ];
 
@@ -66,7 +73,7 @@ export default function PdfToolsPage() {
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
           <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            5 free PDF tools that run entirely in your browser — your files never leave your device.
+            6 free PDF tools that run entirely in your browser — your files never leave your device.
           </p>
         </div>
 
