@@ -41,6 +41,7 @@ const IMAGE_TOOLS = [
 
 const PDF_TOOLS = [
   { href: '/merge-pdf',    label: 'Merge PDF',     desc: 'Combine PDFs into one' },
+  { href: '/split-pdf',    label: 'Split PDF',     desc: 'Extract pages or ranges' },
   { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size' },
   { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle images into a PDF' },
 ];

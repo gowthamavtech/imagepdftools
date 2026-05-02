@@ -439,12 +439,12 @@ export default function HomePage() {
 
         {/* ── Image Tools ── */}
         <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Image tools">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-start justify-between gap-4 mb-8">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Image Tools</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress, convert, and edit — all in your browser</p>
             </div>
-            <Link href="/image-tools" className="text-xs font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-lg transition-colors">
+            <Link href="/image-tools" className="shrink-0 text-xs font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-lg transition-colors">
               View all →
             </Link>
           </div>
@@ -486,12 +486,12 @@ export default function HomePage() {
 
         {/* ── PDF Tools ── */}
         <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="PDF tools">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-start justify-between gap-4 mb-8">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">PDF Tools</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress and build PDFs without any upload</p>
             </div>
-            <Link href="/pdf-tools" className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800/60 bg-blue-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors">
+            <Link href="/pdf-tools" className="shrink-0 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800/60 bg-blue-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors">
               View all →
             </Link>
           </div>
