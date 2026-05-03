@@ -45,7 +45,11 @@ const PDF_TOOLS = [
   { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size' },
   { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle images into a PDF' },
   { href: '/pdf-to-jpg',   label: 'PDF to JPG',    desc: 'Convert pages to images' },
-  { href: '/rotate-pdf',  label: 'Rotate PDF',    desc: 'Fix page orientation' },
+  { href: '/rotate-pdf',    label: 'Rotate PDF',       desc: 'Fix page orientation' },
+  { href: '/protect-pdf',   label: 'Protect / Unlock', desc: 'Add or remove password' },
+  { href: '/number-pdf',    label: 'Add Page Numbers', desc: 'Stamp numbers on every page' },
+  { href: '/organize-pdf',  label: 'Organize Pages',   desc: 'Drag to reorder or delete' },
+  { href: '/watermark-pdf', label: 'Watermark PDF',    desc: 'Overlay text on every page' },
 ];
 
 type DropdownKey = 'image' | 'pdf' | null;

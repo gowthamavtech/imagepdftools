@@ -157,6 +157,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${BASE_URL}/protect-pdf`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.9,
+        },
+        {
+            url: `${BASE_URL}/number-pdf`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.85,
+        },
+        {
+            url: `${BASE_URL}/organize-pdf`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.85,
+        },
+        {
+            url: `${BASE_URL}/watermark-pdf`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.85,
+        },
+        {
             url: `${BASE_URL}/crop-image`,
             lastModified,
             changeFrequency: "weekly",

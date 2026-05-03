@@ -49,6 +49,10 @@ const COLUMNS = [
       { href: '/image-to-pdf',  label: 'Image to PDF' },
       { href: '/pdf-to-jpg',    label: 'PDF to JPG' },
       { href: '/rotate-pdf',    label: 'Rotate PDF' },
+      { href: '/protect-pdf',   label: 'Protect / Unlock PDF' },
+      { href: '/number-pdf',    label: 'Add Page Numbers' },
+      { href: '/organize-pdf',  label: 'Organize Pages' },
+      { href: '/watermark-pdf', label: 'Watermark PDF' },
     ],
   },
   {

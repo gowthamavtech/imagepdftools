@@ -48,8 +48,36 @@ const PDF_TOOLS = [
     href: '/rotate-pdf',
     label: 'Rotate PDF',
     desc: 'Fix page orientation in one click — 90° CW, 90° CCW, or 180°. No re-encoding, no quality loss.',
-    badge: 'New',
+    badge: null,
     details: ['All pages rotated', 'No quality loss', 'Instant download'],
+  },
+  {
+    href: '/protect-pdf',
+    label: 'Protect / Unlock PDF',
+    desc: 'Add a password to any PDF, or remove an existing one. AES-128 encryption, fully in your browser.',
+    badge: 'New',
+    details: ['AES-128 encryption', 'Protect or unlock', 'No upload needed'],
+  },
+  {
+    href: '/number-pdf',
+    label: 'Add Page Numbers',
+    desc: 'Stamp page numbers onto every page — choose position, format, and starting number.',
+    badge: 'New',
+    details: ['6 positions', '3 number formats', 'Custom start number'],
+  },
+  {
+    href: '/organize-pdf',
+    label: 'Organize Pages',
+    desc: 'Drag and drop to reorder PDF pages or delete pages you don\'t need.',
+    badge: 'New',
+    details: ['Drag-and-drop UI', 'Delete any page', 'No quality loss'],
+  },
+  {
+    href: '/watermark-pdf',
+    label: 'Watermark PDF',
+    desc: 'Overlay a diagonal text watermark on every page — CONFIDENTIAL, DRAFT, or custom text.',
+    badge: 'New',
+    details: ['Custom text & colour', 'Adjustable opacity', 'All pages stamped'],
   },
 ];
 
@@ -66,16 +94,20 @@ const PDF_TOOLS_JSONLD = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Free Online PDF Tools',
-  description: '6 free browser-based PDF tools: merge, split, compress, convert images to PDF, PDF to JPG, and rotate.',
+  description: '10 free browser-based PDF tools: merge, split, compress, image to PDF, PDF to JPG, rotate, protect, page numbers, organize, and watermark.',
   url: `${BASE}/pdf-tools`,
-  numberOfItems: 6,
+  numberOfItems: 10,
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Merge PDF',     url: `${BASE}/merge-pdf` },
-    { '@type': 'ListItem', position: 2, name: 'Split PDF',     url: `${BASE}/split-pdf` },
-    { '@type': 'ListItem', position: 3, name: 'Compress PDF',  url: `${BASE}/compress-pdf` },
-    { '@type': 'ListItem', position: 4, name: 'Image to PDF',  url: `${BASE}/image-to-pdf` },
-    { '@type': 'ListItem', position: 5, name: 'PDF to JPG',    url: `${BASE}/pdf-to-jpg` },
-    { '@type': 'ListItem', position: 6, name: 'Rotate PDF',    url: `${BASE}/rotate-pdf` },
+    { '@type': 'ListItem', position: 1,  name: 'Merge PDF',            url: `${BASE}/merge-pdf` },
+    { '@type': 'ListItem', position: 2,  name: 'Split PDF',            url: `${BASE}/split-pdf` },
+    { '@type': 'ListItem', position: 3,  name: 'Compress PDF',         url: `${BASE}/compress-pdf` },
+    { '@type': 'ListItem', position: 4,  name: 'Image to PDF',         url: `${BASE}/image-to-pdf` },
+    { '@type': 'ListItem', position: 5,  name: 'PDF to JPG',           url: `${BASE}/pdf-to-jpg` },
+    { '@type': 'ListItem', position: 6,  name: 'Rotate PDF',           url: `${BASE}/rotate-pdf` },
+    { '@type': 'ListItem', position: 7,  name: 'Protect / Unlock PDF', url: `${BASE}/protect-pdf` },
+    { '@type': 'ListItem', position: 8,  name: 'Add Page Numbers',     url: `${BASE}/number-pdf` },
+    { '@type': 'ListItem', position: 9,  name: 'Organize Pages',       url: `${BASE}/organize-pdf` },
+    { '@type': 'ListItem', position: 10, name: 'Watermark PDF',        url: `${BASE}/watermark-pdf` },
   ],
 };
 
@@ -96,7 +128,7 @@ export default function PdfToolsPage() {
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
           <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            6 free PDF tools that run entirely in your browser — your files never leave your device.
+            10 free PDF tools that run entirely in your browser — your files never leave your device.
           </p>
         </div>
 
