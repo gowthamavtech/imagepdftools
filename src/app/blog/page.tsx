@@ -32,8 +32,31 @@ export default async function BlogPage({
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
+  const allSorted = [...POSTS].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'ImagePDF.Tools Blog',
+    description: 'Guides on image compression, PDF tools, web performance, and privacy.',
+    url: 'https://imagepdf.tools/blog',
+    numberOfItems: POSTS.length,
+    itemListElement: allSorted.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.title,
+      url: `https://imagepdf.tools/blog/${p.slug}`,
+    })),
+  };
+
   return (
     <main className="flex-1 py-12 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}

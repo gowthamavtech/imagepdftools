@@ -60,9 +60,32 @@ const FEATURES = [
   { icon: '📱', title: 'Works Everywhere', desc: 'Chrome, Safari, Firefox, Edge — desktop and mobile.' },
 ];
 
+const BASE = 'https://imagepdf.tools';
+
+const PDF_TOOLS_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Free Online PDF Tools',
+  description: '6 free browser-based PDF tools: merge, split, compress, convert images to PDF, PDF to JPG, and rotate.',
+  url: `${BASE}/pdf-tools`,
+  numberOfItems: 6,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Merge PDF',     url: `${BASE}/merge-pdf` },
+    { '@type': 'ListItem', position: 2, name: 'Split PDF',     url: `${BASE}/split-pdf` },
+    { '@type': 'ListItem', position: 3, name: 'Compress PDF',  url: `${BASE}/compress-pdf` },
+    { '@type': 'ListItem', position: 4, name: 'Image to PDF',  url: `${BASE}/image-to-pdf` },
+    { '@type': 'ListItem', position: 5, name: 'PDF to JPG',    url: `${BASE}/pdf-to-jpg` },
+    { '@type': 'ListItem', position: 6, name: 'Rotate PDF',    url: `${BASE}/rotate-pdf` },
+  ],
+};
+
 export default function PdfToolsPage() {
   return (
     <main className="flex-1 py-12 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(PDF_TOOLS_JSONLD) }}
+      />
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}

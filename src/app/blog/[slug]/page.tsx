@@ -161,8 +161,41 @@ export default async function BlogPostPage({
   const cat     = CATEGORY_META[post.category];
   const related = getRelatedPosts(post, 3);
 
+  const BASE = 'https://imagepdf.tools';
+  const postUrl = `${BASE}/blog/${post.slug}`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: post.title,
+        description: post.description,
+        datePublished: post.date,
+        dateModified: post.date,
+        url: postUrl,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+        author: { '@type': 'Organization', name: 'ImagePDF.Tools', url: BASE },
+        publisher: { '@type': 'Organization', name: 'ImagePDF.Tools', url: BASE },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog` },
+          { '@type': 'ListItem', position: 3, name: cat.label, item: `${BASE}/blog?category=${post.category}` },
+          { '@type': 'ListItem', position: 4, name: post.title, item: postUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <main className="flex-1 py-10 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-6xl mx-auto">
 
         {/* Breadcrumb */}

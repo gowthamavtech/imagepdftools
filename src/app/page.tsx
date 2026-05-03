@@ -70,7 +70,7 @@ const jsonLd = [
     logo: 'https://imagepdf.tools/logo.png',
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'support@imagepdf.tools',
+      email: 'contact@imagepdf.tools',
       contactType: 'customer support',
     },
   },

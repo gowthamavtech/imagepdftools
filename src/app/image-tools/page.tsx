@@ -114,9 +114,40 @@ const GROUPS = [
   },
 ];
 
+const BASE = 'https://imagepdf.tools';
+
+const IMAGE_TOOLS_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Free Online Image Tools',
+  description: '14 free browser-based image tools: compress, convert, crop, resize, flip, rotate, and remove metadata.',
+  url: `${BASE}/image-tools`,
+  numberOfItems: 14,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1,  name: 'Image Compressor',   url: `${BASE}/compress-image` },
+    { '@type': 'ListItem', position: 2,  name: 'PNG Compressor',     url: `${BASE}/compress-png-online` },
+    { '@type': 'ListItem', position: 3,  name: 'JPEG Compressor',    url: `${BASE}/compress-jpeg-online` },
+    { '@type': 'ListItem', position: 4,  name: 'Reduce Image Size',  url: `${BASE}/reduce-image-size` },
+    { '@type': 'ListItem', position: 5,  name: 'Convert to WebP',    url: `${BASE}/convert-image-to-webp` },
+    { '@type': 'ListItem', position: 6,  name: 'PNG to JPG',         url: `${BASE}/convert-png-to-jpeg` },
+    { '@type': 'ListItem', position: 7,  name: 'JPG to PNG',         url: `${BASE}/jpg-to-png` },
+    { '@type': 'ListItem', position: 8,  name: 'WebP to JPG',        url: `${BASE}/webp-to-jpg` },
+    { '@type': 'ListItem', position: 9,  name: 'Image Resizer',      url: `${BASE}/resize-image` },
+    { '@type': 'ListItem', position: 10, name: 'Image Cropper',      url: `${BASE}/crop-image` },
+    { '@type': 'ListItem', position: 11, name: 'Flip & Rotate Image',url: `${BASE}/flip-image` },
+    { '@type': 'ListItem', position: 12, name: 'Rotate Image',       url: `${BASE}/rotate-image` },
+    { '@type': 'ListItem', position: 13, name: 'Remove Metadata',    url: `${BASE}/remove-metadata` },
+    { '@type': 'ListItem', position: 14, name: 'Metadata Editor',    url: `${BASE}/metadata-editor` },
+  ],
+};
+
 export default function ImageToolsPage() {
   return (
     <main className="flex-1 py-12 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(IMAGE_TOOLS_JSONLD) }}
+      />
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}

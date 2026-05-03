@@ -12,7 +12,7 @@ const SUBJECTS = [
   { value: 'other',    label: 'Other' },
 ];
 
-const CONTACT_EMAIL = 'support@imagepdf.tools';
+const CONTACT_EMAIL = 'contact@imagepdf.tools';
 
 export default function ContactPage() {
   const [name,    setName]    = useState('');

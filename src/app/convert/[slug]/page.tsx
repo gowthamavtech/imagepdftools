@@ -132,8 +132,39 @@ export default async function ConvertPage(
   const cfg = CONVERSIONS[slug];
   if (!cfg) notFound();
 
+  const BASE = 'https://imagepdf.tools';
+  const toolUrl = `${BASE}/convert/${slug}`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        name: `Convert ${cfg.from} to ${cfg.to} Online — Free & Private`,
+        description: `Convert ${cfg.from} to ${cfg.to} instantly in your browser. No upload, no server — 100% private. ${cfg.why}`,
+        url: toolUrl,
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      },
+      {
+        '@type': 'HowTo',
+        name: `How to convert ${cfg.from} to ${cfg.to}`,
+        step: [
+          { '@type': 'HowToStep', position: 1, name: 'Upload your file', text: `Drop your ${cfg.from} file into the upload area` },
+          { '@type': 'HowToStep', position: 2, name: 'Select output format', text: `Output is pre-set to ${cfg.to} — change if needed` },
+          { '@type': 'HowToStep', position: 3, name: 'Download converted file', text: 'Click Compress All, then download your converted file' },
+        ],
+      },
+    ],
+  };
+
   return (
     <main className="flex-1 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-4xl mx-auto px-4 text-center mb-8">
 
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">

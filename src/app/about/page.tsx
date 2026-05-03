@@ -87,9 +87,22 @@ const colorMap: Record<string, string> = {
   violet:  'bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800/60',
 };
 
+const ORG_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ImagePDF.Tools',
+  url: 'https://imagepdf.tools',
+  description: 'Free browser-based image and PDF tools. Privacy-first by architecture — your files never leave your device.',
+  email: 'contact@imagepdf.tools',
+};
+
 export default function AboutPage() {
   return (
     <main className="flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}
+      />
 
       {/* ── 1. Hero ── */}
       <section className="max-w-4xl mx-auto px-4 pt-16 pb-14 text-center">
