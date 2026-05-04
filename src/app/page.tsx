@@ -146,6 +146,22 @@ const jsonLd = [
           text: 'Yes. All tools work on mobile browsers — Chrome, Safari, Firefox, and Edge on iOS and Android. No app download is needed.',
         },
       },
+      {
+        '@type': 'Question',
+        name: 'Is there a file size limit?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Free users can process files up to 25 MB each. Pro users can handle files up to 100 MB. Since all processing happens in your browser, the practical limit depends on your device\'s available memory.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Why should I use WebP instead of JPEG or PNG?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'WebP offers 25–35% smaller file sizes than JPEG at the same visual quality, and supports both lossy and lossless compression plus transparency. All modern browsers support WebP, making it the best format for web images in 2025.',
+        },
+      },
     ],
   },
 ];
@@ -319,6 +335,50 @@ const FEATURES = [
   },
 ];
 
+const HOW_IT_WORKS = [
+  {
+    step: '1',
+    title: 'Upload Your File',
+    desc: 'Drag and drop your image or PDF onto the tool, or click to browse. Files are loaded directly into your browser memory — nothing is sent to any server at any point.',
+    color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400',
+  },
+  {
+    step: '2',
+    title: 'Adjust Settings',
+    desc: 'Choose your quality level, output format, or target file size. Every tool shows a live preview so you can see exactly what you\'ll get before downloading.',
+    color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
+  },
+  {
+    step: '3',
+    title: 'Download Instantly',
+    desc: 'Hit the button and your file downloads immediately. No email required, no account, no waiting. The processed file goes straight from your browser to your downloads folder.',
+    color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
+  },
+];
+
+const USE_CASES = [
+  {
+    title: 'Web Developers',
+    desc: 'Optimise images before deploying to production. Compress JPEG and PNG assets to improve Core Web Vitals, reduce bandwidth costs, and speed up page load times without writing a single line of code.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />,
+  },
+  {
+    title: 'Bloggers & Content Creators',
+    desc: 'Shrink images before uploading to WordPress, Webflow, or any CMS. Smaller images mean faster blogs and better SEO rankings. Convert to WebP for modern browser compatibility.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />,
+  },
+  {
+    title: 'E-commerce Sellers',
+    desc: 'Product images compressed to a fraction of their original size load faster, reduce bounce rate, and keep your shop running at peak speed. Batch compress your entire catalogue without installing software.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />,
+  },
+  {
+    title: 'Designers & Photographers',
+    desc: 'Export compressed versions of high-res photos for email, social media, or client delivery. Strip EXIF metadata before sharing to protect location data and camera information.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />,
+  },
+];
+
 const FAQS = [
   {
     q: 'Are these image and PDF tools really free?',
@@ -339,6 +399,26 @@ const FAQS = [
   {
     q: 'Does this work on mobile?',
     a: 'Yes. All tools work on mobile browsers — Chrome, Safari, Firefox, and Edge on iOS and Android. No app download is needed.',
+  },
+  {
+    q: 'Is there a file size limit?',
+    a: 'Free users can process files up to 25 MB each. Pro users can handle files up to 100 MB. Since all processing happens in your browser, the practical limit depends on your device\'s available memory.',
+  },
+  {
+    q: 'Will compressing reduce the visual quality of my image?',
+    a: 'At quality settings above 75, compression is nearly invisible to the naked eye. The quality slider lets you find the right balance — most users settle between 75 and 85 for an ideal size-to-quality trade-off.',
+  },
+  {
+    q: 'How do I compress a PDF without losing quality?',
+    a: 'Open the Compress PDF tool, drop in your PDF, and click Compress. The tool uses Ghostscript compiled to WebAssembly to reduce file size while preserving text sharpness and image quality at the default settings.',
+  },
+  {
+    q: 'Can I convert PNG to JPG without losing transparency?',
+    a: 'JPEG does not support transparency — converting a PNG with a transparent background to JPG will fill the transparent areas with white. To keep transparency, convert to WebP or PNG instead.',
+  },
+  {
+    q: 'Why should I use WebP instead of JPEG or PNG?',
+    a: 'WebP offers 25–35% smaller file sizes than JPEG at the same visual quality, and supports both lossy and lossless compression plus transparency. All modern browsers support WebP, making it the best format for web images in 2025.',
   },
 ];
 
@@ -437,6 +517,27 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── How It Works ── */}
+        <section className="border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/30" aria-label="How it works">
+          <div className="max-w-5xl mx-auto px-4 py-14">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">How It Works</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10 max-w-xl mx-auto">
+              Every tool on ImagePDF.Tools follows the same three-step workflow — no account, no upload, no waiting.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {HOW_IT_WORKS.map((step) => (
+                <div key={step.step} className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 flex flex-col gap-3">
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-extrabold shrink-0 ${step.color}`}>
+                    {step.step}
+                  </div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{step.title}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── Image Tools ── */}
         <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Image tools">
           <div className="flex items-start justify-between gap-4 mb-8">
@@ -516,6 +617,29 @@ export default function HomePage() {
                   </p>
                 </div>
               </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Who Uses This ── */}
+        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Who uses ImagePDF.Tools">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">Who Uses ImagePDF.Tools?</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10 max-w-xl mx-auto">
+            From solo bloggers to development teams — anyone who works with images or PDFs online benefits from faster, private, browser-based tooling.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {USE_CASES.map((uc) => (
+              <div key={uc.title} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex gap-4">
+                <div className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                    {uc.icon}
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-1.5">{uc.title}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{uc.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
         </section>

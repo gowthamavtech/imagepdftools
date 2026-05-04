@@ -298,6 +298,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
             "responsive-images-guide",
             "shopify-image-optimization",
             "images-slowest-thing-on-your-website",
+            "how-to-crop-images-online",
+            "how-to-batch-resize-images",
+            "how-to-watermark-a-pdf",
+            "how-to-convert-heic-to-jpg",
+            "5-ways-to-speed-up-image-workflow",
         ].map((slug) => ({
             url: `${BASE_URL}/blog/${slug}`,
             lastModified,
