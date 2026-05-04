@@ -117,7 +117,7 @@ export function MergePdfUI() {
         const entry = entries[i];
         const bytes = new Uint8Array(await entry.file.arrayBuffer());
         const pw = entry.password ?? undefined;
-        const doc = await PDFDocument.load(bytes, pw ? { password: pw } : {});
+        const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
         const indices = doc.getPageIndices();
         const copied = await merged.copyPages(doc, indices);
         copied.forEach((p) => merged.addPage(p));
