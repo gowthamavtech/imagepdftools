@@ -1,6 +1,16 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isEncryptError(e: unknown): boolean {
+  const msg = String(e).toLowerCase();
+  return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+}
+
+function isPdfjsPasswordError(e: unknown): boolean {
+  return (e as { name?: string })?.name === 'PasswordException';
+}
 import {
   DndContext,
   closestCenter,
@@ -88,22 +98,24 @@ function SortablePage({ item, displayIndex, onDelete }: SortablePageProps) {
 }
 
 export function OrganizePdfUI() {
-  const [pages,       setPages]       = useState<PageItem[]>([]);
-  const [file,        setFile]        = useState<File | null>(null);
-  const [isLoading,   setIsLoading]   = useState(false);
-  const [isWorking,   setIsWorking]   = useState(false);
-  const [error,       setError]       = useState<string | null>(null);
-  const [resultBytes, setResultBytes] = useState<Uint8Array | null>(null);
+  const [pages,         setPages]         = useState<PageItem[]>([]);
+  const [file,          setFile]          = useState<File | null>(null);
+  const [isLoading,     setIsLoading]     = useState(false);
+  const [isWorking,     setIsWorking]     = useState(false);
+  const [error,         setError]         = useState<string | null>(null);
+  const [resultBytes,   setResultBytes]   = useState<Uint8Array | null>(null);
+  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
+  const pendingFileRef = useRef<File | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  const handleFiles = useCallback(async (files: File[]) => {
-    const f = files[0];
-    if (!f || f.type !== 'application/pdf') { setError('Please upload a PDF file.'); return; }
-    setFile(f);
+  const loadPages = useCallback(async (f: File, pw?: string) => {
+    const password = pw ?? pdfPassword ?? undefined;
     setPages([]);
     setResultBytes(null);
     setError(null);
@@ -113,7 +125,7 @@ export function OrganizePdfUI() {
       const pdfjsLib = await import('pdfjs-dist');
       pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
       const bytes = new Uint8Array(await f.arrayBuffer());
-      const pdf   = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const pdf   = await pdfjsLib.getDocument({ data: bytes, ...(password ? { password } : {}) }).promise;
       const items: PageItem[] = [];
 
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -132,12 +144,29 @@ export function OrganizePdfUI() {
       }
       pdf.destroy();
       setPages(items);
-    } catch {
-      setError('Failed to load PDF pages. The file may be corrupted or password-protected.');
+    } catch (e) {
+      if (isPdfjsPasswordError(e)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      } else {
+        setError('Failed to load PDF pages. The file may be corrupted.');
+      }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfPassword]);
+
+  const handleFiles = useCallback(async (files: File[]) => {
+    const f = files[0];
+    if (!f || f.type !== 'application/pdf') { setError('Please upload a PDF file.'); return; }
+    setFile(f);
+    pendingFileRef.current = f;
+    setNeedsPassword(false);
+    setWrongPassword(false);
+    setPdfPassword(null);
+    await loadPages(f);
+  }, [loadPages]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -156,19 +185,24 @@ export function OrganizePdfUI() {
 
   const apply = async () => {
     if (!file || pages.length === 0) return;
+    const password = pdfPassword ?? undefined;
     setIsWorking(true);
     setError(null);
     try {
       const { PDFDocument } = await import('pdf-lib');
       const srcBytes = new Uint8Array(await file.arrayBuffer());
-      const srcDoc   = await PDFDocument.load(srcBytes);
+      const srcDoc   = await PDFDocument.load(srcBytes, password ? { password } : {});
       const outDoc   = await PDFDocument.create();
       const indices  = pages.map((p) => p.originalIndex);
       const copied   = await outDoc.copyPages(srcDoc, indices);
       copied.forEach((page) => outDoc.addPage(page));
       setResultBytes(await outDoc.save());
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Failed to rebuild PDF.');
+      if (isEncryptError(e)) {
+        setNeedsPassword(true);
+      } else {
+        setError(e instanceof Error ? e.message : 'Failed to rebuild PDF.');
+      }
     } finally {
       setIsWorking(false);
     }
@@ -185,7 +219,7 @@ export function OrganizePdfUI() {
     URL.revokeObjectURL(url);
   };
 
-  const reset = () => { setFile(null); setPages([]); setResultBytes(null); setError(null); };
+  const reset = () => { setFile(null); setPages([]); setResultBytes(null); setError(null); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false); pendingFileRef.current = null; };
 
   return (
     <div className="max-w-4xl mx-auto px-4 space-y-5">
@@ -206,6 +240,20 @@ export function OrganizePdfUI() {
           </div>
           <button onClick={reset} className="text-xs text-slate-400 hover:text-red-500 shrink-0 transition-colors">Remove</button>
         </div>
+      )}
+
+      {/* Password prompt */}
+      {needsPassword && file && (
+        <PdfPasswordPrompt
+          filename={file.name}
+          onSubmit={(pw) => {
+            setPdfPassword(pw);
+            setNeedsPassword(false);
+            setWrongPassword(false);
+            loadPages(file, pw);
+          }}
+          wrongPassword={wrongPassword}
+        />
       )}
 
       {/* Loading state */}

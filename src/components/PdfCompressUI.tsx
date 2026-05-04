@@ -3,6 +3,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isPdfjsPasswordError(e: unknown): boolean {
+  return (e as { name?: string })?.name === 'PasswordException';
+}
 
 interface PageInfo {
   index: number;
@@ -30,15 +35,18 @@ export function PdfCompressUI() {
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   const consumeRef     = useRef(consumeHandoff);
 
-  const [file,         setFile]         = useState<File | null>(null);
-  const [quality,      setQuality]      = useState(65);   // 10–95 JPEG quality %
-  const [progress,     setProgress]     = useState(0);    // 0–100
-  const [isWorking,    setIsWorking]    = useState(false);
-  const [result,       setResult]       = useState<{ bytes: Uint8Array; pages: PageInfo[] } | null>(null);
-  const [resultUrl,    setResultUrl]    = useState<string | null>(null);
-  const [error,        setError]        = useState<string | null>(null);
-  const [sourceLabel,  setSourceLabel]  = useState<string | null>(null);
-  const [downloaded,   setDownloaded]   = useState(false);
+  const [file,          setFile]          = useState<File | null>(null);
+  const [quality,       setQuality]       = useState(65);   // 10–95 JPEG quality %
+  const [progress,      setProgress]      = useState(0);    // 0–100
+  const [isWorking,     setIsWorking]     = useState(false);
+  const [result,        setResult]        = useState<{ bytes: Uint8Array; pages: PageInfo[] } | null>(null);
+  const [resultUrl,     setResultUrl]     = useState<string | null>(null);
+  const [error,         setError]         = useState<string | null>(null);
+  const [sourceLabel,   setSourceLabel]   = useState<string | null>(null);
+  const [downloaded,    setDownloaded]    = useState(false);
+  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   // Auto-load PDF handed off from another tool (e.g. image-to-pdf)
   useEffect(() => {
@@ -57,7 +65,8 @@ export function PdfCompressUI() {
     setProgress(0);
   }, []);
 
-  const compress = useCallback(async () => {
+  const compress = useCallback(async (pw?: string) => {
+    const password = pw ?? pdfPassword ?? undefined;
     if (!file) return;
     setIsWorking(true);
     setError(null);
@@ -73,7 +82,7 @@ export function PdfCompressUI() {
       pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const pdfBytes  = new Uint8Array(await file.arrayBuffer());
-      const loadTask  = pdfjsLib.getDocument({ data: pdfBytes });
+      const loadTask  = pdfjsLib.getDocument({ data: pdfBytes, ...(password ? { password } : {}) });
       const pdfDoc    = await loadTask.promise;
       const numPages  = pdfDoc.numPages;
 
@@ -122,11 +131,17 @@ export function PdfCompressUI() {
       setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return url; });
       setResult({ bytes: outBytes, pages: pageInfos });
     } catch (err) {
-      setError((err as Error).message || 'Compression failed. Please try again.');
+      if (isPdfjsPasswordError(err)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      } else {
+        setError((err as Error).message || 'Compression failed. Please try again.');
+      }
     } finally {
       setIsWorking(false);
     }
-  }, [file, quality]); // eslint-disable-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file, quality, pdfPassword]);
 
   const download = useCallback(() => {
     if (!result || !file) return;
@@ -145,6 +160,9 @@ export function PdfCompressUI() {
     setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
     setError(null);
     setProgress(0);
+    setPdfPassword(null);
+    setNeedsPassword(false);
+    setWrongPassword(false);
   };
 
   const originalSize  = file?.size ?? 0;
@@ -201,82 +219,94 @@ export function PdfCompressUI() {
             </button>
           </div>
 
-          {/* Quality slider */}
-          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Image Quality</p>
-              <span className="text-sm font-bold text-violet-400">{quality}%</span>
-            </div>
-            <input
-              type="range" min={10} max={95} step={1} value={quality}
-              onChange={(e) => setQuality(Number(e.target.value))}
-              className="w-full h-2 rounded-full accent-blue-500 cursor-pointer"
+          {/* Password prompt */}
+          {needsPassword && (
+            <PdfPasswordPrompt
+              filename={file.name}
+              onSubmit={(pw) => { setPdfPassword(pw); setNeedsPassword(false); setWrongPassword(false); compress(pw); }}
+              wrongPassword={wrongPassword}
             />
-            <div className="flex justify-between text-[10px] text-slate-500 mt-1.5 mb-3">
-              <span>Smaller file</span>
-              <span>Better quality</span>
-            </div>
-            {/* Quick presets */}
-            <div className="flex gap-2">
-              {QUICK_PRESETS.map((p) => (
-                <button key={p.label} onClick={() => setQuality(p.value)}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                    quality === p.value
-                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
-                      : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600'
-                  }`}>
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
 
-          {/* Progress bar */}
-          {isWorking && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-400">
-                <span>Compressing…</span>
-                <span>{progress}%</span>
-              </div>
-              <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-linear-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-300"
-                  style={{ width: `${progress}%` }}
+          {/* Quality slider + progress + compress button */}
+          {!needsPassword && (
+            <>
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-4 shadow-sm">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Image Quality</p>
+                  <span className="text-sm font-bold text-violet-400">{quality}%</span>
+                </div>
+                <input
+                  type="range" min={10} max={95} step={1} value={quality}
+                  onChange={(e) => setQuality(Number(e.target.value))}
+                  className="w-full h-2 rounded-full accent-blue-500 cursor-pointer"
                 />
+                <div className="flex justify-between text-[10px] text-slate-500 mt-1.5 mb-3">
+                  <span>Smaller file</span>
+                  <span>Better quality</span>
+                </div>
+                <div className="flex gap-2">
+                  {QUICK_PRESETS.map((p) => (
+                    <button key={p.label} onClick={() => setQuality(p.value)}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                        quality === p.value
+                          ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                          : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600'
+                      }`}>
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
 
-          {/* Error */}
-          {error && (
-            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
-              <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-              </svg>
-              <span>{error}</span>
-            </div>
-          )}
+              {/* Progress bar */}
+              {isWorking && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-400">
+                    <span>Compressing…</span>
+                    <span>{progress}%</span>
+                  </div>
+                  <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-linear-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-300"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
 
-          {/* Compress button */}
-          <button onClick={compress} disabled={isWorking}
-            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
-            {isWorking ? (
-              <>
-                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                </svg>
-                Compressing…
-              </>
-            ) : (
-              <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
-                </svg>
-                Compress PDF
-              </>
-            )}
-          </button>
+              {/* Error */}
+              {error && (
+                <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
+                  <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {/* Compress button */}
+              <button onClick={() => compress()} disabled={isWorking}
+                className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
+                {isWorking ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                    Compressing…
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+                    </svg>
+                    Compress PDF
+                  </>
+                )}
+              </button>
+            </>
+          )}
         </div>
       )}
 

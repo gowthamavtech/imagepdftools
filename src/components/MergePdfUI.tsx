@@ -2,11 +2,20 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { DropZone } from './DropZone';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isEncryptError(e: unknown): boolean {
+  const msg = String(e).toLowerCase();
+  return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+}
 
 interface PdfEntry {
   id: string;
   file: File;
   pageCount: number | null;
+  locked: boolean;
+  password: string | null;
+  wrongPassword: boolean;
 }
 
 function formatBytes(b: number) {
@@ -15,10 +24,10 @@ function formatBytes(b: number) {
   return `${(b / 1048576).toFixed(2)} MB`;
 }
 
-async function getPageCount(file: File): Promise<number> {
+async function getPageCount(file: File, password?: string): Promise<number> {
   const { PDFDocument } = await import('pdf-lib');
   const bytes = new Uint8Array(await file.arrayBuffer());
-  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  const doc = await PDFDocument.load(bytes, password ? { password } : {});
   return doc.getPageCount();
 }
 
@@ -43,10 +52,13 @@ export function MergePdfUI() {
       id: `pdf-${++idCounter.current}`,
       file: f,
       pageCount: null,
+      locked: false,
+      password: null,
+      wrongPassword: false,
     }));
     setEntries((prev) => [...prev, ...newEntries]);
 
-    // load page counts in background
+    // load page counts in background; mark locked if encrypted
     for (const entry of newEntries) {
       getPageCount(entry.file)
         .then((count) => {
@@ -54,7 +66,13 @@ export function MergePdfUI() {
             prev.map((e) => (e.id === entry.id ? { ...e, pageCount: count } : e)),
           );
         })
-        .catch(() => {});
+        .catch((err) => {
+          if (isEncryptError(err)) {
+            setEntries((prev) =>
+              prev.map((e) => (e.id === entry.id ? { ...e, locked: true } : e)),
+            );
+          }
+        });
     }
   }, []);
 
@@ -96,8 +114,10 @@ export function MergePdfUI() {
       const merged = await PDFDocument.create();
 
       for (let i = 0; i < entries.length; i++) {
-        const bytes = new Uint8Array(await entries[i].file.arrayBuffer());
-        const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+        const entry = entries[i];
+        const bytes = new Uint8Array(await entry.file.arrayBuffer());
+        const pw = entry.password ?? undefined;
+        const doc = await PDFDocument.load(bytes, pw ? { password: pw } : {});
         const indices = doc.getPageIndices();
         const copied = await merged.copyPages(doc, indices);
         copied.forEach((p) => merged.addPage(p));
@@ -110,7 +130,11 @@ export function MergePdfUI() {
       setResultUrl(url);
       setResultSize(outBytes.byteLength);
     } catch (err) {
-      setError((err as Error).message || 'Merge failed. Please try again.');
+      if (isEncryptError(err)) {
+        setError('One or more PDFs are password-protected. Please unlock them before merging.');
+      } else {
+        setError((err as Error).message || 'Merge failed. Please try again.');
+      }
     } finally {
       setIsWorking(false);
     }
@@ -209,24 +233,31 @@ export function MergePdfUI() {
               </div>
 
               {entries.map((entry, idx) => (
-                <div key={entry.id}
-                  className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-xl px-3 py-2.5 shadow-sm">
+                <div key={entry.id} className="space-y-2">
+                <div
+                  className={`flex items-center gap-3 bg-white dark:bg-slate-800 border rounded-xl px-3 py-2.5 shadow-sm ${entry.locked ? 'border-amber-300 dark:border-amber-700' : 'border-slate-200 dark:border-white/8'}`}>
 
                   {/* Order badge */}
                   <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
 
-                  {/* PDF icon */}
-                  <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                  </svg>
+                  {/* PDF / lock icon */}
+                  {entry.locked ? (
+                    <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                  )}
 
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-slate-800 dark:text-slate-100 truncate">{entry.file.name}</p>
                     <p className="text-[10px] text-slate-400">
                       {formatBytes(entry.file.size)}
-                      {entry.pageCount !== null ? ` · ${entry.pageCount}p` : ''}
+                      {entry.locked ? ' · password required' : entry.pageCount !== null ? ` · ${entry.pageCount}p` : ''}
                     </p>
                   </div>
 
@@ -253,6 +284,27 @@ export function MergePdfUI() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
+                </div>
+
+                {/* Per-entry password prompt */}
+                {entry.locked && (
+                  <PdfPasswordPrompt
+                    filename={entry.file.name}
+                    onSubmit={(pw) => {
+                      setEntries((prev) => prev.map((e) =>
+                        e.id === entry.id ? { ...e, password: pw, locked: false, wrongPassword: false } : e,
+                      ));
+                      getPageCount(entry.file, pw)
+                        .then((count) => setEntries((prev) => prev.map((e) =>
+                          e.id === entry.id ? { ...e, pageCount: count } : e,
+                        )))
+                        .catch(() => setEntries((prev) => prev.map((e) =>
+                          e.id === entry.id ? { ...e, locked: true, wrongPassword: true } : e,
+                        )));
+                    }}
+                    wrongPassword={entry.wrongPassword}
+                  />
+                )}
                 </div>
               ))}
             </div>
@@ -285,7 +337,7 @@ export function MergePdfUI() {
           )}
 
           {/* Merge button */}
-          <button onClick={merge} disabled={isWorking || entries.length < 2}
+          <button onClick={merge} disabled={isWorking || entries.length < 2 || entries.some((e) => e.locked)}
             className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
             {isWorking ? (
               <>

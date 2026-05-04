@@ -235,6 +235,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.5,
         },
         {
+            url: `${BASE_URL}/support`,
+            lastModified,
+            changeFrequency: "monthly" as const,
+            priority: 0.5,
+        },
+        {
+            url: `${BASE_URL}/terms`,
+            lastModified,
+            changeFrequency: "yearly" as const,
+            priority: 0.4,
+        },
+        {
+            url: `${BASE_URL}/privacy`,
+            lastModified,
+            changeFrequency: "yearly" as const,
+            priority: 0.4,
+        },
+        {
+            url: `${BASE_URL}/privacy-policy`,
+            lastModified,
+            changeFrequency: "yearly" as const,
+            priority: 0.4,
+        },
+        {
+            url: `${BASE_URL}/whats-new`,
+            lastModified,
+            changeFrequency: "weekly" as const,
+            priority: 0.6,
+        },
+        {
             url: `${BASE_URL}/blog`,
             lastModified,
             changeFrequency: "weekly" as const,

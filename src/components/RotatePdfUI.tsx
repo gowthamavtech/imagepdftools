@@ -2,6 +2,16 @@
 
 import { useState, useCallback } from 'react';
 import { DropZone } from './DropZone';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isEncryptError(e: unknown): boolean {
+  const msg = String(e).toLowerCase();
+  return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+}
+
+function isPdfjsPasswordError(e: unknown): boolean {
+  return (e as { name?: string })?.name === 'PasswordException';
+}
 
 function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
@@ -29,14 +39,18 @@ export function RotatePdfUI() {
   const [previewUrl,     setPreviewUrl]     = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [snapTransition, setSnapTransition] = useState(true);
+  const [pdfPassword,    setPdfPassword]    = useState<string | null>(null);
+  const [needsPassword,  setNeedsPassword]  = useState(false);
+  const [wrongPassword,  setWrongPassword]  = useState(false);
 
-  const renderPreview = useCallback(async (f: File) => {
+  const renderPreview = useCallback(async (f: File, pw?: string) => {
+    const password = pw ?? undefined;
     setPreviewLoading(true);
     try {
       const pdfjsLib = await import('pdfjs-dist');
       pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
       const bytes    = new Uint8Array(await f.arrayBuffer());
-      const pdf      = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const pdf      = await pdfjsLib.getDocument({ data: bytes, ...(password ? { password } : {}) }).promise;
       const page     = await pdf.getPage(1);
       const viewport = page.getViewport({ scale: 0.5 });
       const canvas   = document.createElement('canvas');
@@ -45,8 +59,12 @@ export function RotatePdfUI() {
       await page.render({ canvas, viewport }).promise;
       setPreviewUrl(canvas.toDataURL('image/jpeg', 0.85));
       pdf.destroy();
-    } catch {
-      // preview failure is non-fatal
+    } catch (e) {
+      if (isPdfjsPasswordError(e)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      }
+      // other preview failures are non-fatal
     } finally {
       setPreviewLoading(false);
     }
@@ -64,14 +82,15 @@ export function RotatePdfUI() {
     renderPreview(f);
   }, [renderPreview]);
 
-  const apply = useCallback(async () => {
+  const apply = useCallback(async (pw?: string) => {
+    const password = pw ?? pdfPassword ?? undefined;
     if (!file) return;
     setIsWorking(true);
     setError(null);
     try {
       const { PDFDocument, degrees } = await import('pdf-lib');
       const bytes  = new Uint8Array(await file.arrayBuffer());
-      const pdfDoc = await PDFDocument.load(bytes);
+      const pdfDoc = await PDFDocument.load(bytes, password ? { password } : {});
       for (const page of pdfDoc.getPages()) {
         page.setRotation(degrees(page.getRotation().angle + rotation));
       }
@@ -81,11 +100,17 @@ export function RotatePdfUI() {
       setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return url; });
       setResult(outBytes);
     } catch (err) {
-      setError((err as Error).message || 'Rotation failed. Please try again.');
+      if (isEncryptError(err)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      } else {
+        setError((err as Error).message || 'Rotation failed. Please try again.');
+      }
     } finally {
       setIsWorking(false);
     }
-  }, [file, rotation]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file, rotation, pdfPassword]);
 
   const download = useCallback(() => {
     if (!result || !file) return;
@@ -105,6 +130,9 @@ export function RotatePdfUI() {
     setError(null);
     setPreviewUrl(null);
     setRotation(0);
+    setPdfPassword(null);
+    setNeedsPassword(false);
+    setWrongPassword(false);
   };
 
   const norm = ((rotation % 360) + 360) % 360;
@@ -140,6 +168,20 @@ export function RotatePdfUI() {
 
       {file && !result && (
         <div className="mt-6 space-y-4">
+
+          {/* Password prompt */}
+          {needsPassword && (
+            <PdfPasswordPrompt
+              filename={file.name}
+              onSubmit={(pw) => {
+                setPdfPassword(pw);
+                setNeedsPassword(false);
+                setWrongPassword(false);
+                renderPreview(file, pw);
+              }}
+              wrongPassword={wrongPassword}
+            />
+          )}
 
           {/* File card */}
           <div className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm">
@@ -240,8 +282,8 @@ export function RotatePdfUI() {
 
           {/* Apply button */}
           <button
-            onClick={apply}
-            disabled={isWorking || norm === 0}
+            onClick={() => apply()}
+            disabled={isWorking || norm === 0 || needsPassword}
             className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
           >
             {isWorking ? (

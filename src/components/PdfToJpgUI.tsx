@@ -1,7 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { DropZone } from './DropZone';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isPdfjsPasswordError(e: unknown): boolean {
+  return (e as { name?: string })?.name === 'PasswordException';
+}
 
 interface PageResult {
   pageNum: number;
@@ -34,38 +39,50 @@ function canvasToJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob>
 }
 
 export function PdfToJpgUI() {
-  const [file,       setFile]       = useState<File | null>(null);
-  const [pageCount,  setPageCount]  = useState(0);
-  const [quality,    setQuality]    = useState(85);
-  const [isWorking,  setIsWorking]  = useState(false);
-  const [progress,   setProgress]   = useState(0);
-  const [results,    setResults]    = useState<PageResult[]>([]);
-  const [error,      setError]      = useState<string | null>(null);
-  const [downloaded, setDownloaded] = useState<Set<number>>(new Set());
+  const [file,          setFile]          = useState<File | null>(null);
+  const [pageCount,     setPageCount]     = useState(0);
+  const [quality,       setQuality]       = useState(85);
+  const [isWorking,     setIsWorking]     = useState(false);
+  const [progress,      setProgress]      = useState(0);
+  const [results,       setResults]       = useState<PageResult[]>([]);
+  const [error,         setError]         = useState<string | null>(null);
+  const [downloaded,    setDownloaded]    = useState<Set<number>>(new Set());
+  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
+  const pendingFileRef = useRef<File | null>(null);
 
-  const handleFiles = useCallback(async (files: File[]) => {
+  const handleFiles = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];
     if (!f) return;
+    const password = pw ?? undefined;
     setError(null);
     setResults([]);
     setFile(f);
+    pendingFileRef.current = f;
 
     try {
       const pdfjsLib = await import('pdfjs-dist');
       pdfjsLib.GlobalWorkerOptions.workerSrc =
         `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
       const pdfData = new Uint8Array(await f.arrayBuffer());
-      const pdfDoc  = await pdfjsLib.getDocument({ data: pdfData }).promise;
+      const pdfDoc  = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
       setPageCount(pdfDoc.numPages);
       pdfDoc.destroy();
-    } catch {
-      setError('Could not read this PDF. It may be password-protected or corrupted.');
-      setFile(null);
+    } catch (e) {
+      if (isPdfjsPasswordError(e)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      } else {
+        setError('Could not read this PDF. It may be corrupted.');
+        setFile(null);
+      }
     }
   }, []);
 
   const convert = useCallback(async () => {
     if (!file) return;
+    const password = pdfPassword ?? undefined;
     setIsWorking(true);
     setError(null);
     setProgress(0);
@@ -77,7 +94,7 @@ export function PdfToJpgUI() {
         `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
       const pdfData  = new Uint8Array(await file.arrayBuffer());
-      const pdfDoc   = await pdfjsLib.getDocument({ data: pdfData }).promise;
+      const pdfDoc   = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
       const numPages = pdfDoc.numPages;
       const newResults: PageResult[] = [];
       const jpegQuality = quality / 100;
@@ -107,7 +124,7 @@ export function PdfToJpgUI() {
     } finally {
       setIsWorking(false);
     }
-  }, [file, quality]);
+  }, [file, quality, pdfPassword]);
 
   const downloadOne = (r: PageResult, filename: string) => {
     const a = document.createElement('a');
@@ -138,7 +155,8 @@ export function PdfToJpgUI() {
   const reset = () => {
     results.forEach((r) => URL.revokeObjectURL(r.url));
     setFile(null); setPageCount(0); setResults([]); setError(null); setProgress(0);
-    setDownloaded(new Set());
+    setDownloaded(new Set()); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false);
+    pendingFileRef.current = null;
   };
 
   const baseName = file?.name.replace(/\.pdf$/i, '') ?? 'page';
@@ -161,7 +179,23 @@ export function PdfToJpgUI() {
         </div>
       )}
 
-      {file && (
+      {/* Password prompt (shown when file is set but locked) */}
+      {needsPassword && file && (
+        <div className="mt-6">
+          <PdfPasswordPrompt
+            filename={file.name}
+            onSubmit={(pw) => {
+              setPdfPassword(pw);
+              setNeedsPassword(false);
+              setWrongPassword(false);
+              handleFiles([file], pw);
+            }}
+            wrongPassword={wrongPassword}
+          />
+        </div>
+      )}
+
+      {file && !needsPassword && (
         <div className="mt-6 space-y-4">
 
           {/* File info card */}
@@ -291,7 +325,7 @@ export function PdfToJpgUI() {
                         <img
                           src={r.dataUrl}
                           alt={`Page ${r.pageNum}`}
-                          className="w-full aspect-[3/4] object-cover object-top"
+                          className="w-full aspect-3/4 object-cover object-top"
                         />
                         <div className="px-2 py-2 flex items-center justify-between gap-1">
                           <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">

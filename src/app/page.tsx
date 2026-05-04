@@ -67,7 +67,7 @@ const jsonLd = [
     '@type': 'Organization',
     name: 'ImagePDF.Tools',
     url: 'https://imagepdf.tools',
-    logo: 'https://imagepdf.tools/logo.png',
+    logo: 'https://imagepdf.tools/icon.svg',
     contactPoint: {
       '@type': 'ContactPoint',
       email: 'contact@imagepdf.tools',

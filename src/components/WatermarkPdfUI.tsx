@@ -2,6 +2,12 @@
 
 import { useState, useCallback } from 'react';
 import { DropZone } from './DropZone';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isEncryptError(e: unknown): boolean {
+  const msg = String(e).toLowerCase();
+  return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+}
 
 function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
@@ -18,14 +24,17 @@ const PRESETS = [
 ];
 
 export function WatermarkPdfUI() {
-  const [file,        setFile]       = useState<File | null>(null);
-  const [text,        setText]       = useState('CONFIDENTIAL');
-  const [customColor, setCustomColor] = useState('#dc2626');
-  const [opacity,     setOpacity]    = useState(20);
-  const [fontSize,    setFontSize]   = useState(60);
-  const [isWorking,   setIsWorking]  = useState(false);
-  const [error,       setError]      = useState<string | null>(null);
-  const [resultBytes, setResultBytes] = useState<Uint8Array | null>(null);
+  const [file,          setFile]          = useState<File | null>(null);
+  const [text,          setText]          = useState('CONFIDENTIAL');
+  const [customColor,   setCustomColor]   = useState('#dc2626');
+  const [opacity,       setOpacity]       = useState(20);
+  const [fontSize,      setFontSize]      = useState(60);
+  const [isWorking,     setIsWorking]     = useState(false);
+  const [error,         setError]         = useState<string | null>(null);
+  const [resultBytes,   setResultBytes]   = useState<Uint8Array | null>(null);
+  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   const activePreset = PRESETS.find((p) => p.label === text && p.color !== null) ?? PRESETS[PRESETS.length - 1];
 
@@ -44,14 +53,15 @@ export function WatermarkPdfUI() {
     return { r, g, b };
   };
 
-  const apply = async () => {
+  const apply = async (pw?: string) => {
+    const password = pw ?? pdfPassword ?? undefined;
     if (!file || !text.trim()) return;
     setIsWorking(true);
     setError(null);
     try {
       const { PDFDocument, StandardFonts, rgb, degrees } = await import('pdf-lib');
       const bytes   = new Uint8Array(await file.arrayBuffer());
-      const pdfDoc  = await PDFDocument.load(bytes);
+      const pdfDoc  = await PDFDocument.load(bytes, password ? { password } : {});
       const font    = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       const { r, g, b } = hexToRgb(customColor);
 
@@ -73,7 +83,12 @@ export function WatermarkPdfUI() {
 
       setResultBytes(await pdfDoc.save());
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Failed to add watermark.');
+      if (isEncryptError(e)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+      } else {
+        setError(e instanceof Error ? e.message : 'Failed to add watermark.');
+      }
     } finally {
       setIsWorking(false);
     }
@@ -90,7 +105,7 @@ export function WatermarkPdfUI() {
     URL.revokeObjectURL(url);
   };
 
-  const reset = () => { setFile(null); setResultBytes(null); setError(null); };
+  const reset = () => { setFile(null); setResultBytes(null); setError(null); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false); };
 
   return (
     <div className="max-w-xl mx-auto px-4 space-y-5">
@@ -113,8 +128,17 @@ export function WatermarkPdfUI() {
         </div>
       )}
 
+      {/* Password prompt */}
+      {needsPassword && file && !resultBytes && (
+        <PdfPasswordPrompt
+          filename={file.name}
+          onSubmit={(pw) => { setPdfPassword(pw); setNeedsPassword(false); setWrongPassword(false); apply(pw); }}
+          wrongPassword={wrongPassword}
+        />
+      )}
+
       {/* Options */}
-      {file && !resultBytes && (
+      {file && !resultBytes && !needsPassword && (
         <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 space-y-5">
 
           {/* Preset text */}

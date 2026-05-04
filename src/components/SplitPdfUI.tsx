@@ -2,6 +2,16 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { DropZone } from './DropZone';
+import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+
+function isEncryptError(e: unknown): boolean {
+  const msg = String(e).toLowerCase();
+  return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+}
+
+function isPdfjsPasswordError(e: unknown): boolean {
+  return (e as { name?: string })?.name === 'PasswordException';
+}
 
 type Mode = 'select' | 'range';
 
@@ -49,23 +59,28 @@ async function renderPage(pdfDoc: unknown, pageNum: number, scale = 0.38): Promi
 }
 
 export function SplitPdfUI() {
-  const [file,        setFile]        = useState<File | null>(null);
-  const [pageCount,   setPageCount]   = useState(0);
-  const [thumbs,      setThumbs]      = useState<(string | null)[]>([]);
-  const [thumbsDone,  setThumbsDone]  = useState(false);
-  const [mode,        setMode]        = useState<Mode>('select');
-  const [selected,    setSelected]    = useState<Set<number>>(new Set());
-  const [rangeInput,  setRangeInput]  = useState('');
-  const [isWorking,   setIsWorking]   = useState(false);
-  const [progress,    setProgress]    = useState(0);
-  const [results,     setResults]     = useState<Result[]>([]);
-  const [error,       setError]       = useState<string | null>(null);
-  const [downloaded,  setDownloaded]  = useState<Set<string>>(new Set());
+  const [file,          setFile]          = useState<File | null>(null);
+  const [pageCount,     setPageCount]     = useState(0);
+  const [thumbs,        setThumbs]        = useState<(string | null)[]>([]);
+  const [thumbsDone,    setThumbsDone]    = useState(false);
+  const [mode,          setMode]          = useState<Mode>('select');
+  const [selected,      setSelected]      = useState<Set<number>>(new Set());
+  const [rangeInput,    setRangeInput]    = useState('');
+  const [isWorking,     setIsWorking]     = useState(false);
+  const [progress,      setProgress]      = useState(0);
+  const [results,       setResults]       = useState<Result[]>([]);
+  const [error,         setError]         = useState<string | null>(null);
+  const [downloaded,    setDownloaded]    = useState<Set<string>>(new Set());
+  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
+  const pendingFilesRef = useRef<File[]>([]);
   const renderAbort = useRef(false);
 
-  const loadFile = useCallback(async (files: File[]) => {
+  const loadFile = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];
     if (!f) return;
+    const password = pw ?? undefined;
     if (f.type !== 'application/pdf') { setError('Please upload a PDF file.'); return; }
     setError(null);
     setResults([]);
@@ -76,11 +91,12 @@ export function SplitPdfUI() {
     setDownloaded(new Set());
     renderAbort.current = false;
     setFile(f);
+    pendingFilesRef.current = files;
 
     try {
       const { PDFDocument } = await import('pdf-lib');
       const bytes = new Uint8Array(await f.arrayBuffer());
-      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const doc = await PDFDocument.load(bytes, password ? { password } : {});
       const count = doc.getPageCount();
       setPageCount(count);
       setThumbs(Array(count).fill(null));
@@ -90,7 +106,7 @@ export function SplitPdfUI() {
         `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
       const pdfData = new Uint8Array(await f.arrayBuffer());
-      const pdfDoc  = await pdfjsLib.getDocument({ data: pdfData }).promise;
+      const pdfDoc  = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
 
       for (let i = 1; i <= count; i++) {
         if (renderAbort.current) break;
@@ -105,9 +121,15 @@ export function SplitPdfUI() {
       }
       pdfDoc.destroy();
       setThumbsDone(true);
-    } catch {
-      setError('Could not read this PDF. It may be password-protected or corrupted.');
-      setFile(null);
+    } catch (e) {
+      if (isPdfjsPasswordError(e) || isEncryptError(e)) {
+        setNeedsPassword(true);
+        if (password) setWrongPassword(true);
+        setFile(f); // keep file set so we know which file needs unlocking
+      } else {
+        setError('Could not read this PDF. It may be corrupted.');
+        setFile(null);
+      }
     }
   }, []);
 
@@ -122,13 +144,14 @@ export function SplitPdfUI() {
 
   const run = useCallback(async () => {
     if (!file) return;
+    const password = pdfPassword ?? undefined;
     setIsWorking(true); setError(null); setProgress(0);
     revokeResults(); setResults([]);
 
     try {
       const { PDFDocument } = await import('pdf-lib');
       const srcBytes = new Uint8Array(await file.arrayBuffer());
-      const srcDoc   = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
+      const srcDoc   = await PDFDocument.load(srcBytes, password ? { password } : {});
 
       if (mode === 'select') {
         const indices = Array.from(selected).sort((a, b) => a - b);
@@ -169,19 +192,24 @@ export function SplitPdfUI() {
       }
       setProgress(100);
     } catch (err) {
-      setError((err as Error).message || 'Split failed. Please try again.');
+      if (isEncryptError(err)) {
+        setNeedsPassword(true);
+      } else {
+        setError((err as Error).message || 'Split failed. Please try again.');
+      }
     } finally {
       setIsWorking(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file, mode, selected, rangeInput, pageCount]);
+  }, [file, mode, selected, rangeInput, pageCount, pdfPassword]);
 
   const reset = () => {
     renderAbort.current = true;
     revokeResults();
     setFile(null); setPageCount(0); setThumbs([]); setThumbsDone(false);
     setSelected(new Set()); setRangeInput(''); setResults([]); setError(null); setProgress(0);
-    setDownloaded(new Set());
+    setDownloaded(new Set()); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false);
+    pendingFilesRef.current = [];
     setTimeout(() => { renderAbort.current = false; }, 50);
   };
 
@@ -298,8 +326,22 @@ export function SplitPdfUI() {
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-16 mt-6 space-y-4">
 
+      {/* Password prompt */}
+      {needsPassword && file && (
+        <PdfPasswordPrompt
+          filename={file.name}
+          onSubmit={(pw) => {
+            setPdfPassword(pw);
+            setNeedsPassword(false);
+            setWrongPassword(false);
+            loadFile([file], pw);
+          }}
+          wrongPassword={wrongPassword}
+        />
+      )}
+
       {/* Drop zone */}
-      {!file && (
+      {!file && !needsPassword && (
         <DropZone
           onFiles={loadFile}
           accept={['application/pdf']}
@@ -370,7 +412,7 @@ export function SplitPdfUI() {
                           : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
                       }`}
                     >
-                      <div className="w-full bg-slate-100 dark:bg-slate-700/50 aspect-[3/4] relative">
+                      <div className="w-full bg-slate-100 dark:bg-slate-700/50 aspect-3/4 relative">
                         {thumb ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -379,7 +421,7 @@ export function SplitPdfUI() {
                             className="w-full h-full object-cover object-top"
                           />
                         ) : (
-                          <div className="absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 animate-pulse" />
+                          <div className="absolute inset-0 bg-linear-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 animate-pulse" />
                         )}
                         {isSelected && <div className="absolute inset-0 bg-blue-500/10" />}
                         <div className={`absolute top-1.5 left-1.5 w-6 h-6 rounded-full flex items-center justify-center transition-all ${

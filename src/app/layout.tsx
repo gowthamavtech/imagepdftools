@@ -26,6 +26,10 @@ export const metadata: Metadata = {
         images: ["/og-image.png"],
     },
     twitter: { card: "summary_large_image" },
+    icons: {
+        icon: "/favicon.svg",
+        shortcut: "/favicon.svg",
+    },
     robots: { index: true, follow: true },
     alternates: { canonical: "https://imagepdf.tools" },
 };
