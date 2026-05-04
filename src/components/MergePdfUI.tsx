@@ -27,7 +27,7 @@ function formatBytes(b: number) {
 async function getPageCount(file: File, password?: string): Promise<number> {
   const { PDFDocument } = await import('pdf-lib');
   const bytes = new Uint8Array(await file.arrayBuffer());
-  const doc = await PDFDocument.load(bytes, password ? { password } : {});
+  const doc = await PDFDocument.load(bytes, password ? { password } : undefined);
   return doc.getPageCount();
 }
 
