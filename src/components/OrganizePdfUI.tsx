@@ -191,7 +191,8 @@ export function OrganizePdfUI() {
     try {
       const { PDFDocument } = await import('pdf-lib');
       const srcBytes = new Uint8Array(await file.arrayBuffer());
-      const srcDoc   = await PDFDocument.load(srcBytes, password ? { password } : {});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const srcDoc   = await PDFDocument.load(srcBytes, (password ? { password } : { ignoreEncryption: true }) as any);
       const outDoc   = await PDFDocument.create();
       const indices  = pages.map((p) => p.originalIndex);
       const copied   = await outDoc.copyPages(srcDoc, indices);
@@ -210,7 +211,7 @@ export function OrganizePdfUI() {
 
   const download = () => {
     if (!resultBytes || !file) return;
-    const blob = new Blob([resultBytes], { type: 'application/pdf' });
+    const blob = new Blob([resultBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;

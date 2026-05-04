@@ -24,10 +24,11 @@ function formatBytes(b: number) {
   return `${(b / 1048576).toFixed(2)} MB`;
 }
 
-async function getPageCount(file: File, password?: string): Promise<number> {
+async function getPageCountWithPassword(file: File, password: string): Promise<number> {
   const { PDFDocument } = await import('pdf-lib');
   const bytes = new Uint8Array(await file.arrayBuffer());
-  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const doc = await PDFDocument.load(bytes, { password } as any);
   return doc.getPageCount();
 }
 
@@ -58,21 +59,24 @@ export function MergePdfUI() {
     }));
     setEntries((prev) => [...prev, ...newEntries]);
 
-    // load page counts in background; mark locked if encrypted
+    // Load each PDF — encrypted PDFs throw EncryptedPDFError; owner-encrypted PDFs set isEncrypted
     for (const entry of newEntries) {
-      getPageCount(entry.file)
-        .then((count) => {
-          setEntries((prev) =>
-            prev.map((e) => (e.id === entry.id ? { ...e, pageCount: count } : e)),
-          );
-        })
-        .catch((err) => {
-          if (isEncryptError(err)) {
-            setEntries((prev) =>
-              prev.map((e) => (e.id === entry.id ? { ...e, locked: true } : e)),
-            );
+      (async () => {
+        try {
+          const { PDFDocument } = await import('pdf-lib');
+          const bytes = new Uint8Array(await entry.file.arrayBuffer());
+          const doc = await PDFDocument.load(bytes); // throws for encrypted PDFs
+          if (doc.isEncrypted) {
+            // owner-password PDF (loaded without throwing but flagged)
+            setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, locked: true } : e));
+          } else {
+            setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, pageCount: doc.getPageCount() } : e));
           }
-        });
+        } catch {
+          // EncryptedPDFError — user-password PDF
+          setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, locked: true } : e));
+        }
+      })();
     }
   }, []);
 
@@ -117,7 +121,9 @@ export function MergePdfUI() {
         const entry = entries[i];
         const bytes = new Uint8Array(await entry.file.arrayBuffer());
         const pw = entry.password ?? undefined;
-        const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const loadOpts = pw ? ({ password: pw } as any) : { ignoreEncryption: true };
+        const doc = await PDFDocument.load(bytes, loadOpts);
         const indices = doc.getPageIndices();
         const copied = await merged.copyPages(doc, indices);
         copied.forEach((p) => merged.addPage(p));
@@ -291,12 +297,9 @@ export function MergePdfUI() {
                   <PdfPasswordPrompt
                     filename={entry.file.name}
                     onSubmit={(pw) => {
-                      setEntries((prev) => prev.map((e) =>
-                        e.id === entry.id ? { ...e, password: pw, locked: false, wrongPassword: false } : e,
-                      ));
-                      getPageCount(entry.file, pw)
+                      getPageCountWithPassword(entry.file, pw)
                         .then((count) => setEntries((prev) => prev.map((e) =>
-                          e.id === entry.id ? { ...e, pageCount: count } : e,
+                          e.id === entry.id ? { ...e, pageCount: count, password: pw, locked: false, wrongPassword: false } : e,
                         )))
                         .catch(() => setEntries((prev) => prev.map((e) =>
                           e.id === entry.id ? { ...e, locked: true, wrongPassword: true } : e,

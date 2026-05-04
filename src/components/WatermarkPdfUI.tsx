@@ -61,7 +61,8 @@ export function WatermarkPdfUI() {
     try {
       const { PDFDocument, StandardFonts, rgb, degrees } = await import('pdf-lib');
       const bytes   = new Uint8Array(await file.arrayBuffer());
-      const pdfDoc  = await PDFDocument.load(bytes, password ? { password } : {});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pdfDoc  = await PDFDocument.load(bytes, (password ? { password } : { ignoreEncryption: true }) as any);
       const font    = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       const { r, g, b } = hexToRgb(customColor);
 
@@ -96,7 +97,7 @@ export function WatermarkPdfUI() {
 
   const download = () => {
     if (!resultBytes || !file) return;
-    const blob = new Blob([resultBytes], { type: 'application/pdf' });
+    const blob = new Blob([resultBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;
@@ -217,7 +218,7 @@ export function WatermarkPdfUI() {
           {error && <p className="text-xs text-red-500 dark:text-red-400">{error}</p>}
 
           <button
-            onClick={apply}
+            onClick={() => apply()}
             disabled={isWorking || !text.trim()}
             className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
           >

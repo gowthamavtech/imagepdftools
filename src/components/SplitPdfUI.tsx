@@ -96,7 +96,8 @@ export function SplitPdfUI() {
     try {
       const { PDFDocument } = await import('pdf-lib');
       const bytes = new Uint8Array(await f.arrayBuffer());
-      const doc = await PDFDocument.load(bytes, password ? { password } : {});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const doc = await PDFDocument.load(bytes, (password ? { password } : { ignoreEncryption: true }) as any);
       const count = doc.getPageCount();
       setPageCount(count);
       setThumbs(Array(count).fill(null));
@@ -151,7 +152,8 @@ export function SplitPdfUI() {
     try {
       const { PDFDocument } = await import('pdf-lib');
       const srcBytes = new Uint8Array(await file.arrayBuffer());
-      const srcDoc   = await PDFDocument.load(srcBytes, password ? { password } : {});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const srcDoc   = await PDFDocument.load(srcBytes, (password ? { password } : { ignoreEncryption: true }) as any);
 
       if (mode === 'select') {
         const indices = Array.from(selected).sort((a, b) => a - b);

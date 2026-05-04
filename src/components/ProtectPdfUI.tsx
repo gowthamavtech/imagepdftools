@@ -44,10 +44,12 @@ export function ProtectPdfUI() {
       const bytes = new Uint8Array(await file.arrayBuffer());
       if (mode === 'protect') {
         const pdfDoc = await PDFDocument.load(bytes);
-        const saved  = await pdfDoc.save({ userPassword: password, ownerPassword: password });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const saved  = await pdfDoc.save({ userPassword: password, ownerPassword: password } as any);
         setResultBytes(saved);
       } else {
-        const pdfDoc = await PDFDocument.load(bytes, { password });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pdfDoc = await PDFDocument.load(bytes, { password } as any);
         const saved  = await pdfDoc.save();
         setResultBytes(saved);
       }
@@ -64,7 +66,7 @@ export function ProtectPdfUI() {
 
   const download = () => {
     if (!resultBytes || !file) return;
-    const blob = new Blob([resultBytes], { type: 'application/pdf' });
+    const blob = new Blob([resultBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     const stem = file.name.replace(/\.pdf$/i, '');

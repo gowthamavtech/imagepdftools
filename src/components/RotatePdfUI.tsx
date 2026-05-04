@@ -90,7 +90,8 @@ export function RotatePdfUI() {
     try {
       const { PDFDocument, degrees } = await import('pdf-lib');
       const bytes  = new Uint8Array(await file.arrayBuffer());
-      const pdfDoc = await PDFDocument.load(bytes, password ? { password } : {});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pdfDoc = await PDFDocument.load(bytes, (password ? { password } : { ignoreEncryption: true }) as any);
       for (const page of pdfDoc.getPages()) {
         page.setRotation(degrees(page.getRotation().angle + rotation));
       }
