@@ -3,9 +3,17 @@ import Link from 'next/link';
 import { POSTS, CATEGORY_META, type Category } from '@/lib/blog';
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Guides on image compression, PDF tools, web performance, and privacy — written by the engineers behind ImagePDF.Tools.',
+  title: 'Blog — Image Compression, PDF Tools & Web Performance Guides',
+  description: 'Practical guides on image compression, PDF tools, web performance, and file privacy — written by the engineers behind ImagePDF.Tools.',
   alternates: { canonical: 'https://imagepdf.tools/blog' },
+  openGraph: {
+    title: 'Blog — Image Compression, PDF Tools & Web Performance Guides',
+    description: 'Practical guides on image compression, PDF tools, web performance, and file privacy — written by the engineers behind ImagePDF.Tools.',
+    type: 'website',
+    url: 'https://imagepdf.tools/blog',
+    images: [{ url: 'https://imagepdf.tools/og-image.png', width: 1200, height: 630, alt: 'ImagePDF.Tools Blog' }],
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
 const CATEGORIES: { value: Category | 'all'; label: string }[] = [

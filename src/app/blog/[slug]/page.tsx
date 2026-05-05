@@ -16,11 +16,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+  const BASE = 'https://imagepdf.tools';
+  const postUrl = `${BASE}/blog/${post.slug}`;
+  const ogImage = { url: `${BASE}/og-image.png`, width: 1200, height: 630, alt: post.title };
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: `https://imagepdf.tools/blog/${post.slug}` },
-    openGraph: { title: post.title, description: post.description, type: 'article' },
+    alternates: { canonical: postUrl },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: 'article',
+      url: postUrl,
+      publishedTime: post.date,
+      modifiedTime: post.updatedDate ?? post.date,
+      images: [ogImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [`${BASE}/og-image.png`],
+    },
   };
 }
 
@@ -171,12 +188,18 @@ export default async function BlogPostPage({
         '@type': 'Article',
         headline: post.title,
         description: post.description,
+        image: `${BASE}/og-image.png`,
         datePublished: post.date,
-        dateModified: post.date,
+        dateModified: post.updatedDate ?? post.date,
         url: postUrl,
         mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
-        author: { '@type': 'Organization', name: 'ImagePDF.Tools', url: BASE },
-        publisher: { '@type': 'Organization', name: 'ImagePDF.Tools', url: BASE },
+        author: { '@type': 'Person', name: 'Arjun from ImagePDF', url: `${BASE}/about` },
+        publisher: {
+          '@type': 'Organization',
+          name: 'ImagePDF.Tools',
+          url: BASE,
+          logo: { '@type': 'ImageObject', url: `${BASE}/icon.svg`, width: 512, height: 512 },
+        },
       },
       {
         '@type': 'BreadcrumbList',

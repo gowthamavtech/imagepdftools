@@ -19,7 +19,6 @@ export const metadata: Metadata = {
         template: "%s | ImagePDF.Tools",
     },
     description: "Compress JPEG, PNG, and WebP images in your browser. No uploads, no limits. Free online image compressor.",
-    keywords: ["image compressor", "compress image online", "reduce image size", "png compressor", "jpeg compressor"],
     openGraph: {
         type: "website",
         url: "https://imagepdf.tools",
