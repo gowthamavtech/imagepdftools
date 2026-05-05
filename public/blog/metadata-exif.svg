@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" role="img" aria-label="EXIF metadata fields hidden inside a photo: GPS coordinates, camera model, date and time, lens settings, and software version">
+  <rect width="760" height="240" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="238" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="30" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">What's hidden inside your photo — EXIF metadata</text>
+
+  <!-- Photo thumbnail placeholder -->
+  <rect x="40" y="48" width="140" height="160" rx="10" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <!-- Simulated landscape photo -->
+  <rect x="40" y="48" width="140" height="80" rx="10" fill="#bfdbfe"/>
+  <rect x="40" y="128" width="140" height="80" rx="0" fill="#86efac"/>
+  <rect x="40" y="168" width="140" height="40" rx="0" fill="#6ee7b7"/>
+  <!-- Sun -->
+  <circle cx="150" cy="80" r="18" fill="#fde68a"/>
+  <!-- Mountain -->
+  <polygon points="70,128 110,78 150,128" fill="#a3a3a3" opacity="0.5"/>
+  <!-- Lens flare indicator -->
+  <text x="110" y="215" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">photo.jpg</text>
+  <text x="110" y="228" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">4.2 MB</text>
+
+  <!-- Arrow from photo to metadata fields -->
+  <line x1="185" y1="128" x2="218" y2="128" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr)"/>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- Metadata fields — two columns -->
+  <!-- Left column -->
+  <rect x="222" y="48" width="240" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="236" y="62" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">📍 GPS</text>
+  <text x="236" y="74" font-family="mono,Consolas,monospace" font-size="10" fill="#dc2626">37.7749° N, 122.4194° W</text>
+
+  <rect x="222" y="86" width="240" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="236" y="100" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">📅 Date &amp; Time</text>
+  <text x="236" y="112" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">2026-03-15  14:32:07</text>
+
+  <rect x="222" y="124" width="240" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="236" y="138" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">📷 Camera</text>
+  <text x="236" y="150" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">Apple iPhone 15 Pro</text>
+
+  <rect x="222" y="162" width="240" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="236" y="176" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">🔭 Lens</text>
+  <text x="236" y="188" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">6.86mm  f/1.78  ISO 50</text>
+
+  <!-- Right column -->
+  <rect x="472" y="48" width="252" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="486" y="62" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">📐 Resolution</text>
+  <text x="486" y="74" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">4032 × 3024 px  (72 dpi)</text>
+
+  <rect x="472" y="86" width="252" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="486" y="100" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">⚙️ Software</text>
+  <text x="486" y="112" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">iOS 17.4.1</text>
+
+  <rect x="472" y="124" width="252" height="32" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="486" y="138" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">⏱ Shutter Speed</text>
+  <text x="486" y="150" font-family="mono,Consolas,monospace" font-size="10" fill="#475569">1/4000 s</text>
+
+  <rect x="472" y="162" width="252" height="32" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="486" y="176" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#92400e">⚠️ Exact Home Address</text>
+  <text x="486" y="188" font-family="mono,Consolas,monospace" font-size="10" fill="#dc2626">embedded in GPS field</text>
+
+  <text x="380" y="228" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#94a3b8">All this data is embedded in every photo taken on a modern phone — and shared when you upload the image · imagepdf.tools</text>
+</svg>

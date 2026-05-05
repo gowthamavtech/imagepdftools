@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 210" role="img" aria-label="Progressive JPEG loading: scan 1 shows a very blurry low-resolution preview, scan 2 is clearer, scan 3 is nearly sharp, scan 4 is fully sharp — versus baseline which shows top-down line by line">
+  <rect width="760" height="210" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="208" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="28" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Progressive JPEG — the whole image appears immediately, then sharpens</text>
+
+  <!-- Scan labels -->
+  <text x="62" y="50" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#64748b">Baseline</text>
+  <text x="62" y="62" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">(standard)</text>
+  <text x="220" y="50" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#7c3aed">Scan 1</text>
+  <text x="220" y="62" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">2% of data</text>
+  <text x="372" y="50" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#7c3aed">Scan 2</text>
+  <text x="372" y="62" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">15% of data</text>
+  <text x="524" y="50" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#7c3aed">Scan 3</text>
+  <text x="524" y="62" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">60% of data</text>
+  <text x="676" y="50" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#059669">Scan 4</text>
+  <text x="676" y="62" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">100% — final</text>
+
+  <!-- Baseline image: top portion loaded, rest empty -->
+  <rect x="20" y="68" width="84" height="116" rx="6" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+  <!-- Top loaded portion (40%) -->
+  <rect x="20" y="68" width="84" height="46" rx="4" fill="#93c5fd"/>
+  <rect x="20" y="94" width="84" height="20" fill="#6ee7b7"/>
+  <!-- Scanlines being drawn -->
+  <rect x="20" y="114" width="84" height="3" fill="#7c3aed" opacity="0.5"/>
+  <!-- Unloaded portion -->
+  <rect x="20" y="117" width="84" height="67" rx="0" fill="#f8fafc"/>
+  <line x1="20" y1="125" x2="104" y2="125" stroke="#e2e8f0" stroke-width="0.8"/>
+  <line x1="20" y1="140" x2="104" y2="140" stroke="#e2e8f0" stroke-width="0.8"/>
+  <line x1="20" y1="155" x2="104" y2="155" stroke="#e2e8f0" stroke-width="0.8"/>
+  <text x="62" y="175" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#dc2626">35% loaded</text>
+  <text x="62" y="186" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#dc2626">rest is blank</text>
+
+  <!-- Scan 1: very blurry, full image visible -->
+  <rect x="172" y="68" width="96" height="116" rx="6" fill="#c7d2fe"/>
+  <!-- Blurry large blocks representing the image -->
+  <rect x="172" y="68" width="48" height="58" rx="3" fill="#a5b4fc"/>
+  <rect x="220" y="68" width="48" height="58" rx="3" fill="#c7d2fe"/>
+  <rect x="172" y="126" width="48" height="58" rx="3" fill="#d4d4d8"/>
+  <rect x="220" y="126" width="48" height="58" rx="3" fill="#a5b4fc"/>
+  <text x="220" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#4c1d95">full preview</text>
+  <text x="220" y="202" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#4c1d95">very blurry</text>
+
+  <!-- Scan 2: less blurry -->
+  <rect x="324" y="68" width="96" height="116" rx="6" fill="#bfdbfe"/>
+  <rect x="324" y="68" width="24" height="29" rx="2" fill="#93c5fd"/>
+  <rect x="348" y="68" width="24" height="29" rx="2" fill="#bfdbfe"/>
+  <rect x="372" y="68" width="24" height="29" rx="2" fill="#93c5fd"/>
+  <rect x="396" y="68" width="24" height="29" rx="2" fill="#bfdbfe"/>
+  <rect x="324" y="97" width="24" height="29" rx="2" fill="#86efac"/>
+  <rect x="348" y="97" width="24" height="29" rx="2" fill="#6ee7b7"/>
+  <rect x="372" y="97" width="24" height="29" rx="2" fill="#86efac"/>
+  <rect x="396" y="97" width="24" height="29" rx="2" fill="#6ee7b7"/>
+  <rect x="324" y="126" width="48" height="58" rx="2" fill="#c4b5fd"/>
+  <rect x="372" y="126" width="48" height="58" rx="2" fill="#a78bfa"/>
+  <text x="372" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#1d4ed8">clearer</text>
+  <text x="372" y="202" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#1d4ed8">still soft</text>
+
+  <!-- Scan 3: nearly sharp -->
+  <rect x="476" y="68" width="96" height="116" rx="6" fill="#dbeafe"/>
+  <rect x="476" y="68" width="96" height="40" rx="4" fill="#93c5fd"/>
+  <rect x="476" y="108" width="96" height="36" rx="0" fill="#6ee7b7"/>
+  <rect x="476" y="144" width="48" height="40" rx="0" fill="#a78bfa"/>
+  <rect x="524" y="144" width="48" height="40" rx="4" fill="#c4b5fd"/>
+  <!-- Mountain shape -->
+  <polygon points="476,108 524,74 572,108" fill="#a3a3a3" opacity="0.3"/>
+  <text x="524" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#0369a1">nearly sharp</text>
+  <text x="524" y="202" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#0369a1">recognisable</text>
+
+  <!-- Scan 4: final sharp -->
+  <rect x="628" y="68" width="96" height="116" rx="6" fill="white" stroke="#86efac" stroke-width="1.5"/>
+  <rect x="628" y="68" width="96" height="50" rx="4" fill="#7dd3fc"/>
+  <rect x="628" y="118" width="96" height="46" rx="0" fill="#86efac"/>
+  <rect x="628" y="164" width="96" height="20" rx="4" fill="#6ee7b7"/>
+  <polygon points="628,118 676,76 724,118" fill="#a3a3a3" opacity="0.5"/>
+  <circle cx="704" cy="84" r="12" fill="#fde68a"/>
+  <text x="676" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" font-weight="700" fill="#059669">fully sharp</text>
+  <text x="676" y="202" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#059669">complete</text>
+</svg>

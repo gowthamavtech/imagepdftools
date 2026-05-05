@@ -16,6 +16,8 @@ export type Block =
   | { type: 'callout'; text: string; kind?: 'tip' | 'warning' | 'info' }
   | { type: 'code'; lang: string; text: string }
   | { type: 'table'; caption?: string; headers: string[]; rows: string[][] }
+  | { type: 'image'; src: string; alt: string; caption?: string }
+  | { type: 'image-group'; columns?: 2 | 3; images: { src: string; alt: string; caption?: string }[] }
   | { type: 'ad' };
 
 export interface Post {
@@ -46,7 +48,8 @@ export const POSTS: Post[] = [
       { type: 'p', html: 'You need to compress a batch of images or convert a PDF. You find a free online tool, drag your files in, and download the result in seconds. Simple — but in those few seconds, your file has been uploaded to a server in an unknown jurisdiction, processed by code you can\'t inspect, and stored in a temp directory you have no control over.' },
       { type: 'p', html: 'For holiday photos that\'s a minor inconvenience. For a bank statement, medical record, or signed contract, it\'s a serious privacy risk that most people never consciously evaluate.' },
       { type: 'ad' },
-      { type: 'h2', text: 'What "Online Processing" Really Means' },
+       { type: 'image', src: '/blog/devtools-network-check.svg', alt: 'Browser DevTools Network tab showing a POST request uploading a file to a remote server — how to detect if a file converter is sending your data away', caption: 'Open DevTools (F12) → Network tab, then drop a file into the tool. A large POST request with your filename means your file was uploaded.' },
+     { type: 'h2', text: 'What "Online Processing" Really Means' },
       { type: 'p', html: 'When a web app converts your file, the computation has to happen <em>somewhere</em>. For the vast majority of tools, that somewhere is a remote server — your browser uploads the raw file over HTTPS, the server does the work, and returns the result. This is <strong>server-side processing</strong>, and you lose custody of your file the moment you press upload.' },
       { type: 'p', html: 'The terms of service you skipped almost certainly grant the platform a broad licence to store, analyse, and use uploaded content. Whether they exercise that right is irrelevant — the legal and technical capability exists.' },
       { type: 'h2', text: 'The Real Risks' },
@@ -101,6 +104,7 @@ a.click();` },
     relatedTool: { label: 'Compress PDF', href: '/compress-pdf' },
     body: [
       { type: 'p', html: 'PDFs are the universal container for sensitive documents — tax returns, employment contracts, medical reports. When those files are large, the temptation is to drag them into the first online compressor that appears in search results. This is a risk most people don\'t consciously take.' },
+        { type: 'image', src: '/blog/client-side-processing.svg', alt: 'Client-side processing: file stays in browser, never reaches a server', caption: 'All PDF compression happens inside your browser — your file never leaves your device' },
       { type: 'p', html: 'PDF is a complex format. A single file can contain embedded images, fonts, form data, digital signatures, and metadata layers. When you upload one to a third-party compressor, you\'re handing over all of that — including content that\'s not visible on any printed page.' },
       { type: 'ad' },
       { type: 'h2', text: 'What Actually Happens When You Upload to a Server-Side Tool' },
@@ -157,6 +161,7 @@ const result = gs.FS.readFile('/output.pdf');
     relatedTool: { label: 'Remove Metadata', href: '/remove-metadata' },
     body: [
       { type: 'p', html: 'When you take a photo on a smartphone, you capture more than the image. Embedded invisibly in the file is a structured block of data — called EXIF metadata — that can reveal where you were, when you were there, and what device you used. Most people share images publicly without ever knowing this data exists.' },
+        { type: 'image', src: '/blog/metadata-exif.svg', alt: 'EXIF metadata fields: GPS location, date taken, camera model, lens, resolution', caption: 'EXIF data embedded in every photo captures far more than you might expect' },
       { type: 'ad' },
       { type: 'h2', text: 'What Is EXIF Data?' },
       { type: 'p', html: 'EXIF stands for <em>Exchangeable Image File Format</em>. It\'s a standard for storing metadata within JPEG, TIFF, and some PNG files, defined in 1995 and now universal across every camera manufacturer and smartphone platform.' },
@@ -220,6 +225,7 @@ console.log(exif);
     body: [
       { type: 'p', html: 'The format war between WebP and AVIF has been running since AVIF landed in Chrome 85 in 2020. Six years later, both are widely supported — but the choice is more nuanced than "AVIF is newer, therefore better." For SEO specifically, the metric that matters is <strong>LCP (Largest Contentful Paint)</strong> — how quickly the largest image on the page becomes visible. That\'s determined by file size, decode speed, and CDN support, not just compression ratio.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/image-format-guide.svg', alt: 'Decision flowchart for choosing an image format: JPEG for photos without transparency, PNG for graphics with transparency, WebP as the modern default', caption: 'Use this decision tree when choosing a format. WebP is the safe default for most web images in 2026.' },
       { type: 'h2', text: 'Compression Ratio: AVIF Wins — But Not Always' },
       { type: 'p', html: 'At equivalent visual quality (measured by SSIM), AVIF typically achieves 20–40% smaller files than WebP for photographic content. This advantage narrows for:' },
       { type: 'ul', items: [
@@ -260,6 +266,7 @@ console.log(exif);
     relatedTool: { label: 'Compress Image', href: '/' },
     body: [
       { type: 'p', html: 'LCP (Largest Contentful Paint) is the most impactful Core Web Vitals signal, and images are the LCP element on roughly 70% of pages. Fixing image delivery is the single highest-leverage change most websites can make for both SEO and user experience.' },
+        { type: 'image', src: '/blog/core-web-vitals.svg', alt: 'Core Web Vitals: LCP, CLS and INP metric cards with Good, Needs Improvement, Poor thresholds', caption: 'Google measures three Core Web Vitals — images affect all three' },
       { type: 'ad' },
       { type: 'h2', text: 'Step 1: Identify Your LCP Image' },
       { type: 'code', lang: 'javascript', text: code`// Find the LCP element in the browser console
@@ -319,6 +326,7 @@ const targetWidth = Math.round(renderWidth * window.devicePixelRatio);
     body: [
       { type: 'p', html: 'If you\'ve used Ghostscript, Adobe Acrobat, or any serious PDF compressor, you\'ve seen the presets: <em>Screen</em>, <em>eBook</em>, <em>Printer</em>, <em>Prepress</em>. These originate from Ghostscript\'s <code class="font-mono text-sm bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">-dPDFSETTINGS</code> flag and have been adopted by virtually every PDF tool. Most people pick one and hope for the best. Here\'s what they actually do.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/pdf-compression-levels.svg', alt: 'PDF compression levels: low compression gives 8 MB at best quality for print, medium gives 2.5 MB for emailing, high gives 0.8 MB for web uploads', caption: 'Pick your compression level based on what the PDF is for — not just the smallest possible size.' },
       { type: 'h2', text: 'What PDF Compression Actually Compresses' },
       { type: 'p', html: 'Most PDF file size comes from embedded images — rasterised photos, scanned pages, graphics. PDF compression works by:' },
       { type: 'ol', items: [
@@ -365,6 +373,7 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 \
     relatedTool: { label: 'Image to PDF', href: '/image-to-pdf' },
     body: [
       { type: 'p', html: 'The typical JPG-to-PDF converter takes your image, runs it through JPEG compression <em>again</em>, and embeds the result. The output looks fine at a glance but zooms soft, and you\'ve permanently degraded your source. There\'s a better way.' },
+        { type: 'image', src: '/blog/pdf-compression-levels.svg', alt: 'PDF compression levels: screen, ebook, printer quality with file sizes', caption: 'Choosing the right PDF quality setting avoids quality loss when converting images' },
       { type: 'ad' },
       { type: 'h2', text: 'Why Re-Encoding a JPEG Destroys Quality' },
       { type: 'p', html: 'JPEG uses lossy compression. Every time you re-encode, you add another generation of artefacts — even at quality 95. A JPEG that\'s been through three converters will be noticeably softer than the original, with visible blocking artefacts around high-contrast edges.' },
@@ -406,6 +415,7 @@ const pdfBytes = await pdfDoc.save();` },
     relatedTool: { label: 'Compress PDF', href: '/compress-pdf' },
     body: [
       { type: 'p', html: 'Email attachments bounce when they\'re too large: Gmail caps at 25 MB, Outlook at 20 MB, many corporate servers at 10 MB. A high-resolution PDF from a designer or scanner can easily exceed these limits. Here are five techniques, from quickest to most thorough.' },
+        { type: 'image', src: '/blog/pdf-compression-levels.svg', alt: 'PDF compression levels for email: screen quality is ideal for email attachments', caption: 'Screen-quality PDFs hit the sweet spot of small file size with readable text' },
       { type: 'ad' },
       { type: 'h2', text: '1. Use a Browser-Based PDF Compressor' },
       { type: 'p', html: 'The fastest option for a one-off file. A client-side tool requires no software install and no upload. For most scanned PDFs, you\'ll get a 50–80% size reduction in under 10 seconds. See our <a href="/blog/online-file-converters-security-risk" class="text-violet-600 dark:text-violet-400 hover:underline">guide to choosing a safe file tool</a> if you\'re sending sensitive documents.' },
@@ -450,6 +460,7 @@ exiftool -all= -overwrite_original input.pdf` },
     relatedTool: { label: 'Resize Image', href: '/resize-image' },
     body: [
       { type: 'p', html: 'Upload the wrong image size to a social platform and you\'ll see it cropped, zoomed, or blurred by the platform\'s auto-processing. Getting dimensions right the first time avoids quality loss and ensures your images display exactly as designed.' },
+        { type: 'image', src: '/blog/batch-processing.svg', alt: 'Batch processing: 5 files in, 5 optimised files out, 78% smaller', caption: 'Batch tools process all your images in one go — no manual resizing needed' },
       { type: 'ad' },
       { type: 'h2', text: '2026 Social Media Image Size Reference' },
       { type: 'ul', items: [
@@ -500,6 +511,7 @@ done` },
     body: [
       { type: 'p', html: 'PNG became the default format for web graphics in the 2000s — lossless compression, alpha transparency, wide support. It was a good choice then. But it was designed before Lighthouse scores, Core Web Vitals, and 4G mobile connections. In 2026, serving PNG where WebP would do is leaving measurable performance improvement untouched.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Converting PNG to WebP saves 30-75% in file size while maintaining the same visual quality in modern browsers', caption: 'WebP delivers the same visual quality as PNG at 25–50% of the file size. Every image converted is page-load time saved.' },
       { type: 'h2', text: 'The Size Difference Is Significant' },
       { type: 'p', html: 'For photographic content: a JPEG converted to PNG is typically 3–5× larger. Converting that PNG to lossy WebP (quality 80) gives you a file smaller than the original JPEG, at equivalent or better visual quality.' },
       { type: 'p', html: 'For graphics with transparency (icons, illustrations): PNG lossless typically runs 20–40% larger than WebP lossless. Lossy WebP with alpha transparency achieves 40–70% size reduction with minimal visible impact on non-photographic content.' },
@@ -543,6 +555,7 @@ du -sh images/*.png images/*.webp | sort -h` },
     relatedTool: { label: 'Compress Image', href: '/' },
     body: [
       { type: 'p', html: 'The engineering challenge behind a privacy-first image tool: how do you give users professional compression quality without sending a single byte to a server? The answer is WebAssembly (WASM) — compiled native binaries running at near-native speed inside the browser sandbox.' },
+        { type: 'image', src: '/blog/client-side-processing.svg', alt: 'WebAssembly client-side processing: file goes to browser WASM module, never to server', caption: 'WebAssembly runs native-speed compression algorithms entirely inside the browser' },
       { type: 'p', html: 'This is a technical walkthrough of how ImagePDF.Tools compresses images client-side using pngquant WASM for PNG, the Canvas API for JPEG/WebP, and a Web Worker architecture to keep the UI thread at 60fps during processing.' },
       { type: 'ad' },
       { type: 'h2', text: 'Three Paths, Zero Uploads' },
@@ -638,7 +651,8 @@ self.onmessage = async ({ data: { file, options, id } }) => {
     body: [
       { type: 'p', html: 'When I built ImagePDF.Tools, I made a deliberate decision to process all files client-side. I want to be transparent about why — because it\'s genuinely the right thing to do for users <em>and</em> the right decision for the business model.' },
       { type: 'ad' },
-      { type: 'h2', text: 'The Privacy Argument' },
+       { type: 'image', src: '/blog/client-side-processing.svg', alt: 'Client-side file processing: your file is processed locally in your browser and never sent to a remote server', caption: 'Your file travels from your device into the browser and back — never touching a remote server.' },
+     { type: 'h2', text: 'The Privacy Argument' },
       { type: 'p', html: 'Most free image tools are funded by advertising, and advertising revenue scales with data. Your uploaded files — even if deleted after processing — provide valuable signals: document types, file sizes, usage patterns, geographic distribution. That data has monetisation value even when the files are nominally deleted.' },
       { type: 'p', html: 'When you drop a file into ImagePDF.Tools, the bytes travel this far: from your filesystem into your browser\'s memory. That\'s it. No CDN logs, no server-side processing logs, no database write containing your content. There is literally no mechanism for us to see what you processed.' },
       { type: 'h2', text: 'The Business Case (It\'s Also Cheaper)' },
@@ -688,6 +702,7 @@ self.onmessage = async ({ data: { file, options, id } }) => {
     body: [
       { type: 'p', html: 'Once an image leaves your server, you lose control over how it\'s rendered. A common pitfall is serving a high-efficiency WebP while treating the JPEG fallback as an afterthought. If the fallback is exported at quality 50 to save bandwidth, every browser that can\'t load WebP — or every email client, WhatsApp send, or Slack upload — shows a noticeably degraded image. Format choice and fallback quality are inseparable decisions.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/image-format-guide.svg', alt: 'Image format selection guide: flowchart showing when to use JPEG, PNG, WebP, or AVIF based on image type and transparency requirements', caption: 'Start here. The format choice has a bigger impact on file size than any quality slider.' },
       { type: 'h2', text: 'The Four Main Formats and Their Compression Models' },
       { type: 'h3', text: 'JPEG — DCT-Based Lossy Compression' },
       { type: 'p', html: 'JPEG divides the image into 8×8 pixel blocks and applies the Discrete Cosine Transform to each. High-frequency detail (fine texture, sharp edges) is compressed more aggressively than low-frequency content (gradual gradients, flat colour). The quality slider controls how aggressively high-frequency data is quantised. Quality 80 discards roughly 20–30% of the frequency data — imperceptible at normal viewing distances, but visible in 1:1 zoom on fine detail.' },
@@ -747,7 +762,8 @@ self.onmessage = async ({ data: { file, options, id } }) => {
     body: [
       { type: 'p', html: 'Hitting an exact file size — a passport photo under 200 KB, a hero image under a strict CMS limit — is one of those tasks that sounds trivial but rarely is. You compress, overshoot by a few kilobytes, lower the quality, undershoot by twenty, raise it slightly, overshoot again. The problem is that JPEG and WebP compression ratios are non-linear: the relationship between quality and output size depends on the specific content of the image, not a predictable formula.' },
       { type: 'ad' },
-      { type: 'h2', text: 'Why Quality Settings Don\'t Map Linearly to File Size' },
+       { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Before and after image compression comparison showing file size reductions across JPEG, PNG and WebP', caption: 'Your file travels from your device into the browser and back — never touching a remote server.' },
+     { type: 'h2', text: 'Why Quality Settings Don\'t Map Linearly to File Size' },
       { type: 'p', html: 'JPEG quality 80 for a photo of a clear blue sky might produce a 40 KB file. The same quality setting on a photo of dense forest foliage might produce a 400 KB file. The encoder is measuring <em>image complexity</em> — the amount of high-frequency detail — not respecting a size target. This is by design: the quality setting controls visual fidelity, not file size.' },
       { type: 'h2', text: 'The Correct Approach: Binary Search on Quality' },
       { type: 'p', html: 'The reliable method for hitting a size target is a binary search over quality values. You set a target size, measure the output at quality 80, then step up or down based on whether you over- or undershot, repeating until you\'re within tolerance.' },
@@ -813,6 +829,7 @@ self.onmessage = async ({ data: { file, options, id } }) => {
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'Compression artifacts are the visible byproducts of a lossy encoder trying to squeeze an image into a smaller file. They show up most often when an image is exported at mid-range quality (say, 60) and then recompressed — or when the original image contains hard edges and flat colours that JPEG handles particularly poorly. Once you know what to look for, you can adjust encoding settings to avoid the most visible defects.' },
+        { type: 'image', src: '/blog/compression-artifacts.svg', alt: 'Types of compression artifacts: blocking shows 8x8 squares, ringing creates halos, banding shows gradient steps', caption: 'The three most common compression artifacts — each has a different cause and fix' },
       { type: 'ad' },
       { type: 'h2', text: 'Blocking — The Grid Pattern' },
       { type: 'p', html: 'JPEG works in 8×8 pixel blocks. When quality is low, each block is quantised independently, and the boundaries between blocks become visible — especially in smooth gradient areas. The image looks like it\'s divided into a grid of slightly different-coloured squares.' },
@@ -863,6 +880,7 @@ const jpegBlob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95)
     relatedTool: { label: 'Resize Image', href: '/resize-image' },
     body: [
       { type: 'p', html: 'Most image optimisation advice treats delivery as a download problem: smaller file, faster page. Performance audits reinforce this because they measure bytes on the wire. But once the bytes arrive, the browser still has significant work to do — and that work can cause jank, memory pressure, and slow paints even when the download is fast.' },
+        { type: 'image', src: '/blog/responsive-images.svg', alt: 'Responsive images: browser serves 480px to mobile, 768px to tablet, 1200px to desktop', caption: 'Browsers choose the right image size automatically when you provide srcset' },
       { type: 'ad' },
       { type: 'h2', text: 'Step 1: Decoding — From Compressed to Raw Pixels' },
       { type: 'p', html: 'The browser receives compressed image bytes (JPEG, WebP, etc.) and must decode them into raw RGBA pixel data before it can draw anything. A 500 KB JPEG of a 2000×1500px photo decodes to <code class="font-mono text-sm bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">2000 × 1500 × 4 bytes = ~11.4 MB</code> of raw bitmap data in memory.' },
@@ -908,7 +926,8 @@ const jpegBlob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95)
     body: [
       { type: 'p', html: 'Most email providers cap attachments at 20–25 MB (Gmail and Yahoo at 25 MB, Outlook at 20 MB). Modern iPhone photos typically range from 3 MB to 12 MB depending on mode, so a handful of attachments will hit the limit fast. WhatsApp already compresses images automatically — but the compression is aggressive and often makes photos look noticeably worse. Compressing yourself gives you control over quality.' },
       { type: 'ad' },
-      { type: 'h2', text: 'What Does "Compressing" an Image Actually Do?' },
+       { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Image compression results: JPEG reduced 76%, PNG reduced 71%, WebP conversion saving 75% compared to original file sizes', caption: 'Typical savings after compression. Results vary by image content and quality setting.' },
+     { type: 'h2', text: 'What Does "Compressing" an Image Actually Do?' },
       { type: 'p', html: 'Your camera saves photos with a lot of detail that\'s practically invisible — fine texture that your eye glosses over, colour gradations in areas where the difference doesn\'t matter. Compression removes the least-important information to make the file smaller. Done carefully, the difference is invisible. Done aggressively, you get the blotchy, pixelated look of a badly sent photo.' },
       { type: 'h2', text: 'The Quality Setting — The Only Number That Matters' },
       { type: 'p', html: 'Every image compressor has some version of a quality slider. Here\'s a simple rule for photos:' },
@@ -954,6 +973,7 @@ const jpegBlob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95)
     body: [
       { type: 'p', html: 'Exporting is often treated as a technicality at the end of the process, but it\'s the step that decides whether your colour work and fine detail actually survive the trip to the viewer\'s screen. Careless export settings can undo careful retouching. Understanding what the encoder does to your image lets you make informed decisions about every export.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/quality-vs-filesize.svg', alt: 'Quality versus file size curve for photographers: Q80-85 retains near-lossless quality while reducing file size by 50-70%', caption: 'For client delivery, Q80–85 is the professional standard: imperceptibly close to the original at a fraction of the size.' },
       { type: 'h2', text: 'The Generation Loss Problem' },
       { type: 'p', html: 'JPEG is a lossy format. Every time you open and re-save a JPEG, you add another generation of compression artifacts — even at quality 95. Two or three save cycles at high quality are generally invisible, but the loss is cumulative and irreversible. The rule: <strong>always edit from the original RAW or TIFF, and compress to JPEG as the final step.</strong>' },
       { type: 'callout', kind: 'warning', text: 'Never use a JPEG you downloaded from social media as an editing source. It has already been through at least two lossy passes — yours (export) and the platform\'s (upload compression). Start from RAW or original full-quality TIFF.' },
@@ -1001,6 +1021,7 @@ magick mogrify -format webp -quality 78 -strip exports/*.{jpg,png}` },
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'A typical mid-size store on WooCommerce might have fifty product pages, each with six to eight images uploaded as full-resolution PNGs straight from Photoshop. The main product grid can easily end up over 30 MB, taking four or five seconds to load on a mobile connection. The fix isn\'t a CDN — it\'s right-sized, properly compressed source images.' },
+        { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Compression before and after: JPEG 76% smaller, PNG 71% smaller, WebP 75% smaller', caption: 'Aggressive compression on product images cuts page weight without visible quality loss' },
       { type: 'ad' },
       { type: 'table', caption: 'E-commerce platform image requirements at a glance', headers: ['Platform', 'Max size', 'Recommended dimensions', 'Format', 'Notes'], rows: [
         ['Shopify', '20 MB', '2048×2048px', 'JPEG / PNG / WebP', 'Serves WebP automatically via CDN'],
@@ -1052,6 +1073,7 @@ wp media regenerate 1234 1235 1236` },
     body: [
       { type: 'p', html: 'Most users treat the JPEG quality slider as a simple fidelity percentage where 100 represents a perfect copy and 50 represents half the original detail. While this idea is common, it is simply not how the compression works. The quality number is a scalar that adjusts a quantisation table — a matrix of divisors applied to frequency components. Understanding this changes how you choose quality settings.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/quality-vs-filesize.svg', alt: 'Chart showing how JPEG and WebP quality setting affects file size: steep drop from Q100 to Q70, then a flat plateau — the sweet spot is Q70-80', caption: 'The quality-to-size relationship is non-linear. Moving from Q100 to Q75 cuts file size by 60–75% with barely visible quality loss.' },
       { type: 'h2', text: 'What Actually Happens Inside the JPEG Encoder' },
       { type: 'p', html: 'JPEG compression has five main steps:' },
       { type: 'ol', items: [
@@ -1112,6 +1134,7 @@ wp media regenerate 1234 1235 1236` },
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'Adding <code class="font-mono text-sm bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">loading="lazy"</code> to every image on a page looks like an easy performance win. In practice, applying it uniformly — including to hero banners and other above-the-fold visuals — usually makes the page feel slower. The browser delays fetching the image until it\'s near the viewport, but if that image is already in the viewport on load, you\'ve just delayed your LCP element for no reason.' },
+        { type: 'image', src: '/blog/lazy-loading.svg', alt: 'Lazy loading: above-fold image loads instantly, entering-viewport starts loading, below-fold skipped', caption: 'Lazy loading defers off-screen images — but the hero image must load eagerly' },
       { type: 'ad' },
       { type: 'h2', text: 'What loading="lazy" Actually Does' },
       { type: 'p', html: 'Native lazy loading tells the browser not to fetch an image until it\'s within a certain distance from the viewport (typically 1000–1500px on fast connections, less on slow connections). This is beneficial for images that are off-screen on load — it reduces initial page weight and speeds up critical resource loading.' },
@@ -1171,6 +1194,7 @@ wp media regenerate 1234 1235 1236` },
     body: [
       { type: 'p', html: 'Lossy and lossless compression solve different problems. Lossy trades a small amount of visual information for a large reduction in file size; lossless keeps every bit of data but saves much less space. Picking the wrong one for your use case either wastes bandwidth (unnecessary lossless) or permanently degrades an asset you needed to keep pristine.' },
       { type: 'ad' },
+      { type: 'image', src: '/blog/lossy-vs-lossless.svg', alt: 'Side-by-side pixel comparison: lossy compression creates block artefacts and averages colours, lossless preserves every pixel perfectly', caption: 'Lossy compression averages adjacent pixels into blocks (right), which reduces file size but introduces artefacts on sharp edges.' },
       { type: 'h2', text: 'Lossless Compression: Every Pixel Preserved' },
       { type: 'p', html: 'Lossless compression uses mathematical algorithms (DEFLATE, LZ77, Huffman coding) to represent the same pixel data more efficiently. A lossless-compressed image decompresses to exactly the original pixels — no information is discarded.' },
       { type: 'ul', items: [
@@ -1233,7 +1257,8 @@ console.log('Pass 2 size:', compressed2.size); // e.g. 140 KB — barely smaller
     body: [
       { type: 'p', html: 'Free online image compressors are used heavily because they\'re quick and require no install. The files being processed often contain GPS coordinates, timestamps, device information, and identifiable faces — all of which travel to a server when the tool isn\'t genuinely client-side. Most users never verify this.' },
       { type: 'ad' },
-      { type: 'h2', text: 'The Core Trust Question: Where Does Processing Happen?' },
+       { type: 'image', src: '/blog/client-side-processing.svg', alt: 'How client-side image compression works: file stays in your browser and is never uploaded to a server', caption: 'Typical savings after compression. Results vary by image content and quality setting.' },
+     { type: 'h2', text: 'The Core Trust Question: Where Does Processing Happen?' },
       { type: 'p', html: 'There are only two options: your browser or a remote server. A tool that processes on a server requires your file to travel over the internet to infrastructure controlled by a third party. A tool that processes in your browser never sends the file anywhere — it stays in your computer\'s memory.' },
       { type: 'p', html: 'Many tools claim to be "browser-based" or "no upload required" while actually uploading files to a server. The claim is not always accurate, and verifying it takes thirty seconds.' },
       { type: 'h2', text: 'How to Verify Any Tool in 30 Seconds' },
@@ -1278,6 +1303,7 @@ console.log('Pass 2 size:', compressed2.size); // e.g. 140 KB — barely smaller
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'Even with compression, dimensions, and a CDN all in order, a hero image can still feel sluggish on first paint. One of the cheapest fixes for this is also one of the oldest: encoding the JPEG in progressive mode. Progressive JPEGs display a blurry full-frame preview almost immediately, then refine in passes as more data arrives — unlike baseline JPEGs, which paint top-to-bottom as bytes stream in.' },
+        { type: 'image', src: '/blog/progressive-jpeg.svg', alt: 'Progressive JPEG: scan 1 blurry preview, scan 2 clearer, scan 3 nearly sharp, scan 4 fully sharp', caption: 'Progressive JPEGs render a blurry preview immediately, then sharpen as more data arrives' },
       { type: 'ad' },
       { type: 'h2', text: 'Baseline vs. Progressive JPEG: What\'s the Difference?' },
       { type: 'p', html: 'A <strong>baseline JPEG</strong> stores image data sequentially — top row to bottom row. The browser paints it from top to bottom as bytes arrive. On a slow connection, you see the top portion of the image while the bottom remains blank.' },
@@ -1320,6 +1346,7 @@ identify -verbose output.jpg | grep Interlace
     relatedTool: { label: 'Resize Image', href: '/resize-image' },
     body: [
       { type: 'p', html: 'A photography portfolio can look great on a desktop, where the connection is fast and the screen is wide, and still take over ten seconds to load on a phone. The usual cause is a plain <code class="font-mono text-sm bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">&lt;img&gt;</code> tag serving one full-resolution image to every device. The phone downloads a 1800×1200px image and renders it at 390×260px — wasting 95% of the bytes transferred.' },
+        { type: 'image', src: '/blog/responsive-images.svg', alt: 'Responsive images: mobile 480px 38KB, tablet 768px 89KB, desktop 1200px 215KB', caption: 'The srcset attribute lets the browser pick the right resolution for each device' },
       { type: 'ad' },
       { type: 'h2', text: 'The Problem with a Single src' },
       { type: 'p', html: 'When you write <code class="font-mono text-sm bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">&lt;img src="photo.jpg"&gt;</code>, every browser on every device downloads the same file. A 2 MB image works fine on a desktop with a fast connection and a 1920px display. On a 390px phone screen over 4G, that same 2 MB image loads in 3–5 seconds before anything is displayed — and only 5% of those pixels are visible.' },
@@ -1405,6 +1432,7 @@ convert photo.jpg -resize 1600x photo-1600w.jpg
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'Shopify stores are often blamed on a "heavy theme" when the real cause is a single collection banner uploaded at 8000×5000 pixels and 14 MB. Shopify will happily serve that file to every visitor\'s phone. The platform does a lot for image delivery — but not everything.' },
+        { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Image compression results: JPEG 76% reduction, PNG 71% reduction, WebP 75% reduction', caption: 'Compressing product images before upload gives Shopify less work and faster pages' },
       { type: 'ad' },
       { type: 'h2', text: 'What Shopify Does Automatically' },
       { type: 'ul', items: [
@@ -1468,6 +1496,7 @@ convert photo.jpg -resize 1600x photo-1600w.jpg
     relatedTool: { label: 'Compress Image', href: '/compress-image' },
     body: [
       { type: 'p', html: 'Developers usually look at code first when a page feels slow, but the bottleneck is more often in the media library. A homepage that takes over four seconds to load frequently has perfectly fine HTML, CSS, and JavaScript — the problem is a hero image at 3 MB, a product grid with twelve 800 KB PNGs, and a background pattern served as an unoptimised high-resolution JPEG.' },
+        { type: 'image', src: '/blog/compression-before-after.svg', alt: 'Before and after compression: significant file size reductions across JPEG, PNG and WebP', caption: 'Uncompressed images are the single biggest drag on page load time' },
       { type: 'ad' },
       { type: 'h2', text: 'How to Confirm Images Are the Bottleneck' },
       { type: 'p', html: 'Open Chrome DevTools → Network tab → reload the page. Sort by "Size" column (descending). If the top five entries are images, you\'ve found your problem. Check the "Waterfall" column — images that start loading late or block other resources are structural issues, not just size issues.' },
@@ -1522,6 +1551,7 @@ performance.getEntriesByType('resource')
     relatedTool: { label: 'Crop Image', href: '/crop-image' },
     body: [
       { type: 'p', html: 'Cropping is the most basic image edit — and one of the most powerful. Tightening the frame focuses the viewer\'s eye, removes distracting backgrounds, and prepares images for specific platforms that demand exact aspect ratios (Instagram\'s 1:1, Twitter\'s 2:1, YouTube thumbnails at 16:9). You don\'t need Photoshop or a desktop app. The whole process takes under a minute in your browser.' },
+        { type: 'image', src: '/blog/how-to-crop.svg', alt: 'How to crop an image: select area with handles, output is just that region at chosen dimensions', caption: 'Drag the corner handles to define your crop — everything outside is discarded' },
       { type: 'ad' },
       { type: 'h2', text: 'Step-by-Step: How to Crop an Image Online' },
       { type: 'ol', items: [
@@ -1558,6 +1588,7 @@ performance.getEntriesByType('resource')
     relatedTool: { label: 'Resize Image', href: '/resize-image' },
     body: [
       { type: 'p', html: 'Inconsistently sized images cause broken grids, slow pages, and CMS headaches. A product gallery where one image is 3000×2000 and the next is 800×600 looks unprofessional and forces browsers to do layout work they shouldn\'t have to. Resizing to consistent dimensions before upload is one of those unglamorous tasks that pays off every time.' },
+        { type: 'image', src: '/blog/batch-processing.svg', alt: 'Batch resizing: multiple images in, all resized to the same dimensions out', caption: 'Batch resize handles an entire folder of images in seconds' },
       { type: 'ad' },
       { type: 'h2', text: 'Three Ways to Resize an Image' },
       { type: 'ul', items: [
@@ -1598,6 +1629,7 @@ performance.getEntriesByType('resource')
     relatedTool: { label: 'Watermark PDF', href: '/watermark-pdf' },
     body: [
       { type: 'p', html: 'A watermark serves two purposes: it communicates the document\'s status (DRAFT, CONFIDENTIAL, SAMPLE) and it establishes ownership. Contracts sent for review, spec sheets shared with prospects, and portfolio PDFs distributed online all benefit from a clear, persistent mark that survives screenshots and re-saves.' },
+        { type: 'image', src: '/blog/how-to-watermark.svg', alt: 'Watermark settings: text CONFIDENTIAL, opacity 30%, angle 45 degrees, applied to every page', caption: 'Set opacity to 20-40% so the watermark is readable without obscuring the content' },
       { type: 'ad' },
       { type: 'h2', text: 'How to Watermark a PDF in Your Browser' },
       { type: 'ol', items: [
@@ -1639,6 +1671,7 @@ performance.getEntriesByType('resource')
     relatedTool: { label: 'Convert Image', href: '/convert-image-to-webp' },
     body: [
       { type: 'p', html: 'Since iOS 11, iPhones have shot photos in HEIC (High Efficiency Image Container) format by default. HEIC files are roughly half the size of equivalent JPEGs at the same quality — great for your phone\'s storage, but a problem when you try to open them on Windows, share them on most websites, or attach them to an email that goes to a non-Apple user.' },
+        { type: 'image', src: '/blog/format-conversion.svg', alt: 'HEIC to JPG conversion: HEIC works only on Apple devices, JPG works everywhere', caption: 'HEIC is smaller than JPG but only Apple devices read it natively — convert before sharing' },
       { type: 'callout', kind: 'info', text: 'HEIC is Apple\'s implementation of the HEIF standard, using HEVC (H.265) compression. Windows 10 and 11 require a paid codec pack to open HEIC files natively. Most web browsers, CMSes, and image editors don\'t support it at all.' },
       { type: 'ad' },
       { type: 'h2', text: 'Why HEIC Causes Problems' },
@@ -1678,6 +1711,7 @@ performance.getEntriesByType('resource')
     relatedTool: { label: 'Image Tools', href: '/image-tools' },
     body: [
       { type: 'p', html: 'Image prep is one of those tasks that sounds quick but compounds across a project. Resize, compress, convert, strip metadata, rename — do that for fifty product photos or a week\'s worth of blog post images and you\'ve spent hours on mechanical work. The right tools and habits cut that time dramatically.' },
+        { type: 'image', src: '/blog/quality-vs-filesize.svg', alt: 'Quality vs file size curve showing sweet spot at Q70-80', caption: 'The quality-vs-file-size curve has a sweet spot — pushing past it saves little while hurting quality' },
       { type: 'ad' },
       { type: 'h2', text: '1. Compress After Every Export, Not as an Afterthought' },
       { type: 'p', html: 'Most designers export at quality 90–100 "just to be safe" and then deal with file size later. Flip the habit: export at quality 80 as your default and only go higher for specific cases (print intermediates, images that will be re-edited). A quality 80 JPEG is visually indistinguishable from quality 95 at screen resolution, but 40–60% smaller.' },

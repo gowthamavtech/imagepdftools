@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 210" role="img" aria-label="How to crop an image: select the area you want to keep with handles, then the output is just that region">
+  <rect width="760" height="210" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="208" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="28" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">How to crop an image — select what to keep, discard the rest</text>
+
+  <defs>
+    <marker id="arrC" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- Original image with crop selection -->
+  <rect x="40" y="44" width="300" height="150" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+  <!-- Image content -->
+  <rect x="40" y="44" width="300" height="80" rx="6" fill="#7dd3fc"/>
+  <rect x="40" y="124" width="300" height="70" rx="6" fill="#86efac"/>
+  <polygon points="40,124 190,60 340,124" fill="#a3a3a3" opacity="0.4"/>
+  <circle cx="300" cy="78" r="24" fill="#fde68a"/>
+  <!-- Dimmed areas outside selection -->
+  <rect x="40" y="44" width="300" height="150" rx="8" fill="rgba(0,0,0,0.4)"/>
+  <!-- Crop selection box (the kept area) -->
+  <rect x="100" y="70" width="180" height="96" fill="transparent" stroke="#7c3aed" stroke-width="2"/>
+  <!-- Selection: clear interior (mask out the dim) -->
+  <rect x="101" y="71" width="178" height="94" fill="rgba(255,255,255,0.0)"/>
+
+  <!-- Show the image inside the selection clearly -->
+  <clipPath id="cropClip">
+    <rect x="100" y="70" width="180" height="96"/>
+  </clipPath>
+  <rect x="40" y="44" width="300" height="80" rx="6" fill="#7dd3fc" clip-path="url(#cropClip)"/>
+  <rect x="40" y="124" width="300" height="70" rx="6" fill="#86efac" clip-path="url(#cropClip)"/>
+  <polygon points="40,124 190,60 340,124" fill="#a3a3a3" opacity="0.4" clip-path="url(#cropClip)"/>
+  <circle cx="300" cy="78" r="24" fill="#fde68a" clip-path="url(#cropClip)"/>
+
+  <!-- Crop handles (corner squares) -->
+  <rect x="96" y="66" width="10" height="10" rx="2" fill="#7c3aed"/>
+  <rect x="274" y="66" width="10" height="10" rx="2" fill="#7c3aed"/>
+  <rect x="96" y="160" width="10" height="10" rx="2" fill="#7c3aed"/>
+  <rect x="274" y="160" width="10" height="10" rx="2" fill="#7c3aed"/>
+  <!-- Mid handles -->
+  <rect x="185" y="66" width="10" height="10" rx="2" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="185" y="160" width="10" height="10" rx="2" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="96" y="113" width="10" height="10" rx="2" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="274" y="113" width="10" height="10" rx="2" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+
+  <!-- Dimension callouts -->
+  <line x1="100" y1="172" x2="280" y2="172" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="190" y="184" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">180 px selection width</text>
+  <text x="36" y="118" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">96 px</text>
+
+  <text x="190" y="160" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">selected area</text>
+
+  <!-- Arrow -->
+  <line x1="348" y1="119" x2="400" y2="119" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrC)"/>
+  <text x="374" y="112" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">crop</text>
+
+  <!-- Result -->
+  <rect x="404" y="70" width="180" height="96" rx="8" fill="white" stroke="#059669" stroke-width="2"/>
+  <!-- Result image content -->
+  <rect x="404" y="70" width="180" height="50" rx="6" fill="#7dd3fc"/>
+  <rect x="404" y="120" width="180" height="46" rx="6" fill="#86efac"/>
+  <polygon points="404,120 494,76 584,120" fill="#a3a3a3" opacity="0.4"/>
+  <circle cx="560" cy="84" r="18" fill="#fde68a"/>
+
+  <text x="494" y="182" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#065f46">Output: 180 × 96 px</text>
+  <text x="494" y="194" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">Only the selected region</text>
+
+  <!-- Aspect ratio presets -->
+  <text x="632" y="60" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#0f172a">Common ratios</text>
+  <rect x="598" y="66" width="68" height="42" rx="4" fill="#ede9fe" stroke="#a78bfa" stroke-width="1"/>
+  <text x="632" y="84" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#5b21b6">16:9</text>
+  <text x="632" y="98" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#6d28d9">YouTube</text>
+  <rect x="598" y="114" width="68" height="42" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="632" y="132" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1d4ed8">1:1</text>
+  <text x="632" y="146" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#1e40af">Instagram</text>
+  <rect x="598" y="162" width="68" height="42" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+  <text x="632" y="180" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#065f46">4:3</text>
+  <text x="632" y="194" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#047857">Print</text>
+
+  <text x="380" y="204" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#94a3b8">Drag the handles to resize the selection — the highlighted area is what you keep · imagepdf.tools</text>
+</svg>

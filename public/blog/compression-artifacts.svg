@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" role="img" aria-label="Types of compression artifacts: blocking shows as visible 8x8 squares, ringing creates halos around edges, banding shows as visible steps in gradients">
+  <rect width="760" height="230" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="228" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="28" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Types of compression artefacts — what causes them</text>
+
+  <!-- Dividers -->
+  <line x1="255" y1="44" x2="255" y2="200" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="508" y1="44" x2="508" y2="200" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- ── BLOCKING ── -->
+  <text x="128" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#dc2626">Blocking</text>
+  <!-- 8x8 block grid simulating DCT blocking -->
+  <rect x="44" y="64" width="168" height="112" rx="6" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Gradient sky in blocks (visible block boundaries) -->
+  <rect x="44" y="64" width="28" height="28" fill="#93c5fd"/>
+  <rect x="72" y="64" width="28" height="28" fill="#7bb8f8"/>
+  <rect x="100" y="64" width="28" height="28" fill="#98c8fd"/>
+  <rect x="128" y="64" width="28" height="28" fill="#82bcf9"/>
+  <rect x="156" y="64" width="28" height="28" fill="#91c5fd"/>
+  <rect x="184" y="64" width="28" height="28" fill="#79b4f7"/>
+  <rect x="44" y="92" width="28" height="28" fill="#6db0f6"/>
+  <rect x="72" y="92" width="28" height="28" fill="#87bef9"/>
+  <rect x="100" y="92" width="28" height="28" fill="#72b2f7"/>
+  <rect x="128" y="92" width="28" height="28" fill="#5da8f4"/>
+  <rect x="156" y="92" width="28" height="28" fill="#79b4f7"/>
+  <rect x="184" y="92" width="28" height="28" fill="#68aef5"/>
+  <rect x="44" y="120" width="28" height="28" fill="#57a3f2"/>
+  <rect x="72" y="120" width="28" height="28" fill="#4b9def"/>
+  <rect x="100" y="120" width="28" height="28" fill="#62a9f3"/>
+  <rect x="128" y="120" width="28" height="28" fill="#5da8f4"/>
+  <rect x="156" y="120" width="28" height="28" fill="#4999ee"/>
+  <rect x="184" y="120" width="28" height="28" fill="#5aa6f2"/>
+  <rect x="44" y="148" width="28" height="28" fill="#4b9def"/>
+  <rect x="72" y="148" width="28" height="28" fill="#3d96ea"/>
+  <rect x="100" y="148" width="28" height="28" fill="#4b9def"/>
+  <rect x="128" y="148" width="28" height="28" fill="#3d96ea"/>
+  <rect x="156" y="148" width="28" height="28" fill="#4b9def"/>
+  <rect x="184" y="148" width="28" height="28" fill="#3d96ea"/>
+  <!-- Block grid lines (the artifact) -->
+  <line x1="72" y1="64" x2="72" y2="176" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="100" y1="64" x2="100" y2="176" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="128" y1="64" x2="128" y2="176" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="156" y1="64" x2="156" y2="176" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="184" y1="64" x2="184" y2="176" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="44" y1="92" x2="212" y2="92" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="44" y1="120" x2="212" y2="120" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <line x1="44" y1="148" x2="212" y2="148" stroke="#1e40af" stroke-width="0.8" opacity="0.6"/>
+  <text x="128" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#dc2626">Visible 8×8 blocks</text>
+  <text x="128" y="205" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#64748b">Cause: very low quality (Q &lt; 40)</text>
+
+  <!-- ── RINGING ── -->
+  <text x="382" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#f59e0b">Ringing (Gibbs)</text>
+  <!-- Dark shape on light background, with halos -->
+  <rect x="270" y="64" width="222" height="112" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Light halo band around dark shape -->
+  <rect x="335" y="90" width="92" height="60" rx="4" fill="#e2e8f0" opacity="0.7"/>
+  <!-- Outer halo (brighter) -->
+  <rect x="327" y="84" width="108" height="72" rx="6" fill="#cbd5e1" opacity="0.5"/>
+  <!-- The dark shape itself -->
+  <rect x="343" y="96" width="76" height="48" rx="3" fill="#1e293b"/>
+  <text x="381" y="124" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="white">TEXT</text>
+  <!-- Halo indicator lines -->
+  <line x1="327" y1="84" x2="307" y2="72" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="300" y="70" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#f59e0b">halo</text>
+  <line x1="435" y1="84" x2="455" y2="72" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="458" y="70" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#f59e0b">halo</text>
+  <text x="382" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#d97706">Halos around sharp edges</text>
+  <text x="382" y="205" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#64748b">Cause: compression on text or line art</text>
+
+  <!-- ── BANDING ── -->
+  <text x="633" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#8b5cf6">Banding</text>
+  <rect x="524" y="64" width="215" height="112" rx="6" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Stepped gradient (banding) — visible horizontal bands instead of smooth gradient -->
+  <rect x="524" y="64" width="215" height="16" rx="3" fill="#bfdbfe"/>
+  <rect x="524" y="80" width="215" height="16" fill="#93c5fd"/>
+  <rect x="524" y="96" width="215" height="16" fill="#60a5fa"/>
+  <rect x="524" y="112" width="215" height="16" fill="#3b82f6"/>
+  <rect x="524" y="128" width="215" height="16" fill="#2563eb"/>
+  <rect x="524" y="144" width="215" height="16" fill="#1d4ed8"/>
+  <rect x="524" y="160" width="215" height="16" rx="3" fill="#1e40af"/>
+  <!-- "Smooth" label left -->
+  <!-- Band boundary lines -->
+  <line x1="524" y1="80" x2="739" y2="80" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="524" y1="96" x2="739" y2="96" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="524" y1="112" x2="739" y2="112" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="524" y1="128" x2="739" y2="128" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="524" y1="144" x2="739" y2="144" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <line x1="524" y1="160" x2="739" y2="160" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+  <text x="633" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">Visible steps in gradients</text>
+  <text x="633" y="205" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#64748b">Cause: low bit-depth or heavy compression</text>
+
+  <text x="380" y="220" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#94a3b8">Artefacts are most visible on solid colours, text, and sharp edges — photos hide them better than graphics · imagepdf.tools</text>
+</svg>

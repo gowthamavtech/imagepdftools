@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-label="Image compression before and after: file size comparison showing significant reduction">
+  <!-- Background -->
+  <rect width="760" height="220" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="218" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="380" y="30" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">File size before and after compression</text>
+
+  <!-- JPEG column -->
+  <text x="130" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#475569">JPEG / WebP</text>
+  <!-- Before bar -->
+  <rect x="52" y="65" width="72" height="100" rx="8" fill="#fca5a5"/>
+  <rect x="52" y="65" width="72" height="100" rx="8" fill="url(#redGrad)"/>
+  <text x="88" y="120" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="white">3.8 MB</text>
+  <text x="88" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Original</text>
+  <!-- After bar -->
+  <rect x="138" y="125" width="72" height="40" rx="8" fill="#6ee7b7"/>
+  <rect x="138" y="125" width="72" height="40" rx="8" fill="url(#greenGrad)"/>
+  <text x="174" y="151" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="white">0.9 MB</text>
+  <text x="174" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Compressed</text>
+  <!-- Saving badge -->
+  <rect x="62" y="170" width="126" height="22" rx="6" fill="#d1fae5"/>
+  <text x="125" y="185" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#065f46">−76% smaller</text>
+
+  <!-- PNG column -->
+  <text x="370" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#475569">PNG</text>
+  <!-- Before bar -->
+  <rect x="292" y="65" width="72" height="100" rx="8" fill="#fca5a5"/>
+  <rect x="292" y="65" width="72" height="100" rx="8" fill="url(#redGrad)"/>
+  <text x="328" y="120" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="white">2.4 MB</text>
+  <text x="328" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Original</text>
+  <!-- After bar -->
+  <rect x="378" y="120" width="72" height="45" rx="8" fill="#6ee7b7"/>
+  <rect x="378" y="120" width="72" height="45" rx="8" fill="url(#greenGrad)"/>
+  <text x="414" y="148" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="white">0.7 MB</text>
+  <text x="414" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Compressed</text>
+  <!-- Saving badge -->
+  <rect x="302" y="170" width="126" height="22" rx="6" fill="#d1fae5"/>
+  <text x="365" y="185" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#065f46">−71% smaller</text>
+
+  <!-- WebP column -->
+  <text x="610" y="55" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#475569">Convert to WebP</text>
+  <!-- Before bar -->
+  <rect x="532" y="65" width="72" height="100" rx="8" fill="#fca5a5"/>
+  <rect x="532" y="65" width="72" height="100" rx="8" fill="url(#redGrad)"/>
+  <text x="568" y="120" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="white">3.2 MB</text>
+  <text x="568" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">JPEG/PNG</text>
+  <!-- After bar -->
+  <rect x="618" y="115" width="72" height="50" rx="8" fill="#6ee7b7"/>
+  <rect x="618" y="115" width="72" height="50" rx="8" fill="url(#greenGrad)"/>
+  <text x="654" y="145" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="white">0.8 MB</text>
+  <text x="654" y="178" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">WebP</text>
+  <!-- Saving badge -->
+  <rect x="542" y="170" width="126" height="22" rx="6" fill="#d1fae5"/>
+  <text x="605" y="185" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#065f46">−75% smaller</text>
+
+  <!-- Dividers -->
+  <line x1="240" y1="50" x2="240" y2="195" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="480" y1="50" x2="480" y2="195" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- Bottom note -->
+  <text x="380" y="212" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#94a3b8">Typical results — actual savings depend on image content and quality setting · imagepdf.tools</text>
+
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" role="img" aria-label="How to use browser DevTools Network tab to check if a file converter uploads your file">
+  <!-- Background -->
+  <rect width="760" height="230" rx="16" fill="#0f172a"/>
+
+  <!-- DevTools panel -->
+  <rect x="20" y="20" width="720" height="190" rx="10" fill="#1e293b"/>
+
+  <!-- DevTools tab bar -->
+  <rect x="20" y="20" width="720" height="32" rx="10" fill="#0f172a"/>
+  <rect x="20" y="40" width="720" height="12" fill="#0f172a"/>
+  <!-- Tab: Elements -->
+  <text x="44" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#64748b">Elements</text>
+  <!-- Tab: Network (active) -->
+  <rect x="98" y="20" width="68" height="32" rx="4" fill="#1e293b"/>
+  <text x="132" y="40" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="#f8fafc">Network</text>
+  <!-- Tab: Console -->
+  <text x="178" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#64748b">Console</text>
+  <!-- Tab: Sources -->
+  <text x="232" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#64748b">Sources</text>
+
+  <!-- Toolbar -->
+  <rect x="20" y="52" width="720" height="26" fill="#1e293b"/>
+  <circle cx="40" cy="65" r="6" fill="none" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="44" y1="69" x2="48" y2="73" stroke="#64748b" stroke-width="1.5"/>
+  <!-- Filter box -->
+  <rect x="56" y="57" width="200" height="16" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="66" y="69" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#475569">Filter</text>
+  <!-- Preserve log -->
+  <text x="268" y="69" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Preserve log</text>
+  <!-- Disable cache -->
+  <text x="362" y="69" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#64748b">Disable cache</text>
+
+  <!-- Column headers -->
+  <rect x="20" y="78" width="720" height="18" fill="#0f172a"/>
+  <text x="36" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Name</text>
+  <text x="340" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Method</text>
+  <text x="400" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Status</text>
+  <text x="460" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Type</text>
+  <text x="540" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Size</text>
+  <text x="620" y="91" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Time</text>
+
+  <!-- Row: static asset (normal, gray) -->
+  <rect x="20" y="96" width="720" height="20" fill="#1e293b"/>
+  <text x="36" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">compress-image</text>
+  <text x="340" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">GET</text>
+  <text x="400" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#22c55e">200</text>
+  <text x="460" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">document</text>
+  <text x="540" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">48 kB</text>
+  <text x="620" y="110" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">124 ms</text>
+
+  <!-- Row: wasm load (normal) -->
+  <rect x="20" y="116" width="720" height="20" fill="#243044"/>
+  <text x="36" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">pngquant.wasm</text>
+  <text x="340" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">GET</text>
+  <text x="400" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#22c55e">200</text>
+  <text x="460" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">wasm</text>
+  <text x="540" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">312 kB</text>
+  <text x="620" y="130" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">88 ms</text>
+
+  <!-- Row: SUSPICIOUS UPLOAD — highlighted red -->
+  <rect x="20" y="136" width="720" height="22" fill="#3b0a0a"/>
+  <rect x="20" y="136" width="4" height="22" fill="#ef4444"/>
+  <text x="36" y="151" font-family="mono,Consolas,monospace" font-size="10" font-weight="700" fill="#fca5a5">upload?file=photo.jpg</text>
+  <text x="340" y="151" font-family="mono,Consolas,monospace" font-size="10" font-weight="700" fill="#fca5a5">POST</text>
+  <text x="400" y="151" font-family="mono,Consolas,monospace" font-size="10" fill="#22c55e">200</text>
+  <text x="460" y="151" font-family="mono,Consolas,monospace" font-size="10" fill="#fca5a5">xhr</text>
+  <text x="540" y="151" font-family="mono,Consolas,monospace" font-size="10" font-weight="700" fill="#fca5a5">4.2 MB ↑</text>
+  <text x="620" y="151" font-family="mono,Consolas,monospace" font-size="10" fill="#fca5a5">3.1 s</text>
+
+  <!-- Warning callout for the red row -->
+  <rect x="430" y="138" width="295" height="18" rx="4" fill="#7f1d1d" opacity="0.8"/>
+  <text x="442" y="151" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fca5a5">⚠ Your file was uploaded to their server</text>
+
+  <!-- Row: normal again -->
+  <rect x="20" y="158" width="720" height="20" fill="#1e293b"/>
+  <text x="36" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">analytics.js</text>
+  <text x="340" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">GET</text>
+  <text x="400" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#22c55e">200</text>
+  <text x="460" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">script</text>
+  <text x="540" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">8 kB</text>
+  <text x="620" y="172" font-family="mono,Consolas,monospace" font-size="10" fill="#64748b">22 ms</text>
+
+  <!-- Bottom label -->
+  <text x="380" y="223" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#475569">Open DevTools (F12) → Network tab → drop a file into the tool → look for large POST requests with your filename</text>
+</svg>

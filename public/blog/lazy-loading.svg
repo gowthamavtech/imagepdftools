@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" role="img" aria-label="Lazy loading: images above the fold load immediately, images entering the viewport start loading, images below the fold are not loaded yet">
+  <rect width="760" height="230" rx="16" fill="#f8fafc"/>
+  <rect x="1" y="1" width="758" height="228" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="28" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Lazy loading — images only load when the user needs them</text>
+
+  <!-- Browser viewport frame -->
+  <rect x="240" y="42" width="280" height="170" rx="8" fill="white" stroke="#cbd5e1" stroke-width="2"/>
+  <!-- Browser chrome -->
+  <rect x="240" y="42" width="280" height="22" rx="8" fill="#f1f5f9"/>
+  <rect x="240" y="54" width="280" height="10" fill="#f1f5f9"/>
+  <circle cx="253" cy="53" r="4" fill="#fca5a5"/>
+  <circle cx="265" cy="53" r="4" fill="#fde68a"/>
+  <circle cx="277" cy="53" r="4" fill="#86efac"/>
+  <rect x="292" y="47" width="180" height="12" rx="6" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="382" y="57" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#94a3b8">imagepdf.tools/blog</text>
+
+  <!-- Viewport boundary indicator -->
+  <line x1="235" y1="155" x2="525" y2="155" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="236" y="151" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">viewport</text>
+  <text x="236" y="162" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">bottom</text>
+
+  <!-- Image 1: loaded (above fold) -->
+  <rect x="252" y="66" width="256" height="52" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <rect x="252" y="66" width="256" height="26" rx="4" fill="#93c5fd"/>
+  <rect x="252" y="92" width="256" height="26" rx="0" fill="#6ee7b7"/>
+  <text x="380" y="82" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" font-weight="600" fill="white">Hero image — LOADED</text>
+  <circle cx="488" cy="72" r="6" fill="#22c55e"/>
+  <path d="M484 72 L487 76 L493 67" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Image 2: loading (entering viewport) -->
+  <rect x="252" y="126" width="120" height="36" rx="4" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3 2"/>
+  <!-- Spinner -->
+  <circle cx="312" cy="144" r="10" fill="none" stroke="#c4b5fd" stroke-width="2"/>
+  <path d="M312 134 A10 10 0 0 1 322 144" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+  <text x="312" y="172" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="8" fill="#7c3aed">loading…</text>
+
+  <!-- Text block beside loading image -->
+  <rect x="384" y="126" width="120" height="8" rx="2" fill="#e2e8f0"/>
+  <rect x="384" y="138" width="100" height="8" rx="2" fill="#e2e8f0"/>
+  <rect x="384" y="150" width="110" height="8" rx="2" fill="#e2e8f0"/>
+
+  <!-- Image 3: not loaded (below fold) -->
+  <rect x="252" y="170" width="120" height="36" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="312" y="192" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#cbd5e1">not loaded</text>
+  <rect x="384" y="170" width="120" height="8" rx="2" fill="#f1f5f9"/>
+  <rect x="384" y="182" width="100" height="8" rx="2" fill="#f1f5f9"/>
+
+  <!-- Scroll arrow -->
+  <line x1="527" y1="100" x2="527" y2="150" stroke="#7c3aed" stroke-width="2"/>
+  <path d="M521 145 L527 155 L533 145" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linejoin="round"/>
+  <text x="540" y="128" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#7c3aed">user</text>
+  <text x="540" y="141" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#7c3aed">scrolls</text>
+
+  <!-- Left labels -->
+  <rect x="28" y="75" width="196" height="34" rx="8" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
+  <text x="126" y="89" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#065f46">✓ Above fold: loads instantly</text>
+  <text x="126" y="102" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#047857">No delay for the user</text>
+
+  <rect x="28" y="130" width="196" height="34" rx="8" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1"/>
+  <text x="126" y="144" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#5b21b6">⟳ Entering view: starts now</text>
+  <text x="126" y="157" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#6d28d9">Ready before user reaches it</text>
+
+  <rect x="28" y="174" width="196" height="34" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="126" y="188" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#64748b">○ Below fold: skipped</text>
+  <text x="126" y="201" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#94a3b8">Saves bandwidth and LCP</text>
+
+  <text x="380" y="220" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#94a3b8">Add loading="lazy" to every img tag except the hero image · imagepdf.tools</text>
+</svg>

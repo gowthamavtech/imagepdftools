@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" role="img" aria-label="How client-side processing works: your file stays in your browser tab">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="760" height="200" rx="16" fill="#faf5ff"/>
+  <rect x="1" y="1" width="758" height="198" rx="15" fill="none" stroke="#ddd6fe" stroke-width="1.5"/>
+
+  <!-- Heading -->
+  <text x="380" y="30" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#5b21b6">How your files are processed — entirely inside your browser</text>
+
+  <!-- Step 1: Your File -->
+  <circle cx="120" cy="108" r="46" fill="white" stroke="#ddd6fe" stroke-width="2"/>
+  <!-- File icon -->
+  <rect x="104" y="88" width="22" height="28" rx="3" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <path d="M118 88 v9 h8" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M118 88 L126 97 L126 116 H104 V88 Z" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linejoin="round"/>
+  <line x1="109" y1="103" x2="121" y2="103" stroke="#a78bfa" stroke-width="1.5"/>
+  <line x1="109" y1="108" x2="121" y2="108" stroke="#a78bfa" stroke-width="1.5"/>
+  <line x1="109" y1="113" x2="117" y2="113" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="120" y="142" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#4c1d95">Your File</text>
+  <!-- Step label -->
+  <circle cx="120" cy="62" r="11" fill="#7c3aed"/>
+  <text x="120" y="67" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="white">1</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="168" y1="108" x2="212" y2="108" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="190" y="100" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">local</text>
+
+  <!-- Step 2: Browser -->
+  <circle cx="260" cy="108" r="46" fill="white" stroke="#ddd6fe" stroke-width="2"/>
+  <!-- Browser icon -->
+  <rect x="238" y="88" width="44" height="32" rx="5" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="238" y="88" width="44" height="9" rx="5" fill="#7c3aed"/>
+  <circle cx="244" cy="92.5" r="2" fill="rgba(255,255,255,0.5)"/>
+  <circle cx="251" cy="92.5" r="2" fill="rgba(255,255,255,0.5)"/>
+  <rect x="244" y="103" width="32" height="5" rx="2" fill="#ede9fe"/>
+  <rect x="244" y="111" width="22" height="3" rx="1.5" fill="#ede9fe"/>
+  <text x="260" y="142" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#4c1d95">Browser</text>
+  <circle cx="260" cy="62" r="11" fill="#7c3aed"/>
+  <text x="260" y="67" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="white">2</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="308" y1="108" x2="352" y2="108" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="330" y="100" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9" fill="#7c3aed">local</text>
+
+  <!-- Step 3: Download -->
+  <circle cx="400" cy="108" r="46" fill="white" stroke="#ddd6fe" stroke-width="2"/>
+  <!-- Download icon -->
+  <rect x="382" y="88" width="36" height="26" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <line x1="400" y1="93" x2="400" y2="107" stroke="#059669" stroke-width="2"/>
+  <path d="M394 103 L400 110 L406 103" fill="none" stroke="#059669" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="382" y1="117" x2="418" y2="117" stroke="#059669" stroke-width="2"/>
+  <text x="400" y="142" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#065f46">Download</text>
+  <circle cx="400" cy="62" r="11" fill="#059669"/>
+  <text x="400" y="67" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="700" fill="white">3</text>
+
+  <!-- Crossed-out server -->
+  <line x1="480" y1="60" x2="680" y2="60" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- "No server" callout -->
+  <rect x="460" y="75" width="270" height="70" rx="12" fill="white" stroke="#fecaca" stroke-width="1.5"/>
+  <!-- Server icon (crossed out) -->
+  <rect x="478" y="90" width="30" height="22" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+  <ellipse cx="493" cy="90" rx="15" ry="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+  <ellipse cx="493" cy="95" rx="15" ry="5" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <line x1="474" y1="86" x2="514" y2="120" stroke="#ef4444" stroke-width="2.5"/>
+  <line x1="514" y1="86" x2="474" y2="120" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="520" y="98" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#dc2626">Your file never reaches</text>
+  <text x="520" y="114" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#dc2626">a remote server</text>
+
+  <!-- Bottom badge -->
+  <rect x="50" y="165" width="320" height="22" rx="8" fill="#ede9fe"/>
+  <text x="210" y="180" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#5b21b6">100% browser-based · No uploads · No account required</text>
+</svg>

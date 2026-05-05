@@ -155,6 +155,46 @@ function BlockRenderer({ block }: { block: Block }) {
           )}
         </figure>
       );
+    case 'image':
+      return (
+        <figure className="my-8">
+          <img
+            src={block.src}
+            alt={block.alt}
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-700"
+            loading="lazy"
+            decoding="async"
+          />
+          {block.caption && (
+            <figcaption className="mt-2 text-center text-xs text-slate-500 dark:text-slate-400 italic">
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    case 'image-group': {
+      const cols = block.columns ?? 2;
+      return (
+        <div className={`my-8 grid gap-4 ${cols === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'}`}>
+          {block.images.map((img, i) => (
+            <figure key={i}>
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700"
+                loading="lazy"
+                decoding="async"
+              />
+              {img.caption && (
+                <figcaption className="mt-1.5 text-center text-[11px] text-slate-500 dark:text-slate-400 italic">
+                  {img.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      );
+    }
     case 'ad':
       return (
         <div className="my-8">
