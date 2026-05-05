@@ -1,6 +1,26 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
 
@@ -32,22 +52,178 @@ async function getPageCountWithPassword(file: File, password: string): Promise<n
   return doc.getPageCount();
 }
 
+// ── Sortable card ─────────────────────────────────────────────────────────────
+
+interface CardProps {
+  entry: PdfEntry;
+  index: number;
+  total: number;
+  isDragging?: boolean;
+  onPreview: (entry: PdfEntry) => void;
+  onRemove: (id: string) => void;
+  onPasswordSubmit: (id: string, pw: string) => void;
+}
+
+function PdfCard({ entry, index, total, isDragging = false, onPreview, onRemove, onPasswordSubmit }: CardProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging: isSortableDragging,
+  } = useSortable({ id: entry.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isSortableDragging ? 0 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="space-y-2">
+      <div className={`flex items-center gap-3 bg-white dark:bg-slate-800 border rounded-xl px-3 py-2.5 shadow-sm ${isDragging ? 'shadow-lg ring-2 ring-blue-400/40' : ''} ${entry.locked ? 'border-amber-300 dark:border-amber-700' : 'border-slate-200 dark:border-white/8'}`}>
+
+        {/* Drag handle */}
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing touch-none text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-400 transition-colors shrink-0 p-0.5 -m-0.5 rounded"
+          title="Drag to reorder"
+          tabIndex={-1}
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <circle cx="9"  cy="5"  r="1.5"/>
+            <circle cx="15" cy="5"  r="1.5"/>
+            <circle cx="9"  cy="12" r="1.5"/>
+            <circle cx="15" cy="12" r="1.5"/>
+            <circle cx="9"  cy="19" r="1.5"/>
+            <circle cx="15" cy="19" r="1.5"/>
+          </svg>
+        </button>
+
+        {/* Order badge */}
+        <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center justify-center shrink-0">
+          {index + 1}
+        </span>
+
+        {/* PDF / lock icon */}
+        {entry.locked ? (
+          <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        ) : (
+          <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+        )}
+
+        {/* Filename + size */}
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-slate-800 dark:text-slate-100 truncate">{entry.file.name}</p>
+          <p className="text-[10px] text-slate-400">
+            {formatBytes(entry.file.size)}
+            {entry.locked ? ' · password required' : entry.pageCount !== null ? ` · ${entry.pageCount}p` : ''}
+          </p>
+        </div>
+
+        {/* View button */}
+        <button
+          onClick={() => onPreview(entry)}
+          disabled={entry.locked}
+          title={entry.locked ? 'Unlock to preview' : 'Preview PDF'}
+          className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium border transition-colors disabled:opacity-30 disabled:cursor-not-allowed border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+        >
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          View
+        </button>
+
+        {/* Remove */}
+        <button
+          onClick={() => onRemove(entry.id)}
+          className="p-1 text-slate-400 hover:text-red-500 transition-colors shrink-0"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Per-entry password prompt */}
+      {entry.locked && (
+        <PdfPasswordPrompt
+          filename={entry.file.name}
+          onSubmit={(pw) => onPasswordSubmit(entry.id, pw)}
+          wrongPassword={entry.wrongPassword}
+        />
+      )}
+    </div>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+
 export function MergePdfUI() {
-  const [entries,   setEntries]   = useState<PdfEntry[]>([]);
-  const [isWorking, setIsWorking] = useState(false);
-  const [progress,  setProgress]  = useState(0);
-  const [error,     setError]     = useState<string | null>(null);
-  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [entries,    setEntries]    = useState<PdfEntry[]>([]);
+  const [isWorking,  setIsWorking]  = useState(false);
+  const [progress,   setProgress]   = useState(0);
+  const [error,      setError]      = useState<string | null>(null);
+  const [resultUrl,  setResultUrl]  = useState<string | null>(null);
   const [resultSize, setResultSize] = useState<number>(0);
   const [downloaded, setDownloaded] = useState(false);
+  const [previewEntry, setPreviewEntry] = useState<PdfEntry | null>(null);
+  const [previewUrl,   setPreviewUrl]   = useState<string | null>(null);
+  const [activeId,     setActiveId]     = useState<string | null>(null);
   const idCounter = useRef(0);
+
+  // dnd-kit sensors — pointer works for both mouse and touch; keyboard for a11y
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor,   { activationConstraint: { delay: 150, tolerance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(String(event.active.id));
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveId(null);
+    if (!over || active.id === over.id) return;
+    setEntries((prev) => {
+      const oldIdx = prev.findIndex((e) => e.id === active.id);
+      const newIdx = prev.findIndex((e) => e.id === over.id);
+      return arrayMove(prev, oldIdx, newIdx);
+    });
+  };
+
+  const openPreview = useCallback((entry: PdfEntry) => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    const url = URL.createObjectURL(entry.file);
+    setPreviewUrl(url);
+    setPreviewEntry(entry);
+  }, [previewUrl]);
+
+  const closePreview = useCallback(() => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+    setPreviewEntry(null);
+  }, [previewUrl]);
+
+  useEffect(() => {
+    if (!previewEntry) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') closePreview(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [previewEntry, closePreview]);
 
   const addFiles = useCallback(async (files: File[]) => {
     const pdfs = files.filter((f) => f.type === 'application/pdf');
-    if (pdfs.length === 0) {
-      setError('Please upload PDF files only.');
-      return;
-    }
+    if (pdfs.length === 0) { setError('Please upload PDF files only.'); return; }
     setError(null);
     const newEntries: PdfEntry[] = pdfs.map((f) => ({
       id: `pdf-${++idCounter.current}`,
@@ -59,55 +235,40 @@ export function MergePdfUI() {
     }));
     setEntries((prev) => [...prev, ...newEntries]);
 
-    // Load each PDF — encrypted PDFs throw EncryptedPDFError; owner-encrypted PDFs set isEncrypted
     for (const entry of newEntries) {
       (async () => {
         try {
           const { PDFDocument } = await import('pdf-lib');
           const bytes = new Uint8Array(await entry.file.arrayBuffer());
-          const doc = await PDFDocument.load(bytes); // throws for encrypted PDFs
+          const doc = await PDFDocument.load(bytes);
           if (doc.isEncrypted) {
-            // owner-password PDF (loaded without throwing but flagged)
             setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, locked: true } : e));
           } else {
             setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, pageCount: doc.getPageCount() } : e));
           }
         } catch {
-          // EncryptedPDFError — user-password PDF
           setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, locked: true } : e));
         }
       })();
     }
   }, []);
 
-  const remove = (id: string) => {
-    setEntries((prev) => prev.filter((e) => e.id !== id));
-    setError(null);
-  };
+  const remove = (id: string) => { setEntries((prev) => prev.filter((e) => e.id !== id)); setError(null); };
 
-  const moveUp = (idx: number) => {
-    if (idx === 0) return;
-    setEntries((prev) => {
-      const next = [...prev];
-      [next[idx - 1], next[idx]] = [next[idx], next[idx - 1]];
-      return next;
-    });
-  };
-
-  const moveDown = (idx: number) => {
-    setEntries((prev) => {
-      if (idx >= prev.length - 1) return prev;
-      const next = [...prev];
-      [next[idx], next[idx + 1]] = [next[idx + 1], next[idx]];
-      return next;
-    });
+  const handlePasswordSubmit = (id: string, pw: string) => {
+    const entry = entries.find((e) => e.id === id);
+    if (!entry) return;
+    getPageCountWithPassword(entry.file, pw)
+      .then((count) => setEntries((prev) => prev.map((e) =>
+        e.id === id ? { ...e, pageCount: count, password: pw, locked: false, wrongPassword: false } : e,
+      )))
+      .catch(() => setEntries((prev) => prev.map((e) =>
+        e.id === id ? { ...e, locked: true, wrongPassword: true } : e,
+      )));
   };
 
   const merge = useCallback(async () => {
-    if (entries.length < 2) {
-      setError('Add at least 2 PDF files to merge.');
-      return;
-    }
+    if (entries.length < 2) { setError('Add at least 2 PDF files to merge.'); return; }
     setIsWorking(true);
     setError(null);
     setProgress(0);
@@ -132,8 +293,7 @@ export function MergePdfUI() {
 
       const outBytes = await merged.save();
       const blob = new Blob([outBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      setResultUrl(url);
+      setResultUrl(URL.createObjectURL(blob));
       setResultSize(outBytes.byteLength);
     } catch (err) {
       if (isEncryptError(err)) {
@@ -166,6 +326,7 @@ export function MergePdfUI() {
 
   const totalPages = entries.reduce((s, e) => s + (e.pageCount ?? 0), 0);
   const totalSize  = entries.reduce((s, e) => s + e.file.size, 0);
+  const activeEntry = activeId ? entries.find((e) => e.id === activeId) : null;
 
   return (
     <div className="w-full max-w-2xl mx-auto px-4 pb-16">
@@ -215,7 +376,6 @@ export function MergePdfUI() {
       {!resultUrl && (
         <div className="mt-6 space-y-4">
 
-          {/* Drop zone */}
           <DropZone
             onFiles={addFiles}
             accept={['application/pdf']}
@@ -226,7 +386,6 @@ export function MergePdfUI() {
             fileTypeName="PDF"
           />
 
-          {/* File list */}
           {entries.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -238,82 +397,57 @@ export function MergePdfUI() {
                 </button>
               </div>
 
-              {entries.map((entry, idx) => (
-                <div key={entry.id} className="space-y-2">
-                <div
-                  className={`flex items-center gap-3 bg-white dark:bg-slate-800 border rounded-xl px-3 py-2.5 shadow-sm ${entry.locked ? 'border-amber-300 dark:border-amber-700' : 'border-slate-200 dark:border-white/8'}`}>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={entries.map((e) => e.id)} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2">
+                    {entries.map((entry, idx) => (
+                      <PdfCard
+                        key={entry.id}
+                        entry={entry}
+                        index={idx}
+                        total={entries.length}
+                        onPreview={openPreview}
+                        onRemove={remove}
+                        onPasswordSubmit={handlePasswordSubmit}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
 
-                  {/* Order badge */}
-                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center justify-center shrink-0">
-                    {idx + 1}
-                  </span>
-
-                  {/* PDF / lock icon */}
-                  {entry.locked ? (
-                    <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                    </svg>
+                {/* Floating drag overlay — shows a copy of the card being dragged */}
+                <DragOverlay dropAnimation={{ duration: 180, easing: 'ease' }}>
+                  {activeEntry && (
+                    <div className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-blue-400 dark:border-blue-500 rounded-xl px-3 py-2.5 shadow-2xl ring-2 ring-blue-400/30 rotate-1">
+                      <svg className="w-4 h-4 text-slate-300 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="9"  cy="5"  r="1.5"/>
+                        <circle cx="15" cy="5"  r="1.5"/>
+                        <circle cx="9"  cy="12" r="1.5"/>
+                        <circle cx="15" cy="12" r="1.5"/>
+                        <circle cx="9"  cy="19" r="1.5"/>
+                        <circle cx="15" cy="19" r="1.5"/>
+                      </svg>
+                      <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                      </svg>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-slate-800 dark:text-slate-100 truncate">{activeEntry.file.name}</p>
+                        <p className="text-[10px] text-slate-400">
+                          {formatBytes(activeEntry.file.size)}
+                          {activeEntry.pageCount !== null ? ` · ${activeEntry.pageCount}p` : ''}
+                        </p>
+                      </div>
+                    </div>
                   )}
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-slate-800 dark:text-slate-100 truncate">{entry.file.name}</p>
-                    <p className="text-[10px] text-slate-400">
-                      {formatBytes(entry.file.size)}
-                      {entry.locked ? ' · password required' : entry.pageCount !== null ? ` · ${entry.pageCount}p` : ''}
-                    </p>
-                  </div>
-
-                  {/* Move up/down */}
-                  <div className="flex flex-col gap-0.5 shrink-0">
-                    <button onClick={() => moveUp(idx)} disabled={idx === 0}
-                      className="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 disabled:opacity-20 transition-colors">
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                      </svg>
-                    </button>
-                    <button onClick={() => moveDown(idx)} disabled={idx === entries.length - 1}
-                      className="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 disabled:opacity-20 transition-colors">
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Remove */}
-                  <button onClick={() => remove(entry.id)}
-                    className="p-1 text-slate-400 hover:text-red-500 transition-colors shrink-0">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Per-entry password prompt */}
-                {entry.locked && (
-                  <PdfPasswordPrompt
-                    filename={entry.file.name}
-                    onSubmit={(pw) => {
-                      getPageCountWithPassword(entry.file, pw)
-                        .then((count) => setEntries((prev) => prev.map((e) =>
-                          e.id === entry.id ? { ...e, pageCount: count, password: pw, locked: false, wrongPassword: false } : e,
-                        )))
-                        .catch(() => setEntries((prev) => prev.map((e) =>
-                          e.id === entry.id ? { ...e, locked: true, wrongPassword: true } : e,
-                        )));
-                    }}
-                    wrongPassword={entry.wrongPassword}
-                  />
-                )}
-                </div>
-              ))}
+                </DragOverlay>
+              </DndContext>
             </div>
           )}
 
-          {/* Progress */}
           {isWorking && (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs text-slate-400">
@@ -329,7 +463,6 @@ export function MergePdfUI() {
             </div>
           )}
 
-          {/* Error */}
           {error && (
             <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
               <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -339,7 +472,6 @@ export function MergePdfUI() {
             </div>
           )}
 
-          {/* Merge button */}
           <button onClick={merge} disabled={isWorking || entries.length < 2 || entries.some((e) => e.locked)}
             className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
             {isWorking ? (
@@ -363,6 +495,55 @@ export function MergePdfUI() {
           {entries.length < 2 && entries.length > 0 && (
             <p className="text-center text-xs text-slate-400">Add at least one more PDF to merge</p>
           )}
+        </div>
+      )}
+
+      {/* PDF Preview Modal */}
+      {previewEntry && previewUrl && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-black/70 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) closePreview(); }}
+        >
+          <div className="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-white/10">
+            <div className="flex items-center gap-2 min-w-0">
+              <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+              </svg>
+              <span className="text-sm font-medium text-slate-100 truncate">{previewEntry.file.name}</span>
+              {previewEntry.pageCount !== null && (
+                <span className="text-xs text-slate-400 shrink-0">{previewEntry.pageCount} page{previewEntry.pageCount !== 1 ? 's' : ''}</span>
+              )}
+              <span className="text-xs text-slate-500 shrink-0">{formatBytes(previewEntry.file.size)}</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <a
+                href={previewUrl}
+                download={previewEntry.file.name}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download
+              </a>
+              <button
+                onClick={closePreview}
+                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors"
+                title="Close preview (Esc)"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <iframe
+              src={previewUrl}
+              className="w-full h-full border-0"
+              title={`Preview: ${previewEntry.file.name}`}
+            />
+          </div>
         </div>
       )}
     </div>
