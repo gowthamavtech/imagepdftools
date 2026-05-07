@@ -15,6 +15,7 @@ type Mode = 'select' | 'range';
 interface Result {
   name: string;
   url: string;
+  blob: Blob;
   size: number;
 }
 
@@ -22,6 +23,55 @@ function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
   if (b < 1048576) return `${(b / 1024).toFixed(1)} KB`;
   return `${(b / 1048576).toFixed(2)} MB`;
+}
+
+// Canvas-based PDF viewer — fallback when browser has no native PDF viewer (e.g. Android Chrome)
+function PdfJsViewer({ file, password = '' }: { file: File | Blob; password?: string }) {
+  const [pageUrls, setPageUrls] = useState<string[]>([]);
+  const [rendered, setRendered] = useState(0);
+  const [total, setTotal]     = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const urls: string[] = [];
+    (async () => {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const pdf = await pdfjsLib.getDocument({ data: bytes, password }).promise;
+      if (cancelled) return;
+      setTotal(pdf.numPages);
+      for (let i = 1; i <= pdf.numPages; i++) {
+        if (cancelled) break;
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width; canvas.height = viewport.height;
+        await page.render({ canvasContext: canvas.getContext('2d')!, viewport, canvas }).promise;
+        const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
+        if (blob) { const url = URL.createObjectURL(blob); urls.push(url); if (!cancelled) { setPageUrls([...urls]); setRendered(i); } }
+      }
+    })().catch(() => {});
+    return () => { cancelled = true; urls.forEach(URL.revokeObjectURL); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (pageUrls.length === 0) return (
+    <div className="flex flex-col items-center justify-center h-full gap-3 text-slate-400">
+      <svg className="w-6 h-6 animate-spin" viewBox="0 0 24 24" fill="none">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+      </svg>
+      {total > 0 && <p className="text-xs">{rendered} / {total} pages</p>}
+    </div>
+  );
+
+  return (
+    <div className="overflow-y-auto h-full bg-slate-700 flex flex-col items-center gap-2 py-4 px-2">
+      {pageUrls.map((url, i) => <img key={i} src={url} alt={`Page ${i + 1}`} className="max-w-full shadow-lg rounded" />)}
+      {rendered < total && <p className="text-xs text-slate-400 py-2">{rendered} / {total} pages rendered…</p>}
+    </div>
+  );
 }
 
 function parseRanges(input: string, total: number): { label: string; indices: number[] }[] {
@@ -72,6 +122,7 @@ export function SplitPdfUI() {
   const [needsPassword, setNeedsPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const [previewUrl,    setPreviewUrl]    = useState<string | null>(null);
+  const [previewBlob,   setPreviewBlob]   = useState<Blob | null>(null);
   const [previewName,   setPreviewName]   = useState<string>('');
   const [pagePreviewIdx, setPagePreviewIdx] = useState<number | null>(null);
   const [hiResUrl,       setHiResUrl]       = useState<string | null>(null);
@@ -82,13 +133,15 @@ export function SplitPdfUI() {
   const longPressTimer     = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchDragActiveRef = useRef(false);
   const lastTouchIdxRef    = useRef<number | null>(null);
+  const autoScrollRef      = useRef<ReturnType<typeof setInterval> | null>(null);
   const gridRef            = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfDocRef  = useRef<any>(null);
   const hiResCache = useRef<Map<number, string>>(new Map());
+  const resultRef  = useRef<HTMLDivElement>(null);
 
-  const openPreview = (r: Result) => { setPreviewUrl(r.url); setPreviewName(r.name); };
-  const closePreview = () => { setPreviewUrl(null); setPreviewName(''); };
+  const openPreview = (r: Result) => { setPreviewUrl(r.url); setPreviewBlob(r.blob); setPreviewName(r.name); };
+  const closePreview = () => { setPreviewUrl(null); setPreviewBlob(null); setPreviewName(''); };
 
   useEffect(() => {
     if (!previewUrl) return;
@@ -131,14 +184,29 @@ export function SplitPdfUI() {
     return () => window.removeEventListener('mouseup', stop);
   }, []);
 
-  // Non-passive touchmove — blocks scroll and drives selection while drag active
+  // Non-passive touchmove — drives selection while drag active; auto-scrolls near viewport edges
   useEffect(() => {
     const el = gridRef.current;
     if (!el) return;
+
+    const stopAutoScroll = () => {
+      if (autoScrollRef.current) { clearInterval(autoScrollRef.current); autoScrollRef.current = null; }
+    };
+
     const handler = (e: TouchEvent) => {
       if (!touchDragActiveRef.current) return;
       e.preventDefault();
       const touch = e.touches[0];
+
+      // Auto-scroll when finger is within 80px of the viewport top/bottom
+      stopAutoScroll();
+      const EDGE = 80, SPEED = 5;
+      if (touch.clientY < EDGE) {
+        autoScrollRef.current = setInterval(() => window.scrollBy(0, -SPEED), 16);
+      } else if (touch.clientY > window.innerHeight - EDGE) {
+        autoScrollRef.current = setInterval(() => window.scrollBy(0, SPEED), 16);
+      }
+
       const target = document.elementFromPoint(touch.clientX, touch.clientY);
       const card = target?.closest('[data-page-idx]') as HTMLElement | null;
       if (!card) return;
@@ -151,9 +219,10 @@ export function SplitPdfUI() {
         return n;
       });
     };
+
     el.addEventListener('touchmove', handler, { passive: false });
-    return () => el.removeEventListener('touchmove', handler);
-  }, []);
+    return () => { el.removeEventListener('touchmove', handler); stopAutoScroll(); };
+  }, [thumbsDone]);
 
   const loadFile = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];
@@ -246,7 +315,8 @@ export function SplitPdfUI() {
         setProgress(80);
         const bytes = await out.save();
         const blob  = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-        setResults([{ name: 'extracted.pdf', url: URL.createObjectURL(blob), size: bytes.byteLength }]);
+        setResults([{ name: 'imagepdftools-extracted.pdf', url: URL.createObjectURL(blob), blob, size: bytes.byteLength }]);
+        setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 
       } else {
         const groups = parseRanges(rangeInput, pageCount);
@@ -259,7 +329,7 @@ export function SplitPdfUI() {
           pages.forEach((p) => out.addPage(p));
           const bytes = await out.save();
           const blob  = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-          newResults.push({ name: `${label}.pdf`, url: URL.createObjectURL(blob), size: bytes.byteLength });
+          newResults.push({ name: `imagepdftools-${label}.pdf`, url: URL.createObjectURL(blob), blob, size: bytes.byteLength });
           setProgress(Math.round(((g + 1) / groups.length) * 90));
         }
         if (newResults.length > 1) {
@@ -270,9 +340,10 @@ export function SplitPdfUI() {
             zip.file(r.name, ab);
           }
           const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-          newResults.push({ name: 'split-parts.zip', url: URL.createObjectURL(blob), size: blob.size });
+          newResults.push({ name: 'imagepdftools-split-parts.zip', url: URL.createObjectURL(blob), blob, size: blob.size });
         }
         setResults(newResults);
+        setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
       }
       setProgress(100);
     } catch (err) {
@@ -320,7 +391,7 @@ export function SplitPdfUI() {
 
   // ── Results ───────────────────────────────────────────────────────────────
   if (results.length > 0) return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-16 space-y-4 mt-6">
+    <div ref={resultRef} className="w-full max-w-2xl mx-auto px-4 pb-16 space-y-4 mt-6 scroll-mt-20">
       <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-5 shadow-sm">
 
         {/* Success header */}
@@ -359,7 +430,7 @@ export function SplitPdfUI() {
               <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              {downloaded.has(singleResult.name) ? 'Downloaded ✓' : 'Download PDF'}
+              {downloaded.has(singleResult.name) ? 'Saved ✓' : 'Save PDF'}
             </button>
             <button
               onClick={() => openPreview(singleResult)}
@@ -408,7 +479,7 @@ export function SplitPdfUI() {
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                       </svg>
-                      {downloaded.has(r.name) ? '✓' : 'Download'}
+                      {downloaded.has(r.name) ? '✓' : 'Save'}
                     </button>
                   </div>
                 </div>
@@ -452,7 +523,10 @@ export function SplitPdfUI() {
               </button>
             </div>
             <div className="flex-1 overflow-hidden relative">
-              <iframe src={previewUrl} title={`Preview: ${previewName}`} className="border-0 absolute inset-0 w-full h-full" />
+              {(typeof navigator !== 'undefined' && navigator.pdfViewerEnabled && !/android/i.test(navigator.userAgent))
+                ? <iframe src={previewUrl ?? ''} title={`Preview: ${previewName}`} className="border-0 absolute inset-0 w-full h-full" />
+                : previewBlob && <PdfJsViewer file={previewBlob} />
+              }
             </div>
           </div>
         </div>
@@ -563,6 +637,7 @@ export function SplitPdfUI() {
                   if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
                   touchDragActiveRef.current = false;
                   lastTouchIdxRef.current = null;
+                  if (autoScrollRef.current) { clearInterval(autoScrollRef.current); autoScrollRef.current = null; }
                   e.stopPropagation();
                 }}
               >

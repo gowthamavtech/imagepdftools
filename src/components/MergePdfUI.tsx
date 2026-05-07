@@ -178,7 +178,7 @@ function PdfCard({ entry, index, isDragging = false, onPreview, onRemove, onRota
                     <button
                         {...attributes}
                         {...listeners}
-                        className="absolute bottom-2 right-2 z-20 p-1.5 rounded-lg bg-black/30 hover:bg-black/50 text-white cursor-grab active:cursor-grabbing touch-none transition-colors"
+                        className="absolute bottom-2 right-2 z-20 p-1.5 rounded-lg bg-blue-500/70 hover:bg-blue-500 text-white cursor-grab active:cursor-grabbing touch-none transition-colors"
                         tabIndex={-1}
                         aria-label="Drag to reorder"
                     >
@@ -338,9 +338,11 @@ export function MergePdfUI() {
     const [resultBlob, setResultBlob] = useState<Blob | null>(null);
     const [previewEntry, setPreviewEntry] = useState<PdfEntry | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewFileUrl, setPreviewFileUrl] = useState<string | null>(null);
     const [activeId, setActiveId] = useState<string | null>(null);
     const idCounter = useRef(0);
     const addMoreRef = useRef<HTMLInputElement>(null);
+    const resultRef = useRef<HTMLDivElement>(null);
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -361,13 +363,21 @@ export function MergePdfUI() {
         });
     };
 
+    const nativePdf = typeof navigator !== "undefined" && navigator.pdfViewerEnabled && !/android/i.test(navigator.userAgent);
+
     const openPreview = useCallback(
         (entry: PdfEntry) => {
             if (!entry.thumbnailUrl) return;
-            setPreviewUrl("__pdfjs__");
+            if (nativePdf && !entry.password) {
+                const url = URL.createObjectURL(entry.file);
+                setPreviewFileUrl(url);
+                setPreviewUrl("__native__");
+            } else {
+                setPreviewUrl("__pdfjs__");
+            }
             setPreviewEntry(entry);
         },
-        [],
+        [nativePdf],
     );
 
     const openResultPreview = useCallback(() => {
@@ -376,6 +386,7 @@ export function MergePdfUI() {
     }, []);
 
     const closePreview = useCallback(() => {
+        setPreviewFileUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
         setPreviewUrl(null);
         setPreviewEntry(null);
     }, []);
@@ -498,6 +509,7 @@ export function MergePdfUI() {
             setResultBlob(blob);
             setResultUrl(URL.createObjectURL(blob));
             setResultSize(outBytes.byteLength);
+            setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
         } catch (err) {
             if (isEncryptError(err)) {
                 setError("One or more PDFs are password-protected. Please unlock them before merging.");
@@ -516,7 +528,7 @@ export function MergePdfUI() {
             const blob = await res.blob();
             if ("showSaveFilePicker" in window) {
                 const handle = await (window as Window & typeof globalThis & { showSaveFilePicker: (o: object) => Promise<FileSystemFileHandle> }).showSaveFilePicker({
-                    suggestedName: "merged.pdf",
+                    suggestedName: "imagepdftools-merged.pdf",
                     types: [{ description: "PDF Document", accept: { "application/pdf": [".pdf"] } }],
                 });
                 const writable = await handle.createWritable();
@@ -525,7 +537,7 @@ export function MergePdfUI() {
             } else {
                 const a = document.createElement("a");
                 a.href = resultUrl;
-                a.download = "merged.pdf";
+                a.download = "imagepdftools-merged.pdf";
                 a.click();
             }
             setSaved(true);
@@ -568,7 +580,7 @@ export function MergePdfUI() {
     return (
         <div className="w-full max-w-3xl mx-auto px-4 pb-16">
             {resultUrl && (
-                <div className="mt-6 space-y-4">
+                <div ref={resultRef} className="mt-6 space-y-4 scroll-mt-20">
                     <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-5 shadow-sm">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0">
@@ -818,7 +830,7 @@ export function MergePdfUI() {
                                     />
                                 </svg>
                                 <div className="min-w-0">
-                                    <p className="text-sm font-medium text-slate-100 truncate leading-tight">{previewEntry ? previewEntry.file.name : "merged.pdf"}</p>
+                                    <p className="text-sm font-medium text-slate-100 truncate leading-tight">{previewEntry ? previewEntry.file.name : "imagepdftools-merged.pdf"}</p>
                                     <p className="text-[11px] text-slate-500 leading-tight">
                                         {previewEntry
                                             ? `${formatBytes(previewEntry.file.size)}${previewEntry.pageCount !== null ? ` · ${previewEntry.pageCount} page${previewEntry.pageCount !== 1 ? "s" : ""}` : ""}${previewEntry.dimensions ? ` · ${previewEntry.dimensions}` : ""}`
@@ -858,10 +870,14 @@ export function MergePdfUI() {
                             </div>
                         </div>
                         <div className="flex-1 overflow-hidden relative">
-                            {previewUrl === "__pdfjs__" && previewEntry ? (
+                            {previewUrl === "__native__" && previewFileUrl ? (
+                                <iframe src={previewFileUrl} title="Preview" className="border-0 absolute inset-0 w-full h-full" />
+                            ) : previewUrl === "__pdfjs__" && previewEntry ? (
                                 <PdfJsViewer file={previewEntry.file} password={previewEntry.password ?? ''} />
                             ) : previewUrl === "__pdfjs_result__" && resultBlob ? (
-                                <PdfJsViewer file={resultBlob} />
+                                nativePdf
+                                    ? <iframe src={resultUrl ?? ''} title="Preview: imagepdftools-merged.pdf" className="border-0 absolute inset-0 w-full h-full" />
+                                    : <PdfJsViewer file={resultBlob} />
                             ) : null}
                         </div>
                     </div>
