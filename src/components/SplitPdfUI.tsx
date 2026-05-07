@@ -177,11 +177,50 @@ export function SplitPdfUI() {
     }).catch(() => {});
   }, [pagePreviewIdx]);
 
-  // End mouse drag-select on mouseup anywhere
+  // Mouse drag-select: stop on mouseup; auto-scroll + select cards near viewport edges while dragging
+  const mousePosRef = useRef({ x: 0, y: 0 });
   useEffect(() => {
-    const stop = () => { isDraggingRef.current = false; };
-    window.addEventListener('mouseup', stop);
-    return () => window.removeEventListener('mouseup', stop);
+    const stopDrag = () => {
+      isDraggingRef.current = false;
+      if (autoScrollRef.current) { clearInterval(autoScrollRef.current); autoScrollRef.current = null; }
+    };
+
+    const selectCardAt = (x: number, y: number) => {
+      const el = document.elementFromPoint(x, y);
+      const card = el?.closest('[data-page-idx]') as HTMLElement | null;
+      if (!card) return;
+      const idx = parseInt(card.dataset.pageIdx!);
+      setSelected((prev) => {
+        const n = new Set(prev);
+        dragModeRef.current === 'select' ? n.add(idx) : n.delete(idx);
+        return n;
+      });
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
+      const EDGE = 80, SPEED = 6;
+      if (autoScrollRef.current) { clearInterval(autoScrollRef.current); autoScrollRef.current = null; }
+      if (e.clientY < EDGE) {
+        autoScrollRef.current = setInterval(() => {
+          window.scrollBy(0, -SPEED);
+          selectCardAt(mousePosRef.current.x, mousePosRef.current.y);
+        }, 16);
+      } else if (e.clientY > window.innerHeight - EDGE) {
+        autoScrollRef.current = setInterval(() => {
+          window.scrollBy(0, SPEED);
+          selectCardAt(mousePosRef.current.x, mousePosRef.current.y);
+        }, 16);
+      }
+    };
+
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('mousemove', onMouseMove);
+    return () => {
+      window.removeEventListener('mouseup', stopDrag);
+      window.removeEventListener('mousemove', onMouseMove);
+    };
   }, []);
 
   // Non-passive touchmove — drives selection while drag active; auto-scrolls near viewport edges
@@ -826,7 +865,7 @@ export function SplitPdfUI() {
             {/* Header */}
             <div className="flex items-center justify-between w-full mb-3 px-1">
               <span className="text-sm font-medium text-white/80">Page {pagePreviewIdx + 1} of {pageCount}</span>
-              <button onClick={() => setPagePreviewIdx(null)} className="p-1.5 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition-colors">
+              <button onClick={() => setPagePreviewIdx(null)} className="p-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -845,11 +884,11 @@ export function SplitPdfUI() {
                 </svg>
               </button>
 
-              <div className="rounded-xl overflow-hidden shadow-2xl bg-slate-100 relative flex items-center justify-center" style={{ minHeight: '55vh' }}>
-                {(hiResUrl || thumbs[pagePreviewIdx]) ? (
+              <div className="rounded-xl overflow-hidden shadow-2xl bg-slate-100 relative flex items-center justify-center" style={{ minHeight: '55vh', minWidth: 'min(55vw, 420px)' }}>
+                {hiResUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={hiResUrl ?? thumbs[pagePreviewIdx]!}
+                    src={hiResUrl}
                     alt={`Page ${pagePreviewIdx + 1}`}
                     className="block max-h-[78vh] w-auto max-w-full"
                     draggable={false}
@@ -859,15 +898,6 @@ export function SplitPdfUI() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
-                )}
-                {/* Spinner overlay while hi-res is rendering */}
-                {(hiResUrl === null && thumbs[pagePreviewIdx]) && (
-                  <div className="absolute bottom-2 right-2 bg-black/40 rounded-full p-1">
-                    <svg className="w-3 h-3 text-white animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                    </svg>
-                  </div>
                 )}
               </div>
 
