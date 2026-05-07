@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { DndContext, closestCenter, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, DragEndEvent, DragStartEvent, DragOverlay } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, KeyboardSensor, useSensor, useSensors, DragEndEvent, DragStartEvent, DragOverlay } from "@dnd-kit/core";
 import { SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DropZone } from "./DropZone";
@@ -174,14 +174,20 @@ function PdfCard({ entry, index, isDragging = false, onPreview, onRemove, onRota
             >
                 {/* ── Thumbnail (A4 ratio 1:√2) ── */}
                 <div className="relative w-full bg-slate-100 dark:bg-slate-700/60" style={{ paddingBottom: "141.4%" }}>
-                    {/* Transparent drag handle */}
+                    {/* Drag handle — bottom-right corner, explicit grab target so rest of card scrolls freely on mobile */}
                     <button
                         {...attributes}
                         {...listeners}
-                        className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing touch-none"
+                        className="absolute bottom-2 right-2 z-20 p-1.5 rounded-lg bg-black/30 hover:bg-black/50 text-white cursor-grab active:cursor-grabbing touch-none transition-colors"
                         tabIndex={-1}
                         aria-label="Drag to reorder"
-                    />
+                    >
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
+                            <circle cx="5.5" cy="4" r="1.2" /><circle cx="10.5" cy="4" r="1.2" />
+                            <circle cx="5.5" cy="8" r="1.2" /><circle cx="10.5" cy="8" r="1.2" />
+                            <circle cx="5.5" cy="12" r="1.2" /><circle cx="10.5" cy="12" r="1.2" />
+                        </svg>
+                    </button>
 
                     {entry.thumbnailUrl && !entry.locked ? (
                         <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
@@ -338,7 +344,7 @@ export function MergePdfUI() {
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-        useSensor(TouchSensor, { activationConstraint: { delay: 500, tolerance: 10 } }),
+
         useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
     );
 
