@@ -338,7 +338,7 @@ export function MergePdfUI() {
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-        useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 8 } }),
+        useSensor(TouchSensor, { activationConstraint: { delay: 500, tolerance: 10 } }),
         useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
     );
 
