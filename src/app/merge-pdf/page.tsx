@@ -3,10 +3,16 @@ import { MergePdfUI } from '@/components/MergePdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
 export const metadata: Metadata = {
-  title: 'Merge PDF Online — Free & Private',
+  title: 'Merge PDF Online — Combine PDF Files Free',
   description:
-    'Combine multiple PDF files into one in your browser. Drag to reorder pages, then download your merged PDF instantly. No upload, no server — 100% private.',
+    'Merge multiple PDF files into one in seconds. Drag to reorder, rotate pages, preview before saving — all inside your browser. No upload, no account, 100% private.',
   alternates: { canonical: 'https://imagepdf.tools/merge-pdf' },
+  openGraph: {
+    title: 'Merge PDF Online — Combine PDF Files Free',
+    description: 'Combine multiple PDF files into one in your browser. Drag to reorder, rotate pages, unlock password-protected PDFs — no upload required.',
+    url: 'https://imagepdf.tools/merge-pdf',
+    type: 'website',
+  },
 };
 
 const jsonLd = {
@@ -14,34 +20,78 @@ const jsonLd = {
   '@graph': [
     {
       '@type': 'WebApplication',
-      name: 'ImagePDF.Tools — Merge PDF',
+      name: 'Merge PDF — ImagePDF.Tools',
       url: 'https://imagepdf.tools/merge-pdf',
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
+      featureList: [
+        'Merge unlimited PDF files',
+        'Drag-and-drop reordering',
+        'Per-page rotation',
+        'Password-protected PDF support',
+        'Preview before saving',
+        'No file upload — 100% private',
+      ],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      description: 'Free online PDF merger. Combine multiple PDFs into one in your browser — no upload required.',
+      description:
+        'Free online PDF merger. Combine multiple PDFs into one in your browser — drag to reorder, rotate pages, unlock encrypted PDFs, preview the result, then save locally.',
     },
     {
       '@type': 'HowTo',
       name: 'How to merge PDF files online',
+      totalTime: 'PT1M',
       step: [
-        { '@type': 'HowToStep', text: 'Drop two or more PDF files onto the tool, or click to browse.' },
-        { '@type': 'HowToStep', text: 'Reorder the files using the up/down arrows to set the final page order.' },
-        { '@type': 'HowToStep', text: 'Click Merge PDFs and download your combined file instantly.' },
+        { '@type': 'HowToStep', position: 1, name: 'Add PDFs', text: 'Drop two or more PDF files onto the tool, or click Browse PDFs. Use the + card to add more files at any time.' },
+        { '@type': 'HowToStep', position: 2, name: 'Reorder and rotate', text: 'Drag cards to set the final page order. Use the rotate button on each card to rotate pages 90°. Unlock password-protected PDFs by entering the password directly on the card.' },
+        { '@type': 'HowToStep', position: 3, name: 'Merge and save', text: 'Click Merge PDFs. Preview the result, then click Save PDF to download to your device.' },
       ],
     },
     {
       '@type': 'FAQPage',
       mainEntity: [
-        { '@type': 'Question', name: 'How many PDFs can I merge at once?', acceptedAnswer: { '@type': 'Answer', text: 'There is no hard limit on the number of PDFs. You can merge as many files as your browser\'s memory can handle. Very large batches (100+ pages or 500 MB+ total) may take longer on lower-spec devices.' } },
-        { '@type': 'Question', name: 'Will the merged PDF preserve the original quality?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. This tool copies pages directly using pdf-lib without re-rendering or re-compressing any content. Text, images, and formatting from the original PDFs are preserved exactly.' } },
-        { '@type': 'Question', name: 'Can I reorder pages before merging?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the up/down arrows next to each file to change the order. The number badge shows the final position of each file in the merged document.' } },
-        { '@type': 'Question', name: 'Is my PDF uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All merging happens locally in your browser using pdf-lib. Your files never leave your device — we never see them.' } },
-        { '@type': 'Question', name: 'Can I merge password-protected PDFs?', acceptedAnswer: { '@type': 'Answer', text: 'The tool will attempt to load encrypted PDFs, but password-protected files may fail to merge if the content cannot be read without the password. Remove the password protection first using another tool.' } },
+        {
+          '@type': 'Question',
+          name: 'How many PDFs can I merge at once?',
+          acceptedAnswer: { '@type': 'Answer', text: 'There is no hard limit. You can merge as many files as your browser memory allows. Very large batches (hundreds of pages or several hundred MB) may take a little longer on lower-spec devices.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Does merging reduce PDF quality?',
+          acceptedAnswer: { '@type': 'Answer', text: 'No. The tool copies pages directly using pdf-lib without re-rendering or re-compressing any content. Text stays selectable, images keep their original quality, and fonts are preserved exactly as in the source files.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I merge password-protected PDFs?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Yes. Enter the password directly on the file card and the tool unlocks it for merging. The password is never sent anywhere — decryption happens locally in your browser.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I rotate pages before merging?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Yes. Each card has a rotate button that rotates that PDF\'s pages by 90° clockwise. The rotation is applied to the output document, not just the preview.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is my PDF uploaded to a server?',
+          acceptedAnswer: { '@type': 'Answer', text: 'No. All processing — merging, rotating, decryption — happens entirely in your browser using pdf-lib and PDF.js. Your files never leave your device.' },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I preview the merged PDF before downloading?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Yes. After merging, click Preview to see the full document in a modal viewer before saving it to your device.' },
+        },
       ],
     },
   ],
 };
+
+const features = [
+  { icon: '⇅', label: 'Drag to reorder' },
+  { icon: '↻', label: 'Rotate pages' },
+  { icon: '🔒', label: 'Password-protected PDFs' },
+  { icon: '◎', label: 'Preview before saving' },
+  { icon: '✦', label: 'No file limit' },
+  { icon: '⬡', label: '100% in-browser' },
+];
 
 export default function MergePdfPage() {
   return (
@@ -51,22 +101,25 @@ export default function MergePdfPage() {
         <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-6 text-center">
           <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            No upload &middot; 100% Private &middot; Instant
+            No upload &middot; 100% Private &middot; Free
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
-            Merge PDFs{' '}
+            Merge PDF Files{' '}
             <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
               Online
             </span>
           </h1>
-          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-8">
-            Combine multiple PDF files into one. Reorder pages, then download. Everything runs in your browser — nothing is ever uploaded.
+          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-8">
+            Combine multiple PDFs into one. Drag to reorder, rotate pages, unlock encrypted files — then preview and save. Everything runs inside your browser. Nothing is ever uploaded.
           </p>
 
           <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {['No file limit', 'Original quality', 'Drag to reorder', 'JPEG · PNG · WebP friendly'].map((f) => (
-              <span key={f} className="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">{f}</span>
+            {features.map(({ icon, label }) => (
+              <span key={label} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">
+                <span className="text-blue-500">{icon}</span>
+                {label}
+              </span>
             ))}
           </div>
 
@@ -80,29 +133,44 @@ export default function MergePdfPage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Why merge PDF files?</h2>
               <p className="mb-3">
-                PDF merging is one of the most common document tasks in any workplace. Instead of sending five separate attachments, you send one clean document. Instead of juggling multiple pages from different sources, you have a single file that is easy to navigate, archive, and share.
+                Sending five separate attachments when one clean document would do is a friction point everyone recognises. PDF merging solves it — combine a contract body with its appendices, bundle monthly invoices for your accountant, or collapse a scanner&apos;s one-page-per-file output into a single archive. One file is easier to share, easier to sign, and easier to store.
               </p>
               <p>
-                Most online PDF mergers upload your files to a server — which means your documents (contracts, invoices, medical records, financial statements) pass through a third party&apos;s infrastructure. This tool merges PDFs entirely inside your browser using <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong>, a pure JavaScript library. Your files never leave your device.
+                Most online PDF mergers upload your files to a third-party server — meaning contracts, invoices, medical records, and financial statements pass through infrastructure you do not control. This tool runs entirely in your browser using <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> and <strong className="text-slate-800 dark:text-slate-200">PDF.js</strong>. Your files never leave your device at any point.
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases for merging PDFs</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Contracts and agreements.</strong> Combine a contract body, appendices, and signature pages into one document for signing or archival.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Invoices and receipts.</strong> Bundle multiple invoices into a single PDF for accounting, expense reports, or submission to finance teams.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Reports and presentations.</strong> Merge separate chapter exports or slide handouts into one complete document.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Scanned documents.</strong> If your scanner creates one PDF per page, merge them into a single multi-page document.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Application packets.</strong> Combine a CV, cover letter, portfolio, and certificates into one file for job applications.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Research and study notes.</strong> Merge lecture slides, papers, and your own notes into one reference document.</li>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">What this tool can do</h2>
+              <ul className="space-y-3 list-disc list-inside marker:text-blue-400">
+                <li><strong className="text-slate-800 dark:text-slate-200">Drag-and-drop reordering.</strong> Drag any card to change the sequence. A numbered badge always shows the final order so there is no guesswork.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Per-file rotation.</strong> Rotate any PDF&apos;s pages 90° clockwise before merging — useful for scanned pages that came out sideways.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Password-protected PDFs.</strong> Enter the password directly on the card. The tool decrypts the file in your browser using PDF.js and includes it in the merge.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Thumbnail previews.</strong> Every card shows a rendered preview of the first page so you can confirm you have the right file before merging.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Preview before saving.</strong> After merging, open the full document in a modal viewer to check it before committing to a save.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Edit after merging.</strong> Not happy with the result? Click Edit on the result card to go straight back to the file list — no re-uploading required.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">How the merger works</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases</h2>
+              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+                <li><strong className="text-slate-800 dark:text-slate-200">Contracts and agreements.</strong> Combine a contract body, appendices, and signature pages into one document for signing or archival.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Invoices and receipts.</strong> Bundle multiple invoices into a single PDF for accounting, expense reports, or submission to a finance team.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Scanned documents.</strong> Scanners often produce one PDF per page — merge them into a single multi-page document.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Application packets.</strong> Combine a CV, cover letter, portfolio, and certificates into one file for job applications.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Reports and presentations.</strong> Merge chapter exports or slide handouts into one complete document for distribution.</li>
+                <li><strong className="text-slate-800 dark:text-slate-200">Research and study notes.</strong> Merge lecture slides, papers, and personal notes into a single reference file.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">How it works under the hood</h2>
+              <p className="mb-3">
+                When you add files, <strong className="text-slate-800 dark:text-slate-200">PDF.js</strong> renders the first page of each file to a canvas and creates a JPEG thumbnail — entirely in your browser, with no upload. For password-protected files, PDF.js decrypts the content locally using the password you provide.
+              </p>
               <p>
-                When you drop PDF files into the tool, they are read directly by your browser using the <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> JavaScript library. pdf-lib copies the internal page objects from each source PDF into a new output document — without re-rendering or re-compressing any content. This means text remains selectable, images retain their original quality, and fonts are preserved exactly as in the originals. The merged PDF is then offered as a direct download from your browser with no server involved at any stage.
+                When you click Merge, <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> copies the raw page objects from each source PDF into a new output document. No page is re-rendered or re-compressed, so text stays selectable, images keep their original resolution, and fonts are preserved exactly as they appear in the originals. Any rotation you applied is written into the page&apos;s rotation metadata in the output file. The finished PDF is created as a Blob directly in your browser and offered via a Save As dialog — no server involved at any stage.
               </p>
             </div>
 
@@ -110,11 +178,30 @@ export default function MergePdfPage() {
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-4">Frequently asked questions</h2>
               <div className="space-y-4">
                 {[
-                  { q: 'How many PDFs can I merge at once?', a: 'There is no hard limit on the number of PDFs. You can merge as many files as your browser\'s memory can handle. Very large batches (100+ pages or 500 MB+ total) may take longer on lower-spec devices.' },
-                  { q: 'Will the merged PDF preserve the original quality?', a: 'Yes. This tool copies pages directly using pdf-lib without re-rendering or re-compressing any content. Text, images, and formatting from the original PDFs are preserved exactly.' },
-                  { q: 'Can I reorder pages before merging?', a: 'Yes. Use the up/down arrows next to each file to change the order. The number badge shows the final position of each file in the merged document.' },
-                  { q: 'Is my PDF uploaded to a server?', a: 'No. All merging happens locally in your browser using pdf-lib. Your files never leave your device — we never see them.' },
-                  { q: 'Can I merge password-protected PDFs?', a: 'The tool will attempt to load encrypted PDFs, but password-protected files may fail to merge if the content cannot be read without the password. Remove the password protection first using another tool.' },
+                  {
+                    q: 'How many PDFs can I merge at once?',
+                    a: 'There is no hard limit. You can merge as many files as your browser memory allows. Very large batches (hundreds of pages or several hundred MB) may take a little longer on lower-spec devices.',
+                  },
+                  {
+                    q: 'Does merging reduce PDF quality?',
+                    a: 'No. The tool copies pages directly using pdf-lib without re-rendering or re-compressing any content. Text stays selectable, images keep their original resolution, and fonts are preserved exactly as in the source files.',
+                  },
+                  {
+                    q: 'Can I merge password-protected PDFs?',
+                    a: 'Yes. Enter the password on the file card and the tool unlocks the file for merging. Decryption happens locally in your browser — the password is never sent anywhere.',
+                  },
+                  {
+                    q: 'Can I rotate pages before merging?',
+                    a: "Yes. Each card has a rotate button that rotates that file's pages 90° clockwise. The rotation is written into the output PDF's page metadata, not just the thumbnail preview.",
+                  },
+                  {
+                    q: 'Is my PDF uploaded to a server?',
+                    a: 'No. All processing — merging, rotating, decryption, thumbnail rendering — happens entirely in your browser. Your files never leave your device.',
+                  },
+                  {
+                    q: 'Can I preview the merged PDF before downloading?',
+                    a: 'Yes. After merging, click Preview to open the full document in a viewer. If you spot an issue, click Edit to go back to the file list without losing your files.',
+                  },
                 ].map(({ q, a }) => (
                   <div key={q} className="border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 bg-white dark:bg-slate-800/40">
                     <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">{q}</p>
