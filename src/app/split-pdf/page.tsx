@@ -100,9 +100,17 @@ export default function SplitPdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">How it works</h2>
-              <p>
-                Once you drop your PDF, the tool reads the page count using <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> directly in your browser. You then choose which pages to extract — either by clicking individual page tiles or typing a range like <code className="text-[11px] bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded font-mono">1-5, 8, 12-15</code>. pdf-lib copies the selected page objects into a new PDF without re-rendering anything — meaning text, images, and fonts are bit-for-bit identical to the originals. The output downloads directly from your browser tab. No server contact happens at any point.
+              <p className="mb-4">
+                Once you drop your PDF, the tool reads the page count using <strong className="text-slate-800 dark:text-slate-200">PDF.js</strong> directly in your browser and renders thumbnail previews of every page so you can see exactly what you are selecting. You then choose which pages to extract — either by clicking individual page tiles or typing a range like <code className="text-[11px] bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded font-mono">1-5, 8, 12-15</code>. <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> copies the selected page objects into a new PDF without re-rendering anything — meaning text, images, and fonts are bit-for-bit identical to the originals. The output downloads directly from your browser. No server contact happens at any point.
               </p>
+              <div className="flex gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60">
+                <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <p className="text-amber-800 dark:text-amber-300">
+                  <strong>Processing happens on your device.</strong> Because no files are uploaded, all the work is done by your computer or phone — not our servers. Large PDFs with many pages may take a moment to render thumbnails and process, depending on your device&apos;s speed and available memory. If things feel slow, give it a moment — it&apos;s working.
+                </p>
+              </div>
             </div>
 
             <div>

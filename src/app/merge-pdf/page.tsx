@@ -169,9 +169,17 @@ export default function MergePdfPage() {
               <p className="mb-3">
                 When you add files, <strong className="text-slate-800 dark:text-slate-200">PDF.js</strong> renders the first page of each file to a canvas and creates a JPEG thumbnail — entirely in your browser, with no upload. For password-protected files, PDF.js decrypts the content locally using the password you provide.
               </p>
-              <p>
+              <p className="mb-4">
                 When you click Merge, <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> copies the raw page objects from each source PDF into a new output document. No page is re-rendered or re-compressed, so text stays selectable, images keep their original resolution, and fonts are preserved exactly as they appear in the originals. Any rotation you applied is written into the page&apos;s rotation metadata in the output file. The finished PDF is created as a Blob directly in your browser and offered via a Save As dialog — no server involved at any stage.
               </p>
+              <div className="flex gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60">
+                <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <p className="text-amber-800 dark:text-amber-300">
+                  <strong>Processing happens on your device.</strong> Because no files are uploaded, all the work is done by your computer or phone — not our servers. Larger files or batches with many pages may take longer depending on your device&apos;s speed and available memory. If things feel slow, give it a moment — it&apos;s working.
+                </p>
+              </div>
             </div>
 
             <div>

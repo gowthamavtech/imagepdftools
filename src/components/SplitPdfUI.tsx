@@ -9,9 +9,6 @@ function isEncryptError(e: unknown): boolean {
   return msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
 }
 
-function isPdfjsPasswordError(e: unknown): boolean {
-  return (e as { name?: string })?.name === 'PasswordException';
-}
 
 type Mode = 'select' | 'range';
 
@@ -74,8 +71,89 @@ export function SplitPdfUI() {
   const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
   const [needsPassword, setNeedsPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [previewUrl,    setPreviewUrl]    = useState<string | null>(null);
+  const [previewName,   setPreviewName]   = useState<string>('');
+  const [pagePreviewIdx, setPagePreviewIdx] = useState<number | null>(null);
+  const [hiResUrl,       setHiResUrl]       = useState<string | null>(null);
   const pendingFilesRef = useRef<File[]>([]);
   const renderAbort = useRef(false);
+  const isDraggingRef      = useRef(false);
+  const dragModeRef        = useRef<'select' | 'deselect'>('select');
+  const longPressTimer     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchDragActiveRef = useRef(false);
+  const lastTouchIdxRef    = useRef<number | null>(null);
+  const gridRef            = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pdfDocRef  = useRef<any>(null);
+  const hiResCache = useRef<Map<number, string>>(new Map());
+
+  const openPreview = (r: Result) => { setPreviewUrl(r.url); setPreviewName(r.name); };
+  const closePreview = () => { setPreviewUrl(null); setPreviewName(''); };
+
+  useEffect(() => {
+    if (!previewUrl) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') closePreview(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [previewUrl]);
+
+  useEffect(() => {
+    if (pagePreviewIdx === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPagePreviewIdx(null);
+      if (e.key === 'ArrowRight') setPagePreviewIdx((p) => p !== null && p < pageCount - 1 ? p + 1 : p);
+      if (e.key === 'ArrowLeft')  setPagePreviewIdx((p) => p !== null && p > 0 ? p - 1 : p);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [pagePreviewIdx, pageCount]);
+
+  // Render high-res when lightbox opens
+  const renderingForIdx = useRef<number | null>(null);
+  useEffect(() => {
+    if (pagePreviewIdx === null) { setHiResUrl(null); return; }
+    const cached = hiResCache.current.get(pagePreviewIdx);
+    if (cached) { setHiResUrl(cached); return; }
+    // Don't wipe hiResUrl — keep previous page's image visible while new one renders
+    if (!pdfDocRef.current) return;
+    const target = pagePreviewIdx;
+    renderingForIdx.current = target;
+    renderPage(pdfDocRef.current, target + 1, 1.8).then((url) => {
+      hiResCache.current.set(target, url);
+      if (renderingForIdx.current === target) setHiResUrl(url);
+    }).catch(() => {});
+  }, [pagePreviewIdx]);
+
+  // End mouse drag-select on mouseup anywhere
+  useEffect(() => {
+    const stop = () => { isDraggingRef.current = false; };
+    window.addEventListener('mouseup', stop);
+    return () => window.removeEventListener('mouseup', stop);
+  }, []);
+
+  // Non-passive touchmove — blocks scroll and drives selection while drag active
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const handler = (e: TouchEvent) => {
+      if (!touchDragActiveRef.current) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      const card = target?.closest('[data-page-idx]') as HTMLElement | null;
+      if (!card) return;
+      const idx = parseInt(card.dataset.pageIdx!);
+      if (idx === lastTouchIdxRef.current) return;
+      lastTouchIdxRef.current = idx;
+      setSelected((prev) => {
+        const n = new Set(prev);
+        dragModeRef.current === 'select' ? n.add(idx) : n.delete(idx);
+        return n;
+      });
+    };
+    el.addEventListener('touchmove', handler, { passive: false });
+    return () => el.removeEventListener('touchmove', handler);
+  }, []);
 
   const loadFile = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];
@@ -94,20 +172,19 @@ export function SplitPdfUI() {
     pendingFilesRef.current = files;
 
     try {
-      const { PDFDocument } = await import('pdf-lib');
-      const bytes = new Uint8Array(await f.arrayBuffer());
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const doc = await PDFDocument.load(bytes, (password ? { password } : { ignoreEncryption: true }) as any);
-      const count = doc.getPageCount();
-      setPageCount(count);
-      setThumbs(Array(count).fill(null));
-
       const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const pdfData = new Uint8Array(await f.arrayBuffer());
-      const pdfDoc  = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
+
+      // PDF.js validates the password — throws PasswordException for wrong password,
+      // handles all encryption types including AES-256.
+      const pdfDoc = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
+      pdfDocRef.current = pdfDoc;
+      hiResCache.current.clear();
+      const count = pdfDoc.numPages;
+      setPageCount(count);
+      setThumbs(Array(count).fill(null));
 
       for (let i = 1; i <= count; i++) {
         if (renderAbort.current) break;
@@ -120,13 +197,12 @@ export function SplitPdfUI() {
           });
         } catch { /* page failed silently */ }
       }
-      pdfDoc.destroy();
       setThumbsDone(true);
     } catch (e) {
-      if (isPdfjsPasswordError(e) || isEncryptError(e)) {
+      if (isEncryptError(e) || (e as { name?: string })?.name === 'PasswordException') {
         setNeedsPassword(true);
         if (password) setWrongPassword(true);
-        setFile(f); // keep file set so we know which file needs unlocking
+        setFile(f);
       } else {
         setError('Could not read this PDF. It may be corrupted.');
         setFile(null);
@@ -152,8 +228,14 @@ export function SplitPdfUI() {
     try {
       const { PDFDocument } = await import('pdf-lib');
       const srcBytes = new Uint8Array(await file.arrayBuffer());
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const srcDoc   = await PDFDocument.load(srcBytes, (password ? { password } : { ignoreEncryption: true }) as any);
+      let srcDoc;
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        srcDoc = await PDFDocument.load(srcBytes, password ? ({ password } as any) : { ignoreEncryption: true });
+      } catch {
+        // AES-256 and some other encryption types are unsupported by pdf-lib — load without decryption
+        srcDoc = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
+      }
 
       if (mode === 'select') {
         const indices = Array.from(selected).sort((a, b) => a - b);
@@ -205,12 +287,23 @@ export function SplitPdfUI() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file, mode, selected, rangeInput, pageCount, pdfPassword]);
 
+  const backToEdit = () => {
+    revokeResults();
+    setResults([]);
+    setProgress(0);
+    setError(null);
+    setDownloaded(new Set());
+  };
+
   const reset = () => {
     renderAbort.current = true;
     revokeResults();
+    if (pdfDocRef.current) { pdfDocRef.current.destroy(); pdfDocRef.current = null; }
+    hiResCache.current.clear();
     setFile(null); setPageCount(0); setThumbs([]); setThumbsDone(false);
     setSelected(new Set()); setRangeInput(''); setResults([]); setError(null); setProgress(0);
     setDownloaded(new Set()); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false);
+    setPagePreviewIdx(null); setHiResUrl(null);
     pendingFilesRef.current = [];
     setTimeout(() => { renderAbort.current = false; }, 50);
   };
@@ -237,13 +330,23 @@ export function SplitPdfUI() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">Split complete</p>
             <p className="text-xs text-slate-500">
               {pdfResults.length} file{pdfResults.length !== 1 ? 's' : ''} ready
               {results.some((r) => r.name.endsWith('.zip')) ? ' · ZIP included' : ''}
             </p>
           </div>
+          <button
+            onClick={backToEdit}
+            title="Edit selection"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-medium text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors shrink-0"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+            </svg>
+            Edit
+          </button>
         </div>
 
         {/* Single result — stacked on mobile, side-by-side on sm+ */}
@@ -259,14 +362,14 @@ export function SplitPdfUI() {
               {downloaded.has(singleResult.name) ? 'Downloaded ✓' : 'Download PDF'}
             </button>
             <button
-              onClick={() => window.open(singleResult.url, '_blank')}
+              onClick={() => openPreview(singleResult)}
               className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 dark:hover:bg-blue-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
             >
               <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              View in Browser
+              Preview
             </button>
           </div>
         )}
@@ -288,14 +391,14 @@ export function SplitPdfUI() {
                   <div className="flex items-center gap-1.5 shrink-0">
                     {!isZip && (
                       <button
-                        onClick={() => window.open(r.url, '_blank')}
+                        onClick={() => openPreview(r)}
                         className="inline-flex items-center gap-1 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 text-violet-600 dark:text-violet-400 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-colors"
                       >
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        View
+                        Preview
                       </button>
                     )}
                     <button
@@ -317,10 +420,43 @@ export function SplitPdfUI() {
 
       <button
         onClick={reset}
-        className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-sm text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600 transition-colors"
+        className="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-500 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-red-400 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors"
       >
         Split Another PDF
       </button>
+
+      {/* Preview modal */}
+      {previewUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-sm" onClick={closePreview}>
+          <div
+            className="relative w-full max-w-5xl h-full max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 px-3 py-2.5 bg-slate-900 border-b border-white/8 shrink-0">
+              <button onClick={closePreview} title="Close (Esc)" className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+              </button>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                <p className="text-sm font-medium text-slate-100 truncate">{previewName}</p>
+                <span className="hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 tracking-wide shrink-0">PDF</span>
+              </div>
+              <button onClick={closePreview} title="Close (Esc)" className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden relative">
+              <iframe src={previewUrl} title={`Preview: ${previewName}`} className="border-0 absolute inset-0 w-full h-full" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -401,14 +537,57 @@ export function SplitPdfUI() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+              <div
+                ref={gridRef}
+                className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 select-none"
+                onTouchStart={(e) => {
+                  const touch = e.touches[0];
+                  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+                  const card = el?.closest('[data-page-idx]') as HTMLElement | null;
+                  if (!card) return;
+                  const idx = parseInt(card.dataset.pageIdx!);
+                  longPressTimer.current = setTimeout(() => {
+                    navigator.vibrate?.(30);
+                    touchDragActiveRef.current = true;
+                    lastTouchIdxRef.current = idx;
+                    dragModeRef.current = selected.has(idx) ? 'deselect' : 'select';
+                    setSelected((prev) => { const n = new Set(prev); dragModeRef.current === 'select' ? n.add(idx) : n.delete(idx); return n; });
+                  }, 400);
+                }}
+                onTouchMove={() => {
+                  if (!touchDragActiveRef.current) {
+                    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
+                  touchDragActiveRef.current = false;
+                  lastTouchIdxRef.current = null;
+                  e.stopPropagation();
+                }}
+              >
                 {thumbs.map((thumb, i) => {
                   const isSelected = selected.has(i);
                   return (
-                    <button
+                    <div
                       key={i}
-                      onClick={() => togglePage(i)}
-                      className={`group relative flex flex-col items-center rounded-xl overflow-hidden border-2 transition-all shadow-sm hover:shadow-md ${
+                      data-page-idx={String(i)}
+                      onMouseDown={(e) => {
+                        if (e.button !== 0) return;
+                        e.preventDefault();
+                        isDraggingRef.current = true;
+                        dragModeRef.current = isSelected ? 'deselect' : 'select';
+                        setSelected((prev) => { const n = new Set(prev); isSelected ? n.delete(i) : n.add(i); return n; });
+                      }}
+                      onMouseEnter={() => {
+                        if (!isDraggingRef.current) return;
+                        setSelected((prev) => {
+                          const n = new Set(prev);
+                          dragModeRef.current === 'select' ? n.add(i) : n.delete(i);
+                          return n;
+                        });
+                      }}
+                      className={`group relative flex flex-col items-center rounded-xl overflow-hidden border-2 cursor-pointer transition-all shadow-sm hover:shadow-md ${
                         isSelected
                           ? 'border-blue-500 shadow-blue-200 dark:shadow-blue-900/40'
                           : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
@@ -421,11 +600,14 @@ export function SplitPdfUI() {
                             src={thumb}
                             alt={`Page ${i + 1}`}
                             className="w-full h-full object-cover object-top"
+                            draggable={false}
                           />
                         ) : (
                           <div className="absolute inset-0 bg-linear-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 animate-pulse" />
                         )}
                         {isSelected && <div className="absolute inset-0 bg-blue-500/10" />}
+
+                        {/* Checkbox top-left */}
                         <div className={`absolute top-1.5 left-1.5 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                           isSelected
                             ? 'bg-emerald-500 opacity-100 scale-100'
@@ -435,6 +617,21 @@ export function SplitPdfUI() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                           </svg>
                         </div>
+
+                        {/* Eye icon top-right — always visible */}
+                        {thumb && (
+                          <button
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => { e.stopPropagation(); setPagePreviewIdx(i); }}
+                            title={`Preview page ${i + 1}`}
+                            className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-colors"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                          </button>
+                        )}
                       </div>
                       <div className={`w-full py-1.5 text-center text-xs font-medium transition-colors ${
                         isSelected
@@ -443,13 +640,16 @@ export function SplitPdfUI() {
                       }`}>
                         {i + 1}
                       </div>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
 
               {!thumbsDone && (
                 <p className="text-center text-xs text-slate-400 animate-pulse">Rendering page previews…</p>
+              )}
+              {thumbsDone && (
+                <p className="text-center text-xs text-slate-400 sm:hidden">Tap to select · Hold and drag to select multiple</p>
               )}
             </div>
           )}
@@ -541,6 +741,84 @@ export function SplitPdfUI() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
           </svg>
           <span>{error}</span>
+        </div>
+      )}
+
+      {/* Page preview lightbox */}
+      {pagePreviewIdx !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setPagePreviewIdx(null)}>
+          <div className="relative flex flex-col items-center max-h-full" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="flex items-center justify-between w-full mb-3 px-1">
+              <span className="text-sm font-medium text-white/80">Page {pagePreviewIdx + 1} of {pageCount}</span>
+              <button onClick={() => setPagePreviewIdx(null)} className="p-1.5 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition-colors">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Image + nav */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setPagePreviewIdx((p) => p !== null && p > 0 ? p - 1 : p)}
+                disabled={pagePreviewIdx === 0}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white disabled:opacity-20 transition-colors shrink-0"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+
+              <div className="rounded-xl overflow-hidden shadow-2xl bg-slate-100 relative flex items-center justify-center" style={{ minHeight: '55vh' }}>
+                {(hiResUrl || thumbs[pagePreviewIdx]) ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={hiResUrl ?? thumbs[pagePreviewIdx]!}
+                    alt={`Page ${pagePreviewIdx + 1}`}
+                    className="block max-h-[78vh] w-auto max-w-full"
+                    draggable={false}
+                  />
+                ) : (
+                  <svg className="w-8 h-8 text-slate-400 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                )}
+                {/* Spinner overlay while hi-res is rendering */}
+                {(hiResUrl === null && thumbs[pagePreviewIdx]) && (
+                  <div className="absolute bottom-2 right-2 bg-black/40 rounded-full p-1">
+                    <svg className="w-3 h-3 text-white animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => setPagePreviewIdx((p) => p !== null && p < pageCount - 1 ? p + 1 : p)}
+                disabled={pagePreviewIdx === pageCount - 1}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white disabled:opacity-20 transition-colors shrink-0"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Select toggle at bottom */}
+            <button
+              onClick={() => setSelected((prev) => { const n = new Set(prev); n.has(pagePreviewIdx) ? n.delete(pagePreviewIdx) : n.add(pagePreviewIdx); return n; })}
+              className={`mt-4 px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                selected.has(pagePreviewIdx)
+                  ? 'bg-emerald-500 hover:bg-red-500 text-white'
+                  : 'bg-white/15 hover:bg-blue-500 text-white'
+              }`}
+            >
+              {selected.has(pagePreviewIdx) ? '✓ Selected — click to deselect' : 'Select this page'}
+            </button>
+          </div>
         </div>
       )}
     </div>
