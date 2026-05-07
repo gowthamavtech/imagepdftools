@@ -12,9 +12,9 @@ function isEncryptError(e: unknown): boolean {
     return msg.includes("encrypt") || msg.includes("password") || msg.includes("decrypt");
 }
 
-// ── PDF.js page viewer (used for password-protected previews) ─────────────────
+// ── PDF.js page viewer (used for all previews — iframe has no PDF support on Android) ───
 
-function PdfJsViewer({ file, password }: { file: File; password: string }) {
+function PdfJsViewer({ file, password = '' }: { file: File | Blob; password?: string }) {
     const [pageUrls, setPageUrls] = useState<string[]>([]);
     const [rendered, setRendered] = useState(0);
     const [total, setTotal] = useState(0);
@@ -329,9 +329,9 @@ export function MergePdfUI() {
     const [resultUrl, setResultUrl] = useState<string | null>(null);
     const [resultSize, setResultSize] = useState<number>(0);
     const [saved, setSaved] = useState(false);
+    const [resultBlob, setResultBlob] = useState<Blob | null>(null);
     const [previewEntry, setPreviewEntry] = useState<PdfEntry | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [previewIsResult, setPreviewIsResult] = useState(false);
     const [activeId, setActiveId] = useState<string | null>(null);
     const idCounter = useRef(0);
     const addMoreRef = useRef<HTMLInputElement>(null);
@@ -358,29 +358,21 @@ export function MergePdfUI() {
     const openPreview = useCallback(
         (entry: PdfEntry) => {
             if (!entry.thumbnailUrl) return;
-            if (previewUrl && !previewIsResult) URL.revokeObjectURL(previewUrl);
-            // For password-protected entries, PdfJsViewer handles rendering — no iframe URL needed.
-            // For normal entries, create a blob URL for the iframe.
-            setPreviewUrl(entry.password ? "__pdfjs__" : URL.createObjectURL(entry.file));
+            setPreviewUrl("__pdfjs__");
             setPreviewEntry(entry);
-            setPreviewIsResult(false);
         },
-        [previewUrl, previewIsResult],
+        [],
     );
 
     const openResultPreview = useCallback(() => {
-        if (previewUrl && !previewIsResult) URL.revokeObjectURL(previewUrl);
-        setPreviewUrl(resultUrl);
+        setPreviewUrl("__pdfjs_result__");
         setPreviewEntry(null);
-        setPreviewIsResult(true);
-    }, [previewUrl, previewIsResult, resultUrl]);
+    }, []);
 
     const closePreview = useCallback(() => {
-        if (previewUrl && !previewIsResult && previewUrl !== "__pdfjs__") URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
         setPreviewEntry(null);
-        setPreviewIsResult(false);
-    }, [previewUrl, previewIsResult]);
+    }, []);
 
     const rotateEntry = (id: string) => setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, rotation: ((e.rotation + 90) % 360) as 0 | 90 | 180 | 270 } : e)));
 
@@ -399,13 +391,13 @@ export function MergePdfUI() {
     };
 
     useEffect(() => {
-        if (!previewEntry) return;
+        if (!previewUrl) return;
         const handler = (e: KeyboardEvent) => {
             if (e.key === "Escape") closePreview();
         };
         window.addEventListener("keydown", handler);
         return () => window.removeEventListener("keydown", handler);
-    }, [previewEntry, closePreview]);
+    }, [previewUrl, closePreview]);
 
     const addFiles = useCallback(async (files: File[]) => {
         const pdfs = files.filter((f) => f.type === "application/pdf");
@@ -497,6 +489,7 @@ export function MergePdfUI() {
 
             const outBytes = await merged.save();
             const blob = new Blob([outBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+            setResultBlob(blob);
             setResultUrl(URL.createObjectURL(blob));
             setResultSize(outBytes.byteLength);
         } catch (err) {
@@ -541,6 +534,7 @@ export function MergePdfUI() {
             if (prev) URL.revokeObjectURL(prev);
             return null;
         });
+        setResultBlob(null);
         setResultSize(0);
         setProgress(0);
         setError(null);
@@ -555,6 +549,7 @@ export function MergePdfUI() {
             if (prev) URL.revokeObjectURL(prev);
             return null;
         });
+        setResultBlob(null);
         setError(null);
         setProgress(0);
         setResultSize(0);
@@ -791,7 +786,7 @@ export function MergePdfUI() {
                 </div>
             )}
 
-            {/* Preview modal — used for both individual PDFs and merged result */}
+            {/* Preview modal — PDF.js canvas viewer, works on all platforms including Android */}
             {previewUrl && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-sm" onClick={closePreview}>
                     <div
@@ -857,15 +852,11 @@ export function MergePdfUI() {
                             </div>
                         </div>
                         <div className="flex-1 overflow-hidden relative">
-                            {previewUrl === "__pdfjs__" && previewEntry?.password ? (
-                                <PdfJsViewer file={previewEntry.file} password={previewEntry.password} />
-                            ) : (
-                                <iframe
-                                    src={previewUrl ?? ""}
-                                    title={previewEntry ? `Preview: ${previewEntry.file.name}` : "Preview: merged.pdf"}
-                                    className="border-0 absolute inset-0 w-full h-full"
-                                />
-                            )}
+                            {previewUrl === "__pdfjs__" && previewEntry ? (
+                                <PdfJsViewer file={previewEntry.file} password={previewEntry.password ?? ''} />
+                            ) : previewUrl === "__pdfjs_result__" && resultBlob ? (
+                                <PdfJsViewer file={resultBlob} />
+                            ) : null}
                         </div>
                     </div>
                 </div>
