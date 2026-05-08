@@ -26,9 +26,17 @@ export const metadata: Metadata = {
     },
     twitter: { card: "summary_large_image" },
     icons: {
-        icon: "/favicon.svg",
-        shortcut: "/favicon.svg",
+        icon: [
+            { url: '/favicon.ico',              sizes: '16x16 32x32 48x48' },
+            { url: '/icons/favicon-16x16.png',  sizes: '16x16', type: 'image/png' },
+            { url: '/icons/favicon-32x32.png',  sizes: '32x32', type: 'image/png' },
+            { url: '/icons/favicon-48x48.png',  sizes: '48x48', type: 'image/png' },
+            { url: '/icons/logo.svg',           type: 'image/svg+xml' },
+        ],
+        apple: [{ url: '/icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' }],
+        shortcut: '/favicon.ico',
     },
+    manifest: '/manifest.json',
     robots: { index: true, follow: true },
     alternates: { canonical: "https://imagepdf.tools" },
 };
