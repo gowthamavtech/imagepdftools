@@ -264,7 +264,7 @@ export function CompareView({ originalSrc, compressedSrc, originalSize, compress
                 max={100}
                 value={splitPct}
                 onChange={(e) => setSplitPct(Number(e.target.value))}
-                className="w-full mt-2 h-1.5 appearance-none rounded-full bg-slate-300 dark:bg-slate-600 accent-blue-500 cursor-pointer"
+                className="w-full mt-2 h-1.5 appearance-none rounded-full bg-slate-300 dark:bg-slate-600 accent-violet-500 cursor-pointer"
                 aria-label="Compare slider position"
             />
         </div>

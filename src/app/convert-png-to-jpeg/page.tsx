@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -101,16 +101,16 @@ export default function ConvertPngToJpegPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1">
-      <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-16 text-center">
+      <div className="max-w-5xl mx-auto px-4 pt-12 sm:pt-18 pb-8 text-center">
 
-        <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
+        <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
           <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
           No upload &middot; 100% Private &middot; Instant
         </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
           Convert PNG to{' '}
-          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             JPEG
           </span>
         </h1>

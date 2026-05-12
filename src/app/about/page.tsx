@@ -83,8 +83,8 @@ const VALUES = [
 
 const colorMap: Record<string, string> = {
   emerald: 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60',
-  blue:    'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/60',
-  violet:  'bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800/60',
+  blue:    'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800/60',
+  violet:  'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800/60',
 };
 
 const ORG_JSONLD = {
@@ -115,7 +115,7 @@ export default function AboutPage() {
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-5">
           Privacy isn&apos;t a feature.{' '}
-          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             It&apos;s our architecture.
           </span>
         </h1>
@@ -206,13 +206,13 @@ export default function AboutPage() {
               label: 'Non-intrusive ads',
               desc: 'Free users see small, tasteful display ads. No tracking, no retargeting, no data harvesting — just a banner.',
               badge: 'Free Tier',
-              badgeColor: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400',
+              badgeColor: 'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400',
             },
             {
               label: 'Optional Pro tier',
               desc: 'Power users who need unlimited batch processing and an ad-free experience can upgrade to Pro — coming soon.',
               badge: 'Pro Tier',
-              badgeColor: 'bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-400',
+              badgeColor: 'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400',
             },
           ].map(({ label, desc, badge, badgeColor }) => (
             <div key={label} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex flex-col gap-3 shadow-sm">
@@ -241,7 +241,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {STACK.map(({ name, desc, icon }) => (
               <div key={name} className="flex items-start gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 flex items-center justify-center text-violet-600 dark:text-violet-400 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 flex items-center justify-center text-violet-600 dark:text-violet-400 shrink-0">
                   {icon}
                 </div>
                 <div>

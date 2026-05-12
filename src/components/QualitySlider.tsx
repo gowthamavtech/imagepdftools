@@ -83,7 +83,7 @@ export function QualitySlider({ quality, format, files, onChange }: QualityProps
         max={100}
         value={quality}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-blue-500 cursor-pointer"
+        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-violet-500 cursor-pointer"
         aria-label="Compression quality"
       />
       <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -119,7 +119,7 @@ export function PrecisionSlider({ precision, onChange }: PrecisionProps) {
         step={1}
         value={precision}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-blue-500 cursor-pointer"
+        className="w-full h-2 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-violet-500 cursor-pointer"
         aria-label="SVG coordinate decimal precision"
       />
       <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">

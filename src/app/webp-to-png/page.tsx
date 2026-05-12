@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -71,12 +71,12 @@ export default function WebpToPngPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
             WebP to PNG{' '}
-            <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Converter</span>
+            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">Converter</span>
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             Convert WebP images to lossless PNG — full quality, transparency preserved. Works with every image editor and platform. No upload required.
@@ -86,7 +86,7 @@ export default function WebpToPngPage() {
         <CompressorUI initialFormat="image/png" />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -101,7 +101,7 @@ export default function WebpToPngPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">When to convert WebP to PNG</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Editing in Photoshop, Illustrator, or GIMP.</strong> While newer versions of Photoshop support WebP natively, many design teams still run older versions or use tools that do not support it. Converting to PNG first ensures the file opens correctly for editing.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Figma and design handoff.</strong> Figma supports WebP in some contexts but PNG is the universally accepted format for design assets. Converting WebP screenshots or assets to PNG ensures compatibility across all design workflows.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Platform upload restrictions.</strong> Some government portals, job application systems, academic submission platforms, and older CMS platforms only accept JPEG and PNG. Converting WebP to PNG removes upload rejections.</li>

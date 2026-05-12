@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { DropZone } from './DropZone';
@@ -450,7 +450,7 @@ export function SplitPdfUI() {
           <button
             onClick={backToEdit}
             title="Edit selection"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-medium text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-medium text-slate-600 dark:text-slate-300 hover:border-violet-400 hover:text-violet-600 dark:hover:border-violet-500 dark:hover:text-violet-400 transition-colors shrink-0"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
@@ -464,7 +464,7 @@ export function SplitPdfUI() {
           <div className="flex flex-col sm:flex-row gap-2">
             <button
               onClick={() => download(singleResult)}
-              className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
             >
               <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -473,7 +473,7 @@ export function SplitPdfUI() {
             </button>
             <button
               onClick={() => openPreview(singleResult)}
-              className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 dark:hover:bg-blue-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
             >
               <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
@@ -502,7 +502,7 @@ export function SplitPdfUI() {
                     {!isZip && (
                       <button
                         onClick={() => openPreview(r)}
-                        className="inline-flex items-center gap-1 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 text-violet-600 dark:text-violet-400 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 text-violet-600 dark:text-violet-400 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-colors"
                       >
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
@@ -513,7 +513,7 @@ export function SplitPdfUI() {
                     )}
                     <button
                       onClick={() => download(r)}
-                      className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                      className="inline-flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -629,7 +629,7 @@ export function SplitPdfUI() {
           <div className="flex rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden bg-white dark:bg-slate-800">
             {(['select', 'range'] as Mode[]).map((m) => (
               <button key={m} onClick={() => setMode(m)}
-                className={`flex-1 py-2.5 text-sm font-semibold transition-colors ${mode === m ? 'bg-blue-600 text-white' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/40'}`}>
+                className={`flex-1 py-2.5 text-sm font-semibold transition-colors ${mode === m ? 'bg-violet-600 text-white' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/40'}`}>
                 {m === 'select' ? 'Select Pages' : 'Split by Range'}
               </button>
             ))}
@@ -645,7 +645,7 @@ export function SplitPdfUI() {
                     : `${pageCount} pages — click to select`}
                 </p>
                 <div className="flex gap-3">
-                  <button onClick={selectAll} className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium">Select all</button>
+                  <button onClick={selectAll} className="text-xs text-violet-600 dark:text-violet-400 hover:underline font-medium">Select all</button>
                   <button onClick={clearAll}  className="text-xs text-slate-400 hover:underline">Clear</button>
                 </div>
               </div>
@@ -703,8 +703,8 @@ export function SplitPdfUI() {
                       }}
                       className={`group relative flex flex-col items-center rounded-xl overflow-hidden border-2 cursor-pointer transition-all shadow-sm hover:shadow-md ${
                         isSelected
-                          ? 'border-blue-500 shadow-blue-200 dark:shadow-blue-900/40'
-                          : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
+                          ? 'border-violet-500 shadow-violet-200 dark:shadow-violet-900/40'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700'
                       }`}
                     >
                       <div className="w-full bg-slate-100 dark:bg-slate-700/50 aspect-3/4 relative">
@@ -719,7 +719,7 @@ export function SplitPdfUI() {
                         ) : (
                           <div className="absolute inset-0 bg-linear-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 animate-pulse" />
                         )}
-                        {isSelected && <div className="absolute inset-0 bg-blue-500/10" />}
+                        {isSelected && <div className="absolute inset-0 bg-violet-500/10" />}
 
                         {/* Checkbox top-left */}
                         <div className={`absolute top-1.5 left-1.5 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
@@ -738,7 +738,7 @@ export function SplitPdfUI() {
                             onMouseDown={(e) => e.stopPropagation()}
                             onClick={(e) => { e.stopPropagation(); setPagePreviewIdx(i); }}
                             title={`Preview page ${i + 1}`}
-                            className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-colors"
+                            className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center transition-colors"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
@@ -749,7 +749,7 @@ export function SplitPdfUI() {
                       </div>
                       <div className={`w-full py-1.5 text-center text-xs font-medium transition-colors ${
                         isSelected
-                          ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
+                          ? 'bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400'
                           : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                       }`}>
                         {i + 1}
@@ -780,7 +780,7 @@ export function SplitPdfUI() {
                   value={rangeInput}
                   onChange={(e) => setRangeInput(e.target.value)}
                   placeholder={`e.g. 1-3, 5, 7-${Math.min(10, pageCount)}`}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/40 text-sm text-slate-800 dark:text-slate-100 px-4 py-2.5 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/40 text-sm text-slate-800 dark:text-slate-100 px-4 py-2.5 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
                 />
                 <p className="text-[11px] text-slate-400 mt-1.5">Each comma-separated entry becomes a separate PDF. Multiple parts download as a ZIP.</p>
               </div>
@@ -788,7 +788,7 @@ export function SplitPdfUI() {
                 <div className="flex flex-wrap gap-1.5">
                   {parseRanges(rangeInput, pageCount).map(({ label }) => (
                     <span key={label}
-                      className="text-[11px] bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 px-2 py-0.5 rounded-full font-medium">
+                      className="text-[11px] bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/60 px-2 py-0.5 rounded-full font-medium">
                       {label}
                     </span>
                   ))}
@@ -804,7 +804,7 @@ export function SplitPdfUI() {
                 <span>Processing…</span><span>{progress}%</span>
               </div>
               <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-linear-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+                <div className="h-full bg-linear-to-r from-violet-500 to-violet-400 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
               </div>
             </div>
           )}
@@ -821,7 +821,7 @@ export function SplitPdfUI() {
 
           {/* Action button */}
           <button onClick={run} disabled={isWorking}
-            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
+            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
             {isWorking ? (
               <>
                 <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -918,7 +918,7 @@ export function SplitPdfUI() {
               className={`mt-4 px-5 py-2 rounded-full text-sm font-semibold transition-all ${
                 selected.has(pagePreviewIdx)
                   ? 'bg-emerald-500 hover:bg-red-500 text-white'
-                  : 'bg-white/15 hover:bg-blue-500 text-white'
+                  : 'bg-white/15 hover:bg-violet-500 text-white'
               }`}
             >
               {selected.has(pagePreviewIdx) ? '✓ Selected — click to deselect' : 'Select this page'}

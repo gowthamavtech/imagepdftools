@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { NextActions } from './NextActions';
@@ -136,7 +136,7 @@ export function FlipRotateUI() {
 
         {/* Handoff source pill */}
         {sourceLabel && (
-          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
             <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -189,7 +189,7 @@ export function FlipRotateUI() {
             <div className="grid grid-cols-2 gap-2">
               <button onClick={() => setFlipH((v) => !v)}
                 className={`flex items-center justify-center gap-2 py-3 rounded-xl border font-medium text-sm transition-all ${
-                  flipH ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                  flipH ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
                         : 'border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-700'
                 }`}>
                 {/* Horizontal flip icon */}
@@ -200,7 +200,7 @@ export function FlipRotateUI() {
               </button>
               <button onClick={() => setFlipV((v) => !v)}
                 className={`flex items-center justify-center gap-2 py-3 rounded-xl border font-medium text-sm transition-all ${
-                  flipV ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                  flipV ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
                         : 'border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-700'
                 }`}>
                 {/* Vertical flip icon */}
@@ -217,28 +217,28 @@ export function FlipRotateUI() {
             <div className="flex items-center justify-between mb-3">
               <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Rotate</p>
               {rotation !== 0 && (
-                <span className="text-[10px] font-bold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-blue-950/30 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-bold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-950/30 px-2 py-0.5 rounded-full">
                   {rotation}°
                 </span>
               )}
             </div>
             <div className="grid grid-cols-4 gap-2">
               <button onClick={rotateLeft}
-                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
+                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                 </svg>
                 90° Left
               </button>
               <button onClick={rotateRight}
-                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
+                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
                 </svg>
                 90° Right
               </button>
               <button onClick={rotate180}
-                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
+                className="flex flex-col items-center gap-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 text-xs font-medium transition-all">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
@@ -307,7 +307,7 @@ export function FlipRotateUI() {
               <button
                 disabled={isWorking}
                 onClick={() => { const a = document.createElement('a'); a.href = result.url; a.download = result.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0">
+                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>

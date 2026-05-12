@@ -114,7 +114,7 @@ function OtherConversions({ current, from }: { current: string; from: string }) 
         <Link
           key={slug}
           href={`/convert/${slug}`}
-          className="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-blue-400 dark:hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full text-xs font-medium transition-colors"
+          className="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-600 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1 rounded-full text-xs font-medium transition-colors"
         >
           {cfg.from} → {cfg.to}
         </Link>
@@ -167,17 +167,17 @@ export default async function ConvertPage(
       />
       <div className="max-w-4xl mx-auto px-4 text-center mb-8">
 
-        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
           Free &middot; No Upload &middot; Private
         </span>
 
         <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
           Convert{' '}
-          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             {cfg.from}
           </span>
           {' '}to{' '}
-          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             {cfg.to}
           </span>
         </h1>
@@ -191,10 +191,10 @@ export default async function ConvertPage(
           <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 px-2.5 py-1 rounded-full">
             {cfg.from}
           </span>
-          <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-          <span className="text-sm font-semibold text-white bg-blue-600 px-2.5 py-1 rounded-full">
+          <span className="text-sm font-semibold text-white bg-violet-600 px-2.5 py-1 rounded-full">
             {cfg.to}
           </span>
         </div>
@@ -209,7 +209,7 @@ export default async function ConvertPage(
             { n: '3', text: 'Click Compress All, then download' },
           ].map(({ n, text }) => (
             <div key={n} className="flex items-center gap-3 bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3">
-              <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center justify-center shrink-0">
+              <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-950 text-violet-600 dark:text-violet-400 text-xs font-bold flex items-center justify-center shrink-0">
                 {n}
               </span>
               <span className="text-xs text-slate-600 dark:text-slate-400 leading-snug">{text}</span>

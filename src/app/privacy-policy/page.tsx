@@ -213,7 +213,7 @@ export default function PrivacyPolicyPage() {
                 },
               ].map(({ icon, title, desc }) => (
                 <div key={title} className="flex items-start gap-3 border border-slate-200 dark:border-slate-600 rounded-xl p-4 bg-white dark:bg-slate-800/40">
-                  <div className="w-9 h-9 rounded-lg bg-violet-100 dark:bg-blue-950/30 flex items-center justify-center shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-violet-100 dark:bg-violet-950/30 flex items-center justify-center shrink-0">
                     {icon}
                   </div>
                   <div>

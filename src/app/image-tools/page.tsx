@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -43,11 +43,11 @@ const GROUPS = [
   {
     label: 'Convert',
     description: 'Change image formats without leaving your browser.',
-    color: 'text-blue-600 dark:text-blue-400',
-    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-    btnClass: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800/50',
-    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
-    hoverTitle: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
+    color: 'text-violet-600 dark:text-violet-400',
+    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
+    btnClass: 'bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 dark:hover:bg-violet-900/40 border border-violet-200 dark:border-violet-800/50',
+    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+    hoverTitle: 'group-hover:text-violet-600 dark:group-hover:text-violet-400',
     tools: [
       {
         href: '/convert-image-to-webp', label: 'Convert to WebP', badge: 'SEO Boost',
@@ -152,7 +152,7 @@ export default function ImageToolsPage() {
 
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             No Uploads &middot; 100% Private &middot; Free
           </div>
@@ -167,9 +167,9 @@ export default function ImageToolsPage() {
           {GROUPS.map((group) => (
             <section key={group.label}>
               <div className="flex items-center gap-3 mb-4">
-                <h2 className={`text-[10px] font-bold uppercase tracking-widest ${group.color}`}>
+                <p className={`text-[10px] font-bold uppercase tracking-widest ${group.color}`}>
                   {group.label}
-                </h2>
+                </p>
                 <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
                 <span className="text-xs text-slate-400 dark:text-slate-500">{group.description}</span>
               </div>
@@ -220,14 +220,14 @@ export default function ImageToolsPage() {
         </div>
 
         {/* PDF cross-link */}
-        <div className="mt-12 p-6 rounded-2xl bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/60 flex items-center justify-between gap-4 flex-wrap">
+        <div className="mt-12 p-6 rounded-2xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60 flex items-center justify-between gap-4 flex-wrap">
           <div>
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-0.5">Need PDF tools?</p>
             <p className="text-xs text-slate-500 dark:text-slate-400">Compress PDFs and convert images to PDF — also 100% in-browser.</p>
           </div>
           <Link
             href="/pdf-tools"
-            className="shrink-0 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
+            className="shrink-0 inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
           >
             PDF Tools →
           </Link>

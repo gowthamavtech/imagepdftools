@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -67,7 +67,7 @@ export default function ReduceImageSizePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">Reduce Image Size Online</h1>
@@ -80,7 +80,7 @@ export default function ReduceImageSizePage() {
         <CompressorUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>

@@ -144,7 +144,7 @@ export function NextActions({ blob, filename, currentTool }: Props) {
             className={`inline-flex items-center gap-2 px-3 py-2.5 sm:py-2 rounded-xl border text-xs font-medium transition-all ${
               dragTarget === tool.id
                 ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 scale-105'
-                : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-700 dark:hover:text-violet-300'
+                : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-violet-400 dark:hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-slate-700 dark:text-slate-300 hover:text-violet-700 dark:hover:text-violet-300'
             }`}
           >
             <span className={dragTarget === tool.id ? 'text-violet-500' : 'text-slate-500 dark:text-slate-400'}>{tool.icon}</span>

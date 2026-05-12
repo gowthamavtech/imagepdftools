@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { SplitPdfUI } from '@/components/SplitPdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -74,15 +74,15 @@ export default function SplitPdfPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-6 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+        <div className="max-w-5xl mx-auto px-4 pt-12 sm:pt-18 pb-6 text-center">
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             No upload &middot; 100% Private &middot; Instant
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
             Split PDF{' '}
-            <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
               Online
             </span>
           </h1>
@@ -93,7 +93,7 @@ export default function SplitPdfPage() {
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {features.map(({ icon, label }) => (
               <span key={label} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">
-                <span className="text-blue-500">{icon}</span>
+                <span className="text-violet-500">{icon}</span>
                 {label}
               </span>
             ))}
@@ -103,7 +103,7 @@ export default function SplitPdfPage() {
         </div>
 
         {/* Content */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-4">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-6">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -118,7 +118,7 @@ export default function SplitPdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">What this tool can do</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Select Pages mode.</strong> Thumbnails of every page render in your browser. Click individual pages to toggle them on or off, or hold and drag across multiple thumbnails to select a run of pages in one gesture — works on desktop and mobile.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Split by Range mode.</strong> Type comma-separated page ranges such as <code className="text-[11px] bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded font-mono">1-5, 6-10, 11-20</code>. Each range is saved as its own PDF. If you produce more than one part, they are also bundled into a ZIP for easy downloading.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Page preview lightbox.</strong> Tap the eye icon on any thumbnail to open a full-size preview with prev/next navigation so you can confirm the content before committing to your selection.</li>
@@ -129,7 +129,7 @@ export default function SplitPdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Extracting a signed page.</strong> Pull just the signature page from a contract to attach to an email without sending the full document.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Splitting a scanned book.</strong> Divide a 300-page scan into chapters for easier reading or distribution.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Isolating individual invoices.</strong> When your accounting software generates one PDF for 12 months of invoices, split them into separate files for each month.</li>

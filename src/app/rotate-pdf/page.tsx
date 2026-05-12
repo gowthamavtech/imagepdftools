@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { RotatePdfUI } from '@/components/RotatePdfUI';
 
 export const metadata: Metadata = {
@@ -72,13 +72,13 @@ export default function RotatePdfPage() {
 
           {/* Hero */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
               No Uploads &middot; 100% Private &middot; Free
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">
               Rotate{' '}
-              <span className="bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
                 PDF
               </span>
             </h1>
@@ -88,7 +88,7 @@ export default function RotatePdfPage() {
             <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
               {['All pages', 'No quality loss', 'Instant', 'Free'].map((f) => (
                 <span key={f} className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-blue-400" />
+                  <span className="w-1 h-1 rounded-full bg-violet-400" />
                   {f}
                 </span>
               ))}
@@ -120,7 +120,7 @@ export default function RotatePdfPage() {
                   'Forms that were filled out and saved rotated',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2">
-                    <span className="mt-1.5 w-1 h-1 rounded-full bg-blue-400 shrink-0" />
+                    <span className="mt-1.5 w-1 h-1 rounded-full bg-violet-400 shrink-0" />
                     {item}
                   </li>
                 ))}

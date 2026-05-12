@@ -1,8 +1,7 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { POSTS, CATEGORY_META, getPost, getRelatedPosts, type Block } from '@/lib/blog';
-import { AdBanner } from '@/components/AdBanner';
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.slug }));
@@ -97,7 +96,7 @@ function BlockRenderer({ block }: { block: Block }) {
       const colors = {
         tip:     'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60 text-violet-800 dark:text-violet-300',
         warning: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300',
-        info:    'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/60 text-blue-800 dark:text-blue-300',
+        info:    'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60 text-violet-800 dark:text-violet-300',
       } as const;
       const kind = block.kind ?? 'info';
       return (
@@ -195,12 +194,6 @@ function BlockRenderer({ block }: { block: Block }) {
         </div>
       );
     }
-    case 'ad':
-      return (
-        <div className="my-8">
-          <AdBanner />
-        </div>
-      );
     default:
       return null;
   }
@@ -382,9 +375,6 @@ export default async function BlogPostPage({
                   </svg>
                 </Link>
               </div>
-
-              {/* Sidebar ad */}
-              <AdBanner />
 
               {/* All blog posts mini-list */}
               <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5">

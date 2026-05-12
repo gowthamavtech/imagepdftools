@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useRef } from 'react';
 import { DropZone } from './DropZone';
@@ -226,7 +226,7 @@ export function PdfToJpgUI() {
               <input
                 type="range" min={30} max={100} step={1} value={quality}
                 onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full h-2 rounded-full accent-blue-500 cursor-pointer"
+                className="w-full h-2 rounded-full accent-violet-500 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-500 mt-1.5 mb-3">
                 <span>Smaller file</span>
@@ -237,7 +237,7 @@ export function PdfToJpgUI() {
                   <button key={p.label} onClick={() => setQuality(p.value)}
                     className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                       quality === p.value
-                        ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                        ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
                         : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400'
                     }`}>
                     {p.label}
@@ -256,7 +256,7 @@ export function PdfToJpgUI() {
               </div>
               <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-linear-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-300"
+                  className="h-full bg-linear-to-r from-violet-500 to-violet-400 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -295,7 +295,7 @@ export function PdfToJpgUI() {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={() => downloadOne(results[0], `${baseName}-page-1.jpg`)}
-                    className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
+                    className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
                   >
                     <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -304,7 +304,7 @@ export function PdfToJpgUI() {
                   </button>
                   <button
                     onClick={() => window.open(results[0].url, '_blank')}
-                    className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 dark:hover:bg-blue-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
+                    className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
                   >
                     <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
@@ -334,7 +334,7 @@ export function PdfToJpgUI() {
                           <div className="flex items-center gap-1 shrink-0">
                             <button
                               onClick={() => window.open(r.url, '_blank')}
-                              className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-blue-950/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 transition-colors"
+                              className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 transition-colors"
                               title="View"
                             >
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -344,7 +344,7 @@ export function PdfToJpgUI() {
                             </button>
                             <button
                               onClick={() => downloadOne(r, `${baseName}-page-${r.pageNum}.jpg`)}
-                              className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-semibold px-2 py-1 rounded-md transition-colors"
+                              className="inline-flex items-center gap-1 bg-violet-600 hover:bg-violet-700 text-white text-[10px] font-semibold px-2 py-1 rounded-md transition-colors"
                             >
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -359,7 +359,7 @@ export function PdfToJpgUI() {
 
                   <button
                     onClick={downloadAll}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -376,7 +376,7 @@ export function PdfToJpgUI() {
             <button
               onClick={convert}
               disabled={isWorking || pageCount === 0}
-              className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
             >
               {isWorking ? (
                 <>

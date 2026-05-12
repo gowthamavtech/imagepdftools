@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { PdfToJpgUI } from '@/components/PdfToJpgUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -49,15 +49,15 @@ export default function PdfToJpgPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-6 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+        <div className="max-w-5xl mx-auto px-4 pt-12 sm:pt-18 pb-6 text-center">
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             No upload &middot; 100% Private &middot; Instant
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
             PDF to{' '}
-            <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
               JPG
             </span>
           </h1>
@@ -67,7 +67,7 @@ export default function PdfToJpgPage() {
 
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {['Every page → JPG', 'Adjustable quality', 'Download as ZIP', 'No upload needed'].map((f) => (
-              <span key={f} className="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">{f}</span>
+              <span key={f} className="text-xs bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 px-3 py-1 rounded-full">{f}</span>
             ))}
           </div>
 
@@ -75,7 +75,7 @@ export default function PdfToJpgPage() {
         </div>
 
         {/* Content */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-4">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-6">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -90,7 +90,7 @@ export default function PdfToJpgPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Social media.</strong> Share a report, certificate, or infographic as an image post — platforms like Instagram and Twitter don't accept PDFs.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Thumbnails and previews.</strong> Generate a cover image from the first page of a document for a blog post or download page.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Presentations.</strong> Import specific PDF pages into PowerPoint, Keynote, or Google Slides as image slides.</li>

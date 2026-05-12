@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 
@@ -321,8 +321,8 @@ export function DropZone({
         pasteFlash
           ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 shadow-xl shadow-emerald-500/20'
           : isDragging
-          ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/30 shadow-2xl shadow-blue-500/25 scale-[1.01]'
-          : 'border-slate-200 dark:border-slate-700/60 bg-white dark:bg-transparent hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 hover:bg-blue-50/30 dark:hover:bg-blue-500/5'
+          ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 shadow-2xl shadow-violet-500/25 scale-[1.01]'
+          : 'border-slate-200 dark:border-slate-700/60 bg-white dark:bg-transparent hover:border-violet-400 dark:hover:border-violet-500 hover:shadow-xl hover:shadow-violet-500/10 hover:bg-violet-50/30 dark:hover:bg-violet-500/5'
       }`}
     >
       {/* Radial gradient background */}
@@ -353,13 +353,13 @@ export function DropZone({
 
         {/* Icon with glow ring */}
         <div className="relative">
-          <div className={`absolute -inset-4 rounded-full blur-2xl bg-blue-500/25 transition-opacity duration-500 ${
+          <div className={`absolute -inset-4 rounded-full blur-2xl bg-violet-500/25 transition-opacity duration-500 ${
             isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-70'
           }`} />
-          <div className={`relative w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-300 bg-linear-to-br from-blue-500 via-blue-600 to-violet-600 ${
+          <div className={`relative w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-300 bg-linear-to-br from-violet-500 via-violet-600 to-violet-600 ${
             isDragging
-              ? 'scale-110 shadow-2xl shadow-blue-600/50'
-              : 'shadow-xl shadow-blue-500/35 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-blue-500/45'
+              ? 'scale-110 shadow-2xl shadow-violet-600/50'
+              : 'shadow-xl shadow-violet-500/35 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-violet-500/45'
           }`}>
             <svg
               className={`w-10 h-10 text-white transition-transform duration-300 ${
@@ -377,7 +377,7 @@ export function DropZone({
         {/* Heading + subtext */}
         <div className="space-y-2">
           <p className={`text-2xl font-bold tracking-tight transition-colors duration-200 ${
-            isDragging ? 'text-blue-600 dark:text-blue-400' : 'text-slate-900 dark:text-white'
+            isDragging ? 'text-violet-600 dark:text-violet-400' : 'text-slate-900 dark:text-white'
           }`}>
             {isDragging ? 'Release to upload' : label}
           </p>
@@ -392,7 +392,7 @@ export function DropZone({
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+              className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
             >
               {browseLabel}
               <svg className="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

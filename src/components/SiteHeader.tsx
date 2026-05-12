@@ -60,7 +60,7 @@ function AuthSection() {
   if (isSignedIn) {
     return (
       <div className="flex items-center gap-2">
-        <Link href="/account" className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-blue-900/30 transition-colors">
+        <Link href="/account" className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors">
           Account
         </Link>
         <UserButton />
@@ -70,7 +70,7 @@ function AuthSection() {
   return (
     <Show when="signed-out">
       <SignInButton mode="modal">
-        <button className="text-sm bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-4 py-2 rounded-full font-medium transition-all shadow-sm shadow-blue-900/40">
+        <button className="text-sm bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white px-4 py-2 rounded-full font-medium transition-all shadow-sm shadow-violet-900/40">
           Sign In
         </button>
       </SignInButton>
@@ -84,8 +84,8 @@ function NavButton({ label, open, onClick }: { label: string; open: boolean; onC
       onClick={onClick}
       className={`inline-flex items-center gap-1 text-sm px-3 py-1.5 rounded-lg transition-colors ${
         open
-          ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30'
-          : 'text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-blue-900/20'
+          ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30'
+          : 'text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-violet-900/20'
       }`}
     >
       {label}
@@ -162,12 +162,12 @@ export function SiteHeader() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={closeAll}>
-          <div className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-600 to-blue-400 flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center">
             <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
             </svg>
           </div>
-          <span className="text-lg font-bold bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="text-lg font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             ImagePDF.Tools
           </span>
         </Link>
@@ -199,7 +199,7 @@ export function SiteHeader() {
             />
           </div>
 
-          <Link href="/privacy" className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors">
+          <Link href="/privacy" className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors">
             Privacy
           </Link>
 
@@ -226,7 +226,7 @@ export function SiteHeader() {
                         key={item.href}
                         href={item.href}
                         onClick={closeAll}
-                        className="flex flex-col px-2 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
+                        className="flex flex-col px-2 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors group"
                       >
                         <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-tight">
                           {item.label}
@@ -256,7 +256,7 @@ export function SiteHeader() {
                     key={item.href}
                     href={item.href}
                     onClick={closeAll}
-                    className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors group"
+                    className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors group"
                   >
                     <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                       {item.label}
@@ -275,7 +275,7 @@ export function SiteHeader() {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
-            className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-blue-900/20 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors"
           >
             {menuOpen ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

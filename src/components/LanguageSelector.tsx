@@ -164,8 +164,8 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
                 onClick={() => { setOpen(false); switchLanguage(lang); }}
                 className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-colors text-left ${
                   current.code === lang.code
-                    ? 'bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300 font-semibold'
-                    : 'text-slate-700 dark:text-slate-300 hover:bg-violet-50 dark:hover:bg-blue-900/30 hover:text-violet-700 dark:hover:text-violet-300'
+                    ? 'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300 font-semibold'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-violet-50 dark:hover:bg-violet-900/30 hover:text-violet-700 dark:hover:text-violet-300'
                 }`}
               >
                 <Flag iso={lang.iso} label={lang.label} />

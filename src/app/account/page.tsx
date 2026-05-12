@@ -73,7 +73,7 @@ export default async function AccountPage() {
             </form>
           </div>
         ) : (
-          <div className="bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6">
+          <div className="bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6">
             <h2 className="text-sm font-semibold text-violet-700 dark:text-violet-400 uppercase tracking-wide mb-2">
               Upgrade to Pro
             </h2>

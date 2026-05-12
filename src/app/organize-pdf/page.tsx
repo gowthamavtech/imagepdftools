@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { OrganizePdfUI } from '@/components/OrganizePdfUI';
 
 export const metadata: Metadata = {
@@ -59,12 +59,12 @@ export default function OrganizePdfPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="max-w-4xl mx-auto px-4 text-center mb-10">
-        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
           Free &middot; No Upload &middot; Private
         </span>
         <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
           Organize{' '}
-          <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
             PDF Pages
           </span>
         </h1>
@@ -75,7 +75,7 @@ export default function OrganizePdfPage() {
         <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 mb-8">
           {['Drag-and-drop UI', 'Delete any page', 'No quality loss', 'Runs in browser'].map((f) => (
             <span key={f} className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
               {f}
             </span>
           ))}

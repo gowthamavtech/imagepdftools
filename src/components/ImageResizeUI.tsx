@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { NextActions } from './NextActions';
@@ -304,7 +304,7 @@ export function ImageResizeUI() {
 
         {/* Handoff source pill */}
         {sourceLabel && (
-          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
+          <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
             <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -413,7 +413,7 @@ export function ImageResizeUI() {
                 onClick={() => { setTab(t.value); setResult(null); setError(null); }}
                 className={`py-3 text-xs font-semibold transition-colors border-b-2 ${
                   tab === t.value
-                    ? 'border-violet-600 text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/20'
+                    ? 'border-violet-600 text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/20'
                     : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
                 }`}
               >
@@ -458,12 +458,12 @@ export function ImageResizeUI() {
                 <div className="space-y-3">
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={maintainRatio} onChange={(e) => setMaintainRatio(e.target.checked)}
-                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
+                      className="w-4 h-4 rounded accent-violet-500 cursor-pointer" />
                     <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">Maintain aspect ratio</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={noEnlarge} onChange={(e) => setNoEnlarge(e.target.checked)}
-                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
+                      className="w-4 h-4 rounded accent-violet-500 cursor-pointer" />
                     <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">Do not enlarge if smaller</span>
                   </label>
                 </div>
@@ -555,13 +555,13 @@ export function ImageResizeUI() {
                   <label className="flex items-center justify-between gap-3 px-3 py-2.5 cursor-pointer bg-slate-50 dark:bg-slate-700/50">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Background Fill</span>
                     <input type="checkbox" checked={bgFill} onChange={(e) => setBgFill(e.target.checked)}
-                      className="w-4 h-4 rounded accent-blue-500 cursor-pointer" />
+                      className="w-4 h-4 rounded accent-violet-500 cursor-pointer" />
                   </label>
                   {bgFill && (
                     <div className="px-3 py-3 space-y-2 border-t border-slate-200 dark:border-slate-600">
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="radio" checked={bgMode === 'color'} onChange={() => setBgMode('color')}
-                          className="accent-blue-500 cursor-pointer" />
+                          className="accent-violet-500 cursor-pointer" />
                         <span className="text-sm text-slate-700 dark:text-slate-300 flex-1">Pick a color</span>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-slate-500 font-mono">{bgColor}</span>
@@ -571,7 +571,7 @@ export function ImageResizeUI() {
                       </label>
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="radio" checked={bgMode === 'transparent'} onChange={() => setBgMode('transparent')}
-                          className="accent-blue-500 cursor-pointer" />
+                          className="accent-violet-500 cursor-pointer" />
                         <span className="text-sm text-slate-700 dark:text-slate-300">Transparent</span>
                         <span className="text-[10px] text-slate-500 dark:text-slate-400 ml-auto">PNG output</span>
                       </label>
@@ -591,7 +591,7 @@ export function ImageResizeUI() {
                   onClick={() => { setFitMode('contain'); setCoverX(50); setCoverY(50); setResult(null); }}
                   className={`flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-medium transition-all ${
                     fitMode === 'contain'
-                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
                       : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-gray-300'
                   }`}
                 >
@@ -607,7 +607,7 @@ export function ImageResizeUI() {
                   onClick={() => { setFitMode('cover'); setResult(null); }}
                   className={`flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-medium transition-all ${
                     fitMode === 'cover'
-                      ? 'border-violet-500 bg-violet-50 dark:bg-blue-950/30 text-violet-600 dark:text-violet-300'
+                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
                       : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-gray-300'
                   }`}
                 >
@@ -646,7 +646,7 @@ export function ImageResizeUI() {
         <button
           onClick={applyResize}
           disabled={!canResize}
-          className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+          className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
         >
           {isResizing ? (
             <>
@@ -692,7 +692,7 @@ export function ImageResizeUI() {
               </div>
               <button
                 onClick={() => { const a = document.createElement('a'); a.href = result.url; a.download = result.name; a.click(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
+                className="inline-flex items-center gap-1.5 text-xs bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold px-4 py-1.5 rounded-lg transition-all shrink-0"
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

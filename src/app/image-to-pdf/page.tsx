@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ImageToPdfUI } from '@/components/ImageToPdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -71,18 +71,18 @@ export default function ImageToPdfPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-2xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
-            Image to <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">PDF</span>
+            Image to <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">PDF</span>
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             Bundle multiple images into a single PDF file. Choose your page size, reorder images, and download — all processing stays in your browser.
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-4">
             {['Multiple images', 'A4 · Letter · Fit', 'Drag to reorder', 'JPEG · PNG · WebP', 'Free forever'].map((f) => (
-              <span key={f} className="text-xs text-violet-600 dark:text-violet-300 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-white/8 px-2.5 py-1 rounded-full">{f}</span>
+              <span key={f} className="text-xs text-violet-600 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-white/8 px-2.5 py-1 rounded-full">{f}</span>
             ))}
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function ImageToPdfPage() {
         <ImageToPdfUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -105,7 +105,7 @@ export default function ImageToPdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">When converting images to PDF is the right choice</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Sending multiple photos as one attachment.</strong> Attaching 10 separate JPEG files to an email is messy. Converting them to a single PDF means one attachment, one download, and a clear page-by-page presentation for the recipient.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Portfolio submissions.</strong> Job applications, design briefs, photography portfolios, and art school applications often require work samples as a PDF. Converting your best images to a single PDF gives a polished, professional presentation.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Document submissions to universities and government.</strong> Many official submission portals — visa applications, university enrolment, insurance claims — accept only PDF. If you have taken photos of your documents (ID, utility bills, certificates), converting them to PDF allows you to submit them through these systems.</li>
@@ -118,7 +118,7 @@ export default function ImageToPdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Choosing the right page size</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">A4 (210 × 297 mm)</strong> — the international standard. Use this for document submissions, formal correspondence, and anything intended for a European or international audience.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">US Letter (8.5 × 11 inches)</strong> — the North American standard. Use this for submissions to US and Canadian institutions, companies, and portals.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Fit to Image</strong> — the page dimensions match the image dimensions exactly. No white borders, no letterboxing. Best for photography portfolios, photo books, and cases where you want the image to fill the full page.</li>

@@ -68,7 +68,7 @@ function SortablePage({ item, displayIndex, onDelete }: SortablePageProps) {
       <div
         {...attributes}
         {...listeners}
-        className="relative w-full aspect-3/4 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden cursor-grab active:cursor-grabbing hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+        className="relative w-full aspect-3/4 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden cursor-grab active:cursor-grabbing hover:border-violet-400 dark:hover:border-violet-500 transition-colors"
       >
         {item.thumbUrl ? (
           <img src={item.thumbUrl} alt={`Page ${displayIndex}`} className="w-full h-full object-contain" />
@@ -292,7 +292,7 @@ export function OrganizePdfUI() {
           <button
             onClick={apply}
             disabled={isWorking || pages.length === 0}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
+            className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
           >
             {isWorking ? 'Building PDF…' : `Save ${pages.length}-page PDF`}
           </button>

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -71,12 +71,12 @@ export default function PngToWebpPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
             PNG to WebP{' '}
-            <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Converter</span>
+            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">Converter</span>
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             Shrink your PNG files by up to 50% by converting to WebP — with full transparency support. All processing stays in your browser.
@@ -86,7 +86,7 @@ export default function PngToWebpPage() {
         <CompressorUI initialFormat="image/webp" />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -101,7 +101,7 @@ export default function PngToWebpPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases for PNG to WebP</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Website logos and icons.</strong> PNG logos with transparent backgrounds are a perfect WebP conversion target. The transparency is preserved and the file size drops dramatically — improving Lighthouse scores.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">UI screenshots and product images.</strong> Screenshots taken as PNG (often large because of the lossless format) compress well to WebP without the blocky JPEG artefacts you would get from converting to JPEG.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Game and app assets.</strong> Mobile and web apps with sprite sheets or UI assets as PNG can reduce asset bundle size significantly by converting to WebP — directly improving load times on slower mobile connections.</li>
@@ -118,7 +118,7 @@ export default function PngToWebpPage() {
                     <tr>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Feature</th>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">PNG</th>
-                      <th className="text-left px-4 py-3 font-semibold text-blue-600 dark:text-blue-400">WebP</th>
+                      <th className="text-left px-4 py-3 font-semibold text-violet-600 dark:text-violet-400">WebP</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -132,7 +132,7 @@ export default function PngToWebpPage() {
                       <tr key={f} className="bg-white dark:bg-slate-800/40">
                         <td className="px-4 py-3 text-slate-500 dark:text-slate-400 font-medium">{f}</td>
                         <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{png}</td>
-                        <td className="px-4 py-3 text-blue-600 dark:text-blue-400 font-medium">{webp}</td>
+                        <td className="px-4 py-3 text-violet-600 dark:text-violet-400 font-medium">{webp}</td>
                       </tr>
                     ))}
                   </tbody>

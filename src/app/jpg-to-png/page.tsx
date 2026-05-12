@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -71,11 +71,11 @@ export default function JpgToPngPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
-            JPG to PNG <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Converter</span>
+            JPG to PNG <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">Converter</span>
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             Convert JPEG images to lossless PNG format in your browser. Perfect for graphics that need transparency or exact colour reproduction.
@@ -85,7 +85,7 @@ export default function JpgToPngPage() {
         <CompressorUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -100,7 +100,7 @@ export default function JpgToPngPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common reasons to convert JPG to PNG</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Creating logos and graphics with transparent backgrounds.</strong> If you have a logo or graphic as a JPEG and need to remove the background for use in design work, converting to PNG first is required — PNG is the only standard format that supports transparency for static images.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Watermarks and overlays.</strong> Adding a semi-transparent watermark to photos requires a PNG source file. The converter gives you the PNG you need to work with in your image editor.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Design composites in Photoshop, Figma, or Canva.</strong> Designers often need PNG assets to layer correctly in design tools. Converting a reference JPEG to PNG ensures it can be positioned over other elements without a white background box.</li>
@@ -118,7 +118,7 @@ export default function JpgToPngPage() {
                     <tr>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Feature</th>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">JPEG</th>
-                      <th className="text-left px-4 py-3 font-semibold text-blue-600 dark:text-blue-400">PNG</th>
+                      <th className="text-left px-4 py-3 font-semibold text-violet-600 dark:text-violet-400">PNG</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -132,7 +132,7 @@ export default function JpgToPngPage() {
                       <tr key={f} className="bg-white dark:bg-slate-800/40">
                         <td className="px-4 py-3 font-medium text-slate-600 dark:text-slate-400">{f}</td>
                         <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{j}</td>
-                        <td className="px-4 py-3 font-medium text-blue-600 dark:text-blue-400">{p}</td>
+                        <td className="px-4 py-3 font-medium text-violet-600 dark:text-violet-400">{p}</td>
                       </tr>
                     ))}
                   </tbody>

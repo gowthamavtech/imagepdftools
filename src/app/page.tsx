@@ -6,706 +6,627 @@ export const metadata: Metadata = {
   description:
     'Free private image compressor & converter online — JPEG, PNG, WebP, PDF. No-upload image tools powered by WebAssembly. Files never leave your browser. 100% secure.',
   keywords: [
-    'image compressor',
-    'compress image online',
-    'compress PDF online',
-    'free image tools',
-    'reduce image size',
-    'convert image to webp',
-    'resize image online',
-    'crop image online',
-    'png compressor',
-    'jpeg compressor',
-    'image to pdf',
-    'browser image tools',
+    'image compressor', 'compress image online', 'compress PDF online',
+    'free image tools', 'reduce image size', 'convert image to webp',
+    'resize image online', 'crop image online', 'png compressor',
+    'jpeg compressor', 'image to pdf', 'browser image tools',
   ],
   alternates: { canonical: 'https://imagepdf.tools' },
   openGraph: {
     type: 'website',
     url: 'https://imagepdf.tools',
     title: 'ImagePDF.Tools — Free Image & PDF Tools Online',
-    description:
-      'Compress, convert, crop, resize images and PDFs — all free, all in your browser. No uploads, no account, 100% private.',
+    description: 'Compress, convert, crop, resize images and PDFs — all free, all in your browser. No uploads, no account, 100% private.',
     siteName: 'ImagePDF.Tools',
-    images: [
-      {
-        url: 'https://imagepdf.tools/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'ImagePDF.Tools — Free Image & PDF Tools',
-      },
-    ],
+    images: [{ url: 'https://imagepdf.tools/og-image.png', width: 1200, height: 630, alt: 'ImagePDF.Tools' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ImagePDF.Tools — Free Image & PDF Tools Online',
-    description:
-      'Compress, convert, crop, resize images and PDFs — all free, all in your browser. No uploads required.',
+    description: 'Compress, convert, crop, resize images and PDFs — all free, all in your browser.',
     images: ['https://imagepdf.tools/og-image.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
-  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' } },
 };
 
 const jsonLd = [
   {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'ImagePDF.Tools',
-    url: 'https://imagepdf.tools',
+    '@context': 'https://schema.org', '@type': 'WebSite',
+    name: 'ImagePDF.Tools', url: 'https://imagepdf.tools',
     description: 'Free browser-based image and PDF tools. No uploads required.',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: 'https://imagepdf.tools/image-tools' },
-    },
   },
   {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'ImagePDF.Tools',
-    url: 'https://imagepdf.tools',
-    logo: 'https://imagepdf.tools/icon.svg',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      email: 'contact@imagepdf.tools',
-      contactType: 'customer support',
-    },
+    '@context': 'https://schema.org', '@type': 'Organization',
+    name: 'ImagePDF.Tools', url: 'https://imagepdf.tools',
+    logo: 'https://imagepdf.tools/icons/logo.svg',
+    contactPoint: { '@type': 'ContactPoint', email: 'contact@imagepdf.tools', contactType: 'customer support' },
   },
   {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'Free Image & PDF Tools',
-    description: 'Browser-based image and PDF tools — no uploads required.',
-    numberOfItems: 19,
-    itemListElement: [
-      { '@type': 'ListItem', position: 1,  name: 'Compress Image',    url: 'https://imagepdf.tools/compress-image' },
-      { '@type': 'ListItem', position: 2,  name: 'Compress PNG',      url: 'https://imagepdf.tools/compress-png-online' },
-      { '@type': 'ListItem', position: 3,  name: 'Compress JPEG',     url: 'https://imagepdf.tools/compress-jpeg-online' },
-      { '@type': 'ListItem', position: 4,  name: 'Reduce Image Size', url: 'https://imagepdf.tools/reduce-image-size' },
-      { '@type': 'ListItem', position: 5,  name: 'Convert to WebP',   url: 'https://imagepdf.tools/convert-image-to-webp' },
-      { '@type': 'ListItem', position: 6,  name: 'PNG to JPG',        url: 'https://imagepdf.tools/convert-png-to-jpeg' },
-      { '@type': 'ListItem', position: 7,  name: 'JPG to PNG',        url: 'https://imagepdf.tools/jpg-to-png' },
-      { '@type': 'ListItem', position: 8,  name: 'WebP to JPG',       url: 'https://imagepdf.tools/webp-to-jpg' },
-      { '@type': 'ListItem', position: 9,  name: 'JPG to WebP',       url: 'https://imagepdf.tools/jpg-to-webp' },
-      { '@type': 'ListItem', position: 10, name: 'PNG to WebP',       url: 'https://imagepdf.tools/png-to-webp' },
-      { '@type': 'ListItem', position: 11, name: 'WebP to PNG',       url: 'https://imagepdf.tools/webp-to-png' },
-      { '@type': 'ListItem', position: 12, name: 'Crop Image',        url: 'https://imagepdf.tools/crop-image' },
-      { '@type': 'ListItem', position: 13, name: 'Resize Image',      url: 'https://imagepdf.tools/resize-image' },
-      { '@type': 'ListItem', position: 14, name: 'Flip Image',        url: 'https://imagepdf.tools/flip-image' },
-      { '@type': 'ListItem', position: 15, name: 'Rotate Image',      url: 'https://imagepdf.tools/rotate-image' },
-      { '@type': 'ListItem', position: 16, name: 'Remove Metadata',   url: 'https://imagepdf.tools/remove-metadata' },
-      { '@type': 'ListItem', position: 17, name: 'Metadata Editor',   url: 'https://imagepdf.tools/metadata-editor' },
-      { '@type': 'ListItem', position: 18, name: 'Compress PDF',      url: 'https://imagepdf.tools/compress-pdf' },
-      { '@type': 'ListItem', position: 19, name: 'Image to PDF',      url: 'https://imagepdf.tools/image-to-pdf' },
-    ],
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Are these image and PDF tools really free?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. All core tools — compress, convert, crop, resize, flip, rotate, and remove metadata — are permanently free with no account required. A Pro plan unlocks batch export and an ad-free experience.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Do you upload my images or PDFs to a server?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No. Every tool runs entirely inside your browser using WebAssembly and the Canvas API. Your files never leave your device — no server ever sees them.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Which image formats are supported?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'ImagePDF.Tools supports JPEG, PNG, WebP, and SVG for compression. Conversion tools cover JPEG ↔ PNG ↔ WebP. PDF tools support standard PDF files and JPEG/PNG/WebP input for Image to PDF.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How much can I compress an image?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Compression results vary by image and format. JPEG and WebP can typically be reduced by 60–80% at quality 80. PNG uses pngquant lossy quantisation for 40–70% reduction. You can fine-tune the quality slider to balance file size and visual quality.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Does this work on mobile?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. All tools work on mobile browsers — Chrome, Safari, Firefox, and Edge on iOS and Android. No app download is needed.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Is there a file size limit?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Free users can process files up to 25 MB each. Pro users can handle files up to 100 MB. Since all processing happens in your browser, the practical limit depends on your device\'s available memory.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Why should I use WebP instead of JPEG or PNG?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'WebP offers 25–35% smaller file sizes than JPEG at the same visual quality, and supports both lossy and lossless compression plus transparency. All modern browsers support WebP, making it the best format for web images in 2025.',
-        },
-      },
+      { '@type': 'Question', name: 'Are these tools really free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. All core tools are permanently free with no account required.' } },
+      { '@type': 'Question', name: 'Do you upload my files to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Every tool runs entirely inside your browser using WebAssembly and the Canvas API.' } },
     ],
   },
 ];
 
-const IMAGE_GROUPS = [
+const TOOLS = [
   {
-    label: 'Compress',
-    color: 'text-violet-600 dark:text-violet-400',
-    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
-    iconColor: 'text-violet-600 dark:text-violet-400',
-    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
-    hoverShadow: 'hover:shadow-violet-100 dark:hover:shadow-violet-900/20',
-    tools: [
-      {
-        href: '/compress-image', label: 'Image Compressor',
-        desc: 'Compress PNG, JPG, and WebP images up to 80% smaller. Your files never leave your device.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/compress-png-online', label: 'PNG Compressor',
-        desc: 'Reduce PNG file size with lossy quantisation — up to 70% smaller, fully in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/compress-jpeg-online', label: 'JPEG Compressor',
-        desc: 'Shrink JPEG files with fine-grained quality control. Fast, private, free — nothing uploaded.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/reduce-image-size', label: 'Reduce Image Size',
-        desc: 'Reduce any image format to a target file size — JPEG, PNG, WebP, or SVG.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />,
-      },
+    category: 'Compress',
+    color: '#9D95F5',
+    bg: 'rgba(157,149,245,0.1)',
+    items: [
+      { href: '/compress-image',       label: 'Image Compressor',  desc: 'JPEG · PNG · WebP — up to 80% smaller' },
+      { href: '/compress-png-online',  label: 'PNG Compressor',    desc: 'Lossy quantisation, 40–70% reduction' },
+      { href: '/compress-jpeg-online', label: 'JPEG Compressor',   desc: 'Fine-grained quality control, instant' },
+      { href: '/reduce-image-size',    label: 'Reduce Image Size', desc: 'Target file size across any format' },
+      { href: '/compress-pdf',         label: 'Compress PDF',      desc: 'Ghostscript WASM — no quality loss' },
     ],
   },
   {
-    label: 'Convert',
-    color: 'text-blue-600 dark:text-blue-400',
-    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-    iconColor: 'text-blue-600 dark:text-blue-400',
-    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
-    hoverShadow: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/20',
-    tools: [
-      {
-        href: '/convert-image-to-webp', label: 'Convert to WebP',
-        desc: 'Convert JPEG, PNG, or any image to WebP — the modern format with smaller file sizes.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/convert-png-to-jpeg', label: 'PNG to JPG',
-        desc: 'Convert PNG images to JPEG format instantly — right in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/jpg-to-png', label: 'JPG to PNG',
-        desc: 'Convert JPEG to lossless PNG with transparency support — no quality loss.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/webp-to-jpg', label: 'WebP to JPG',
-        desc: 'Convert WebP images to JPEG for maximum compatibility — all in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/jpg-to-webp', label: 'JPG to WebP',
-        desc: 'Convert JPEG to modern WebP — up to 35% smaller at the same visual quality.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/png-to-webp', label: 'PNG to WebP',
-        desc: 'Shrink PNG files by up to 50% converting to WebP — transparency preserved.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/webp-to-png', label: 'WebP to PNG',
-        desc: 'Convert WebP to lossless PNG — full quality, transparency, universal compatibility.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/convert/svg-to-png', label: 'SVG to PNG',
-        desc: 'Rasterise SVG to a fixed-size PNG — perfect for apps, emails, and platforms that need a bitmap.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/convert/svg-to-jpg', label: 'SVG to JPG',
-        desc: 'Convert SVG to JPEG for documents, emails, or platforms that require a standard photo format.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/convert/svg-to-webp', label: 'SVG to WebP',
-        desc: 'Convert SVG to modern WebP — smaller than PNG, great for web use with broad browser support.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
+    category: 'Convert',
+    color: '#60a5fa',
+    bg: 'rgba(96,165,250,0.1)',
+    items: [
+      { href: '/convert-image-to-webp', label: 'Any → WebP',    desc: 'Modern format, 35% smaller than JPEG' },
+      { href: '/convert-png-to-jpeg',   label: 'PNG → JPG',     desc: 'Universal compatibility, small size' },
+      { href: '/jpg-to-png',            label: 'JPG → PNG',     desc: 'Lossless with transparency support' },
+      { href: '/webp-to-jpg',           label: 'WebP → JPG',    desc: 'Broad device compatibility' },
+      { href: '/convert/svg-to-png',    label: 'SVG → PNG',     desc: 'Rasterise at any resolution' },
     ],
   },
   {
-    label: 'Edit',
-    color: 'text-emerald-600 dark:text-emerald-400',
-    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
-    iconColor: 'text-emerald-600 dark:text-emerald-400',
-    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
-    hoverShadow: 'hover:shadow-emerald-100 dark:hover:shadow-emerald-900/20',
-    tools: [
-      {
-        href: '/resize-image', label: 'Image Resizer',
-        desc: 'Resize images to exact dimensions or percentages — right in your browser. Maintain aspect ratio or set custom size.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />,
-      },
-      {
-        href: '/crop-image', label: 'Image Cropper',
-        desc: 'Crop images to any size — right in your browser. Drag to select the area you want, or choose a preset aspect ratio.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />,
-      },
-      {
-        href: '/flip-image', label: 'Flip Image',
-        desc: 'Mirror your image horizontally or vertically in one click — browser-based, instant.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.657 48.657 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />,
-      },
-      {
-        href: '/rotate-image', label: 'Rotate Image',
-        desc: 'Rotate 90°, 180°, 270°, or any custom angle — fix EXIF orientation issues instantly.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />,
-      },
-      {
-        href: '/remove-metadata', label: 'Remove Metadata',
-        desc: 'Strip EXIF GPS location, camera data, and private info from images before sharing.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z M6 6h.008v.008H6V6z" />,
-      },
-      {
-        href: '/metadata-editor', label: 'Metadata Editor',
-        desc: 'View and edit EXIF metadata in your images — camera settings, GPS, timestamps and more.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />,
-      },
+    category: 'Edit',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.1)',
+    items: [
+      { href: '/crop-image',      label: 'Crop Image',       desc: 'Free crop or aspect ratio presets' },
+      { href: '/resize-image',    label: 'Resize Image',     desc: 'Exact px or percentage scale' },
+      { href: '/rotate-image',    label: 'Rotate Image',     desc: 'Any angle, fix EXIF orientation' },
+      { href: '/remove-metadata', label: 'Remove Metadata',  desc: 'Strip GPS & camera data before sharing' },
+      { href: '/metadata-editor', label: 'Metadata Editor',  desc: 'View and edit full EXIF data' },
     ],
   },
-];
-
-const PDF_TOOLS = [
   {
-    href: '/compress-pdf', label: 'Compress PDF',
-    desc: 'Shrink PDF file size without quality loss — fully processed in your browser, nothing uploaded.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />,
-  },
-  {
-    href: '/image-to-pdf', label: 'Image to PDF',
-    desc: 'Bundle multiple JPEG, PNG, or WebP images into a single PDF — right in your browser.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-  },
-];
-
-const FEATURES = [
-  {
-    icon: '🔒',
-    title: 'Zero Uploads',
-    desc: 'Every tool runs entirely inside your browser tab. Your files never leave your device — no server ever sees them.',
-  },
-  {
-    icon: '⚡',
-    title: 'Instant Processing',
-    desc: 'Compression happens on your CPU using WebAssembly and the Canvas API. No waiting for a server response.',
-  },
-  {
-    icon: '🆓',
-    title: 'Free Forever',
-    desc: 'Core tools are permanently free with no account required. Pro unlocks batch export and ad-free experience.',
-  },
-  {
-    icon: '📱',
-    title: 'Works Everywhere',
-    desc: 'All tools work on desktop and mobile — Chrome, Safari, Firefox, Edge. No app download needed.',
-  },
-];
-
-const HOW_IT_WORKS = [
-  {
-    step: '1',
-    title: 'Upload Your File',
-    desc: 'Drag and drop your image or PDF onto the tool, or click to browse. Files are loaded directly into your browser memory — nothing is sent to any server at any point.',
-    color: 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400',
-  },
-  {
-    step: '2',
-    title: 'Adjust Settings',
-    desc: 'Choose your quality level, output format, or target file size. Every tool shows a live preview so you can see exactly what you\'ll get before downloading.',
-    color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
-  },
-  {
-    step: '3',
-    title: 'Download Instantly',
-    desc: 'Hit the button and your file downloads immediately. No email required, no account, no waiting. The processed file goes straight from your browser to your downloads folder.',
-    color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
-  },
-];
-
-const USE_CASES = [
-  {
-    title: 'Web Developers',
-    desc: 'Optimise images before deploying to production. Compress JPEG and PNG assets to improve Core Web Vitals, reduce bandwidth costs, and speed up page load times without writing a single line of code.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />,
-  },
-  {
-    title: 'Bloggers & Content Creators',
-    desc: 'Shrink images before uploading to WordPress, Webflow, or any CMS. Smaller images mean faster blogs and better SEO rankings. Convert to WebP for modern browser compatibility.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />,
-  },
-  {
-    title: 'E-commerce Sellers',
-    desc: 'Product images compressed to a fraction of their original size load faster, reduce bounce rate, and keep your shop running at peak speed. Batch compress your entire catalogue without installing software.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />,
-  },
-  {
-    title: 'Designers & Photographers',
-    desc: 'Export compressed versions of high-res photos for email, social media, or client delivery. Strip EXIF metadata before sharing to protect location data and camera information.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />,
+    category: 'PDF',
+    color: '#fb923c',
+    bg: 'rgba(251,146,60,0.1)',
+    items: [
+      { href: '/image-to-pdf', label: 'Image → PDF', desc: 'Bundle images into a single PDF' },
+      { href: '/merge-pdf',    label: 'Merge PDF',   desc: 'Combine multiple PDFs into one' },
+      { href: '/split-pdf',    label: 'Split PDF',   desc: 'Extract pages or split by range' },
+    ],
   },
 ];
 
 const FAQS = [
-  {
-    q: 'Are these image and PDF tools really free?',
-    a: 'Yes. All core tools — compress, convert, crop, resize, flip, rotate, and remove metadata — are permanently free with no account required. A Pro plan unlocks batch export and an ad-free experience.',
-  },
-  {
-    q: 'Do you upload my images or PDFs to a server?',
-    a: 'No. Every tool runs entirely inside your browser using WebAssembly and the Canvas API. Your files never leave your device — no server ever sees them.',
-  },
-  {
-    q: 'Which image formats are supported?',
-    a: 'JPEG, PNG, WebP, and SVG for compression. Conversion tools cover JPEG ↔ PNG ↔ WebP. PDF tools support standard PDFs and JPEG/PNG/WebP input for Image to PDF.',
-  },
-  {
-    q: 'How much can I compress an image?',
-    a: 'JPEG and WebP typically reduce by 60–80% at quality 80. PNG uses pngquant lossy quantisation for 40–70% reduction. You can fine-tune the quality slider to balance size and quality.',
-  },
-  {
-    q: 'Does this work on mobile?',
-    a: 'Yes. All tools work on mobile browsers — Chrome, Safari, Firefox, and Edge on iOS and Android. No app download is needed.',
-  },
-  {
-    q: 'Is there a file size limit?',
-    a: 'Free users can process files up to 25 MB each. Pro users can handle files up to 100 MB. Since all processing happens in your browser, the practical limit depends on your device\'s available memory.',
-  },
-  {
-    q: 'Will compressing reduce the visual quality of my image?',
-    a: 'At quality settings above 75, compression is nearly invisible to the naked eye. The quality slider lets you find the right balance — most users settle between 75 and 85 for an ideal size-to-quality trade-off.',
-  },
-  {
-    q: 'How do I compress a PDF without losing quality?',
-    a: 'Open the Compress PDF tool, drop in your PDF, and click Compress. The tool uses Ghostscript compiled to WebAssembly to reduce file size while preserving text sharpness and image quality at the default settings.',
-  },
-  {
-    q: 'Can I convert PNG to JPG without losing transparency?',
-    a: 'JPEG does not support transparency — converting a PNG with a transparent background to JPG will fill the transparent areas with white. To keep transparency, convert to WebP or PNG instead.',
-  },
-  {
-    q: 'Why should I use WebP instead of JPEG or PNG?',
-    a: 'WebP offers 25–35% smaller file sizes than JPEG at the same visual quality, and supports both lossy and lossless compression plus transparency. All modern browsers support WebP, making it the best format for web images in 2025.',
-  },
+  { q: 'Are these tools really free?', a: 'Yes. All core tools — compress, convert, crop, resize, flip, rotate, remove metadata — are permanently free with no account required.' },
+  { q: 'Do you upload my images or PDFs to a server?', a: 'No. Every tool runs entirely inside your browser using WebAssembly and the Canvas API. Your files never leave your device.' },
+  { q: 'Which formats are supported?', a: 'JPEG, PNG, WebP, and SVG for image tools. PDF tools support standard PDFs and JPEG/PNG/WebP input for Image to PDF.' },
+  { q: 'How much can I compress an image?', a: 'JPEG and WebP typically reduce 60–80% at quality 80. PNG uses pngquant lossy quantisation for 40–70% reduction.' },
+  { q: 'Does this work on mobile?', a: 'Yes. All tools work on iOS and Android in Chrome, Safari, Firefox, and Edge. No app download needed.' },
+  { q: 'Why use WebP instead of JPEG?', a: 'WebP offers 25–35% smaller file sizes at the same visual quality, with support for transparency. All modern browsers support it.' },
 ];
 
 export default function HomePage() {
   return (
     <>
       {jsonLd.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
       <main className="flex-1">
 
-        {/* ── Hero ── */}
-        <section className="max-w-5xl mx-auto px-4 pt-14 sm:pt-20 pb-14 text-center">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            No upload &middot; 100% private &middot; Always free
-          </div>
+          {/* ── 1. HERO ─────────────────────────────────────────────────────── */}
+          <section className="relative overflow-hidden bg-[#F7F6F3] dark:bg-[#08080F] px-4 pt-16 pb-0">
+            {/* Subtle top-right glow for dark mode */}
+            <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none dark:opacity-100 opacity-0" style={{ background: 'radial-gradient(ellipse at top right, rgba(157,149,245,0.15) 0%, transparent 65%)' }} />
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
-            Compress Images &amp; PDFs Online
-            <span className="block text-3xl sm:text-4xl md:text-5xl mt-2 bg-linear-to-r from-violet-600 via-blue-500 to-blue-400 bg-clip-text text-transparent">
-              Free · Instant · No Upload Needed
-            </span>
-          </h1>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-6 items-end">
 
-          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-6 leading-relaxed">
-            The fastest way to compress JPEG, PNG, and WebP images online — reduce file size by up to 90% without losing quality.
-            Also compress PDFs, convert image formats, crop, resize, rotate, and remove metadata.
-            Everything runs in your browser. Nothing is ever uploaded.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-            <Link
-              href="/compress-image"
-              className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl transition-all shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
-              </svg>
-              Compress Image Free
-            </Link>
-            <Link
-              href="/compress-pdf"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-sm px-7 py-3 rounded-xl transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Compress PDF Free
-            </Link>
-          </div>
-
-          {/* ── Privacy Trust Bar ── */}
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex items-center gap-4 bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/50 rounded-2xl px-5 py-3.5 shadow-sm shadow-slate-200/60 dark:shadow-black/20">
-              {/* Laptop + shield badge icon */}
-              <div className="relative shrink-0">
-                <svg className="w-9 h-9 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3" />
-                </svg>
-                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-800 flex items-center justify-center">
-                  <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                </div>
-              </div>
-              {/* Copy */}
-              <div className="text-left">
-                <p className="text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider leading-none mb-1">
-                  Zero-Server Processing
-                </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
-                  Files processed locally via <span className="font-semibold text-slate-700 dark:text-slate-300">WebAssembly</span> — no data ever touches our servers.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="flex justify-center gap-8 sm:gap-14">
-            {[
-              { value: '20+',  label: 'Free Tools' },
-              { value: '100%', label: 'Private' },
-              { value: '0',    label: 'Uploads Ever' },
-            ].map(({ value, label }) => (
-              <div key={label} className="text-center">
-                <div className="text-2xl font-bold text-violet-500 dark:text-violet-400">{value}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── How It Works ── */}
-        <section className="border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/30" aria-label="How it works">
-          <div className="max-w-5xl mx-auto px-4 py-14">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">How It Works</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10 max-w-xl mx-auto">
-              Every tool on ImagePDF.Tools follows the same three-step workflow — no account, no upload, no waiting.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {HOW_IT_WORKS.map((step) => (
-                <div key={step.step} className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 flex flex-col gap-3">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-extrabold shrink-0 ${step.color}`}>
-                    {step.step}
+                {/* Left — text */}
+                <div className="pb-16 lg:pb-24 pt-8">
+                  {/* Badge */}
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-9" style={{ border: '1px solid rgba(157,149,245,0.35)', background: 'rgba(157,149,245,0.08)', color: '#9D95F5' }}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#9D95F5] animate-pulse" />
+                    100% private · No uploads · Free forever
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{step.title}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* ── Image Tools ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Image tools">
-          <div className="flex items-start justify-between gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Image Tools</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress, convert, and edit — all in your browser</p>
-            </div>
-            <Link href="/image-tools" className="shrink-0 text-xs font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-lg transition-colors">
-              View all →
-            </Link>
-          </div>
+                  {/* Headline */}
+                  <h1
+                    className="leading-[1.0] tracking-tight mb-7 text-slate-900 dark:text-white"
+                    style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(3.2rem, 7vw, 6rem)' }}
+                  >
+                    <span className="block">Your files.</span>
+                    <span className="block">Your device.</span>
+                    <span className="block" style={{ color: '#9D95F5' }}>Your rules.</span>
+                  </h1>
 
-          <div className="space-y-8">
-            {IMAGE_GROUPS.map((group) => (
-              <div key={group.label}>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className={`text-[10px] font-bold uppercase tracking-widest ${group.color}`}>{group.label}</span>
-                  <div className="flex-1 h-px bg-slate-100 dark:bg-slate-800" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {group.tools.map((tool) => (
+                  {/* Subline */}
+                  <p className="text-base sm:text-lg leading-relaxed mb-10 text-slate-500 dark:text-slate-400 max-w-md">
+                    20+ professional image &amp; PDF tools — all running privately inside your browser. No servers. No sign-up. No waiting.
+                  </p>
+
+                  {/* CTAs */}
+                  <div className="flex flex-wrap items-center gap-3 mb-10">
                     <Link
-                      key={tool.href}
-                      href={tool.href}
-                      className={`group flex items-start gap-4 p-5 bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${group.hoverBorder}`}
+                      href="/compress-image"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-white px-6 py-3 rounded-xl transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95"
+                      style={{ background: '#9D95F5', boxShadow: '0 4px 20px rgba(157,149,245,0.4)' }}
                     >
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${group.iconBg}`}>
-                        <svg className={`w-5 h-5 ${group.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                          {tool.icon}
-                        </svg>
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-bold text-slate-900 dark:text-slate-50 leading-snug mb-1">
-                          {tool.label}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
-                          {tool.desc}
-                        </p>
-                      </div>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
+                      </svg>
+                      Explore all tools
                     </Link>
-                  ))}
+                    <Link
+                      href="/how-it-works"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 px-6 py-3 rounded-xl transition-all hover:bg-slate-200/60 dark:hover:bg-white/8"
+                      style={{ border: '1px solid rgba(0,0,0,0.1)', background: 'rgba(0,0,0,0.04)' }}
+                    >
+                      How it works
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                      </svg>
+                    </Link>
+                  </div>
+
+                  {/* Trust badges */}
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { icon: '🔒', label: 'No upload ever' },
+                      { icon: '⚡', label: 'Works offline' },
+                      { icon: '🆓', label: 'No account needed' },
+                      { icon: '📱', label: 'Mobile friendly' },
+                    ].map(({ icon, label }) => (
+                      <span key={label} className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-full" style={{ border: '1px solid rgba(0,0,0,0.08)', background: 'rgba(255,255,255,0.7)' }}>
+                        <span>{icon}</span>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right — product mockup */}
+                <div className="relative flex items-end justify-center lg:justify-end pb-0">
+                  {/* Glow under card */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-20 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, rgba(157,149,245,0.25) 0%, transparent 70%)' }} />
+
+                  {/* Browser frame */}
+                  <div className="relative w-full max-w-lg rounded-t-2xl overflow-hidden shadow-2xl" style={{ border: '1px solid rgba(0,0,0,0.10)', borderBottom: 'none', background: '#fff' }}>
+                    {/* Browser chrome */}
+                    <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style={{ background: '#F0EFEC' }}>
+                      <div className="flex gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+                      </div>
+                      <div className="flex-1 bg-white rounded-md px-3 py-1 text-[11px] text-slate-400 border border-slate-200 flex items-center gap-2">
+                        <svg className="w-2.5 h-2.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                        imagepdf.tools/compress-image
+                      </div>
+                    </div>
+
+                    {/* App UI */}
+                    <div className="p-5 space-y-4" style={{ background: '#FAFAF8' }}>
+                      {/* Drop zone */}
+                      <div className="rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center" style={{ border: '2px dashed rgba(157,149,245,0.35)', background: 'rgba(157,149,245,0.04)' }}>
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(157,149,245,0.12)' }}>
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} style={{ color: '#9D95F5' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-700">Drop your image here</p>
+                          <p className="text-xs text-slate-400 mt-0.5">JPEG · PNG · WebP · SVG</p>
+                        </div>
+                        <button className="text-xs font-semibold text-white px-4 py-1.5 rounded-lg" style={{ background: '#9D95F5' }}>
+                          Browse files
+                        </button>
+                      </div>
+
+                      {/* Result cards */}
+                      <div className="space-y-2">
+                        {[
+                          { name: 'hero-photo.jpg', from: '3.2 MB', to: '0.6 MB', pct: '81%', done: true },
+                          { name: 'product-shot.png', from: '1.8 MB', to: '0.4 MB', pct: '78%', done: true },
+                          { name: 'banner.jpeg', from: '5.1 MB', to: '1.1 MB', pct: '79%', done: false },
+                        ].map((f) => (
+                          <div key={f.name} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white border border-slate-100 shadow-sm">
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: f.done ? 'rgba(52,211,153,0.12)' : 'rgba(157,149,245,0.10)' }}>
+                              {f.done ? (
+                                <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                              ) : (
+                                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: '#9D95F5' }}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-semibold text-slate-700 truncate">{f.name}</p>
+                              <p className="text-[11px] text-slate-400 mt-0.5">
+                                {f.from} → <span className="text-emerald-600 font-medium">{f.to}</span>
+                                {f.done && <span className="ml-1 text-emerald-500 font-semibold">{f.pct} smaller</span>}
+                              </p>
+                            </div>
+                            {f.done && (
+                              <button className="text-[11px] font-semibold px-2.5 py-1 rounded-lg shrink-0" style={{ background: 'rgba(157,149,245,0.12)', color: '#9D95F5' }}>
+                                ↓ Save
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Quality slider mock */}
+                      <div className="flex items-center gap-3 px-1">
+                        <span className="text-[11px] text-slate-400 font-medium w-14 shrink-0">Quality</span>
+                        <div className="flex-1 relative h-1.5 rounded-full bg-slate-200">
+                          <div className="absolute left-0 top-0 h-full rounded-full w-4/5" style={{ background: '#9D95F5' }} />
+                          <div className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white shadow border-2 border-[#9D95F5]" style={{ left: 'calc(80% - 7px)' }} />
+                        </div>
+                        <span className="text-[11px] font-bold text-slate-600 w-6 text-right shrink-0">80</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── PDF Tools ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="PDF tools">
-          <div className="flex items-start justify-between gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">PDF Tools</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Compress and build PDFs without any upload</p>
             </div>
-            <Link href="/pdf-tools" className="shrink-0 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800/60 bg-blue-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors">
-              View all →
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {PDF_TOOLS.map((tool) => (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="group flex items-start gap-4 p-5 bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700"
+          </section>
+
+          {/* ── 2. STATS STRIP ──────────────────────────────────────────────── */}
+          <section className="bg-[#F7F6F3] dark:bg-[#08080F] border-b border-slate-200 dark:border-slate-800">
+            <div className="max-w-5xl mx-auto px-4 py-6">
+              <div className="flex flex-wrap items-center justify-center sm:justify-between gap-6">
+                {[
+                  { value: '0 KB', label: 'Uploaded to any server, ever' },
+                  { value: '20+', label: 'Free tools — no account needed' },
+                  { value: '100%', label: 'Browser-native processing' },
+                  { value: '< 1s', label: 'Average compression time' },
+                ].map(({ value, label }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <span className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{value}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 max-w-28 leading-snug">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 3. PROBLEM ──────────────────────────────────────────────────── */}
+          <section className="bg-[#08080F] py-28 px-4">
+            <div className="max-w-5xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-6" style={{ color: '#9D95F5' }}>The problem</p>
+              <h2
+                className="text-center text-white leading-[1.05] tracking-tight mb-6"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(2.4rem, 6vw, 4.5rem)' }}
               >
-                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                    {tool.icon}
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 leading-snug mb-1">
-                    {tool.label}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
-                    {tool.desc}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+                Every other tool<br />
+                <em style={{ color: '#9D95F5' }}>uploads your files.</em>
+              </h2>
+              <p className="text-center max-w-lg mx-auto text-base leading-relaxed mb-16" style={{ color: '#64748b' }}>
+                The moment you drop a file into a typical online tool, it leaves your device — traveling to a server you&apos;ve never audited, processed by code you can&apos;t inspect.
+              </p>
 
-        {/* ── Who Uses This ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-16" aria-label="Who uses ImagePDF.Tools">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">Who Uses ImagePDF.Tools?</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10 max-w-xl mx-auto">
-            From solo bloggers to development teams — anyone who works with images or PDFs online benefits from faster, private, browser-based tooling.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {USE_CASES.map((uc) => (
-              <div key={uc.title} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                    {uc.icon}
-                  </svg>
+              <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                {/* Them */}
+                <div className="rounded-2xl p-6" style={{ border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.04)' }}>
+                  <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-5">Other tools</p>
+                  <ul className="space-y-3.5">
+                    {[
+                      'Upload your file to their server',
+                      'Process on infrastructure you can\'t see',
+                      'Store your file — temporarily or permanently',
+                      'Require an account to download the result',
+                      'Profile you based on file content',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: '#94a3b8' }}>
+                        <svg className="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-1.5">{uc.title}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{uc.desc}</p>
+
+                {/* Us */}
+                <div className="rounded-2xl p-6" style={{ border: '1px solid rgba(157,149,245,0.25)', background: 'rgba(157,149,245,0.05)' }}>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-5" style={{ color: '#9D95F5' }}>ImagePDF.Tools</p>
+                  <ul className="space-y-3.5">
+                    {[
+                      'File stays inside your browser tab, always',
+                      'Processed by your CPU via WebAssembly',
+                      'Never stored — not even for a millisecond',
+                      'Download instantly, no account ever needed',
+                      'No tracking, no ad profiling, no exceptions',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: '#94a3b8' }}>
+                        <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{ color: '#9D95F5' }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Features ── */}
-        <section className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40" aria-label="Why ImagePDF.Tools">
-          <div className="max-w-5xl mx-auto px-4 py-14">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">
-              Why ImagePDF.Tools?
-            </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10">
-              Built differently from every other online file tool.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {FEATURES.map((f) => (
-                <div key={f.title} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700">
-                  <div className="text-2xl mb-3">{f.icon}</div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-1.5">{f.title}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* ── FAQ ── */}
-        <section className="max-w-3xl mx-auto px-4 py-14" aria-label="Frequently asked questions">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-10">
-            Everything you need to know about ImagePDF.Tools.
-          </p>
-          <div className="space-y-4">
-            {FAQS.map(({ q, a }) => (
+          {/* ── 4. PROOF ────────────────────────────────────────────────────── */}
+          <section className="bg-[#08080F] pb-28 px-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="max-w-4xl mx-auto text-center">
               <div
-                key={q}
-                className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-6 py-5"
+                className="font-bold text-white leading-none mb-4 select-none"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(7rem, 24vw, 16rem)', lineHeight: 1, opacity: 0.95 }}
               >
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-2">{q}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{a}</p>
+                0
               </div>
-            ))}
-          </div>
-        </section>
+              <h2 className="text-white mb-3" style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(1.5rem, 3vw, 2.2rem)' }}>
+                Kilobytes sent to our servers.
+              </h2>
+              <p className="text-base mb-16" style={{ color: '#475569' }}>
+                Not today. Not ever. There is no endpoint that accepts file uploads — by architecture.
+              </p>
 
-        {/* ── Bottom CTA ── */}
-        <section className="max-w-5xl mx-auto px-4 pb-14 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-3">
-            Start compressing for free
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-            No sign-up. No download. Just open a tool and go.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/compress-image" className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
-              Compress Image
-            </Link>
-            <Link href="/compress-pdf" className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
-              Compress PDF
-            </Link>
-            <Link href="/convert-image-to-webp" className="inline-flex items-center gap-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-500 font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
-              Convert to WebP
-            </Link>
-          </div>
-        </section>
+              <div className="grid sm:grid-cols-3 gap-4 text-left">
+                {[
+                  {
+                    tag: 'Compression',
+                    title: 'WebAssembly',
+                    desc: 'pngquant and Ghostscript compile to WASM and run natively inside your browser tab — same speed as a desktop app, zero network calls.',
+                    color: '#9D95F5',
+                  },
+                  {
+                    tag: 'Encoding',
+                    title: 'Canvas API',
+                    desc: 'Your browser\'s built-in image pipeline handles JPEG, WebP, and PNG encoding without any plugin, server, or extension.',
+                    color: '#60a5fa',
+                  },
+                  {
+                    tag: 'Architecture',
+                    title: 'Zero-upload design',
+                    desc: 'Our server delivers only the app. It physically cannot receive file bytes. The architecture makes data leakage structurally impossible.',
+                    color: '#34d399',
+                  },
+                ].map(({ tag, title, desc, color }) => (
+                  <div key={title} className="rounded-2xl p-5" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.025)' }}>
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-4" style={{ color, background: color + '18' }}>{tag}</span>
+                    <p className="text-sm font-semibold text-white mb-2">{title}</p>
+                    <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 5. TOOLS ────────────────────────────────────────────────────── */}
+          <section className="bg-white dark:bg-[#0C0C17] py-28 px-4">
+            <div className="max-w-5xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-5" style={{ color: '#9D95F5' }}>Everything you need</p>
+              <h2
+                className="text-center text-slate-900 dark:text-white leading-tight mb-4"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}
+              >
+                20+ tools. One private tab.
+              </h2>
+              <p className="text-center max-w-md mx-auto text-slate-500 dark:text-slate-400 text-sm mb-16 leading-relaxed">
+                Every tool is built around the same promise — your file never leaves your browser.
+              </p>
+
+              <div className="space-y-12">
+                {TOOLS.map((group) => (
+                  <div key={group.category}>
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ background: group.bg }}>
+                        <div className="w-2 h-2 rounded-full" style={{ background: group.color }} />
+                      </div>
+                      <span className="text-xs font-bold uppercase tracking-[0.15em]" style={{ color: group.color }}>{group.category}</span>
+                      <div className="flex-1 h-px bg-slate-100 dark:bg-slate-800" />
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                      {group.items.map((tool) => (
+                        <Link
+                          key={tool.href}
+                          href={tool.href}
+                          className="group flex flex-col gap-2.5 p-4 rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-lg bg-[#FAFAF8] dark:bg-[#0F0F1C] border border-transparent"
+                          style={{ border: '1px solid rgba(0,0,0,0.07)' }}
+                        >
+                          <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: group.bg }}>
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} style={{ color: group.color }}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                          </div>
+                          <p className="text-xs font-semibold text-slate-800 dark:text-slate-100 leading-snug group-hover:text-[#9D95F5] transition-colors">{tool.label}</p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">{tool.desc}</p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-center mt-12 gap-3">
+                <Link href="/image-tools" className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-[#9D95F5] hover:text-[#9D95F5]">
+                  All image tools →
+                </Link>
+                <Link href="/pdf-tools" className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-[#9D95F5] hover:text-[#9D95F5]">
+                  All PDF tools →
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ── 6. HOW IT WORKS ─────────────────────────────────────────────── */}
+          <section className="bg-[#08080F] py-28 px-4">
+            <div className="max-w-4xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-5" style={{ color: '#9D95F5' }}>Done in three steps</p>
+              <h2
+                className="text-center text-white leading-tight mb-20"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}
+              >
+                Pick a tool. Use it. Done.
+              </h2>
+
+              <div className="grid sm:grid-cols-3 gap-6 relative">
+                {/* Connector */}
+                <div className="hidden sm:block absolute top-8 left-[calc(16.66%+2rem)] right-[calc(16.66%+2rem)] h-px" style={{ background: 'linear-gradient(90deg, rgba(157,149,245,0.5), rgba(96,165,250,0.5), rgba(52,211,153,0.5))' }} />
+
+                {[
+                  {
+                    n: '01', color: '#9D95F5',
+                    title: 'Drop your file',
+                    desc: 'Drag and drop or click to browse. Your file loads directly into your browser — nothing leaves the tab.',
+                  },
+                  {
+                    n: '02', color: '#60a5fa',
+                    title: 'Adjust & preview',
+                    desc: 'Tune quality, format, or dimensions. Every tool gives you a live preview before you commit.',
+                  },
+                  {
+                    n: '03', color: '#34d399',
+                    title: 'Download instantly',
+                    desc: 'One click. The result goes straight to your downloads — no email, no account, no server.',
+                  },
+                ].map((step) => (
+                  <div key={step.n} className="flex flex-col items-start gap-5 p-6 rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold relative z-10" style={{ background: step.color + '20', border: `1.5px solid ${step.color}50`, color: step.color }}>
+                      {step.n}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white mb-2">{step.title}</p>
+                      <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 7. AUDIENCE ─────────────────────────────────────────────────── */}
+          <section className="bg-white dark:bg-[#0C0C17] py-28 px-4">
+            <div className="max-w-4xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-5" style={{ color: '#9D95F5' }}>Who it&apos;s for</p>
+              <h2
+                className="text-center text-slate-900 dark:text-white leading-tight mb-16"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}
+              >
+                Built for anyone who values<br />
+                <em style={{ color: '#9D95F5' }}>their privacy.</em>
+              </h2>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    title: 'Web Developers',
+                    outcome: 'Ship faster, lighter pages.',
+                    desc: 'Optimise images before deploying. Compress JPEG and PNG assets to improve Core Web Vitals without writing a single line of code.',
+                    color: '#9D95F5',
+                    bg: 'rgba(157,149,245,0.06)',
+                  },
+                  {
+                    title: 'Designers & Photographers',
+                    outcome: 'Share without exposing yourself.',
+                    desc: 'Export compressed versions for client delivery. Strip EXIF GPS data before sharing — your location stays private.',
+                    color: '#60a5fa',
+                    bg: 'rgba(96,165,250,0.06)',
+                  },
+                  {
+                    title: 'Bloggers & Content Creators',
+                    outcome: 'Faster pages. Better SEO.',
+                    desc: 'Shrink images before uploading to your CMS. Smaller images mean faster sites and better search rankings.',
+                    color: '#34d399',
+                    bg: 'rgba(52,211,153,0.06)',
+                  },
+                  {
+                    title: 'E-commerce Sellers',
+                    outcome: 'Products that load at light speed.',
+                    desc: 'Compress your entire catalogue without installing software. Faster product images mean lower bounce rates and more sales.',
+                    color: '#fb923c',
+                    bg: 'rgba(251,146,60,0.06)',
+                  },
+                ].map(({ title, outcome, desc, color, bg }) => (
+                  <div key={title} className="rounded-2xl p-6 transition-all" style={{ border: '1px solid rgba(0,0,0,0.07)', background: bg }}>
+                    <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color }}>{title}</p>
+                    <p className="text-base font-semibold text-slate-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-serif-display), Georgia, serif' }}>{outcome}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 8. FAQ ──────────────────────────────────────────────────────── */}
+          <section className="bg-[#08080F] py-28 px-4">
+            <div className="max-w-2xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-5" style={{ color: '#9D95F5' }}>Questions?</p>
+              <h2
+                className="text-center text-white leading-tight mb-14"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}
+              >
+                Answered.
+              </h2>
+
+              <div className="space-y-3">
+                {FAQS.map(({ q, a }) => (
+                  <div key={q} className="rounded-2xl p-5" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.025)' }}>
+                    <p className="text-sm font-semibold text-white mb-2">{q}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 9. FINAL CTA ────────────────────────────────────────────────── */}
+          <section className="relative overflow-hidden bg-[#08080F] py-32 px-4 text-center" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            {/* Layered glows */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 110%, rgba(157,149,245,0.18), transparent)' }} />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(157,149,245,0.5), transparent)' }} />
+
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-6" style={{ color: '#9D95F5' }}>Start now — it&apos;s free</p>
+              <h2
+                className="text-white leading-[1.0] tracking-tight mb-6"
+                style={{ fontFamily: 'var(--font-serif-display), Georgia, serif', fontSize: 'clamp(3rem, 8vw, 5.5rem)' }}
+              >
+                Your files.<br />
+                Your rules.
+              </h2>
+              <p className="text-base mb-12" style={{ color: '#475569' }}>
+                No sign-up. No download. No upload. Just open a tool and go.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/compress-image"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-white px-7 py-3.5 rounded-xl transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95"
+                  style={{ background: '#9D95F5', boxShadow: '0 0 50px rgba(157,149,245,0.35), 0 4px 15px rgba(157,149,245,0.2)' }}
+                >
+                  Compress Image
+                </Link>
+                <Link
+                  href="/compress-pdf"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-white px-7 py-3.5 rounded-xl transition-all hover:bg-white/15"
+                  style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)' }}
+                >
+                  Compress PDF
+                </Link>
+                <Link
+                  href="/image-tools"
+                  className="inline-flex items-center gap-2 text-sm font-medium px-7 py-3.5 rounded-xl transition-all hover:text-slate-300"
+                  style={{ color: '#64748b' }}
+                >
+                  See all 20+ tools →
+                </Link>
+              </div>
+            </div>
+          </section>
 
       </main>
     </>

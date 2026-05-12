@@ -84,7 +84,7 @@ export function CompressorUI({ initialFormat, dropLabel, dropHint, dropFileTypeN
       <DropZone onFiles={addFiles} label={dropLabel} hint={dropHint} fileTypeName={dropFileTypeName} accept={dropAccept} />
 
       {sourceLabel && (
-        <div className="mt-4 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
+        <div className="mt-4 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
           <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
           </svg>
@@ -103,7 +103,7 @@ export function CompressorUI({ initialFormat, dropLabel, dropHint, dropFileTypeN
                 type="checkbox"
                 checked={allSelected}
                 onChange={toggleSelectAll}
-                className="w-4 h-4 accent-blue-500 cursor-pointer shrink-0"
+                className="w-4 h-4 accent-violet-500 cursor-pointer shrink-0"
                 aria-label="Select all files"
                 title="Select all"
               />

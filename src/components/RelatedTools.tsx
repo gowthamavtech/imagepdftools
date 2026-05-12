@@ -7,7 +7,7 @@ export function RelatedTools({ hrefs }: { hrefs: string[] }) {
 
   return (
     <section className="max-w-3xl mx-auto px-4 pb-10 mt-2">
-      <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Related Tools</h2>
+      <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Related Tools</p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {tools.map((tool) => (
           <Link

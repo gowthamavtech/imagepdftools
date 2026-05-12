@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { CompareView } from './CompareView';
@@ -89,7 +89,7 @@ export function ImageCard({
       isCompressing ? 'glow-processing' : 'glass-hover'
     } ${
       isSelected
-        ? 'border-blue-400 ring-1 ring-blue-500/40'
+        ? 'border-violet-400 ring-1 ring-violet-500/40'
         : 'border-white/8'
     }`}>
 
@@ -113,7 +113,7 @@ export function ImageCard({
             type="checkbox"
             checked={!!isSelected}
             onChange={() => onToggleSelect(file.id)}
-            className="w-4 h-4 accent-blue-500 cursor-pointer shrink-0"
+            className="w-4 h-4 accent-violet-500 cursor-pointer shrink-0"
             aria-label={`Select ${file.file.name}`}
           />
         )}
@@ -194,7 +194,7 @@ export function ImageCard({
             max={100}
             value={file.quality}
             onChange={(e) => onQualityChange(file.id, Number(e.target.value))}
-            className="flex-1 h-1.5 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-blue-500 cursor-pointer"
+            className="flex-1 h-1.5 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-violet-500 cursor-pointer"
             aria-label="Compression quality"
           />
 
@@ -256,10 +256,10 @@ export function ImageCard({
         {result && (
           <button
             onClick={() => !isCompressing && setShowCompare((v) => !v)}
-            className={`inline-flex items-center gap-1.5 text-xs font-medium bg-violet-50 dark:bg-blue-950/30 px-3 py-1.5 rounded-lg transition-colors ${
+            className={`inline-flex items-center gap-1.5 text-xs font-medium bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-lg transition-colors ${
               isCompressing
                 ? 'opacity-40 cursor-not-allowed text-violet-400'
-                : 'text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-200 hover:bg-violet-100 dark:hover:bg-blue-950/50'
+                : 'text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-200 hover:bg-violet-100 dark:hover:bg-violet-950/50'
             }`}
           >
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -273,7 +273,7 @@ export function ImageCard({
         <button
           onClick={() => { if (result) { triggerDownload(result); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); } }}
           disabled={!result || isCompressing}
-          className="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-semibold bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white px-4 py-1.5 rounded-lg transition-all"
+          className="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-semibold bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white px-4 py-1.5 rounded-lg transition-all"
         >
           <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

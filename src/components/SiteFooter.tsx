@@ -13,7 +13,7 @@ const COLUMNS = [
   },
   {
     title: 'Convert',
-    color: 'text-blue-600 dark:text-blue-400',
+    color: 'text-violet-500 dark:text-violet-400',
     links: [
       { href: '/convert-image-to-webp',  label: 'Any to WebP' },
       { href: '/convert-png-to-jpeg',    label: 'PNG to JPG' },
@@ -41,7 +41,7 @@ const COLUMNS = [
   },
   {
     title: 'PDF',
-    color: 'text-blue-600 dark:text-blue-400',
+    color: 'text-orange-500 dark:text-orange-400',
     links: [
       { href: '/merge-pdf',     label: 'Merge PDF' },
       { href: '/split-pdf',     label: 'Split PDF' },
@@ -93,6 +93,7 @@ const TRUST_BADGES = [
     label: 'Free forever',
     icon: (
       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        { /* lightning bolt */}
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
       </svg>
     ),
@@ -110,12 +111,12 @@ export function SiteFooter() {
           {/* Logo + tagline */}
           <div>
             <Link href="/" className="inline-flex items-center gap-2 mb-2">
-              <div className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/30">
+              <div className="w-7 h-7 rounded-lg bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center shadow-md shadow-violet-500/30">
                 <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
                 </svg>
               </div>
-              <span className="text-base font-bold bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight">
+              <span className="text-base font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent tracking-tight">
                 ImagePDF.Tools
               </span>
             </Link>
@@ -129,7 +130,7 @@ export function SiteFooter() {
             {TRUST_BADGES.map(({ label, icon }) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/30 px-3 py-1.5 rounded-full"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-full"
               >
                 {icon}
                 {label}
@@ -140,7 +141,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* 4-column sitemap */}
+      {/* 5-column sitemap */}
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
           {COLUMNS.map((col) => (
@@ -164,7 +165,7 @@ export function SiteFooter() {
                     ) : (
                       <Link
                         href={l.href}
-                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         {l.label}
                       </Link>
@@ -179,12 +180,12 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-8 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <Link href="/" className="inline-flex items-center gap-1.5 shrink-0">
-            <div className="w-5 h-5 rounded-md bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <div className="w-5 h-5 rounded-md bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center">
               <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
               </svg>
             </div>
-            <span className="text-sm font-bold bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight">
+            <span className="text-sm font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent tracking-tight">
               ImagePDF.Tools
             </span>
           </Link>

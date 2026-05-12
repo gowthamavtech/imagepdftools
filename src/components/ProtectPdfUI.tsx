@@ -95,7 +95,7 @@ export function ProtectPdfUI() {
             onClick={() => { setMode(m); setResultBytes(null); setError(null); }}
             className={`flex-1 py-2.5 text-sm font-semibold transition-colors ${
               mode === m
-                ? 'bg-blue-600 text-white'
+                ? 'bg-violet-600 text-white'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
@@ -131,7 +131,7 @@ export function ProtectPdfUI() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={mode === 'protect' ? 'Set a password' : 'Enter current password'}
-              className="w-full px-4 py-2.5 pr-10 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 pr-10 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
             <button
               type="button"
@@ -151,7 +151,7 @@ export function ProtectPdfUI() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm password"
-              className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
           )}
 
@@ -160,7 +160,7 @@ export function ProtectPdfUI() {
           <button
             onClick={apply}
             disabled={isWorking || !password || (mode === 'protect' && !confirmPassword)}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
+            className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
           >
             {isWorking
               ? (mode === 'protect' ? 'Adding password…' : 'Removing password…')

@@ -113,9 +113,9 @@ export default async function BlogPage({
                   <span className={`inline-flex w-fit text-[11px] font-semibold px-2.5 py-1 rounded-full mb-4 ${cat.color} ${cat.bg}`}>
                     {cat.label}
                   </span>
-                  <h2 className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug">
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug">
                     {post.title}
-                  </h2>
+                  </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-1 line-clamp-3 mb-4">
                     {post.description}
                   </p>

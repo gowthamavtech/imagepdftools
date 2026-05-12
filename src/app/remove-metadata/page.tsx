@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { MetadataStripperUI } from '@/components/MetadataStripperUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -72,7 +72,7 @@ export default function RemoveMetadataPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-10">
-          <span className="inline-block mb-4 text-xs font-semibold tracking-widest uppercase text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 border border-violet-200 dark:border-white/8 px-3 py-1 rounded-full">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-widest uppercase text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-white/8 px-3 py-1 rounded-full">
             Privacy tool
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
@@ -104,7 +104,7 @@ export default function RemoveMetadataPage() {
         <MetadataStripperUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>

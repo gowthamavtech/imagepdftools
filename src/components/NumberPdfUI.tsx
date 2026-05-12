@@ -165,8 +165,8 @@ export function NumberPdfUI() {
                   onClick={() => setPosition(p.value)}
                   className={`py-2 rounded-lg text-xs font-medium transition-colors border ${
                     position === p.value
-                      ? 'bg-blue-600 border-blue-600 text-white'
-                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'bg-violet-600 border-violet-600 text-white'
+                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-violet-400 hover:text-violet-600 dark:hover:text-violet-400'
                   }`}
                 >
                   {p.label}
@@ -185,8 +185,8 @@ export function NumberPdfUI() {
                   onClick={() => setFormat(f.value)}
                   className={`flex-1 py-2 rounded-lg text-xs font-medium transition-colors border ${
                     format === f.value
-                      ? 'bg-blue-600 border-blue-600 text-white'
-                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'bg-violet-600 border-violet-600 text-white'
+                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-violet-400 hover:text-violet-600 dark:hover:text-violet-400'
                   }`}
                 >
                   <span className="block font-bold">{f.example}</span>
@@ -206,7 +206,7 @@ export function NumberPdfUI() {
                 max={9999}
                 value={startNum}
                 onChange={(e) => setStartNum(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
               />
             </div>
             <div>
@@ -217,7 +217,7 @@ export function NumberPdfUI() {
                 max={24}
                 value={fontSize}
                 onChange={(e) => setFontSize(Math.min(24, Math.max(8, parseInt(e.target.value) || 11)))}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
               />
             </div>
           </div>
@@ -227,7 +227,7 @@ export function NumberPdfUI() {
           <button
             onClick={() => apply()}
             disabled={isWorking}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
+            className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
           >
             {isWorking ? 'Adding page numbers…' : 'Add Page Numbers'}
           </button>

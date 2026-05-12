@@ -167,7 +167,7 @@ export function WatermarkPdfUI() {
               onChange={(e) => setText(e.target.value.toUpperCase())}
               maxLength={30}
               placeholder="Or type custom text"
-              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
           </div>
 
@@ -195,7 +195,7 @@ export function WatermarkPdfUI() {
                 max={60}
                 value={opacity}
                 onChange={(e) => setOpacity(Number(e.target.value))}
-                className="w-full accent-blue-600"
+                className="w-full accent-violet-600"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ export function WatermarkPdfUI() {
               max={100}
               value={fontSize}
               onChange={(e) => setFontSize(Number(e.target.value))}
-              className="w-full accent-blue-600"
+              className="w-full accent-violet-600"
             />
           </div>
 
@@ -220,7 +220,7 @@ export function WatermarkPdfUI() {
           <button
             onClick={() => apply()}
             disabled={isWorking || !text.trim()}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
+            className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
           >
             {isWorking ? 'Adding watermark…' : 'Add Watermark'}
           </button>

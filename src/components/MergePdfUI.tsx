@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { DndContext, closestCenter, PointerSensor, KeyboardSensor, useSensor, useSensors, DragEndEvent, DragStartEvent, DragOverlay } from "@dnd-kit/core";
@@ -170,7 +170,7 @@ function PdfCard({ entry, index, isDragging = false, onPreview, onRemove, onRota
     return (
         <div ref={setNodeRef} style={style} className="flex flex-col">
             <div
-                className={`relative bg-white dark:bg-slate-800 border rounded-2xl overflow-hidden shadow-sm transition-shadow ${isDragging ? "shadow-2xl ring-2 ring-blue-400/50" : "hover:shadow-md"} ${entry.locked ? "border-amber-300 dark:border-amber-700" : "border-slate-200 dark:border-white/8"}`}
+                className={`relative bg-white dark:bg-slate-800 border rounded-2xl overflow-hidden shadow-sm transition-shadow ${isDragging ? "shadow-2xl ring-2 ring-violet-400/50" : "hover:shadow-md"} ${entry.locked ? "border-amber-300 dark:border-amber-700" : "border-slate-200 dark:border-white/8"}`}
             >
                 {/* ── Thumbnail (A4 ratio 1:√2) ── */}
                 <div className="relative w-full bg-slate-100 dark:bg-slate-700/60" style={{ paddingBottom: "141.4%" }}>
@@ -178,7 +178,7 @@ function PdfCard({ entry, index, isDragging = false, onPreview, onRemove, onRota
                     <button
                         {...attributes}
                         {...listeners}
-                        className="absolute bottom-2 right-2 z-20 p-1.5 rounded-lg bg-blue-500/70 hover:bg-blue-500 text-white cursor-grab active:cursor-grabbing touch-none transition-colors"
+                        className="absolute bottom-2 right-2 z-20 p-1.5 rounded-lg bg-violet-500/70 hover:bg-violet-500 text-white cursor-grab active:cursor-grabbing touch-none transition-colors"
                         tabIndex={-1}
                         aria-label="Drag to reorder"
                     >
@@ -239,7 +239,7 @@ function PdfCard({ entry, index, isDragging = false, onPreview, onRemove, onRota
                             }}
                             disabled={!entry.thumbnailUrl}
                             title={entry.thumbnailUrl ? "Preview" : "Preview unavailable"}
-                            className="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            className="p-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                         >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path
@@ -598,7 +598,7 @@ export function MergePdfUI() {
                             <button
                                 onClick={backToEdit}
                                 title="Edit files"
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-medium text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors shrink-0"
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-medium text-slate-600 dark:text-slate-300 hover:border-violet-400 hover:text-violet-600 dark:hover:border-violet-500 dark:hover:text-violet-400 transition-colors shrink-0"
                             >
                                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
@@ -609,7 +609,7 @@ export function MergePdfUI() {
                         <div className="flex flex-col sm:flex-row gap-2">
                             <button
                                 onClick={save}
-                                className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
+                                className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
                             >
                                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -618,7 +618,7 @@ export function MergePdfUI() {
                             </button>
                             <button
                                 onClick={openResultPreview}
-                                className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-blue-950/20 hover:bg-violet-100 dark:hover:bg-blue-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
+                                className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
                             >
                                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path
@@ -690,7 +690,7 @@ export function MergePdfUI() {
                                         {/* Add more card */}
                                         <button
                                             onClick={() => addMoreRef.current?.click()}
-                                            className="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors cursor-pointer"
+                                            className="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl hover:border-violet-400 dark:hover:border-violet-500 hover:bg-violet-50/50 dark:hover:bg-violet-950/20 transition-colors cursor-pointer"
                                             style={{ minHeight: "180px" }}
                                         >
                                             <svg
@@ -722,7 +722,7 @@ export function MergePdfUI() {
 
                                 <DragOverlay dropAnimation={{ duration: 180, easing: "ease" }}>
                                     {activeEntry && (
-                                        <div className="bg-white dark:bg-slate-800 border border-blue-400 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-blue-400/30 rotate-2 opacity-95">
+                                        <div className="bg-white dark:bg-slate-800 border border-violet-400 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-violet-400/30 rotate-2 opacity-95">
                                             <div className="relative w-full bg-slate-100 dark:bg-slate-700" style={{ paddingBottom: "141.4%" }}>
                                                 {activeEntry.thumbnailUrl ? (
                                                     <img
@@ -759,7 +759,7 @@ export function MergePdfUI() {
                                 <span>{progress}%</span>
                             </div>
                             <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                                <div className="h-full bg-linear-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+                                <div className="h-full bg-linear-to-r from-violet-500 to-violet-400 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
                             </div>
                         </div>
                     )}
@@ -780,7 +780,7 @@ export function MergePdfUI() {
                     <button
                         onClick={merge}
                         disabled={isWorking || entries.length < 2 || entries.some((e) => e.locked)}
-                        className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+                        className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
                     >
                         {isWorking ? (
                             <>

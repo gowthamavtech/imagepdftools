@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { MetadataEditorUI } from '@/components/MetadataEditorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -82,7 +82,7 @@ export default function MetadataEditorPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-5">
             {['GPS & Location', 'Camera Info', 'Timestamps', 'Author & Copyright', 'Software'].map((tag) => (
-              <span key={tag} className="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">{tag}</span>
+              <span key={tag} className="text-xs bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 px-3 py-1 rounded-full">{tag}</span>
             ))}
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function MetadataEditorPage() {
         <MetadataEditorUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>

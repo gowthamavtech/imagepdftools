@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -122,8 +122,8 @@ export default function PdfToolsPage() {
 
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             No Uploads &middot; 100% Private &middot; Free
           </div>
           <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
@@ -138,15 +138,15 @@ export default function PdfToolsPage() {
             <Link
               key={tool.href}
               href={tool.href}
-              className="group relative flex flex-col gap-3 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md dark:hover:shadow-slate-900/50 transition-all"
+              className="group relative flex flex-col gap-3 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md dark:hover:shadow-slate-900/50 transition-all"
             >
               {tool.badge && (
-                <span className="absolute top-4 right-4 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full">
+                <span className="absolute top-4 right-4 text-[10px] font-bold bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400 px-2 py-0.5 rounded-full">
                   {tool.badge}
                 </span>
               )}
               <div>
-                <p className="text-base font-bold text-slate-900 dark:text-slate-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-16">
+                <p className="text-base font-bold text-slate-900 dark:text-slate-50 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors pr-16">
                   {tool.label}
                 </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
@@ -156,12 +156,12 @@ export default function PdfToolsPage() {
               <ul className="space-y-1">
                 {tool.details.map((d) => (
                   <li key={d} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="w-1 h-1 rounded-full bg-blue-400 shrink-0" />
+                    <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" />
                     {d}
                   </li>
                 ))}
               </ul>
-              <span className="text-[11px] font-semibold mt-auto text-blue-600 dark:text-blue-400">
+              <span className="text-[11px] font-semibold mt-auto text-violet-600 dark:text-violet-400">
                 Open tool →
               </span>
             </Link>

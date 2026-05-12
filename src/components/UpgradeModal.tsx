@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth, Show, SignInButton } from '@clerk/nextjs';
@@ -59,7 +59,7 @@ export function UpgradeModal({ onClose }: Props) {
         </button>
 
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-linear-to-br from-blue-500 to-blue-400 rounded-2xl mb-4 shadow-lg shadow-blue-900/40">
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-linear-to-br from-violet-500 to-violet-400 rounded-2xl mb-4 shadow-lg shadow-violet-900/40">
             <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -95,7 +95,7 @@ export function UpgradeModal({ onClose }: Props) {
           <button
             onClick={handleUpgrade}
             disabled={loading}
-            className="w-full bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:opacity-60 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md shadow-blue-900/40"
+            className="w-full bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-60 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md shadow-violet-900/40"
           >
             {loading ? 'Redirecting to checkout…' : 'Upgrade to Pro — $4.99/mo'}
           </button>
@@ -103,7 +103,7 @@ export function UpgradeModal({ onClose }: Props) {
 
         <Show when="signed-out">
           <SignInButton mode="modal">
-            <button className="w-full bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold py-3.5 rounded-2xl shadow-md shadow-blue-900/40">
+            <button className="w-full bg-linear-to-r from-violet-600 to-violet-500 text-white font-semibold py-3.5 rounded-2xl shadow-md shadow-violet-900/40">
               Sign In to Upgrade
             </button>
           </SignInButton>

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -71,11 +71,11 @@ export default function WebpToJpgPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
-            WebP to JPG <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Converter</span>
+            WebP to JPG <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">Converter</span>
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             Convert WebP images to universally compatible JPEG format. Works with every app, device and platform — all processing stays in your browser.
@@ -85,7 +85,7 @@ export default function WebpToJpgPage() {
         <CompressorUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -100,7 +100,7 @@ export default function WebpToJpgPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common reasons to convert WebP to JPG</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">eBay and Amazon product listings.</strong> Both platforms&apos; listing systems require JPEG or PNG for product photos. WebP files are rejected at upload. Converting your images to JPEG first solves this instantly.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Email attachments.</strong> Many email clients — particularly older Outlook versions on Windows — display WebP images as attachments rather than rendering them inline. JPEG displays correctly in all email clients.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Printing services.</strong> Online and local print labs typically accept JPEG and TIFF. Very few printing workflows handle WebP. Converting to JPEG before uploading to a photo printing service prevents format errors.</li>

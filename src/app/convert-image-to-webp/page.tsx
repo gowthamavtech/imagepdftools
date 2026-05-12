@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -72,7 +72,7 @@ export default function ConvertToWebpPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-10">
         <div className="max-w-4xl mx-auto px-4 text-center mb-8">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-blue-950/30 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
             Free &middot; No Upload &middot; Private
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">Convert Image to WebP</h1>
@@ -84,7 +84,7 @@ export default function ConvertToWebpPage() {
         <CompressorUI />
 
         {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-16">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-8">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -99,7 +99,7 @@ export default function ConvertToWebpPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Who should convert images to WebP?</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Website owners and bloggers.</strong> Replacing JPEG hero images and blog post photos with WebP equivalents can shave hundreds of kilobytes per page load, directly improving Google PageSpeed scores.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">E-commerce store owners.</strong> Product images are often the largest assets on a page. WebP product photos load faster, reducing bounce rate and improving conversion.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">WordPress site owners.</strong> WordPress 5.8+ natively serves WebP images. Converting your existing library to WebP is the fastest way to speed up a WordPress site without changing plugins.</li>
@@ -117,7 +117,7 @@ export default function ConvertToWebpPage() {
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">Feature</th>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">JPEG</th>
                       <th className="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300">PNG</th>
-                      <th className="text-left px-4 py-3 font-semibold text-blue-600 dark:text-blue-400">WebP</th>
+                      <th className="text-left px-4 py-3 font-semibold text-violet-600 dark:text-violet-400">WebP</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -132,7 +132,7 @@ export default function ConvertToWebpPage() {
                         <td className="px-4 py-3 font-medium text-slate-600 dark:text-slate-400">{f}</td>
                         <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{j}</td>
                         <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{p}</td>
-                        <td className="px-4 py-3 font-medium text-blue-600 dark:text-blue-400">{w}</td>
+                        <td className="px-4 py-3 font-medium text-violet-600 dark:text-violet-400">{w}</td>
                       </tr>
                     ))}
                   </tbody>

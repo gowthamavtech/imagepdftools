@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { MergePdfUI } from '@/components/MergePdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -98,15 +98,15 @@ export default function MergePdfPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 pt-10 sm:pt-16 pb-6 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+        <div className="max-w-5xl mx-auto px-4 pt-12 sm:pt-18 pb-6 text-center">
+          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             No upload &middot; 100% Private &middot; Free
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
             Merge PDF Files{' '}
-            <span className="italic bg-linear-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
               Online
             </span>
           </h1>
@@ -117,7 +117,7 @@ export default function MergePdfPage() {
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {features.map(({ icon, label }) => (
               <span key={label} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">
-                <span className="text-blue-500">{icon}</span>
+                <span className="text-violet-500">{icon}</span>
                 {label}
               </span>
             ))}
@@ -127,7 +127,7 @@ export default function MergePdfPage() {
         </div>
 
         {/* Content */}
-        <section className="max-w-3xl mx-auto px-4 pb-20 mt-4">
+        <section className="max-w-3xl mx-auto px-4 pb-24 mt-6">
           <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
 
             <div>
@@ -142,7 +142,7 @@ export default function MergePdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">What this tool can do</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Drag-and-drop reordering.</strong> Drag any card to change the sequence. A numbered badge always shows the final order so there is no guesswork.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Per-file rotation.</strong> Rotate any PDF&apos;s pages 90° clockwise before merging — useful for scanned pages that came out sideways.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Password-protected PDFs.</strong> Enter the password directly on the card. The tool decrypts the file in your browser using PDF.js and includes it in the merge.</li>
@@ -154,7 +154,7 @@ export default function MergePdfPage() {
 
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-blue-400">
+              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
                 <li><strong className="text-slate-800 dark:text-slate-200">Contracts and agreements.</strong> Combine a contract body, appendices, and signature pages into one document for signing or archival.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Invoices and receipts.</strong> Bundle multiple invoices into a single PDF for accounting, expense reports, or submission to a finance team.</li>
                 <li><strong className="text-slate-800 dark:text-slate-200">Scanned documents.</strong> Scanners often produce one PDF per page — merge them into a single multi-page document.</li>
