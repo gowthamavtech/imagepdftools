@@ -70,7 +70,7 @@ function AuthSection() {
   return (
     <Show when="signed-out">
       <SignInButton mode="modal">
-        <button className="text-sm bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white px-4 py-2 rounded-full font-medium transition-all shadow-sm shadow-violet-900/40">
+        <button className="text-sm bg-violet-600 hover:bg-violet-700 dark:hover:bg-violet-500 text-white px-4 py-2 rounded-full font-medium transition-colors duration-150 shadow-sm shadow-violet-900/40">
           Sign In
         </button>
       </SignInButton>
@@ -167,7 +167,7 @@ export function SiteHeader() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
             </svg>
           </div>
-          <span className="text-lg font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
+          <span className="text-lg font-bold text-violet-600 dark:text-violet-400">
             ImagePDF.Tools
           </span>
         </Link>

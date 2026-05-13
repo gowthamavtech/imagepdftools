@@ -116,12 +116,12 @@ export function SiteFooter() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
                 </svg>
               </div>
-              <span className="text-base font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent tracking-tight">
+              <span className="text-base font-bold text-violet-600 dark:text-violet-400 tracking-tight">
                 ImagePDF.Tools
               </span>
             </Link>
             <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
-              Compress &amp; convert files instantly — no uploading, no waiting, no account.
+              Compress and convert files instantly. No uploading, no waiting, no account.
             </p>
           </div>
 
@@ -185,7 +185,7 @@ export function SiteFooter() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
               </svg>
             </div>
-            <span className="text-sm font-bold bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent tracking-tight">
+            <span className="text-sm font-bold text-violet-600 dark:text-violet-400 tracking-tight">
               ImagePDF.Tools
             </span>
           </Link>

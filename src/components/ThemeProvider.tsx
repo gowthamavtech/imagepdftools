@@ -20,20 +20,26 @@ export function useTheme() {
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  // Dark is default — only explicitly remove it if user chose light
   if (theme === 'light') {
     root.classList.remove('dark');
-  } else {
+  } else if (theme === 'dark') {
     root.classList.add('dark');
+  } else {
+    // system — follow OS preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
   }
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>('system');
 
-  // On mount: read saved preference (dark is default)
+  // On mount: read saved preference; fall back to system (respects prefers-color-scheme)
   useEffect(() => {
-    const saved = (localStorage.getItem('theme') as Theme) ?? 'dark';
+    const saved = (localStorage.getItem('theme') as Theme) ?? 'system';
     setThemeState(saved);
     applyTheme(saved);
   }, []);

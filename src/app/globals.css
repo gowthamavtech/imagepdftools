@@ -28,7 +28,7 @@
 
 /* ── Design tokens ──────────────────────────────────────── */
 :root {
-  --background: #F8FAFC;
+  --background: #F7F8FC;
   --surface:    #F1F5F9;
   --border:     rgba(0,0,0,0.08);
   --primary:    #9D95F5;
