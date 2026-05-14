@@ -326,7 +326,7 @@ export function DropZone({
       }`}
     >
       {/* Radial gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(59,130,246,0.07),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(59,130,246,0.12),transparent)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(157,149,245,0.08),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(157,149,245,0.14),transparent)] pointer-events-none" />
 
       {/* Security flash */}
       <div className={`absolute inset-x-0 bottom-0 flex items-center justify-center gap-2.5 px-4 py-3 bg-emerald-500/10 dark:bg-emerald-500/15 border-t border-emerald-500/20 rounded-b-3xl transition-all duration-500 pointer-events-none ${
