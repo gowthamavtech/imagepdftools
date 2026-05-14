@@ -56,11 +56,11 @@ const TOOLS = [
     colorClass: 'text-violet-400',
     dotClass: 'bg-violet-500',
     items: [
-      { href: '/compress-image',       label: 'Image Compressor',  desc: 'JPEG · PNG · WebP — up to 80% smaller' },
+      { href: '/compress-image',       label: 'Image Compressor',  desc: 'JPEG · PNG · WebP, up to 80% smaller' },
       { href: '/compress-png-online',  label: 'PNG Compressor',    desc: 'Lossy quantisation, 40–70% reduction' },
       { href: '/compress-jpeg-online', label: 'JPEG Compressor',   desc: 'Fine-grained quality control, instant' },
       { href: '/reduce-image-size',    label: 'Reduce Image Size', desc: 'Target file size across any format' },
-      { href: '/compress-pdf',         label: 'Compress PDF',      desc: 'Ghostscript WASM — no quality loss' },
+      { href: '/compress-pdf',         label: 'Compress PDF',      desc: 'Ghostscript WASM, no quality loss' },
     ],
   },
   {
@@ -227,13 +227,13 @@ export default function HomePage() {
               <div className="pb-16 lg:pb-24 pt-8">
                 {/* Status badge */}
                 <div className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-8 border text-violet-600 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60">
-                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" aria-hidden="true" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500 motion-safe:animate-pulse" aria-hidden="true" />
                   100% private · No uploads · Free forever
                 </div>
 
                 {/* Headline — Instrument Serif via globals.css h1 rule */}
                 <h1
-                  className="leading-[1.0] tracking-tight mb-6 text-[#0F0F14] dark:text-[#F0EBE3] text-balance"
+                  className="leading-[1.0] tracking-tight mb-6 text-[#0F0F14] dark:text-slate-50 text-balance"
                   style={{ fontSize: 'clamp(3rem, 6.5vw, 5.5rem)' }}
                 >
                   <span className="block">Your files.</span>
