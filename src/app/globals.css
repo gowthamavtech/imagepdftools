@@ -28,21 +28,25 @@
 
 /* ── Design tokens ──────────────────────────────────────── */
 :root {
-  --background: #F7F8FC;
-  --surface:    #F1F5F9;
-  --border:     rgba(0,0,0,0.08);
-  --primary:    #9D95F5;
-  --success:    #10B981;
-  --text-1:     #0F172A;
-  --text-2:     #64748B;
+  --background:     #F7F8FC;
+  --surface:        #F1F5F9;
+  --border:         rgba(0,0,0,0.08);
+  --primary:        #9D95F5;
+  --success:        #10B981;
+  --text-1:         #0F172A;
+  --text-2:         #64748B;
+  --numeral-ghost:  oklch(25% 0.015 293 / 0.12);
 }
 
 .dark {
-  --background: #0F172A;
-  --surface:    #1E293B;
-  --border:     rgba(255,255,255,0.08);
-  --text-1:     #F8FAFC;
-  --text-2:     #94A3B8;
+  --background:     #08080F;
+  --surface:        #0C0C1A;
+  --border:         rgba(255,255,255,0.07);
+  --primary:        #9D95F5;
+  --success:        #10B981;
+  --text-1:         #F0F0FA;
+  --text-2:         #6B6B88;
+  --numeral-ghost:  oklch(91% 0.022 293);
 }
 
 /* ── Base typography ────────────────────────────────────── */
@@ -141,6 +145,38 @@ button, input, select, textarea, label, nav, .ui-sans {
 .drop-zone-active {
   animation: pulse-border 1s ease-in-out infinite;
 }
+
+/* ── Star particle field — dark mode only ───────────────── */
+.stars {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+  background-image:
+    radial-gradient(1.2px 1.2px at 11%  8%,  rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 28% 37%,  rgba(255,255,255,0.20) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 43% 18%,  rgba(255,255,255,0.30) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 59% 62%,  rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 72%  5%,  rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 84% 48%,  rgba(255,255,255,0.22) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 93% 27%,  rgba(255,255,255,0.28) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at  5% 71%,  rgba(255,255,255,0.16) 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 17% 89%,  rgba(255,255,255,0.30) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 35% 53%,  rgba(255,255,255,0.14) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 52% 81%,  rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 66% 34%,  rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 78% 76%,  rgba(255,255,255,0.32) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 88% 91%,  rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px   1px   at  2% 44%,  rgba(255,255,255,0.22) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 21% 15%,  rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 46% 97%,  rgba(255,255,255,0.20) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 63% 58%,  rgba(255,255,255,0.16) 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at  7% 23%,  rgba(255,255,255,0.38) 0%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 97% 64%,  rgba(255,255,255,0.13) 0%, transparent 100%);
+  background-size: 570px 570px;
+  background-repeat: repeat;
+}
+
+.dark .stars { opacity: 1; }
 
 /* ── Google Translate overrides ─────────────────────────── */
 .goog-te-banner-frame,

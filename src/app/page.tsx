@@ -113,7 +113,7 @@ const FAQS = [
 
 const TRUST_BADGES = [
   {
-    label: 'No upload ever',
+    label: 'No upload limit',
     icon: (
       <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
@@ -121,7 +121,7 @@ const TRUST_BADGES = [
     ),
   },
   {
-    label: 'Browser-native',
+    label: 'In-browser only',
     icon: (
       <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75H6.912a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859M12 3v8.25m0 0l-3-3m3 3l3-3" />
@@ -129,7 +129,7 @@ const TRUST_BADGES = [
     ),
   },
   {
-    label: 'No account needed',
+    label: 'Runs as you connect',
     icon: (
       <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
@@ -213,6 +213,8 @@ export default function HomePage() {
 
         {/* ── 1. HERO ─────────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-[#F7F8FC] dark:bg-[#0B0B0D] px-4 pt-16 pb-0">
+          {/* Starfield — dark mode only */}
+          <div className="stars absolute inset-0" aria-hidden="true" />
           {/* Violet glow, dark only */}
           <div
             className="absolute top-0 right-0 w-[640px] h-[480px] pointer-events-none opacity-0 dark:opacity-100"
@@ -228,7 +230,7 @@ export default function HomePage() {
                 {/* Status badge */}
                 <div className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-8 border text-violet-600 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60">
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-500 motion-safe:animate-pulse" aria-hidden="true" />
-                  100% private · No uploads · Free forever
+                  100% private · No servers · Your browser
                 </div>
 
                 {/* Headline — Instrument Serif via globals.css h1 rule */}
@@ -243,7 +245,7 @@ export default function HomePage() {
 
                 {/* Subline — absorbs "how it works" in one sentence */}
                 <p className="text-base sm:text-lg leading-relaxed mb-9 text-[#5A5A6A] dark:text-[#7A7A8A] max-w-[38ch]">
-                  Drop a file. Every operation runs via WebAssembly on your own device. No server, no sign-up, 30+ tools permanently free.
+                  Drop a file. Every operation runs via <strong className="font-semibold text-slate-700 dark:text-slate-200">WebAssembly</strong> on your own device. No server, no sign-up, 30+ tools permanently free.
                 </p>
 
                 {/* CTAs */}
@@ -288,105 +290,109 @@ export default function HomePage() {
                   aria-hidden="true"
                 />
                 <div
-                  className="relative w-full max-w-[440px] rounded-t-2xl overflow-hidden shadow-2xl dark:shadow-black/40"
-                  style={{ border: '1px solid rgba(0,0,0,0.09)', borderBottom: 'none', background: '#fff' }}
+                  className="relative w-full max-w-[440px] rounded-t-2xl overflow-hidden shadow-2xl shadow-black/60"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', borderBottom: 'none', background: '#151520' }}
                   aria-label="Screenshot of the image compressor tool"
                 >
-                  {/* Browser chrome */}
-                  <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style={{ background: '#F0EFEC' }}>
+                  {/* Browser chrome — dark */}
+                  <div
+                    className="flex items-center gap-3 px-4 py-3"
+                    style={{ background: '#1C1C2A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                  >
                     <div className="flex gap-1.5" aria-hidden="true">
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
                       <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
                     </div>
-                    <div className="flex-1 bg-white rounded-md px-3 py-1 text-[11px] text-slate-400 border border-slate-200 flex items-center gap-2 overflow-hidden">
-                      <svg className="w-2.5 h-2.5 text-slate-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <div
+                      className="flex-1 rounded-md px-3 py-1 text-[11px] flex items-center gap-2 overflow-hidden"
+                      style={{ background: 'rgba(255,255,255,0.06)' }}
+                    >
+                      <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: 'rgba(255,255,255,0.28)' }} aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                       </svg>
-                      <span className="truncate">imagepdf.tools/compress-image</span>
+                      <span className="truncate" style={{ color: 'rgba(255,255,255,0.38)' }}>imagepdf.tools/compress-image</span>
                     </div>
                   </div>
 
-                  {/* App UI preview */}
-                  <div className="p-5 space-y-3" style={{ background: '#FAFAF8' }}>
+                  {/* App UI — dark content */}
+                  <div className="p-4 space-y-3" style={{ background: '#0F0F1C' }}>
                     {/* Drop zone */}
                     <div
-                      className="rounded-xl p-7 flex flex-col items-center justify-center gap-3 text-center"
-                      style={{ border: '2px dashed oklch(70% 0.158 293 / 0.3)', background: 'oklch(70% 0.158 293 / 0.04)' }}
+                      className="rounded-xl py-7 px-5 flex flex-col items-center justify-center gap-3 text-center"
+                      style={{ border: '1.5px dashed rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.015)' }}
                     >
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'oklch(70% 0.158 293 / 0.12)' }}>
-                        <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} style={{ color: 'oklch(70% 0.158 293)' }} aria-hidden="true">
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center"
+                        style={{ background: 'rgba(255,255,255,0.07)' }}
+                      >
+                        <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} style={{ color: 'rgba(255,255,255,0.55)' }} aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-slate-700">Drop your image here</p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">JPEG · PNG · WebP · SVG</p>
+                        <p className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>Drop your image here</p>
+                        <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.28)' }}>JPEG · PNG · WebP · SVG</p>
                       </div>
-                      <button className="text-xs font-semibold text-white px-4 py-1.5 rounded-lg" style={{ background: 'oklch(70% 0.158 293)' }} tabIndex={-1}>
+                      <button
+                        className="text-xs font-semibold text-white px-5 py-1.5 rounded-full"
+                        style={{ background: 'oklch(70% 0.158 293)' }}
+                        tabIndex={-1}
+                      >
                         Browse files
                       </button>
                     </div>
 
-                    {/* Result rows */}
-                    <div className="space-y-1.5">
+                    {/* File rows */}
+                    <div className="space-y-2">
                       {[
-                        { name: 'hero-photo.jpg',    from: '3.2 MB', to: '0.6 MB', pct: '81%', done: true  },
-                        { name: 'product-shot.png',  from: '1.8 MB', to: '0.4 MB', pct: '78%', done: true  },
-                        { name: 'banner.jpeg',       from: '5.1 MB', to: null,     pct: null,   done: false },
+                        { name: 'hero-photo.jpg',  from: '2.4 MB', to: '380 KB', pct: '-84%', thumb: 'linear-gradient(135deg, #9D95F5 0%, #6B62D9 100%)' },
+                        { name: 'screenshot.png',  from: '1.1 MB', to: '142 KB', pct: '-87%', thumb: 'linear-gradient(135deg, #34D399 0%, #059669 100%)' },
+                        { name: 'cover-art.png',   from: '3.8 MB', to: '612 KB', pct: '-84%', thumb: 'linear-gradient(135deg, #FB923C 0%, #DC6019 100%)' },
                       ].map((f) => (
-                        <div key={f.name} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white border border-slate-100 shadow-sm">
-                          <div
-                            className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                            style={{ background: f.done ? 'oklch(74% 0.143 162 / 0.12)' : 'oklch(70% 0.158 293 / 0.10)' }}
-                          >
-                            {f.done ? (
-                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{ color: 'oklch(74% 0.143 162)' }} aria-label="Done">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                              </svg>
-                            ) : (
-                              <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: 'oklch(70% 0.158 293)' }} aria-label="Processing">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                              </svg>
-                            )}
-                          </div>
+                        <div
+                          key={f.name}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
+                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.05)' }}
+                        >
+                          <div className="w-8 h-8 rounded-lg shrink-0" style={{ background: f.thumb }} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-[11px] font-semibold text-slate-700 truncate">{f.name}</p>
-                            <p className="text-[10px] text-slate-400 mt-0.5 font-data">
-                              {f.from} →{' '}
-                              {f.done
-                                ? <span style={{ color: 'oklch(74% 0.143 162)' }}>{f.to}</span>
-                                : <span className="text-slate-300">processing</span>
-                              }
-                              {f.done && f.pct && (
-                                <span className="ml-1 font-semibold" style={{ color: 'oklch(74% 0.143 162)' }}>{f.pct} smaller</span>
-                              )}
+                            <p className="text-[11px] font-semibold truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>{f.name}</p>
+                            <p className="text-[10px] mt-0.5 font-data" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                              {f.from} → {f.to}
                             </p>
                           </div>
-                          {f.done && (
-                            <button
-                              className="text-[10px] font-semibold px-2.5 py-1 rounded-lg shrink-0"
-                              style={{ background: 'oklch(70% 0.158 293 / 0.12)', color: 'oklch(70% 0.158 293)' }}
-                              tabIndex={-1}
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span
+                              className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                              style={{ background: 'oklch(70% 0.158 293 / 0.18)', color: 'oklch(78% 0.13 293)' }}
                             >
-                              ↓
-                            </button>
-                          )}
+                              {f.pct}
+                            </span>
+                            <div
+                              className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                              style={{ background: 'oklch(74% 0.143 162)' }}
+                            >
+                              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                              </svg>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
 
                     {/* Quality slider */}
-                    <div className="flex items-center gap-3 px-1 pt-0.5">
-                      <span className="text-[11px] text-slate-400 font-medium w-12 shrink-0">Quality</span>
-                      <div className="flex-1 relative h-1.5 rounded-full bg-slate-200">
-                        <div className="absolute left-0 top-0 h-full rounded-full w-4/5" style={{ background: 'oklch(70% 0.158 293)' }} />
+                    <div className="flex items-center gap-3 px-1 pt-1">
+                      <span className="text-[11px] font-medium w-12 shrink-0" style={{ color: 'rgba(255,255,255,0.32)' }}>Quality</span>
+                      <div className="flex-1 relative h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                        <div className="absolute left-0 top-0 h-full rounded-full" style={{ width: '78%', background: 'oklch(70% 0.158 293)' }} />
                         <div
-                          className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white shadow border-2"
-                          style={{ left: 'calc(80% - 7px)', borderColor: 'oklch(70% 0.158 293)' }}
+                          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white shadow-md"
+                          style={{ left: 'calc(78% - 6px)' }}
                         />
                       </div>
-                      <span className="text-[11px] font-bold text-slate-600 w-5 text-right shrink-0 font-data">80</span>
+                      <span className="text-[11px] font-bold w-5 text-right shrink-0 font-data" style={{ color: 'rgba(255,255,255,0.55)' }}>78</span>
                     </div>
                   </div>
                 </div>
@@ -397,13 +403,13 @@ export default function HomePage() {
         </section>
 
         {/* ── 2. PROBLEM ────────────────────────────────────────────────────── */}
-        <section className="bg-[#08080F] py-24 px-4">
+        <section className="bg-[#F4F6FA] dark:bg-[#08080F] py-24 px-4 border-t border-slate-100 dark:border-white/[0.04]">
           <div className="max-w-5xl mx-auto">
             <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-center mb-5" style={{ color: 'oklch(70% 0.158 293)' }}>
               The problem with every other tool
             </p>
             <h2
-              className="text-center text-white leading-[1.05] tracking-tight mb-5 text-balance"
+              className="text-center text-slate-900 dark:text-white leading-[1.05] tracking-tight mb-5 text-balance"
               style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)' }}
             >
               Every other tool<br />
@@ -415,7 +421,7 @@ export default function HomePage() {
 
             <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
               <div className="rounded-2xl p-6" style={{ border: '1px solid oklch(55% 0.2 27 / 0.22)', background: 'oklch(55% 0.2 27 / 0.04)' }}>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-400 mb-5">Other tools</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400 mb-5">Other tools</p>
                 <ul className="space-y-3" role="list">
                   {[
                     'Upload your file to their server',
@@ -424,8 +430,8 @@ export default function HomePage() {
                     'Require an account to download the result',
                     'Profile you based on file content',
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-400">
-                      <svg className="w-3.5 h-3.5 text-red-500/60 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
+                      <svg className="w-3.5 h-3.5 text-red-500 dark:text-red-500/60 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                       {item}
@@ -444,7 +450,7 @@ export default function HomePage() {
                     'Download instantly, no account ever needed',
                     'No tracking, no ad profiling, no exceptions',
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-400">
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
                       <svg className="w-3.5 h-3.5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{ color: 'oklch(70% 0.158 293)' }} aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
@@ -458,7 +464,7 @@ export default function HomePage() {
         </section>
 
         {/* ── 3. PROOF ──────────────────────────────────────────────────────── */}
-        <section className="bg-[#08080F] pb-24 px-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <section className="bg-[#F4F6FA] dark:bg-[#08080F] pb-24 px-4 border-t border-slate-100 dark:border-white/4">
           <div className="max-w-4xl mx-auto text-center">
             {/* The bold number — Instrument Serif, page's loudest moment */}
             <div
@@ -467,19 +473,19 @@ export default function HomePage() {
                 fontFamily: 'var(--font-serif-display), Georgia, serif',
                 fontSize: 'clamp(9rem, 28vw, 18rem)',
                 lineHeight: 1,
-                color: 'oklch(91% 0.022 293)',
+                color: 'var(--numeral-ghost)',
               }}
               aria-label="Zero kilobytes uploaded to our servers"
             >
               0
             </div>
             <h2
-              className="text-white mb-3 text-balance"
+              className="text-slate-900 dark:text-white mb-3 text-balance"
               style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)' }}
             >
               Kilobytes sent to our servers.
             </h2>
-            <p className="text-sm mb-14 text-slate-500">
+            <p className="text-sm mb-14 text-slate-600 dark:text-slate-500">
               Not today. Not ever. There is no endpoint that accepts file uploads. By architecture.
             </p>
 
@@ -504,15 +510,15 @@ export default function HomePage() {
                   accent: 'oklch(74% 0.143 162)',
                 },
               ].map(({ tag, title, desc, accent }) => (
-                <div key={title} className="rounded-2xl p-5" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.025)' }}>
+                <div key={title} className="rounded-2xl p-5 border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.025]">
                   <span
                     className="inline-block text-[10px] font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-full mb-4"
                     style={{ color: accent, background: `color-mix(in oklch, ${accent} 15%, transparent)` }}
                   >
                     {tag}
                   </span>
-                  <p className="text-sm font-semibold text-white mb-2">{title}</p>
-                  <p className="text-xs leading-relaxed text-slate-500">{desc}</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{title}</p>
+                  <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-500">{desc}</p>
                 </div>
               ))}
             </div>
@@ -657,10 +663,10 @@ export default function HomePage() {
         </section>
 
         {/* ── 7. FAQ ────────────────────────────────────────────────────────── */}
-        <section className="bg-[#08080F] py-24 px-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <section className="bg-[#F4F6FA] dark:bg-[#08080F] py-24 px-4 border-t border-slate-100 dark:border-white/4">
           <div className="max-w-2xl mx-auto">
             <h2
-              className="text-white leading-tight mb-12 text-balance"
+              className="text-slate-900 dark:text-white leading-tight mb-12 text-balance"
               style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}
             >
               Questions answered.
@@ -670,10 +676,10 @@ export default function HomePage() {
               {FAQS.map(({ q, a }, i) => (
                 <div
                   key={q}
-                  className={`py-6 ${i < FAQS.length - 1 ? 'border-b border-white/5' : ''}`}
+                  className={`py-6 ${i < FAQS.length - 1 ? 'border-b border-slate-200 dark:border-white/5' : ''}`}
                 >
-                  <dt className="text-sm font-semibold text-white mb-2">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500">{a}</dd>
+                  <dt className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{q}</dt>
+                  <dd className="text-sm leading-relaxed text-slate-600 dark:text-slate-500">{a}</dd>
                 </div>
               ))}
             </dl>
@@ -682,8 +688,7 @@ export default function HomePage() {
 
         {/* ── 6. FINAL CTA ──────────────────────────────────────────────────── */}
         <section
-          className="relative overflow-hidden bg-[#08080F] py-28 px-4 text-center"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+          className="relative overflow-hidden bg-[#F4F6FA] dark:bg-[#08080F] py-28 px-4 text-center border-t border-slate-100 dark:border-white/4"
         >
           <div
             className="absolute inset-0 pointer-events-none"
@@ -701,13 +706,13 @@ export default function HomePage() {
               Start now. It&apos;s free.
             </p>
             <h2
-              className="text-white leading-[1.0] tracking-tight mb-5 text-balance"
+              className="text-slate-900 dark:text-white leading-none tracking-tight mb-5 text-balance"
               style={{ fontSize: 'clamp(3rem, 8vw, 5.5rem)' }}
             >
               Your files.<br />
               Your rules.
             </h2>
-            <p className="text-sm mb-10 text-slate-500">
+            <p className="text-sm mb-10 text-slate-600 dark:text-slate-500">
               No sign-up. No download. No upload. Open a tool and go.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -720,14 +725,13 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/compress-pdf"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-200 px-7 py-3.5 rounded-xl transition-all duration-150 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300"
-                style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)' }}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200 px-7 py-3.5 rounded-xl border border-slate-300 dark:border-white/[0.12] bg-transparent dark:bg-white/[0.05] transition-all duration-150 hover:bg-slate-100 dark:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300"
               >
                 Compress PDF
               </Link>
               <Link
                 href="/image-tools"
-                className="text-sm font-medium px-7 py-3.5 rounded-xl transition-colors duration-150 text-slate-500 hover:text-slate-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+                className="text-sm font-medium px-7 py-3.5 rounded-xl transition-colors duration-150 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
               >
                 See all 30+ tools →
               </Link>

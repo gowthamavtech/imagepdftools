@@ -318,16 +318,16 @@ export function FeedbackButton() {
 
   return (
     <>
-      {/* Floating trigger */}
+      {/* Vertical right-side tab trigger */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 dark:hover:border-violet-700 text-sm font-medium p-2.5 md:px-4 md:py-2.5 rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 transition-all hover:shadow-xl hover:scale-105 active:scale-100"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-2.5 bg-white dark:bg-slate-800 border border-r-0 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-300 dark:hover:border-violet-700 px-2.5 py-5 rounded-l-xl shadow-lg shadow-black/10 dark:shadow-black/30 transition-all hover:shadow-xl"
         aria-label="Open feedback"
       >
-        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <span className="text-[10px] font-semibold tracking-wide" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>Feedback</span>
+        <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
-        <span className="hidden md:inline">Feedback</span>
       </button>
 
       <FeedbackModal isOpen={open} onClose={() => setOpen(false)} />
