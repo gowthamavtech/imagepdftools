@@ -157,7 +157,7 @@ export function SiteHeader() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={closeAll}>
-          <div className="w-7 h-7 rounded-lg bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'oklch(70% 0.158 293)' }}>
             <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
             </svg>

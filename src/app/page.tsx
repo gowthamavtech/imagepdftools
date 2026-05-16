@@ -212,7 +212,7 @@ export default function HomePage() {
       <main className="flex-1">
 
         {/* ── 1. HERO ─────────────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden bg-[#F7F8FC] dark:bg-[#0B0B0D] px-4 pt-16 pb-0">
+        <section className="relative overflow-hidden bg-[#F7F8FC] dark:bg-[#0B0B0D] px-4 py-16">
           {/* Starfield — dark mode only */}
           <div className="stars absolute inset-0" aria-hidden="true" />
           {/* Violet glow, dark only */}
@@ -223,10 +223,10 @@ export default function HomePage() {
           />
 
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-[1fr_460px] gap-12 lg:gap-8 items-end">
+            <div className="grid lg:grid-cols-[1fr_460px] gap-12 lg:gap-8 items-center">
 
               {/* Left — text */}
-              <div className="pb-16 lg:pb-24 pt-8">
+              <div className="py-8">
                 {/* Status badge */}
                 <div className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-8 border text-violet-600 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60">
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-500 motion-safe:animate-pulse" aria-hidden="true" />
@@ -282,118 +282,134 @@ export default function HomePage() {
                 </ul>
               </div>
 
-              {/* Right — browser mockup */}
-              <div className="relative flex items-end justify-center lg:justify-end pb-0">
+              {/* Right — before/after comparison mockup */}
+              <div className="relative flex items-center justify-center lg:justify-end">
                 <div
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-16 pointer-events-none"
                   style={{ background: 'radial-gradient(ellipse at center, oklch(70% 0.158 293 / 0.18) 0%, transparent 70%)' }}
                   aria-hidden="true"
                 />
                 <div
-                  className="relative w-full max-w-[440px] rounded-t-2xl overflow-hidden shadow-2xl shadow-black/60"
-                  style={{ border: '1px solid rgba(255,255,255,0.08)', borderBottom: 'none', background: '#151520' }}
-                  aria-label="Screenshot of the image compressor tool"
+                  className="relative w-full max-w-[460px] rounded-2xl overflow-hidden shadow-xl shadow-black/10 dark:shadow-2xl dark:shadow-black/70 border border-black/[0.08] dark:border-white/[0.07]"
+                  aria-label="Before and after image compression comparison"
                 >
-                  {/* Browser chrome — dark */}
-                  <div
-                    className="flex items-center gap-3 px-4 py-3"
-                    style={{ background: '#1C1C2A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-                  >
-                    <div className="flex gap-1.5" aria-hidden="true">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+                  {/* Browser chrome — light/dark adaptive */}
+                  <div className="flex items-center gap-3 px-5 py-3.5 bg-[#E3E3E7] dark:bg-[#131320] border-b border-black/[0.06] dark:border-white/[0.05]">
+                    <div className="flex gap-1.5 shrink-0" aria-hidden="true">
+                      <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                      <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                      <div className="w-3 h-3 rounded-full bg-[#28C840]" />
                     </div>
-                    <div
-                      className="flex-1 rounded-md px-3 py-1 text-[11px] flex items-center gap-2 overflow-hidden"
-                      style={{ background: 'rgba(255,255,255,0.06)' }}
-                    >
-                      <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: 'rgba(255,255,255,0.28)' }} aria-hidden="true">
+                    <div className="flex-1 rounded-lg px-3 py-1.5 text-[11px] flex items-center gap-2 overflow-hidden bg-black/[0.07] dark:bg-white/[0.05]">
+                      <svg className="w-2.5 h-2.5 shrink-0 text-black/30 dark:text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                       </svg>
-                      <span className="truncate" style={{ color: 'rgba(255,255,255,0.38)' }}>imagepdf.tools/compress-image</span>
+                      <span className="truncate text-black/35 dark:text-white/35">imagepdf.tools/compress-image</span>
                     </div>
                   </div>
 
-                  {/* App UI — dark content */}
-                  <div className="p-4 space-y-3" style={{ background: '#0F0F1C' }}>
-                    {/* Drop zone */}
-                    <div
-                      className="rounded-xl py-7 px-5 flex flex-col items-center justify-center gap-3 text-center"
-                      style={{ border: '1.5px dashed rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.015)' }}
-                    >
+                  {/* App content — light/dark adaptive */}
+                  <div className="p-5 space-y-4 bg-[#F0F0F5] dark:bg-[#0C0C18]">
+
+                    {/* Before/After split comparison — always dark (photo editor) */}
+                    <div className="relative rounded-2xl overflow-hidden select-none" style={{ height: '230px', background: '#0C0C18' }} aria-label="Image comparison: before and after compression">
+
+                      {/* BEFORE — left half, original warm photo */}
+                      <div className="absolute inset-0" style={{
+                        background: `
+                          radial-gradient(ellipse at 30% 40%, rgba(230,140,50,0.80) 0%, transparent 48%),
+                          radial-gradient(ellipse at 70% 15%, rgba(190,80,90,0.50) 0%, transparent 42%),
+                          radial-gradient(ellipse at 50% 90%, rgba(90,45,130,0.75) 0%, transparent 50%),
+                          radial-gradient(ellipse at 8% 65%,  rgba(45,28,85,0.85)  0%, transparent 45%),
+                          linear-gradient(165deg, #1C1020 0%, #2E1A30 40%, #160E28 70%, #080410 100%)
+                        `,
+                      }}>
+                        {/* Before label */}
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md" style={{ background: 'rgba(0,0,0,0.65)', color: 'rgba(255,255,255,0.90)' }}>
+                            Before
+                          </span>
+                        </div>
+                        {/* File size badge */}
+                        <div className="absolute bottom-3 left-3">
+                          <span className="text-[11px] font-bold font-data px-2.5 py-1 rounded-lg" style={{ background: 'rgba(0,0,0,0.65)', color: 'rgba(255,255,255,0.80)' }}>
+                            4.8 MB
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* AFTER — right half, compressed, vivid */}
+                      <div className="absolute inset-0" style={{
+                        clipPath: 'inset(0 0 0 51%)',
+                        background: `
+                          radial-gradient(ellipse at 30% 40%, rgba(120,80,255,0.85) 0%, transparent 48%),
+                          radial-gradient(ellipse at 70% 15%, rgba(190,80,220,0.55) 0%, transparent 42%),
+                          radial-gradient(ellipse at 50% 90%, rgba(55,35,190,0.80)  0%, transparent 50%),
+                          radial-gradient(ellipse at 8% 65%,  rgba(28,18,110,0.85)  0%, transparent 45%),
+                          linear-gradient(165deg, #18102E 0%, #2A1448 40%, #110C36 70%, #060414 100%)
+                        `,
+                      }}>
+                        {/* After label */}
+                        <div className="absolute top-3 right-3">
+                          <span className="text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md" style={{ background: 'rgba(0,0,0,0.65)', color: 'rgba(255,255,255,0.90)' }}>
+                            After
+                          </span>
+                        </div>
+                        {/* Compressed size badges */}
+                        <div className="absolute bottom-3 right-3 flex items-center gap-1.5">
+                          <span className="text-[11px] font-bold font-data px-2.5 py-1 rounded-lg" style={{ background: 'oklch(74% 0.143 162 / 0.20)', border: '1px solid oklch(74% 0.143 162 / 0.55)', color: 'oklch(82% 0.13 162)' }}>
+                            620 KB
+                          </span>
+                          <span className="text-[11px] font-bold px-2.5 py-1 rounded-lg" style={{ background: 'oklch(70% 0.158 293 / 0.20)', border: '1px solid oklch(70% 0.158 293 / 0.55)', color: 'oklch(82% 0.13 293)' }}>
+                            −87%
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Divider line */}
+                      <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: '51%', width: '1.5px', background: 'rgba(255,255,255,0.5)' }} aria-hidden="true" />
+
+                      {/* Drag handle */}
                       <div
-                        className="w-9 h-9 rounded-xl flex items-center justify-center"
-                        style={{ background: 'rgba(255,255,255,0.07)' }}
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full flex items-center justify-center shadow-xl pointer-events-none"
+                        style={{ left: '51%', background: 'white' }}
+                        aria-hidden="true"
                       >
-                        <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} style={{ color: 'rgba(255,255,255,0.55)' }} aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18M17 8l4 4m0 0l-4 4" />
                         </svg>
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>Drop your image here</p>
-                        <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.28)' }}>JPEG · PNG · WebP · SVG</p>
+                    </div>
+
+                    {/* File info + download */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg shrink-0" style={{ background: 'linear-gradient(135deg, #C084FC 0%, #818CF8 50%, #6B62D9 100%)' }} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13px] font-semibold truncate text-slate-900 dark:text-white/90">golden-hour.jpg</p>
+                        <p className="text-[11px] mt-0.5 font-data text-slate-400 dark:text-white/45">4.8 MB → 620 KB · JPEG</p>
                       </div>
                       <button
-                        className="text-xs font-semibold text-white px-5 py-1.5 rounded-full"
+                        className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-white px-4 py-2 rounded-full shrink-0"
                         style={{ background: 'oklch(70% 0.158 293)' }}
                         tabIndex={-1}
                       >
-                        Browse files
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M12 3v13.5m0 0l-4.5-4.5M12 16.5l4.5-4.5" />
+                        </svg>
+                        Download
                       </button>
                     </div>
 
-                    {/* File rows */}
-                    <div className="space-y-2">
-                      {[
-                        { name: 'hero-photo.jpg',  from: '2.4 MB', to: '380 KB', pct: '-84%', thumb: 'linear-gradient(135deg, #9D95F5 0%, #6B62D9 100%)' },
-                        { name: 'screenshot.png',  from: '1.1 MB', to: '142 KB', pct: '-87%', thumb: 'linear-gradient(135deg, #34D399 0%, #059669 100%)' },
-                        { name: 'cover-art.png',   from: '3.8 MB', to: '612 KB', pct: '-84%', thumb: 'linear-gradient(135deg, #FB923C 0%, #DC6019 100%)' },
-                      ].map((f) => (
-                        <div
-                          key={f.name}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.05)' }}
-                        >
-                          <div className="w-8 h-8 rounded-lg shrink-0" style={{ background: f.thumb }} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[11px] font-semibold truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>{f.name}</p>
-                            <p className="text-[10px] mt-0.5 font-data" style={{ color: 'rgba(255,255,255,0.32)' }}>
-                              {f.from} → {f.to}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span
-                              className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                              style={{ background: 'oklch(70% 0.158 293 / 0.18)', color: 'oklch(78% 0.13 293)' }}
-                            >
-                              {f.pct}
-                            </span>
-                            <div
-                              className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                              style={{ background: 'oklch(74% 0.143 162)' }}
-                            >
-                              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    {/* Quality slider */}
+                    <div className="flex items-center gap-3 px-0.5">
+                      <span className="text-[11px] font-medium w-12 shrink-0 text-slate-400 dark:text-white/28">Quality</span>
+                      <div className="flex-1 relative h-[2px] rounded-full bg-black/10 dark:bg-white/8">
+                        <div className="absolute left-0 top-0 h-full rounded-full" style={{ width: '78%', background: 'oklch(70% 0.158 293)' }} />
+                        <div className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-sm shadow-black/20" style={{ left: 'calc(78% - 5px)' }} />
+                      </div>
+                      <span className="text-[12px] font-bold w-6 text-right shrink-0 font-data text-slate-400 dark:text-white/50">78</span>
                     </div>
 
-                    {/* Quality slider */}
-                    <div className="flex items-center gap-3 px-1 pt-1">
-                      <span className="text-[11px] font-medium w-12 shrink-0" style={{ color: 'rgba(255,255,255,0.32)' }}>Quality</span>
-                      <div className="flex-1 relative h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                        <div className="absolute left-0 top-0 h-full rounded-full" style={{ width: '78%', background: 'oklch(70% 0.158 293)' }} />
-                        <div
-                          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white shadow-md"
-                          style={{ left: 'calc(78% - 6px)' }}
-                        />
-                      </div>
-                      <span className="text-[11px] font-bold w-5 text-right shrink-0 font-data" style={{ color: 'rgba(255,255,255,0.55)' }}>78</span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -529,7 +545,7 @@ export default function HomePage() {
         <section className="bg-white dark:bg-[#0C0C1A] py-24 px-4 border-t border-black/[0.06] dark:border-white/[0.04]">
           <div className="max-w-5xl mx-auto">
             <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-5" style={{ color: 'oklch(70% 0.158 293)' }}>
-              // Zero friction
+              Zero friction
             </p>
             <h2
               className="leading-[1.05] tracking-tight mb-16 text-balance text-slate-900 dark:text-white"
@@ -639,50 +655,33 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 6. FORMATS ────────────────────────────────────────────────────── */}
-        <section className="bg-white dark:bg-[#0C0C1A] py-20 px-4 border-t border-black/[0.06] dark:border-white/[0.04]">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-5 text-slate-400 dark:text-slate-500">
-              Supported formats
-            </p>
-            <h2
-              className="tracking-tight mb-12 text-balance text-slate-900 dark:text-white"
-              style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}
-            >
-              Every major format. All in the browser.
-            </h2>
-            <dl className="grid sm:grid-cols-2 gap-x-16 gap-y-8">
-              {FORMATS.map(({ fmt, desc }) => (
-                <div key={fmt}>
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-white mb-1.5">{fmt}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{desc}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
-
-        {/* ── 7. FAQ ────────────────────────────────────────────────────────── */}
-        <section className="bg-[#F4F6FA] dark:bg-[#08080F] py-24 px-4 border-t border-slate-100 dark:border-white/4">
+        {/* ── 6. FAQ ────────────────────────────────────────────────────────── */}
+        <section className="bg-white dark:bg-[#0C0C1A] py-24 px-4 border-t border-black/[0.06] dark:border-white/[0.04]">
           <div className="max-w-2xl mx-auto">
             <h2
               className="text-slate-900 dark:text-white leading-tight mb-12 text-balance"
               style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}
             >
-              Questions answered.
+              Common questions.
             </h2>
 
             <dl>
-              {FAQS.map(({ q, a }, i) => (
+              {FAQS.slice(0, 4).map(({ q, a }, i) => (
                 <div
                   key={q}
-                  className={`py-6 ${i < FAQS.length - 1 ? 'border-b border-slate-200 dark:border-white/5' : ''}`}
+                  className={`py-6 ${i < 3 ? 'border-b border-slate-200 dark:border-white/5' : ''}`}
                 >
                   <dt className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{q}</dt>
                   <dd className="text-sm leading-relaxed text-slate-600 dark:text-slate-500">{a}</dd>
                 </div>
               ))}
             </dl>
+
+            <div className="mt-8">
+              <a href="/support" className="text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline">
+                More questions →
+              </a>
+            </div>
           </div>
         </section>
 
