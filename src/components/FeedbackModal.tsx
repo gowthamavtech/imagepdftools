@@ -76,7 +76,7 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
         <div className="space-y-4">
             {/* Type selector */}
             <div>
-                <p className="text-xs font-semibold text-slate-400 dark:text-slate-400 uppercase tracking-wide mb-2">Type</p>
+                <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: 'var(--fg-3)' }}>Type</p>
                 <div className="flex gap-2">
                     {(Object.keys(TYPE_CONFIG) as FeedbackType[]).map((type) => {
                         const cfg = TYPE_CONFIG[type];
@@ -88,7 +88,7 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
                                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-all flex-1 justify-center ${
                                     isActive
                                         ? cfg.activeClass
-                                        : "bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-gray-600"
+                                        : "border-[var(--border-1)] text-[var(--fg-2)] bg-[var(--bg-elevated)] hover:border-[var(--accent)]"
                                 }`}
                             >
                                 {cfg.icon}
@@ -106,14 +106,18 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
                     onChange={(e) => setText(e.target.value.slice(0, MAX_CHARS))}
                     placeholder="What would you like to see?"
                     rows={5}
-                    className="w-full resize-none rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-gray-500 px-3.5 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400 dark:focus:ring-violet-600 focus:border-transparent transition-all"
+                    className="w-full resize-none rounded-xl text-sm px-3.5 py-3 focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+                    style={{ border: '1px solid var(--border-1)', background: 'var(--bg)', color: 'var(--fg-1)', outlineColor: 'var(--accent)' } as React.CSSProperties}
                 />
                 <div className="flex items-center justify-between mt-1">
                     {/* Attachment */}
                     <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
-                        className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-violet-400 transition-colors"
+                        className="flex items-center gap-1.5 text-xs transition-colors"
+                        style={{ color: 'var(--fg-2)' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
                     >
                         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                             <path
@@ -137,7 +141,8 @@ function SubmitTab({ onSuccess }: { onSuccess: (entry: HistoryEntry) => void }) 
                 <button
                     onClick={handleSend}
                     disabled={!text.trim()}
-                    className="flex-1 flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all"
+                    className="flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-semibold px-4 py-2.5 rounded-xl transition-all"
+                    style={{ background: 'var(--accent)', color: 'var(--on-accent)' }}
                 >
                     Send Feedback
                 </button>
@@ -150,13 +155,13 @@ function HistoryTab({ entries }: { entries: HistoryEntry[] }) {
     if (entries.length === 0) {
         return (
             <div className="text-center py-10">
-                <div className="w-12 h-12 mx-auto rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center mb-3">
-                    <svg className="w-5 h-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+                <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3" style={{ background: 'var(--bg-elevated)' }}>
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} style={{ color: 'var(--fg-3)' }}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <p className="text-sm font-medium text-slate-400 dark:text-slate-400">No feedback submitted yet</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Your submissions will appear here</p>
+                <p className="text-sm font-medium" style={{ color: 'var(--fg-2)' }}>No feedback submitted yet</p>
+                <p className="text-xs mt-1" style={{ color: 'var(--fg-3)' }}>Your submissions will appear here</p>
             </div>
         );
     }
@@ -166,15 +171,15 @@ function HistoryTab({ entries }: { entries: HistoryEntry[] }) {
             {entries.map((entry) => {
                 const cfg = TYPE_CONFIG[entry.type];
                 return (
-                    <li key={entry.id} className="border border-slate-200 dark:border-slate-600 rounded-xl p-4 bg-white dark:bg-slate-800/60">
+                    <li key={entry.id} className="rounded-xl p-4" style={{ border: '1px solid var(--border-1)', background: 'var(--bg-elevated)' }}>
                         <div className="flex items-center gap-2 mb-2">
                             <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide ${cfg.activeClass}`}>
                                 {cfg.icon}
                                 {cfg.label}
                             </span>
-                            <span className="text-xs text-slate-500 dark:text-slate-400 ml-auto">{entry.date}</span>
+                            <span className="text-xs ml-auto" style={{ color: 'var(--fg-3)' }}>{entry.date}</span>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">{entry.text}</p>
+                        <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'var(--fg-2)' }}>{entry.text}</p>
                     </li>
                 );
             })}
@@ -185,14 +190,14 @@ function HistoryTab({ entries }: { entries: HistoryEntry[] }) {
 function SuccessState({ onClose }: { onClose: () => void }) {
     return (
         <div className="text-center py-6">
-            <div className="w-14 h-14 mx-auto rounded-full bg-teal-50 dark:bg-teal-950/40 flex items-center justify-center mb-4">
-                <svg className="w-7 h-7 text-teal-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <div className="w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: 'var(--accent-dim)' }}>
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} style={{ color: 'var(--accent)' }}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h3 className="text-base font-semibold text-slate-50 mb-1">Thanks for your feedback!</h3>
-            <p className="text-sm text-slate-400 dark:text-slate-400 mb-6">We review every submission and use it to improve ImagePDF.Tools.</p>
-            <button onClick={onClose} className="text-sm font-medium text-violet-400 hover:underline">
+            <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--fg-1)' }}>Thanks for your feedback!</h3>
+            <p className="text-sm mb-6" style={{ color: 'var(--fg-2)' }}>We review every submission and use it to improve ImagePDF.Tools.</p>
+            <button onClick={onClose} className="text-sm font-medium hover:underline" style={{ color: 'var(--accent)' }}>
                 Close
             </button>
         </div>
@@ -233,13 +238,16 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
             {/* Modal */}
-            <div className="relative w-full max-w-md mx-4 mb-4 sm:mb-0 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl shadow-black/20 overflow-hidden">
+            <div className="relative w-full max-w-md mx-4 mb-4 sm:mb-0 rounded-2xl shadow-2xl shadow-black/20 overflow-hidden" style={{ background: 'var(--bg-surface)' }}>
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-slate-200 dark:border-slate-700">
-                    <h2 className="text-base font-bold text-slate-900 dark:text-slate-50">Share Feedback</h2>
+                <div className="flex items-center justify-between px-5 pt-5 pb-4" style={{ borderBottom: '1px solid var(--border-1)' }}>
+                    <h2 className="text-base font-bold" style={{ color: 'var(--fg-1)' }}>Share Feedback</h2>
                     <button
                         onClick={handleClose}
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 dark:hover:text-slate-300 hover:bg-slate-700 dark:hover:bg-slate-600 transition-colors"
+                        className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+                        style={{ color: 'var(--fg-2)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--fg-1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--fg-2)'; }}
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -257,11 +265,10 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                         <div className="flex gap-1 px-5 pt-4">
                             <button
                                 onClick={() => setActiveTab("submit")}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                                    activeTab === "submit"
-                                        ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
-                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
-                                }`}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+                                style={activeTab === "submit"
+                                    ? { background: 'var(--bg-elevated)', color: 'var(--fg-1)' }
+                                    : { color: 'var(--fg-2)' }}
                             >
                                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                                     <path
@@ -274,11 +281,10 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                             </button>
                             <button
                                 onClick={() => setActiveTab("history")}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                                    activeTab === "history"
-                                        ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
-                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
-                                }`}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+                                style={activeTab === "history"
+                                    ? { background: 'var(--bg-elevated)', color: 'var(--fg-1)' }
+                                    : { color: 'var(--fg-2)' }}
                             >
                                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -298,7 +304,10 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                             <div className="px-5 pb-5 -mt-1">
                                 <button
                                     onClick={handleClose}
-                                    className="w-full text-sm text-slate-500 dark:text-slate-400 hover:text-slate-300 dark:hover:text-slate-300 py-2 transition-colors"
+                                    className="w-full text-sm py-2 transition-colors"
+                                    style={{ color: 'var(--fg-2)' }}
+                                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+                                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
                                 >
                                     Cancel
                                 </button>

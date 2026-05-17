@@ -376,7 +376,7 @@ export default function HomePage() {
               ].map(({ num, title, desc, icon }) => (
                 <div key={num} className="step-card">
                   <div style={{ width: '32px', height: '32px', display: 'grid', placeItems: 'center', color: 'var(--fg-2)', marginBottom: '18px' }}>{icon}</div>
-                  <span aria-hidden="true" style={{ position: 'absolute', right: 0, top: '28px', ...serif, fontSize: '56px', lineHeight: 1, color: 'var(--fg-3)', letterSpacing: '-0.04em', opacity: 0.4 }}>{num}</span>
+                  <span aria-hidden="true" style={{ position: 'absolute', right: '10px', top: '28px', ...serif, fontSize: '56px', lineHeight: 1, color: 'var(--accent)', letterSpacing: '-0.04em', opacity: 0.18 }}>{num}</span>
                   <h3 style={{ ...sans, fontSize: '17px', fontWeight: 500, lineHeight: 1.35, color: 'var(--fg-1)', letterSpacing: '-0.005em', margin: '0 0 10px' }}>{title}</h3>
                   {desc}
                 </div>

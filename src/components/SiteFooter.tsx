@@ -102,25 +102,25 @@ const TRUST_BADGES = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+    <footer style={{ borderTop: '1px solid var(--border-1)', background: 'var(--bg-elevated)' }}>
 
       {/* Brand strip */}
-      <div className="max-w-6xl mx-auto px-4 pt-10 pb-8 border-b border-slate-100 dark:border-slate-800/60">
+      <div className="max-w-6xl mx-auto px-4 pt-10 pb-8" style={{ borderBottom: '1px solid var(--border-1)' }}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
 
           {/* Logo + tagline */}
           <div>
             <Link href="/" className="inline-flex items-center gap-2 mb-2">
-              <div className="w-7 h-7 rounded-lg bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center shadow-md shadow-violet-500/30">
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent)' }}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: 'var(--on-accent)' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
                 </svg>
               </div>
-              <span className="text-base font-bold text-violet-600 dark:text-violet-400 tracking-tight">
+              <span className="text-base font-bold tracking-tight" style={{ color: 'var(--accent)' }}>
                 ImagePDF.Tools
               </span>
             </Link>
-            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
+            <p className="text-sm max-w-xs leading-relaxed" style={{ color: 'var(--fg-2)' }}>
               Compress and convert files instantly. No uploading, no waiting, no account.
             </p>
           </div>
@@ -130,7 +130,8 @@ export function SiteFooter() {
             {TRUST_BADGES.map(({ label, icon }) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/30 px-3 py-1.5 rounded-full"
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
+                style={{ color: 'var(--accent)', border: '1px solid var(--accent-border)', background: 'var(--accent-dim)' }}
               >
                 {icon}
                 {label}
@@ -165,7 +166,7 @@ export function SiteFooter() {
                     ) : (
                       <Link
                         href={l.href}
-                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        className="text-xs transition-colors text-[var(--fg-2)] hover:text-[var(--accent)]"
                       >
                         {l.label}
                       </Link>
@@ -178,18 +179,18 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid var(--border-1)' }}>
           <Link href="/" className="inline-flex items-center gap-1.5 shrink-0">
-            <div className="w-5 h-5 rounded-md bg-linear-to-br from-violet-600 to-violet-400 flex items-center justify-center">
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: 'var(--accent)' }}>
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{ color: 'var(--on-accent)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
               </svg>
             </div>
-            <span className="text-sm font-bold text-violet-600 dark:text-violet-400 tracking-tight">
+            <span className="text-sm font-bold tracking-tight" style={{ color: 'var(--accent)' }}>
               ImagePDF.Tools
             </span>
           </Link>
-          <p className="text-xs text-slate-400 dark:text-slate-500 text-center">
+          <p className="text-xs text-center" style={{ color: 'var(--fg-3)' }}>
             &copy; {new Date().getFullYear()} ImagePDF.Tools &middot; All processing happens in your browser &middot; nothing is uploaded.
           </p>
         </div>

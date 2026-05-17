@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FeedbackButton } from "@/components/FeedbackModal";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { OfflineBanner } from "@/components/OfflineBanner";
+import { ClickSpark } from "@/components/ClickSpark";
 import "./globals.css";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", weight: ["300", "400", "500", "600", "700"] });
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <SiteFooter />
                         <FeedbackButton />
                         <OfflineBanner />
+                        <ClickSpark sparkColor="#9d95f5" sparkSize={6} sparkRadius={22} sparkCount={9} duration={450} />
                     </ThemeProvider>
 
                     {/* Google Translate mount point — must NOT be display:none or GT won't init */}
