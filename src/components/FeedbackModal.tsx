@@ -316,31 +316,31 @@ export function FeedbackButton() {
 
     return (
         <>
-            {/* Vertical right-side tab trigger — D-shape pill, padding-driven size */}
+            {/* Rotated pill tab — matches reference: rotate(-90deg), transform-origin right center, hidden on mobile */}
             <button
                 onClick={() => setOpen(true)}
-                className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1.5 px-[7px] py-[20px] transition-all duration-200 hover:brightness-110"
+                className="hidden sm:inline-flex fixed z-40 items-center gap-2 cursor-pointer transition-opacity duration-150 hover:opacity-80"
                 style={{
-                    background: "rgba(8, 8, 14, 0.96)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid rgba(255,255,255,0.09)",
-                    borderRight: "0px",
-                    borderRadius: "9999px 0 0 9999px",
-                    boxShadow: "-2px 0 18px rgba(0,0,0,0.55)",
+                    right: "24px",
+                    top: "50%",
+                    transform: "translateY(-50%) rotate(-90deg)",
+                    transformOrigin: "right center",
+                    padding: "8px 16px",
+                    borderRadius: "30px 30px 0 0",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-2)",
+                    borderBottom: "none",
+                    color: "var(--fg-1)",
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    lineHeight: 1,
                 }}
                 aria-label="Open feedback"
             >
-                <span className="text-[11px] font-bold text-white leading-none" style={{ writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)" }}>
-                    Feedback
-                </span>
-                <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: "oklch(70% 0.158 293)" }}>
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--accent)" }}>
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                 </svg>
+                Feedback
             </button>
 
             <FeedbackModal isOpen={open} onClose={() => setOpen(false)} />

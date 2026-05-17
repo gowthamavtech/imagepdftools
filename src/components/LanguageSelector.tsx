@@ -40,7 +40,7 @@ function Flag({ iso, label }: { iso: string; label: string }) {
   );
 }
 
-export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'right' } = {}) {
+export function LanguageSelector({ mobileAlign, openUp }: { mobileAlign?: 'left' | 'right'; openUp?: boolean } = {}) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<typeof LANGUAGES[number]>(LANGUAGES[0]);
   const ref        = useRef<HTMLDivElement>(null);
@@ -136,11 +136,14 @@ export function LanguageSelector({ mobileAlign }: { mobileAlign?: 'left' | 'righ
       {open && (
         <div
           className={`absolute z-50 w-44 bg-white dark:bg-slate-800 border border-violet-100 dark:border-violet-900/50 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40 overflow-hidden ${
-            mobileAlign !== undefined
-              ? `top-full mt-2 ${mobileAlign === 'left' ? 'left-0' : 'right-0'}`
-              : 'right-0'
+            mobileAlign === 'left' ? 'left-0' : 'right-0'
           }`}
-          style={mobileAlign === undefined ? { top: 'calc(100% + 15.5px)' } : undefined}
+          style={openUp
+            ? { bottom: 'calc(100% + 8px)' }
+            : mobileAlign === undefined
+              ? { top: 'calc(100% + 15.5px)' }
+              : { top: 'calc(100% + 8px)' }
+          }
           role="listbox"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

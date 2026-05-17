@@ -12,9 +12,9 @@ const IMAGE_TOOLS = [
     group: 'Compress',
     items: [
       { href: '/compress-image',        label: 'Compress Image',    desc: 'JPEG, PNG, WebP' },
-      { href: '/compress-png-online',  label: 'Compress PNG',      desc: 'Lossy PNG optimisation' },
-      { href: '/compress-jpeg-online', label: 'Compress JPEG',     desc: 'Shrink JPEG files' },
-      { href: '/reduce-image-size',    label: 'Reduce Image Size', desc: 'Any format, any size' },
+      { href: '/compress-png-online',   label: 'Compress PNG',      desc: 'Lossy PNG optimisation' },
+      { href: '/compress-jpeg-online',  label: 'Compress JPEG',     desc: 'Shrink JPEG files' },
+      { href: '/reduce-image-size',     label: 'Reduce Image Size', desc: 'Any format, any size' },
     ],
   },
   {
@@ -29,38 +29,47 @@ const IMAGE_TOOLS = [
   {
     group: 'Edit',
     items: [
-      { href: '/crop-image',      label: 'Crop Image',       desc: 'Trim or crop freely' },
-      { href: '/resize-image',    label: 'Resize Image',     desc: 'Custom px dimensions' },
-      { href: '/flip-image',      label: 'Flip Image',       desc: 'Mirror H or V' },
-      { href: '/rotate-image',    label: 'Rotate Image',     desc: 'Rotate 90° or 180°' },
-      { href: '/metadata-editor', label: 'Metadata Editor',  desc: 'View & edit EXIF data' },
-      { href: '/remove-metadata', label: 'Remove Metadata',  desc: 'Strip EXIF for privacy' },
+      { href: '/crop-image',      label: 'Crop Image',      desc: 'Trim or crop freely' },
+      { href: '/resize-image',    label: 'Resize Image',    desc: 'Custom px dimensions' },
+      { href: '/flip-image',      label: 'Flip Image',      desc: 'Mirror H or V' },
+      { href: '/rotate-image',    label: 'Rotate Image',    desc: 'Rotate 90° or 180°' },
+      { href: '/metadata-editor', label: 'Metadata Editor', desc: 'View & edit EXIF data' },
+      { href: '/remove-metadata', label: 'Remove Metadata', desc: 'Strip EXIF for privacy' },
     ],
   },
 ];
 
 const PDF_TOOLS = [
-  { href: '/merge-pdf',    label: 'Merge PDF',     desc: 'Combine PDFs into one' },
-  { href: '/split-pdf',    label: 'Split PDF',     desc: 'Extract pages or ranges' },
-  { href: '/compress-pdf', label: 'Compress PDF',  desc: 'Shrink PDF file size' },
-  { href: '/image-to-pdf', label: 'Image to PDF',  desc: 'Bundle images into a PDF' },
-  { href: '/pdf-to-jpg',   label: 'PDF to JPG',    desc: 'Convert pages to images' },
-  { href: '/rotate-pdf',    label: 'Rotate PDF',       desc: 'Fix page orientation' },
-  { href: '/protect-pdf',   label: 'Protect / Unlock', desc: 'Add or remove password' },
-  { href: '/number-pdf',    label: 'Add Page Numbers', desc: 'Stamp numbers on every page' },
-  { href: '/organize-pdf',  label: 'Organize Pages',   desc: 'Drag to reorder or delete' },
-  { href: '/watermark-pdf', label: 'Watermark PDF',    desc: 'Overlay text on every page' },
+  { href: '/merge-pdf',     label: 'Merge PDF',          desc: 'Combine PDFs into one' },
+  { href: '/split-pdf',     label: 'Split PDF',           desc: 'Extract pages or ranges' },
+  { href: '/compress-pdf',  label: 'Compress PDF',        desc: 'Shrink PDF file size' },
+  { href: '/image-to-pdf',  label: 'Image to PDF',        desc: 'Bundle images into a PDF' },
+  { href: '/pdf-to-jpg',    label: 'PDF to JPG',          desc: 'Convert pages to images' },
+  { href: '/rotate-pdf',    label: 'Rotate PDF',          desc: 'Fix page orientation' },
+  { href: '/protect-pdf',   label: 'Protect / Unlock',    desc: 'Add or remove password' },
+  { href: '/number-pdf',    label: 'Add Page Numbers',    desc: 'Stamp numbers on every page' },
+  { href: '/organize-pdf',  label: 'Organize Pages',      desc: 'Drag to reorder or delete' },
+  { href: '/watermark-pdf', label: 'Watermark PDF',       desc: 'Overlay text on every page' },
 ];
 
 type DropdownKey = 'image' | 'pdf' | null;
 
+/* ── Shared font stacks (avoid repeating long strings) ── */
+const sans = "var(--font-dm-sans, 'DM Sans', system-ui, sans-serif)";
+
+/* ── Auth section — no style changes needed ───────────── */
 function AuthSection() {
   const { isLoaded, isSignedIn } = useAuth();
   if (!isLoaded) return <div className="w-8 h-8" />;
   if (isSignedIn) {
     return (
       <div className="flex items-center gap-2">
-        <Link href="/account" className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors">
+        <Link
+          href="/account"
+          style={{ fontFamily: sans, fontSize: '13px', fontWeight: 500, color: 'var(--fg-2)', textDecoration: 'none', padding: '0 12px', height: '34px', display: 'inline-flex', alignItems: 'center', borderRadius: '30px', transition: 'color 0.15s' }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
+        >
           Account
         </Link>
         <UserButton />
@@ -70,7 +79,7 @@ function AuthSection() {
   return (
     <Show when="signed-out">
       <SignInButton mode="modal">
-        <button className="text-sm bg-violet-600 hover:bg-violet-700 dark:hover:bg-violet-500 text-white px-4 py-2 rounded-full font-medium transition-colors duration-150 shadow-sm shadow-violet-900/40">
+        <button style={{ fontFamily: sans, fontSize: '13px', fontWeight: 500, height: '34px', padding: '0 16px', borderRadius: '30px', background: 'var(--accent)', color: 'var(--on-accent)', border: '1px solid transparent', cursor: 'pointer', transition: 'background 0.15s' }}>
           Sign In
         </button>
       </SignInButton>
@@ -78,34 +87,58 @@ function AuthSection() {
   );
 }
 
-function NavButton({ label, open, onClick }: { label: string; open: boolean; onClick: () => void }) {
+/* ── Dropdown trigger button styled as nav link ────────── */
+function NavLink({ label, open, onClick, onMouseEnter, onMouseLeave }: {
+  label: string; open: boolean;
+  onClick: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}) {
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg transition-colors ${
-        open
-          ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30'
-          : 'text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-violet-900/20'
-      }`}
+      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--fg-1)'; onMouseEnter?.(); }}
+      onMouseLeave={(e) => { if (!open) e.currentTarget.style.color = 'var(--fg-2)'; onMouseLeave?.(); }}
+      style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: open ? 'var(--fg-1)' : 'var(--fg-2)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.15s' }}
     >
       {label}
-      <span className={`text-base leading-none ${open ? 'text-violet-500 dark:text-violet-400' : 'text-slate-400 dark:text-slate-500'}`}>·</span>
+      <span style={{ color: 'var(--fg-3)', fontSize: '10px' }}>▾</span>
     </button>
   );
 }
 
+const DRAWER_IMAGE_LINKS = [
+  { href: '/compress-image',        label: 'Compress Image' },
+  { href: '/compress-png-online',   label: 'Compress PNG' },
+  { href: '/convert-image-to-webp', label: 'Convert to WebP' },
+  { href: '/crop-image',            label: 'Crop Image' },
+  { href: '/resize-image',          label: 'Resize Image' },
+  { href: '/rotate-image',          label: 'Rotate Image' },
+];
+const DRAWER_PDF_LINKS = [
+  { href: '/compress-pdf',  label: 'Compress PDF' },
+  { href: '/image-to-pdf',  label: 'Image to PDF' },
+  { href: '/merge-pdf',     label: 'Merge PDF' },
+  { href: '/split-pdf',     label: 'Split PDF' },
+  { href: '/pdf-to-jpg',    label: 'PDF to JPG' },
+];
+
 export function SiteHeader() {
-  const [menuOpen,     setMenuOpen]     = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
-  const [pdfRight,     setPdfRight]     = useState(0);
-  const outerRef     = useRef<HTMLElement>(null);  // entire <header> — for outside-click
-  const headerRef    = useRef<HTMLDivElement>(null); // inner nav div — for PDF dropdown positioning
-  const pdfBtnRef    = useRef<HTMLDivElement>(null);
-  const hoverTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [menuOpen,      setMenuOpen]      = useState(false);
+  const [openDropdown,  setOpenDropdown]  = useState<DropdownKey>(null);
+  const [drawerSection, setDrawerSection] = useState<DropdownKey>(null);
+  const [pdfRight,      setPdfRight]      = useState(0);
+  const outerRef   = useRef<HTMLElement>(null);
+  const drawerRef  = useRef<HTMLDivElement>(null);
+  const headerRef  = useRef<HTMLDivElement>(null);
+  const pdfBtnRef  = useRef<HTMLDivElement>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (outerRef.current && !outerRef.current.contains(e.target as Node)) {
+      const inHeader = outerRef.current?.contains(e.target as Node);
+      const inDrawer = drawerRef.current?.contains(e.target as Node);
+      if (!inHeader && !inDrawer) {
         setMenuOpen(false);
         setOpenDropdown(null);
       }
@@ -116,7 +149,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
-      if (e.key === 'Escape') { setOpenDropdown(null); setMenuOpen(false); }
+      if (e.key === 'Escape') { setOpenDropdown(null); setMenuOpen(false); setDrawerSection(null); }
     }
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
@@ -128,13 +161,14 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)');
-    const handler = (e: MediaQueryListEvent) => { if (e.matches) setMenuOpen(false); };
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const handler = (e: MediaQueryListEvent) => { if (e.matches) { setMenuOpen(false); setDrawerSection(null); } };
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  function closeAll() { setOpenDropdown(null); setMenuOpen(false); }
+
+  function closeAll() { setOpenDropdown(null); setMenuOpen(false); setDrawerSection(null); }
 
   function openMenu(key: DropdownKey) {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
@@ -151,28 +185,34 @@ export function SiteHeader() {
   }
 
   return (
-    <header ref={outerRef} className="border-b border-black/8 dark:border-white/8 bg-white/90 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
-      {/* Inner container — mega menu is positioned absolute relative to this */}
-      <div ref={headerRef} className="relative max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0" onClick={closeAll}>
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'oklch(70% 0.158 293)' }}>
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
+    <>
+    <header
+      ref={outerRef}
+      style={{ position: 'sticky', top: 0, zIndex: 50, background: 'var(--nav-bg)', backdropFilter: 'blur(16px) saturate(150%)', WebkitBackdropFilter: 'blur(16px) saturate(150%)', borderBottom: '1px solid var(--border-1)' }}
+    >
+      <div
+        ref={headerRef}
+        style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 32px', display: 'flex', alignItems: 'center', gap: '32px', height: '64px', position: 'relative' }}
+      >
+        {/* ── Logo ───────────────────────────────────────── */}
+        <Link href="/" onClick={closeAll} style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0 }}>
+          <div style={{ width: '22px', height: '22px', borderRadius: '6px', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--on-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
             </svg>
           </div>
-          <span className="text-lg font-bold text-violet-600 dark:text-violet-400">ImagePDF</span>
-          <span className="text-lg font-medium text-slate-400 dark:text-slate-500">.Tools</span>
+          <span style={{ fontFamily: sans, fontSize: '16px', fontWeight: 500, letterSpacing: '-0.01em', color: 'var(--fg-1)' }}>
+            ImagePDF<span style={{ color: 'var(--fg-2)' }}>.Tools</span>
+          </span>
         </Link>
 
-        {/* Desktop nav — order: Image Tools | PDF Tools | Privacy | 100% local | LanguageSelector | ThemeToggle | Sign In */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* ── Desktop nav links ───────────────────────────── */}
+        <nav className="hidden lg:flex items-center" style={{ gap: '26px', marginLeft: '18px' }}>
           <div
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
-            <NavButton
+            <NavLink
               label="Image Tools"
               open={openDropdown === 'image'}
               onClick={() => setOpenDropdown(openDropdown === 'image' ? null : 'image')}
@@ -184,42 +224,78 @@ export function SiteHeader() {
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
-            <NavButton
+            <NavLink
               label="PDF Tools"
               open={openDropdown === 'pdf'}
               onClick={() => { openMenu('pdf'); setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf'); }}
             />
           </div>
 
-          <Link href="/privacy" className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors">
+          <Link
+            href="/privacy"
+            style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: 'var(--fg-2)', textDecoration: 'none', transition: 'color 0.15s' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
+          >
             Privacy
           </Link>
+        </nav>
 
-          <div
-            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400 ml-1"
+        {/* ── Right cluster ───────────────────────────────── */}
+        <div className="hidden lg:flex items-center gap-3 ml-auto">
+          {/* Live badge */}
+          <span
             aria-label="All processing runs locally in your browser"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', height: '28px', padding: '0 12px', borderRadius: '30px', background: 'var(--bg-elevated)', border: '1px solid var(--border-2)', fontFamily: sans, fontSize: '11.5px', fontWeight: 500, color: 'var(--fg-2)' }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 motion-safe:animate-pulse" aria-hidden="true" />
+            <span
+              style={{ width: '7px', height: '7px', borderRadius: '999px', background: '#28c840', boxShadow: '0 0 0 3px rgba(40,200,64,0.2)', flexShrink: 0, animation: 'hp-pulse 1.6s ease-in-out infinite' }}
+              aria-hidden="true"
+            />
             100% local
-          </div>
+          </span>
 
           <LanguageSelector />
           <ThemeToggle />
           <AuthSection />
-        </nav>
+        </div>
 
-        {/* Mega menu for Image Tools — centered under the header container */}
+        {/* ── Mobile right: theme + burger ────────────────── */}
+        <div className="flex lg:hidden items-center gap-2 ml-auto">
+          <ThemeToggle />
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            style={{ width: '34px', height: '34px', display: 'grid', placeItems: 'center', borderRadius: '10px', background: 'transparent', border: '1px solid transparent', color: 'var(--fg-2)', cursor: 'pointer', transition: 'background 0.15s, border-color 0.15s, color 0.15s' }}
+          >
+            {/* Single SVG — lines animate into an X on open */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"
+                style={{ transformBox: 'view-box', transformOrigin: '50% 50%', transition: 'transform 260ms cubic-bezier(0.32, 0.72, 0, 1)', transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none' }}
+              />
+              <line x1="3" y1="12" x2="21" y2="12"
+                style={{ transition: 'opacity 160ms ease, transform 260ms cubic-bezier(0.32, 0.72, 0, 1)', opacity: menuOpen ? 0 : 1 }}
+              />
+              <line x1="3" y1="18" x2="21" y2="18"
+                style={{ transformBox: 'view-box', transformOrigin: '50% 50%', transition: 'transform 260ms cubic-bezier(0.32, 0.72, 0, 1)', transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none' }}
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* ── Image Tools mega menu ───────────────────────── */}
         {openDropdown === 'image' && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-140 z-50"
+            style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', width: '560px', zIndex: 50, paddingTop: '8px' }}
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
-            <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
-              <div className="grid grid-cols-3 p-4 gap-1">
+            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', padding: '16px', gap: '4px' }}>
                 {IMAGE_TOOLS.map((group, gi) => (
-                  <div key={group.group} className={gi > 0 ? 'border-l border-slate-200 dark:border-slate-700 pl-3' : ''}>
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 px-2 mb-1 pt-1">
+                  <div key={group.group} style={{ borderLeft: gi > 0 ? '1px solid var(--border-1)' : 'none', paddingLeft: gi > 0 ? '12px' : 0 }}>
+                    <p style={{ fontFamily: sans, fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--fg-3)', padding: '4px 8px 8px', margin: 0 }}>
                       {group.group}
                     </p>
                     {group.items.map((item) => (
@@ -227,12 +303,12 @@ export function SiteHeader() {
                         key={item.href}
                         href={item.href}
                         onClick={closeAll}
-                        className="flex flex-col px-2 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors group"
+                        style={{ display: 'flex', flexDirection: 'column', padding: '8px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                       >
-                        <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-tight">
-                          {item.label}
-                        </p>
-                        <p className="text-xs text-slate-400 leading-tight mt-0.5">{item.desc}</p>
+                        <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
+                        <span style={{ fontFamily: sans, fontSize: '11.5px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
                       </Link>
                     ))}
                   </div>
@@ -242,117 +318,152 @@ export function SiteHeader() {
           </div>
         )}
 
-        {/* PDF Tools dropdown — headerRef level for flush vertical alignment; right measured from btn */}
+        {/* ── PDF Tools dropdown ──────────────────────────── */}
         {openDropdown === 'pdf' && (
           <div
-            className="absolute top-full w-56 z-50"
-            style={{ right: pdfRight }}
+            style={{ position: 'absolute', top: '100%', right: pdfRight, width: '220px', zIndex: 50, paddingTop: '8px' }}
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
-            <div className="bg-white dark:bg-slate-800 border border-black/8 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden">
-              <div className="px-3 py-3">
+            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+              <div style={{ padding: '8px' }}>
                 {PDF_TOOLS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={closeAll}
-                    className="flex flex-col px-2 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors group"
+                    style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                   >
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
-                      {item.label}
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+                    <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
+                    <span style={{ fontFamily: sans, fontSize: '11px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
                   </Link>
                 ))}
               </div>
             </div>
           </div>
         )}
-
-        {/* Mobile right: theme + hamburger */}
-        <div className="flex md:hidden items-center gap-1">
-          <ThemeToggle />
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:text-violet-500 dark:hover:text-violet-400 hover:bg-slate-100 dark:hover:bg-violet-900/20 transition-colors"
-          >
-            {menuOpen ? (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
       </div>
 
-      {/* Mobile dropdown menu */}
-      {menuOpen && (
-        <div className="md:hidden border-t border-black/8 dark:border-white/8 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-4 space-y-1 overflow-y-auto max-h-[calc(100dvh-56px)]">
-
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-1 pb-1 pt-1">
-            Image Tools
-          </p>
-          {IMAGE_TOOLS.map((group, gi) => (
-            <div key={group.group}>
-              {gi > 0 && <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />}
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-violet-500 dark:text-violet-400 px-1 pb-1 pt-2">
-                {group.group}
-              </p>
-              {group.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between py-2 px-1 text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
-                >
-                  <span>{item.label}</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</span>
-                </Link>
-              ))}
-            </div>
-          ))}
-
-          <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />
-
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-1 pb-1 pt-1">
-            PDF Tools
-          </p>
-          {PDF_TOOLS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="flex items-center justify-between py-2 px-1 text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
-            >
-              <span>{item.label}</span>
-              <span className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</span>
-            </Link>
-          ))}
-
-          <div className="h-px bg-slate-200 dark:bg-slate-700/50 my-2" />
-
-          <div className="flex items-center justify-between py-1">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Language</span>
-            <LanguageSelector mobileAlign="right" />
-          </div>
-
-          <Link
-            href="/privacy"
-            onClick={() => setMenuOpen(false)}
-            className="block text-sm text-slate-600 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 py-2 transition-colors"
-          >
-            Privacy & How It Works
-          </Link>
-          <div className="h-px bg-slate-200 dark:bg-slate-700/50" />
-          <AuthSection />
-        </div>
-      )}
     </header>
+
+      {/* ── Mobile drawer — always in DOM; CSS handles enter/exit ── */}
+
+      {/* Scrim: fades in/out */}
+      <div
+        onClick={() => closeAll()}
+        aria-hidden="true"
+        style={{
+          position: 'fixed', inset: 0, zIndex: 48,
+          background: 'rgba(0,0,0,0.35)',
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'auto' : 'none',
+          transition: 'opacity 220ms ease-out',
+        }}
+      />
+
+      {/* Drawer: slides in from right. visibility delay keeps it out of tab order when closed */}
+      <div
+        ref={drawerRef}
+        aria-label="Mobile menu"
+        aria-hidden={!menuOpen}
+        style={{
+          position: 'fixed', top: '64px', right: 0, bottom: 0,
+          width: 'min(320px, 88vw)',
+          background: 'var(--bg-surface)',
+          borderLeft: '1px solid var(--border-1)',
+          zIndex: 49,
+          display: 'flex', flexDirection: 'column',
+          transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
+          visibility: menuOpen ? 'visible' : 'hidden',
+          transition: menuOpen
+            ? 'transform 300ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s 0ms'
+            : 'transform 300ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s 300ms',
+        }}
+      >
+            {/* ── Scrollable nav list ─────────────────────── */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+
+              {/* Image Tools accordion */}
+              <button
+                onClick={() => setDrawerSection(drawerSection === 'image' ? null : 'image')}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--fg-1)', borderBottom: '1px solid var(--border-1)', borderTop: 'none', borderLeft: 'none', borderRight: 'none', background: 'none', cursor: 'pointer' }}
+              >
+                Image Tools
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: 'var(--fg-3)', flexShrink: 0, transform: drawerSection === 'image' ? 'rotate(180deg)' : 'none', transition: 'transform 200ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div style={{ display: 'grid', gridTemplateRows: drawerSection === 'image' ? '1fr' : '0fr', transition: 'grid-template-rows 260ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)' }}>
+                    {DRAWER_IMAGE_LINKS.map(({ href, label }) => (
+                      <Link key={href} href={href} onClick={closeAll}
+                        style={{ display: 'block', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '14px', fontWeight: 400, color: 'var(--fg-2)', textDecoration: 'none', transition: 'color 0.15s' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
+                      >{label}</Link>
+                    ))}
+                    <Link href="/image-tools" onClick={closeAll}
+                      style={{ display: 'block', padding: '10px 24px 14px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
+                    >View all image tools →</Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* PDF Tools accordion */}
+              <button
+                onClick={() => setDrawerSection(drawerSection === 'pdf' ? null : 'pdf')}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--fg-1)', borderBottom: '1px solid var(--border-1)', borderTop: 'none', borderLeft: 'none', borderRight: 'none', background: 'none', cursor: 'pointer' }}
+              >
+                PDF Tools
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: 'var(--fg-3)', flexShrink: 0, transform: drawerSection === 'pdf' ? 'rotate(180deg)' : 'none', transition: 'transform 200ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div style={{ display: 'grid', gridTemplateRows: drawerSection === 'pdf' ? '1fr' : '0fr', transition: 'grid-template-rows 260ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)' }}>
+                    {DRAWER_PDF_LINKS.map(({ href, label }) => (
+                      <Link key={href} href={href} onClick={closeAll}
+                        style={{ display: 'block', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '14px', fontWeight: 400, color: 'var(--fg-2)', textDecoration: 'none', transition: 'color 0.15s' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
+                      >{label}</Link>
+                    ))}
+                    <Link href="/pdf-tools" onClick={closeAll}
+                      style={{ display: 'block', padding: '10px 24px 14px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
+                    >View all PDF tools →</Link>
+                  </div>
+                </div>
+              </div>
+
+              <Link href="/privacy" onClick={closeAll} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--fg-1)', borderBottom: '1px solid var(--border-1)', textDecoration: 'none' }}>
+                Privacy <span style={{ color: 'var(--fg-3)', fontSize: '12px' }}>→</span>
+              </Link>
+              <Link href="/pricing" onClick={closeAll} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--fg-1)', borderBottom: '1px solid var(--border-1)', textDecoration: 'none' }}>
+                Pricing <span style={{ color: 'var(--fg-3)', fontSize: '12px' }}>→</span>
+              </Link>
+
+              {/* Live badge */}
+              <div style={{ padding: '20px 24px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontFamily: sans, fontSize: '11.5px', fontWeight: 500, color: 'var(--fg-2)' }}>
+                  <span style={{ width: '7px', height: '7px', borderRadius: '999px', background: '#28c840' }} aria-hidden="true" />
+                  100% local
+                </span>
+              </div>
+            </div>
+
+            {/* ── Footer — not inside overflow:auto, so LanguageSelector dropdown is never clipped ── */}
+            <div style={{ borderTop: '1px solid var(--border-1)', padding: '14px 24px 20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontFamily: sans, fontSize: '12px', fontWeight: 500, color: 'var(--fg-3)', flexShrink: 0 }}>Language</span>
+                <LanguageSelector mobileAlign="left" openUp={true} />
+              </div>
+              <AuthSection />
+            </div>
+      </div>
+    </>
   );
 }

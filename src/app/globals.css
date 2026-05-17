@@ -36,6 +36,28 @@
   --text-1:         #0F172A;
   --text-2:         #64748B;
   --numeral-ghost:  oklch(25% 0.015 293 / 0.12);
+
+  /* ── Reference design tokens (light) ────────────────── */
+  --bg:             #f4f1ea;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #faf7f0;
+  --fg-1:           #0e0e10;
+  --fg-2:           #5a5a66;
+  --fg-3:           #a8a6b0;
+  --accent:         #6e5de6;
+  --accent-hover:   #5546db;
+  --accent-dim:     rgba(110, 93, 230, 0.07);
+  --accent-border:  rgba(110, 93, 230, 0.22);
+  --accent-glow:    rgba(110, 93, 230, 0.30);
+  --cat-compress:   #6e5de6;
+  --cat-convert:    #1f8a5b;
+  --cat-edit:       #c25a36;
+  --border-1:       rgba(14, 14, 16, 0.07);
+  --border-2:       rgba(14, 14, 16, 0.11);
+  --border-3:       rgba(14, 14, 16, 0.17);
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-pill: 30px;
+  --nav-bg:     rgba(244, 241, 234, 0.82);
+  --on-accent:  #ffffff;
 }
 
 .dark {
@@ -47,6 +69,27 @@
   --text-1:         #F0F0FA;
   --text-2:         #6B6B88;
   --numeral-ghost:  oklch(91% 0.022 293);
+
+  /* ── Reference design tokens (dark) ─────────────────── */
+  --bg:             #0b0b0d;
+  --bg-surface:     #111114;
+  --bg-elevated:    #17171b;
+  --fg-1:           #f0ebe3;
+  --fg-2:           #7a7a8a;
+  --fg-3:           #3e3e4c;
+  --accent:         #9d95f5;
+  --accent-hover:   #b8b2f8;
+  --accent-dim:     rgba(157, 149, 245, 0.08);
+  --accent-border:  rgba(157, 149, 245, 0.18);
+  --accent-glow:    rgba(157, 149, 245, 0.35);
+  --cat-compress:   #9d95f5;
+  --cat-convert:    #5dcaa5;
+  --cat-edit:       #e8856a;
+  --border-1:       rgba(255, 255, 255, 0.06);
+  --border-2:       rgba(255, 255, 255, 0.09);
+  --border-3:       rgba(255, 255, 255, 0.13);
+  --nav-bg:         rgba(11, 11, 13, 0.82);
+  --on-accent:      #0b0b0d;
 }
 
 /* ── Base typography ────────────────────────────────────── */
@@ -203,3 +246,27 @@ html body { margin-top: 0 !important; }
   max-width: 120px;
 }
 .goog-te-combo:hover { border-color: #9D95F5 !important; }
+
+/* ── Homepage: FAQ details/summary ─────────────────────── */
+.hp-faq summary::-webkit-details-marker { display: none; }
+.hp-faq[open] .hp-faq-toggle {
+  transform: rotate(45deg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+.hp-faq-toggle { transition: transform 0.2s, border-color 0.15s, color 0.15s; }
+
+/* ── Homepage: tool-row hover indent ───────────────────── */
+.hp-tool-row { transition: padding-left 0.15s; }
+.hp-tool-row:hover { padding-left: 6px !important; }
+.hp-tool-row:hover .hp-tool-name { color: var(--accent); }
+
+/* ── Homepage: hero pill dot pulse ─────────────────────── */
+@keyframes hp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 0 5px transparent; }
+}
+.hp-pill-dot { animation: hp-pulse 1.6s ease-in-out infinite; }
+
+/* ── Homepage: CTA seg-btn hover ───────────────────────── */
+.hp-seg-ghost:hover { color: var(--fg-1) !important; }
