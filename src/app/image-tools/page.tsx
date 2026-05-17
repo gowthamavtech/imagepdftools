@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -6,113 +6,69 @@ export const metadata: Metadata = {
   description:
     'All free browser-based image tools in one place: compress, convert, crop, resize, flip, rotate, and remove metadata. No uploads required.',
   alternates: { canonical: 'https://imagepdf.tools/image-tools' },
+  openGraph: {
+    type: 'website',
+    url: 'https://imagepdf.tools/image-tools',
+    title: 'Image Tools — Free Online Image Editor',
+    description: '14 free browser-based image tools. Compress, convert, crop, resize — no uploads ever.',
+    siteName: 'ImagePDF.Tools',
+  },
 };
+
+const C = 'max-w-[1180px] mx-auto px-8';
 
 const GROUPS = [
   {
+    cat: 'compress',
     label: 'Compress',
-    description: 'Reduce image file sizes without visible quality loss.',
-    color: 'text-violet-600 dark:text-violet-400',
-    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
-    btnClass: 'bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 dark:hover:bg-violet-900/40 border border-violet-200 dark:border-violet-800/50',
-    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
-    hoverTitle: 'group-hover:text-violet-600 dark:group-hover:text-violet-400',
+    desc: 'Reduce image file sizes without visible quality loss.',
     tools: [
-      {
-        href: '/compress-image', label: 'Image Compressor', badge: 'Popular',
-        desc: 'Compress PNG, JPG, and WebP images up to 80% smaller. Your files never leave your device.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/compress-png-online', label: 'PNG Compressor',
-        desc: 'Reduce PNG file size with lossy quantisation — up to 70% smaller, fully in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/compress-jpeg-online', label: 'JPEG Compressor',
-        desc: 'Shrink JPEG files with fine-grained quality control. Fast, private, free — nothing uploaded.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />,
-      },
-      {
-        href: '/reduce-image-size', label: 'Reduce Image Size',
-        desc: 'Reduce any image format to a target file size — JPEG, PNG, WebP, or SVG.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />,
-      },
+      { href: '/compress-image',       name: 'Image Compressor',   badge: 'Popular', blurb: 'JPG, PNG, WebP — up to 80% smaller' },
+      { href: '/compress-png-online',  name: 'PNG Compressor',                        blurb: 'Lossy quantisation, 40–70% smaller' },
+      { href: '/compress-jpeg-online', name: 'JPEG Compressor',                       blurb: 'Fine-grained quality control, batches' },
+      { href: '/reduce-image-size',    name: 'Reduce Image Size',                     blurb: 'Target file size, like a budget' },
     ],
   },
   {
+    cat: 'convert',
     label: 'Convert',
-    description: 'Change image formats without leaving your browser.',
-    color: 'text-violet-600 dark:text-violet-400',
-    iconBg: 'bg-violet-100 dark:bg-violet-900/30',
-    btnClass: 'bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 dark:hover:bg-violet-900/40 border border-violet-200 dark:border-violet-800/50',
-    hoverBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
-    hoverTitle: 'group-hover:text-violet-600 dark:group-hover:text-violet-400',
+    desc: 'Change image formats without leaving your browser.',
     tools: [
-      {
-        href: '/convert-image-to-webp', label: 'Convert to WebP', badge: 'SEO Boost',
-        desc: 'Convert JPEG, PNG, or any image to WebP — the modern format with smaller file sizes.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/convert-png-to-jpeg', label: 'PNG to JPG',
-        desc: 'Convert PNG images to JPEG format instantly — right in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/jpg-to-png', label: 'JPG to PNG',
-        desc: 'Convert JPEG to lossless PNG with transparency support — no quality loss.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
-      {
-        href: '/webp-to-jpg', label: 'WebP to JPG',
-        desc: 'Convert WebP images to JPEG for maximum compatibility — all in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />,
-      },
+      { href: '/convert-image-to-webp', name: 'Any → WebP',   badge: 'SEO', blurb: 'Modern format, 25% smaller than JPG' },
+      { href: '/convert-png-to-jpeg',   name: 'PNG → JPG',                  blurb: 'Lossless transition, full compatibility' },
+      { href: '/jpg-to-png',            name: 'JPG → PNG',                  blurb: 'Lossless, transparent backgrounds preserved' },
+      { href: '/webp-to-jpg',           name: 'WebP → JPG',                 blurb: 'Back to broader compatibility' },
+      { href: '/jpg-to-webp',           name: 'JPG → WebP',                 blurb: 'Compress with next-gen format' },
+      { href: '/webp-to-png',           name: 'WebP → PNG',                 blurb: 'Lossless with transparency' },
+      { href: '/png-to-webp',           name: 'PNG → WebP',                 blurb: 'Modern delivery, smaller size' },
+      { href: '/convert/svg-to-png',    name: 'SVG → PNG',                  blurb: 'Rasterize at any resolution' },
+      { href: '/convert/svg-to-jpg',    name: 'SVG → JPG',                  blurb: 'Flatten vector to photo format' },
+      { href: '/convert/svg-to-webp',   name: 'SVG → WebP',                 blurb: 'Vector to modern web format' },
     ],
   },
   {
+    cat: 'edit',
     label: 'Edit',
-    description: 'Crop, resize, flip, rotate and manage metadata.',
-    color: 'text-emerald-600 dark:text-emerald-400',
-    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
-    btnClass: 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800/50',
-    hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
-    hoverTitle: 'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
+    desc: 'Crop, resize, flip, rotate and manage metadata.',
     tools: [
-      {
-        href: '/resize-image', label: 'Image Resizer',
-        desc: 'Resize images to exact dimensions or percentages — right in your browser. Maintain aspect ratio or set custom size.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />,
-      },
-      {
-        href: '/crop-image', label: 'Image Cropper',
-        desc: 'Crop images to any size — right in your browser. Drag to select the area you want, or choose a preset aspect ratio.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />,
-      },
-      {
-        href: '/flip-image', label: 'Flip & Rotate Image',
-        desc: 'Rotate images 90° clockwise or counter-clockwise, flip horizontal or vertical — right in your browser.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.657 48.657 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />,
-      },
-      {
-        href: '/rotate-image', label: 'Rotate Image',
-        desc: 'Rotate images 90°, 180°, or any custom angle — precise control, instant results.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />,
-      },
-      {
-        href: '/remove-metadata', label: 'Remove Metadata', badge: 'Privacy',
-        desc: 'Strip EXIF GPS location, camera data, and private info from images before sharing.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z M6 6h.008v.008H6V6z" />,
-      },
-      {
-        href: '/metadata-editor', label: 'Metadata Editor',
-        desc: 'View and edit EXIF metadata in your images — camera settings, GPS, timestamps and more.',
-        icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />,
-      },
+      { href: '/crop-image',      name: 'Crop Image',        blurb: 'Free-form, aspect ratio, or smart crop' },
+      { href: '/resize-image',    name: 'Resize Image',      blurb: 'Exact pixels, percentage, or fit-within' },
+      { href: '/rotate-image',    name: 'Rotate Image',      blurb: '90°, lossless for JPEG and PNG' },
+      { href: '/flip-image',      name: 'Flip Image',        blurb: 'Mirror horizontally or vertically' },
+      { href: '/remove-metadata', name: 'Remove Metadata',   badge: 'Privacy', blurb: 'Strip EXIF, location, camera info' },
+      { href: '/metadata-editor', name: 'Metadata Editor',   blurb: 'View and edit EXIF fields' },
     ],
   },
 ];
+
+const catColor = (cat: string) => {
+  const map: Record<string, string> = {
+    compress: 'var(--cat-compress)',
+    convert:  'var(--cat-convert)',
+    edit:     'var(--cat-edit)',
+  };
+  return map[cat] ?? 'var(--fg-3)';
+};
 
 const BASE = 'https://imagepdf.tools';
 
@@ -124,116 +80,177 @@ const IMAGE_TOOLS_JSONLD = {
   url: `${BASE}/image-tools`,
   numberOfItems: 14,
   itemListElement: [
-    { '@type': 'ListItem', position: 1,  name: 'Image Compressor',   url: `${BASE}/compress-image` },
-    { '@type': 'ListItem', position: 2,  name: 'PNG Compressor',     url: `${BASE}/compress-png-online` },
-    { '@type': 'ListItem', position: 3,  name: 'JPEG Compressor',    url: `${BASE}/compress-jpeg-online` },
-    { '@type': 'ListItem', position: 4,  name: 'Reduce Image Size',  url: `${BASE}/reduce-image-size` },
-    { '@type': 'ListItem', position: 5,  name: 'Convert to WebP',    url: `${BASE}/convert-image-to-webp` },
-    { '@type': 'ListItem', position: 6,  name: 'PNG to JPG',         url: `${BASE}/convert-png-to-jpeg` },
-    { '@type': 'ListItem', position: 7,  name: 'JPG to PNG',         url: `${BASE}/jpg-to-png` },
-    { '@type': 'ListItem', position: 8,  name: 'WebP to JPG',        url: `${BASE}/webp-to-jpg` },
-    { '@type': 'ListItem', position: 9,  name: 'Image Resizer',      url: `${BASE}/resize-image` },
-    { '@type': 'ListItem', position: 10, name: 'Image Cropper',      url: `${BASE}/crop-image` },
-    { '@type': 'ListItem', position: 11, name: 'Flip & Rotate Image',url: `${BASE}/flip-image` },
-    { '@type': 'ListItem', position: 12, name: 'Rotate Image',       url: `${BASE}/rotate-image` },
-    { '@type': 'ListItem', position: 13, name: 'Remove Metadata',    url: `${BASE}/remove-metadata` },
-    { '@type': 'ListItem', position: 14, name: 'Metadata Editor',    url: `${BASE}/metadata-editor` },
+    { '@type': 'ListItem', position: 1,  name: 'Image Compressor',    url: `${BASE}/compress-image` },
+    { '@type': 'ListItem', position: 2,  name: 'PNG Compressor',      url: `${BASE}/compress-png-online` },
+    { '@type': 'ListItem', position: 3,  name: 'JPEG Compressor',     url: `${BASE}/compress-jpeg-online` },
+    { '@type': 'ListItem', position: 4,  name: 'Reduce Image Size',   url: `${BASE}/reduce-image-size` },
+    { '@type': 'ListItem', position: 5,  name: 'Convert to WebP',     url: `${BASE}/convert-image-to-webp` },
+    { '@type': 'ListItem', position: 6,  name: 'PNG to JPG',          url: `${BASE}/convert-png-to-jpeg` },
+    { '@type': 'ListItem', position: 7,  name: 'JPG to PNG',          url: `${BASE}/jpg-to-png` },
+    { '@type': 'ListItem', position: 8,  name: 'WebP to JPG',         url: `${BASE}/webp-to-jpg` },
+    { '@type': 'ListItem', position: 9,  name: 'Image Resizer',       url: `${BASE}/resize-image` },
+    { '@type': 'ListItem', position: 10, name: 'Image Cropper',       url: `${BASE}/crop-image` },
+    { '@type': 'ListItem', position: 11, name: 'Flip Image',          url: `${BASE}/flip-image` },
+    { '@type': 'ListItem', position: 12, name: 'Rotate Image',        url: `${BASE}/rotate-image` },
+    { '@type': 'ListItem', position: 13, name: 'Remove Metadata',     url: `${BASE}/remove-metadata` },
+    { '@type': 'ListItem', position: 14, name: 'Metadata Editor',     url: `${BASE}/metadata-editor` },
   ],
 };
 
 export default function ImageToolsPage() {
   return (
-    <main className="flex-1 py-12 px-4">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(IMAGE_TOOLS_JSONLD) }}
       />
-      <div className="max-w-5xl mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            No Uploads &middot; 100% Private &middot; Free
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
+
+        {/* ── Hero ──────────────────────────────────────────── */}
+        <section
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}
+        >
+          {/* Ambient glow */}
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              left: '50%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              transform: 'translateX(-50%)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
+
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">14 Image Tools</span>
+
+            <h1
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(40px, 6vw, 72px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
+            >
+              Every image tool.<br />
+              <span className="text-accent">All in your browser.</span>
+            </h1>
+
+            <p className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
+              Compress, convert, crop, resize — 14 tools that run entirely on your device.
+              No uploads, no account, no waiting.
+            </p>
+
+            {/* Trust chips */}
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">Image Tools</h1>
-          <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            14 free tools that run entirely in your browser — your images never leave your device.
-          </p>
-        </div>
+        </section>
 
-        {/* Tool groups */}
-        <div className="space-y-12">
-          {GROUPS.map((group) => (
-            <section key={group.label}>
-              <div className="flex items-center gap-3 mb-4">
-                <p className={`text-[10px] font-bold uppercase tracking-widest ${group.color}`}>
-                  {group.label}
-                </p>
-                <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
-                <span className="text-xs text-slate-400 dark:text-slate-500">{group.description}</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {group.tools.map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    className={`group relative flex flex-col gap-3 p-5 bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${group.hoverBorder}`}
-                  >
-                    {/* Badge */}
-                    {'badge' in tool && tool.badge && (
-                      <span className={`absolute top-4 right-4 text-[10px] font-bold px-2 py-0.5 rounded-full ${group.btnClass}`}>
-                        {tool.badge}
-                      </span>
-                    )}
-
-                    {/* Icon + title row */}
-                    <div className="flex items-start gap-3 pr-10">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${group.iconBg}`}>
-                        <svg className={`w-5 h-5 ${group.color}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                          {tool.icon}
-                        </svg>
-                      </div>
-                      <p className={`text-sm font-bold text-slate-900 dark:text-slate-50 leading-snug pt-1.5 transition-colors ${group.hoverTitle}`}>
-                        {tool.label}
-                      </p>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1">
-                      {tool.desc}
-                    </p>
-
-                    {/* Open tool link */}
-                    <span className={`inline-flex items-center gap-1 self-start text-xs font-semibold transition-all group-hover:gap-1.5 ${group.color}`}>
-                      Open tool
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                      </svg>
+        {/* ── Tool groups ───────────────────────────────────── */}
+        <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
+          <div className={C}>
+            {GROUPS.map(({ cat, label, desc, tools }, gi) => (
+              <div
+                key={cat}
+                className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8 items-start py-7"
+                style={{ borderBottom: gi < GROUPS.length - 1 ? '1px solid var(--border-1)' : 'none' }}
+              >
+                {/* Category head */}
+                <div className="flex flex-col gap-1 pt-[10px]">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ background: catColor(cat) }}
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="font-data text-[11px] font-medium tracking-[0.18em] uppercase"
+                      style={{ color: catColor(cat) }}
+                    >
+                      ◆ {label}
                     </span>
-                  </Link>
-                ))}
+                  </div>
+                  <p className="text-[12.5px] font-normal leading-[1.5] text-fg-3 pl-5 mt-1">{desc}</p>
+                </div>
+
+                {/* Tool cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {tools.map(({ href, name, badge, blurb }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="tool-card relative flex flex-col gap-1.5 p-4 bg-surface bd-2 rounded-[12px] no-underline"
+                    >
+                      {badge && (
+                        <span className="absolute top-3 right-3 font-data text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none bg-accent-dim bd-accent text-accent">
+                          {badge}
+                        </span>
+                      )}
+                      <span className="hp-tool-name text-[13.5px] font-medium text-fg-1 tracking-[-0.005em] leading-[1.3] pr-8">
+                        {name}
+                      </span>
+                      <span className="text-[11.5px] font-normal text-fg-3 leading-[1.45]">{blurb}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </section>
-          ))}
-        </div>
-
-        {/* PDF cross-link */}
-        <div className="mt-12 p-6 rounded-2xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60 flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-0.5">Need PDF tools?</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Compress PDFs and convert images to PDF — also 100% in-browser.</p>
+            ))}
           </div>
-          <Link
-            href="/pdf-tools"
-            className="shrink-0 inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
-          >
-            PDF Tools →
-          </Link>
-        </div>
+        </section>
 
-      </div>
-    </main>
+        {/* ── PDF cross-link ────────────────────────────────── */}
+        <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
+          <div className={C}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              {/* Accent hairline */}
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+
+              <div>
+                <span className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-2 block">
+                  Also available
+                </span>
+                <h2
+                  className="serif italic text-fg-1 m-0 mb-1"
+                  style={{ fontSize: 'clamp(22px, 3vw, 30px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+                >
+                  Need <span className="text-accent">PDF tools</span> too?
+                </h2>
+                <p className="text-[13.5px] font-normal leading-[1.55] text-fg-2 m-0 max-w-[42ch]">
+                  Compress, merge, split, rotate PDFs — also 100% in-browser. No uploads.
+                </p>
+              </div>
+
+              <Link
+                href="/pdf-tools"
+                className="shrink-0 inline-flex items-center gap-2 h-11 px-6 rounded-[10px] bg-accent text-[13.5px] font-medium no-underline btn-accent"
+                style={{ color: 'var(--on-accent)' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                All PDF tools →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </>
   );
 }

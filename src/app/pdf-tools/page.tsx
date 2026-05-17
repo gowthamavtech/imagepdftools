@@ -1,91 +1,75 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'PDF Tools — Free Online PDF Compressor & Converter',
+  title: 'PDF Tools — Free Online PDF Editor',
   description:
-    'Free browser-based PDF tools: compress PDFs and convert images to PDF. No uploads required — everything runs in your browser.',
+    'Free browser-based PDF tools: merge, split, compress, rotate, protect, and more. 10 tools — no uploads, no account, all in your browser.',
   alternates: { canonical: 'https://imagepdf.tools/pdf-tools' },
+  openGraph: {
+    type: 'website',
+    url: 'https://imagepdf.tools/pdf-tools',
+    title: 'PDF Tools — Free Online PDF Editor',
+    description: '10 free browser-based PDF tools. No uploads ever.',
+    siteName: 'ImagePDF.Tools',
+  },
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+
 const PDF_TOOLS = [
-  {
-    href: '/merge-pdf',
-    label: 'Merge PDF',
-    desc: 'Combine multiple PDF files into one. Reorder pages, then download your merged PDF instantly.',
-    badge: null,
-    details: ['Unlimited PDFs', 'Original quality preserved', 'Drag to reorder'],
-  },
-  {
-    href: '/split-pdf',
-    label: 'Split PDF',
-    desc: 'Extract individual pages or split into multiple parts by range. Downloads as ZIP when splitting.',
-    badge: null,
-    details: ['Select pages visually', 'Split by range', 'ZIP multi-part download'],
-  },
-  {
-    href: '/compress-pdf',
-    label: 'Compress PDF',
-    desc: 'Shrink PDF file size without visible quality loss. Great for email attachments and sharing.',
-    badge: 'Popular',
-    details: ['Reduces PDF size by up to 80%', 'Preserves text and image quality', 'Works with any PDF file'],
-  },
-  {
-    href: '/image-to-pdf',
-    label: 'Image to PDF',
-    desc: 'Bundle one or more images into a single PDF document. Supports JPEG, PNG, and WebP.',
-    badge: null,
-    details: ['Combine multiple images', 'Custom page order', 'Instant download'],
-  },
-  {
-    href: '/pdf-to-jpg',
-    label: 'PDF to JPG',
-    desc: 'Convert every page of a PDF to a high-quality JPEG image. Download individually or as ZIP.',
-    badge: null,
-    details: ['Every page → JPG', 'Adjustable quality', 'ZIP for multi-page'],
-  },
-  {
-    href: '/rotate-pdf',
-    label: 'Rotate PDF',
-    desc: 'Fix page orientation in one click — 90° CW, 90° CCW, or 180°. No re-encoding, no quality loss.',
-    badge: null,
-    details: ['All pages rotated', 'No quality loss', 'Instant download'],
-  },
-  {
-    href: '/protect-pdf',
-    label: 'Protect / Unlock PDF',
-    desc: 'Add a password to any PDF, or remove an existing one. AES-128 encryption, fully in your browser.',
-    badge: 'New',
-    details: ['AES-128 encryption', 'Protect or unlock', 'No upload needed'],
-  },
-  {
-    href: '/number-pdf',
-    label: 'Add Page Numbers',
-    desc: 'Stamp page numbers onto every page — choose position, format, and starting number.',
-    badge: 'New',
-    details: ['6 positions', '3 number formats', 'Custom start number'],
-  },
-  {
-    href: '/organize-pdf',
-    label: 'Organize Pages',
-    desc: 'Drag and drop to reorder PDF pages or delete pages you don\'t need.',
-    badge: 'New',
-    details: ['Drag-and-drop UI', 'Delete any page', 'No quality loss'],
-  },
-  {
-    href: '/watermark-pdf',
-    label: 'Watermark PDF',
-    desc: 'Overlay a diagonal text watermark on every page — CONFIDENTIAL, DRAFT, or custom text.',
-    badge: 'New',
-    details: ['Custom text & colour', 'Adjustable opacity', 'All pages stamped'],
-  },
+  { href: '/compress-pdf',  name: 'Compress PDF',         badge: 'Popular', blurb: 'Down-sample images, dedupe fonts' },
+  { href: '/merge-pdf',     name: 'Merge PDF',                              blurb: 'Combine multiple PDFs in order' },
+  { href: '/split-pdf',     name: 'Split PDF',                              blurb: 'Extract pages or split into ranges' },
+  { href: '/image-to-pdf',  name: 'Image to PDF',                          blurb: 'Bundle images into a single document' },
+  { href: '/pdf-to-jpg',    name: 'PDF to JPG',                             blurb: 'Every page exported as JPEG' },
+  { href: '/rotate-pdf',    name: 'Rotate PDF',                             blurb: 'Fix orientation, no re-encoding' },
+  { href: '/protect-pdf',   name: 'Protect / Unlock PDF', badge: 'New',    blurb: 'AES-128 encryption, in-browser' },
+  { href: '/number-pdf',    name: 'Add Page Numbers',     badge: 'New',    blurb: '6 positions, 3 formats, custom start' },
+  { href: '/organize-pdf',  name: 'Organize Pages',       badge: 'New',    blurb: 'Drag-and-drop page reorder + delete' },
+  { href: '/watermark-pdf', name: 'Watermark PDF',        badge: 'New',    blurb: 'Custom text, opacity, all pages' },
 ];
 
 const FEATURES = [
-  { icon: '🔒', title: 'Zero Uploads', desc: 'PDF processing happens entirely in your browser. Your files never touch a server.' },
-  { icon: '⚡', title: 'Instant Results', desc: 'WebAssembly-powered compression — no waiting for a server response.' },
-  { icon: '🆓', title: 'Always Free', desc: 'Core PDF tools are permanently free. No account required.' },
-  { icon: '📱', title: 'Works Everywhere', desc: 'Chrome, Safari, Firefox, Edge — desktop and mobile.' },
+  {
+    title: 'Zero uploads',
+    desc: 'Processing happens entirely in your browser via WebAssembly. Your PDFs never touch a server.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Instant results',
+    desc: 'No round-trip to a server. Results are ready in seconds, powered by your own CPU.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Always free',
+    desc: 'All core PDF tools are permanently free. No account required to use any of them.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Works everywhere',
+    desc: 'Chrome, Safari, Firefox, Edge — desktop and mobile. No extension needed.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+  },
 ];
 
 const BASE = 'https://imagepdf.tools';
@@ -98,9 +82,9 @@ const PDF_TOOLS_JSONLD = {
   url: `${BASE}/pdf-tools`,
   numberOfItems: 10,
   itemListElement: [
-    { '@type': 'ListItem', position: 1,  name: 'Merge PDF',            url: `${BASE}/merge-pdf` },
-    { '@type': 'ListItem', position: 2,  name: 'Split PDF',            url: `${BASE}/split-pdf` },
-    { '@type': 'ListItem', position: 3,  name: 'Compress PDF',         url: `${BASE}/compress-pdf` },
+    { '@type': 'ListItem', position: 1,  name: 'Compress PDF',         url: `${BASE}/compress-pdf` },
+    { '@type': 'ListItem', position: 2,  name: 'Merge PDF',            url: `${BASE}/merge-pdf` },
+    { '@type': 'ListItem', position: 3,  name: 'Split PDF',            url: `${BASE}/split-pdf` },
     { '@type': 'ListItem', position: 4,  name: 'Image to PDF',         url: `${BASE}/image-to-pdf` },
     { '@type': 'ListItem', position: 5,  name: 'PDF to JPG',           url: `${BASE}/pdf-to-jpg` },
     { '@type': 'ListItem', position: 6,  name: 'Rotate PDF',           url: `${BASE}/rotate-pdf` },
@@ -113,96 +97,171 @@ const PDF_TOOLS_JSONLD = {
 
 export default function PdfToolsPage() {
   return (
-    <main className="flex-1 py-12 px-4">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PDF_TOOLS_JSONLD) }}
       />
-      <div className="max-w-5xl mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            No Uploads &middot; 100% Private &middot; Free
-          </div>
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-3">PDF Tools</h1>
-          <p className="text-base text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-            10 free PDF tools that run entirely in your browser — your files never leave your device.
-          </p>
-        </div>
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        {/* Tool cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-14">
-          {PDF_TOOLS.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="group relative flex flex-col gap-3 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md dark:hover:shadow-slate-900/50 transition-all"
+        {/* ── Hero ──────────────────────────────────────────── */}
+        <section
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}
+        >
+          {/* Ambient glow */}
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              left: '50%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              transform: 'translateX(-50%)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
+
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">10 PDF Tools</span>
+
+            <h1
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(40px, 6vw, 72px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
             >
-              {tool.badge && (
-                <span className="absolute top-4 right-4 text-[10px] font-bold bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400 px-2 py-0.5 rounded-full">
-                  {tool.badge}
-                </span>
-              )}
-              <div>
-                <p className="text-base font-bold text-slate-900 dark:text-slate-50 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors pr-16">
-                  {tool.label}
-                </p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                  {tool.desc}
-                </p>
-              </div>
-              <ul className="space-y-1">
-                {tool.details.map((d) => (
-                  <li key={d} className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-              <span className="text-[11px] font-semibold mt-auto text-violet-600 dark:text-violet-400">
-                Open tool →
-              </span>
-            </Link>
-          ))}
-        </div>
+              Every PDF tool.<br />
+              <span className="text-accent">Right in your browser.</span>
+            </h1>
 
-        {/* Features */}
-        <section className="mb-14">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50 mb-1">
-            Why use our PDF tools?
-          </h2>
-          <div className="h-px bg-slate-200 dark:bg-slate-700 mb-6" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl"
-              >
-                <div className="text-xl mb-2">{f.icon}</div>
-                <p className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-1">{f.title}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
+            <p className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
+              Merge, split, compress, rotate, protect — 10 tools that process your PDFs
+              entirely on your device. No uploads, no account.
+            </p>
+
+            {/* Trust chips */}
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Image tools cross-link */}
-        <div className="p-6 rounded-2xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60 flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-0.5">Need image tools?</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Compress, convert, crop, resize, flip and rotate images — all 100% in-browser.</p>
-          </div>
-          <Link
-            href="/image-tools"
-            className="shrink-0 inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
-          >
-            Image Tools →
-          </Link>
-        </div>
+        {/* ── Tool list ─────────────────────────────────────── */}
+        <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
+          <div className={C}>
 
-      </div>
-    </main>
+            {/* Featured strip — mirrors footer PDF card */}
+            <div className="rounded-[14px] bg-elevated bd-2 p-6 mb-10">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-5">
+                <span className="font-data text-[11px] font-medium tracking-[0.18em] uppercase text-accent">
+                  ◆ PDF Tools
+                </span>
+                <span className="font-data text-[9px] font-bold px-2 py-0.5 rounded-full bg-accent-dim bd-accent text-accent">
+                  10 tools
+                </span>
+              </div>
+
+              {/* Tool cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                {PDF_TOOLS.map(({ href, name, badge, blurb }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="tool-card relative flex flex-col gap-1.5 p-4 bg-surface bd-2 rounded-[12px] no-underline"
+                  >
+                    {badge && (
+                      <span className="absolute top-3 right-3 font-data text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none bg-accent-dim bd-accent text-accent">
+                        {badge}
+                      </span>
+                    )}
+                    <span className="hp-tool-name text-[13.5px] font-medium text-fg-1 tracking-[-0.005em] leading-[1.3] pr-8">
+                      {name}
+                    </span>
+                    <span className="text-[11.5px] font-normal text-fg-3 leading-[1.45]">{blurb}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Why section ───────────────────────────────────── */}
+        <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow">Why ImagePDF.Tools</span>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-10"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
+              Built different. <em className="text-accent">By design.</em>
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {FEATURES.map(({ title, desc, icon }) => (
+                <div key={title} className="bg-surface bd-2 rounded-[14px] py-[26px] px-6">
+                  <div className="w-9 h-9 grid place-items-center rounded-[10px] bg-accent-dim bd-accent text-accent mb-4">
+                    {icon}
+                  </div>
+                  <h3 className="text-[15px] font-medium leading-[1.3] text-fg-1 m-0 mb-2 tracking-[-0.005em]">
+                    {title}
+                  </h3>
+                  <p className="text-[13px] font-normal leading-[1.55] text-fg-2 m-0">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Image tools cross-link ────────────────────────── */}
+        <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
+          <div className={C}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+
+              <div>
+                <span className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-2 block">
+                  Also available
+                </span>
+                <h2
+                  className="serif italic text-fg-1 m-0 mb-1"
+                  style={{ fontSize: 'clamp(22px, 3vw, 30px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+                >
+                  Need <span className="text-accent">image tools</span> too?
+                </h2>
+                <p className="text-[13.5px] font-normal leading-[1.55] text-fg-2 m-0 max-w-[42ch]">
+                  Compress, convert, crop, resize, flip, rotate images — all 100% in-browser.
+                </p>
+              </div>
+
+              <Link
+                href="/image-tools"
+                className="shrink-0 inline-flex items-center gap-2 h-11 px-6 rounded-[10px] bg-accent text-[13.5px] font-medium no-underline btn-accent"
+                style={{ color: 'var(--on-accent)' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
+                </svg>
+                All image tools →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </>
   );
 }
