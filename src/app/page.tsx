@@ -145,22 +145,10 @@ const FAQS = [
     },
 ];
 
-/* ── Shared style helpers ─────────────────────────────── */
+/* ── Container helper ─────────────────────────────────────── */
 const C = "max-w-[1180px] mx-auto px-8";
 
-const mono: React.CSSProperties = {
-    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-};
-const sans: React.CSSProperties = {
-    fontFamily: "var(--font-dm-sans, 'DM Sans', system-ui, sans-serif)",
-};
-const serif: React.CSSProperties = {
-    fontFamily: "var(--font-serif-display, 'Instrument Serif', Georgia, serif)",
-    fontStyle: "italic",
-    fontWeight: 400,
-};
-
-/* ── Zero cards category token map ──────────────────────── */
+/* ── Zero cards category token map ───────────────────────── */
 const zeroCatStyle = (cat: string): React.CSSProperties => {
     const map: Record<string, { color: string; bg: string; border: string }> = {
         compress: { color: "var(--cat-compress)", bg: "rgba(157,149,245,0.08)", border: "rgba(157,149,245,0.18)" },
@@ -179,128 +167,74 @@ export default function HomePage() {
                 <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
             ))}
 
-            <main style={{ background: "var(--bg)", color: "var(--fg-1)" }}>
-                <style>{`
-                  .hp-faq-answer { padding: 0 0 26px; }
-                  @media (min-width: 640px) { .hp-faq-answer { padding: 0 56px 26px 0; } }
-                `}</style>
-                {/* ─────────────────────────── 1. HERO ─────────────────────────── */}
-                <section style={{ position: "relative", padding: "clamp(40px, 7vw, 72px) 0 clamp(48px, 7vw, 84px)", overflow: "hidden" }}>
+            <main className="bg-page text-fg-1">
+                {/* ── 1. HERO ─────────────────────────────────────────────────── */}
+                <section className="relative overflow-hidden" style={{ padding: "clamp(40px, 7vw, 72px) 0 clamp(48px, 7vw, 84px)" }}>
                     {/* Ambient glows */}
                     <div
                         aria-hidden="true"
+                        className="absolute pointer-events-none z-0 opacity-60"
                         style={{
-                            position: "absolute",
                             left: "-10%",
                             top: "-20%",
                             width: "1100px",
                             height: "800px",
                             background: "radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)",
                             filter: "blur(40px)",
-                            pointerEvents: "none",
-                            zIndex: 0,
-                            opacity: 0.6,
                         }}
                     />
                     <div
                         aria-hidden="true"
+                        className="absolute pointer-events-none z-0 opacity-30"
                         style={{
-                            position: "absolute",
                             right: "-10%",
                             top: "10%",
                             width: "900px",
                             height: "700px",
                             background: "radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)",
                             filter: "blur(40px)",
-                            pointerEvents: "none",
-                            zIndex: 0,
-                            opacity: 0.3,
                         }}
                     />
 
-                    <div className={C} style={{ position: "relative", zIndex: 1 }}>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center" style={{ gap: "clamp(32px, 5vw, 64px)" }}>
+                    <div className={`${C} relative z-[1]`}>
+                        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center" style={{ gap: "clamp(32px, 5vw, 64px)" }}>
                             {/* Left — text */}
                             <div>
                                 {/* Status pill */}
-                                <span
-                                    style={{
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        gap: "10px",
-                                        height: "30px",
-                                        padding: "0 14px",
-                                        borderRadius: "30px",
-                                        background: "var(--accent-dim)",
-                                        border: "1px solid var(--accent-border)",
-                                        color: "var(--accent)",
-                                        fontSize: "11.5px",
-                                        fontWeight: 500,
-                                        marginBottom: "26px",
-                                        ...sans,
-                                    }}
-                                >
-                                    <span className="hp-pill-dot" style={{ width: "6px", height: "6px", borderRadius: "999px", background: "var(--accent)", flexShrink: 0 }} />
+                                <span className="inline-flex items-center gap-[10px] h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium mb-[26px]">
+                                    <span className="hp-pill-dot w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                                     100% private · No servers · Your browser
                                 </span>
 
-                                <h1 style={{ ...serif, fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em", color: "var(--fg-1)", margin: "0 0 28px" }}>
+                                <h1 className="serif italic text-fg-1 m-0 mb-7" style={{ fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
                                     Your files.
                                     <br />
                                     Your device.
                                     <br />
-                                    <span style={{ color: "var(--accent)" }}>Your rules.</span>
+                                    <span className="text-accent">Your rules.</span>
                                 </h1>
 
-                                <p style={{ ...sans, fontWeight: 300, fontSize: "19px", lineHeight: 1.6, color: "var(--fg-2)", maxWidth: "46ch", margin: "0 0 32px" }}>
-                                    Drop a file. Every operation runs via <strong style={{ color: "var(--fg-1)", fontWeight: 400 }}>WebAssembly</strong> on your own device. No
-                                    servers, no sign-up, 30+ tools — permanently free.
+                                <p className="font-light text-[19px] leading-[1.6] text-fg-2 max-w-[46ch] m-0 mb-8">
+                                    Drop a file. Every operation runs via <strong className="text-fg-1 font-normal">WebAssembly</strong> on your own device. No servers, no sign-up,
+                                    30+ tools — permanently free.
                                 </p>
 
                                 {/* CTAs */}
                                 <div className="flex flex-wrap items-center gap-3 mb-6">
                                     <Link
-                                        href="/compress-image"
-                                        style={{
-                                            display: "inline-flex",
-                                            alignItems: "center",
-                                            gap: "8px",
-                                            height: "48px",
-                                            padding: "0 22px",
-                                            borderRadius: "10px",
-                                            background: "var(--accent)",
-                                            color: "#0b0b0d",
-                                            fontSize: "14.5px",
-                                            fontWeight: 500,
-                                            textDecoration: "none",
-                                            ...sans,
-                                        }}
+                                        href="/pdf-tools"
+                                        className="inline-flex items-center gap-2 h-12 px-[22px] rounded-[10px] bg-accent text-[14.5px] font-medium no-underline" style={{ color: 'var(--on-accent)' }}
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                            <polyline points="9 11 12 14 22 4" />
-                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
                                         </svg>
-                                        Compress an image
+                                        All PDF tools
                                     </Link>
                                     <Link
-                                        href="#tools"
-                                        style={{
-                                            display: "inline-flex",
-                                            alignItems: "center",
-                                            gap: "6px",
-                                            height: "48px",
-                                            padding: "0 22px",
-                                            borderRadius: "10px",
-                                            background: "transparent",
-                                            border: "1px solid var(--border-2)",
-                                            color: "var(--fg-2)",
-                                            fontSize: "14.5px",
-                                            fontWeight: 500,
-                                            textDecoration: "none",
-                                            ...sans,
-                                        }}
+                                        href="/image-tools"
+                                        className="inline-flex items-center gap-1.5 h-12 px-[22px] rounded-[10px] bg-transparent bd-2 text-fg-2 text-[14.5px] font-medium no-underline"
                                     >
-                                        All PDF tools <span style={{ color: "var(--fg-3)" }}>→</span>
+                                        All image tools <span className="text-fg-3">→</span>
                                     </Link>
                                 </div>
 
@@ -347,22 +281,9 @@ export default function HomePage() {
                                     ].map(({ label, icon }) => (
                                         <span
                                             key={label}
-                                            style={{
-                                                display: "inline-flex",
-                                                alignItems: "center",
-                                                gap: "8px",
-                                                height: "30px",
-                                                padding: "0 14px",
-                                                borderRadius: "30px",
-                                                background: "var(--bg-surface)",
-                                                border: "1px solid var(--border-2)",
-                                                color: "var(--fg-2)",
-                                                fontSize: "11.5px",
-                                                fontWeight: 500,
-                                                ...sans,
-                                            }}
+                                            className="inline-flex items-center gap-2 h-[30px] px-[14px] rounded-full bg-surface bd-2 text-fg-2 text-[11.5px] font-medium"
                                         >
-                                            <span style={{ color: "var(--accent)" }}>{icon}</span>
+                                            <span className="text-accent">{icon}</span>
                                             {label}
                                         </span>
                                     ))}
@@ -372,62 +293,23 @@ export default function HomePage() {
                             {/* Right — browser mockup */}
                             <div>
                                 <div
-                                    style={{
-                                        position: "relative",
-                                        background: "var(--bg-surface)",
-                                        border: "1px solid var(--border-2)",
-                                        borderRadius: "12px",
-                                        boxShadow: "0 32px 80px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02)",
-                                        overflow: "hidden",
-                                    }}
+                                    className="relative bg-surface bd-2 rounded-xl overflow-hidden"
+                                    style={{ boxShadow: "0 32px 80px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02)" }}
                                 >
-                                    {/* Top accent edge */}
                                     <div
                                         aria-hidden="true"
-                                        style={{
-                                            position: "absolute",
-                                            top: "-1px",
-                                            left: "8%",
-                                            right: "8%",
-                                            height: "1px",
-                                            background: "linear-gradient(90deg, transparent, var(--accent-glow), transparent)",
-                                            zIndex: 2,
-                                        }}
+                                        className="absolute top-[-1px] left-[8%] right-[8%] h-px z-[2]"
+                                        style={{ background: "linear-gradient(90deg, transparent, var(--accent-glow), transparent)" }}
                                     />
 
                                     {/* Chrome bar */}
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: "12px",
-                                            padding: "12px 16px",
-                                            background: "var(--bg-elevated)",
-                                            borderBottom: "1px solid var(--border-1)",
-                                        }}
-                                    >
-                                        <div aria-hidden="true" style={{ display: "flex", gap: "6px" }}>
-                                            <span style={{ width: "11px", height: "11px", borderRadius: "999px", background: "#ff5f57", opacity: 0.85 }} />
-                                            <span style={{ width: "11px", height: "11px", borderRadius: "999px", background: "#febc2e", opacity: 0.85 }} />
-                                            <span style={{ width: "11px", height: "11px", borderRadius: "999px", background: "#28c840", opacity: 0.85 }} />
+                                    <div className="flex items-center gap-3 p-3 px-4 bg-elevated bd-b-1">
+                                        <div aria-hidden="true" className="flex gap-1.5">
+                                            <span className="w-[11px] h-[11px] rounded-full opacity-85" style={{ background: "#ff5f57" }} />
+                                            <span className="w-[11px] h-[11px] rounded-full opacity-85" style={{ background: "#febc2e" }} />
+                                            <span className="w-[11px] h-[11px] rounded-full opacity-85" style={{ background: "#28c840" }} />
                                         </div>
-                                        <div
-                                            style={{
-                                                flex: 1,
-                                                height: "26px",
-                                                borderRadius: "6px",
-                                                background: "var(--bg)",
-                                                border: "1px solid var(--border-1)",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                padding: "0 10px",
-                                                gap: "8px",
-                                                fontSize: "11.5px",
-                                                fontWeight: 500,
-                                                color: "var(--fg-2)",
-                                                ...mono,
-                                            }}
-                                        >
+                                        <div className="mono flex-1 h-[26px] rounded-md bg-page bd-1 flex items-center px-[10px] gap-2 text-[11.5px] font-medium text-fg-2">
                                             <svg
                                                 width="12"
                                                 height="12"
@@ -436,69 +318,32 @@ export default function HomePage() {
                                                 stroke="currentColor"
                                                 strokeWidth="2"
                                                 aria-hidden="true"
-                                                style={{ color: "var(--cat-convert)", flexShrink: 0 }}
+                                                className="shrink-0"
+                                                style={{ color: "var(--cat-convert)" }}
                                             >
                                                 <rect x="3" y="11" width="18" height="11" rx="2" />
-                                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                                <path d="M7 11V7a5 5 0 0 1 10 4" />
                                             </svg>
                                             imagepdf.tools/compress-image
                                         </div>
                                     </div>
 
                                     {/* Body */}
-                                    <div style={{ padding: "24px", background: "var(--bg)" }}>
+                                    <div className="p-6 bg-page">
                                         {/* Drop zone */}
-                                        <div
-                                            style={{
-                                                border: "1.5px dashed var(--border-3)",
-                                                borderRadius: "10px",
-                                                background: "var(--bg-surface)",
-                                                padding: "24px 20px",
-                                                textAlign: "center",
-                                                marginBottom: "14px",
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    width: "40px",
-                                                    height: "40px",
-                                                    border: "1px solid var(--border-2)",
-                                                    borderRadius: "10px",
-                                                    display: "grid",
-                                                    placeItems: "center",
-                                                    color: "var(--accent)",
-                                                    margin: "0 auto 10px",
-                                                    background: "var(--bg)",
-                                                }}
-                                            >
+                                        <div className="bd-3 border-dashed rounded-[10px] bg-surface py-6 px-5 text-center mb-[14px]">
+                                            <div className="w-10 h-10 bd-2 rounded-[10px] grid place-items-center text-accent mx-auto mb-[10px] bg-page">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                                     <path d="M17 8l-5-5-5 5" />
                                                     <path d="M12 3v12" />
                                                 </svg>
                                             </div>
-                                            <h4 style={{ ...sans, fontSize: "13.5px", fontWeight: 500, lineHeight: 1.3, color: "var(--fg-1)", margin: "0 0 4px" }}>
-                                                Drop your image here
-                                            </h4>
-                                            <p style={{ ...sans, fontSize: "11.5px", fontWeight: 400, lineHeight: 1.4, color: "var(--fg-2)", margin: "0 0 12px" }}>
-                                                JPEG · PNG · WebP · SVG
-                                            </p>
+                                            <h4 className="text-[13.5px] font-medium leading-[1.3] text-fg-1 m-0 mb-1">Drop your image here</h4>
+                                            <p className="text-[11.5px] font-normal leading-[1.4] text-fg-2 m-0 mb-3">JPEG · PNG · WebP · SVG</p>
                                             <button
                                                 tabIndex={-1}
-                                                style={{
-                                                    display: "inline-flex",
-                                                    alignItems: "center",
-                                                    height: "28px",
-                                                    padding: "0 12px",
-                                                    borderRadius: "6px",
-                                                    background: "var(--accent)",
-                                                    color: "#0b0b0d",
-                                                    fontSize: "11.5px",
-                                                    fontWeight: 500,
-                                                    border: 0,
-                                                    cursor: "default",
-                                                    ...sans,
-                                                }}
+                                                className="inline-flex items-center h-7 px-3 rounded-md bg-accent text-[11.5px] font-medium border-0 cursor-default" style={{ color: 'var(--on-accent)' }}
                                             >
                                                 Browse files
                                             </button>
@@ -512,50 +357,19 @@ export default function HomePage() {
                                         ].map(({ thumb, name, meta, pct }) => (
                                             <div
                                                 key={name}
-                                                style={{
-                                                    display: "grid",
-                                                    gridTemplateColumns: "32px 1fr auto",
-                                                    gap: "10px",
-                                                    alignItems: "center",
-                                                    padding: "10px 12px",
-                                                    border: "1px solid var(--border-1)",
-                                                    borderRadius: "8px",
-                                                    background: "var(--bg-surface)",
-                                                    marginBottom: "6px",
-                                                }}
+                                                className="grid items-center gap-[10px] p-[10px] px-3 bd-1 rounded-lg bg-surface mb-1.5"
+                                                style={{ gridTemplateColumns: "32px 1fr auto" }}
                                             >
-                                                <div style={{ width: "32px", height: "24px", borderRadius: "4px", border: "1px solid var(--border-1)", background: thumb }} />
+                                                <div className="w-8 h-6 rounded-[4px] bd-1" style={{ background: thumb }} />
                                                 <div>
-                                                    <div style={{ ...sans, fontSize: "12px", fontWeight: 500, lineHeight: 1.2, color: "var(--fg-1)" }}>{name}</div>
-                                                    <div style={{ ...mono, fontSize: "10px", fontWeight: 500, lineHeight: 1.3, color: "var(--fg-2)", marginTop: "2px" }}>
-                                                        {meta}
-                                                    </div>
+                                                    <div className="text-xs font-medium leading-[1.2] text-fg-1">{name}</div>
+                                                    <div className="mono text-[10px] font-medium leading-[1.3] text-fg-2 mt-0.5">{meta}</div>
                                                 </div>
-                                                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                                                <div className="flex gap-2 items-center">
+                                                    <span className="mono text-[10.5px] font-medium text-accent bg-accent-dim bd-accent rounded-[4px] py-1 px-[7px]">{pct}</span>
                                                     <span
-                                                        style={{
-                                                            ...mono,
-                                                            fontSize: "10.5px",
-                                                            fontWeight: 500,
-                                                            color: "var(--accent)",
-                                                            background: "var(--accent-dim)",
-                                                            border: "1px solid var(--accent-border)",
-                                                            borderRadius: "4px",
-                                                            padding: "4px 7px",
-                                                        }}
-                                                    >
-                                                        {pct}
-                                                    </span>
-                                                    <span
-                                                        style={{
-                                                            width: "18px",
-                                                            height: "18px",
-                                                            borderRadius: "999px",
-                                                            background: "var(--cat-convert)",
-                                                            display: "grid",
-                                                            placeItems: "center",
-                                                            color: "#0b0b0d",
-                                                        }}
+                                                        className="w-[18px] h-[18px] rounded-full grid place-items-center text-[#0b0b0d]"
+                                                        style={{ background: "var(--cat-convert)" }}
                                                     >
                                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                                                             <polyline points="20 6 9 17 4 12" />
@@ -566,31 +380,12 @@ export default function HomePage() {
                                         ))}
 
                                         {/* Quality footer */}
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                marginTop: "12px",
-                                                paddingTop: "12px",
-                                                borderTop: "1px solid var(--border-1)",
-                                            }}
-                                        >
-                                            <span style={{ ...mono, fontSize: "10px", fontWeight: 500, color: "var(--fg-2)", letterSpacing: "0.04em" }}>QUALITY</span>
-                                            <div
-                                                style={{
-                                                    width: "130px",
-                                                    height: "4px",
-                                                    borderRadius: "999px",
-                                                    background: "var(--bg-surface)",
-                                                    border: "1px solid var(--border-1)",
-                                                    position: "relative",
-                                                    overflow: "hidden",
-                                                }}
-                                            >
-                                                <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "78%", background: "var(--accent)" }} />
+                                        <div className="flex items-center justify-between mt-3 pt-3 bd-t-1">
+                                            <span className="mono text-[10px] font-medium text-fg-2 tracking-[0.04em]">Quality</span>
+                                            <div className="relative w-[130px] h-1 rounded-full bg-surface bd-1 overflow-hidden">
+                                                <div className="absolute left-0 top-0 bottom-0 w-[78%] bg-accent" />
                                             </div>
-                                            <span style={{ ...mono, fontSize: "10.5px", fontWeight: 500, color: "var(--fg-1)" }}>78</span>
+                                            <span className="mono text-[10.5px] font-medium text-fg-1">78</span>
                                         </div>
                                     </div>
                                 </div>
@@ -599,73 +394,26 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* ─────────────────── 2. PROBLEM: Every other tool ────────────── */}
-                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
+                {/* ── 2. PROBLEM ──────────────────────────────────────────────── */}
+                <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
-                        <span
-                            style={{
-                                display: "block",
-                                textAlign: "center",
-                                ...mono,
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                color: "var(--fg-2)",
-                                letterSpacing: "0.18em",
-                                textTransform: "uppercase",
-                                marginBottom: "20px",
-                            }}
-                        >
-                            The problem with every other tool
-                        </span>
-                        <h2
-                            style={{
-                                ...serif,
-                                fontSize: "clamp(36px, 5.5vw, 64px)",
-                                lineHeight: 1.05,
-                                letterSpacing: "-0.025em",
-                                color: "var(--fg-1)",
-                                margin: "0 0 18px",
-                                textAlign: "center",
-                            }}
-                        >
+                        <span className="hp-eyebrow text-center">The problem with every other tool</span>
+                        <h2 className="serif italic text-center text-fg-1 m-0 mb-[18px]" style={{ fontSize: "clamp(36px, 5.5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}>
                             Every other tool
                             <br />
-                            <em style={{ color: "var(--accent)" }}>uploads your files.</em>
+                            <em className="text-accent">uploads your files.</em>
                         </h2>
-                        <p
-                            style={{
-                                ...sans,
-                                fontSize: "16px",
-                                fontWeight: 400,
-                                lineHeight: 1.6,
-                                color: "var(--fg-2)",
-                                textAlign: "center",
-                                maxWidth: "62ch",
-                                margin: "0 auto 56px",
-                            }}
-                        >
+                        <p className="text-base font-normal leading-[1.6] text-fg-2 text-center max-w-[54ch] mx-auto mb-14">
                             The moment you drop a file into an upload tool, it leaves your device, traveling to a server you have never met and is processed by code you cannot
                             inspect.
                         </p>
 
                         {/* Compare panels */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[900px] mx-auto">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[1000px] mx-auto">
                             {/* Bad */}
-                            <div style={{ borderRadius: "14px", padding: "28px 32px", border: "1px solid rgba(232,133,106,0.18)", background: "rgba(232,133,106,0.03)" }}>
-                                <div
-                                    style={{
-                                        ...mono,
-                                        fontSize: "11px",
-                                        fontWeight: 500,
-                                        letterSpacing: "0.16em",
-                                        textTransform: "uppercase",
-                                        color: "var(--cat-edit)",
-                                        marginBottom: "20px",
-                                    }}
-                                >
-                                    Other tools
-                                </div>
-                                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+                            <div className="rounded-[14px] p-7" style={{ border: "1px solid rgba(232,133,106,0.18)", background: "rgba(232,133,106,0.03)" }}>
+                                <div className="mono text-[11px] font-medium tracking-[0.16em] uppercase text-cat-edit mb-5">Other tools</div>
+                                <ul className="list-none p-0 m-0 flex flex-col gap-[14px]">
                                     {[
                                         "Upload your file to their server",
                                         "Process on infrastructure you cannot see",
@@ -673,12 +421,16 @@ export default function HomePage() {
                                         "Require an account or login to use the result",
                                         "Profile you based on file content",
                                     ].map((item) => (
-                                        <li key={item} style={{ ...sans, fontSize: "14px", lineHeight: 1.55, color: "var(--fg-2)", paddingLeft: "22px", position: "relative" }}>
+                                        <li key={item} className="relative text-sm leading-[1.55] text-fg-2 pl-7">
                                             <span
                                                 aria-hidden="true"
-                                                style={{ position: "absolute", left: 0, top: 0, color: "var(--cat-edit)", fontWeight: 600, fontSize: "16px", lineHeight: 1.1 }}
+                                                className="absolute left-0 top-[1px] w-[18px] h-[18px] rounded-full flex items-center justify-center shrink-0"
+                                                style={{ background: "rgba(232,133,106,0.12)", border: "1px solid rgba(232,133,106,0.3)" }}
                                             >
-                                                ✗
+                                                <span
+                                                    className="block w-[7px] h-[7px] rotate-45"
+                                                    style={{ borderTop: "1.5px solid var(--cat-edit)", borderRight: "1.5px solid var(--cat-edit)" }}
+                                                />
                                             </span>
                                             {item}
                                         </li>
@@ -687,40 +439,14 @@ export default function HomePage() {
                             </div>
 
                             {/* Good */}
-                            <div
-                                style={{
-                                    borderRadius: "14px",
-                                    padding: "28px 32px",
-                                    border: "1px solid var(--accent-border)",
-                                    background: "var(--accent-dim)",
-                                    position: "relative",
-                                }}
-                            >
+                            <div className="relative rounded-[14px] p-7 bg-surface bd-2">
                                 <div
                                     aria-hidden="true"
-                                    style={{
-                                        position: "absolute",
-                                        top: "-1px",
-                                        left: "8%",
-                                        right: "8%",
-                                        height: "1px",
-                                        background: "linear-gradient(90deg, transparent, var(--accent-glow), transparent)",
-                                    }}
+                                    className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                                    style={{ background: "linear-gradient(90deg, transparent, var(--accent-glow), transparent)" }}
                                 />
-                                <div
-                                    style={{
-                                        ...mono,
-                                        fontSize: "11px",
-                                        fontWeight: 500,
-                                        letterSpacing: "0.16em",
-                                        textTransform: "uppercase",
-                                        color: "var(--accent)",
-                                        marginBottom: "20px",
-                                    }}
-                                >
-                                    ImagePDF.Tools
-                                </div>
-                                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+                                <div className="mono text-[11px] font-medium tracking-[0.16em] uppercase text-accent mb-5">ImagePDF.Tools</div>
+                                <ul className="list-none p-0 m-0 flex flex-col gap-[14px]">
                                     {[
                                         "File stays inside your browser tab, always",
                                         "Processed by your CPU via WebAssembly",
@@ -728,21 +454,17 @@ export default function HomePage() {
                                         "Download locally, no save-it-here window",
                                         "No tracking, no ad profiling, no exceptions",
                                     ].map((item) => (
-                                        <li key={item} style={{ ...sans, fontSize: "14px", lineHeight: 1.55, color: "var(--fg-2)", paddingLeft: "22px", position: "relative" }}>
+                                        <li key={item} className="relative text-sm leading-[1.55] text-fg-2 pl-7">
                                             <span
                                                 aria-hidden="true"
-                                                style={{
-                                                    position: "absolute",
-                                                    left: "2px",
-                                                    top: "6px",
-                                                    display: "block",
-                                                    width: "9px",
-                                                    height: "5px",
-                                                    borderLeft: "1.5px solid var(--accent)",
-                                                    borderBottom: "1.5px solid var(--accent)",
-                                                    transform: "rotate(-45deg)",
-                                                }}
-                                            />
+                                                className="absolute left-0 top-[1px] w-[18px] h-[18px] rounded-full flex items-center justify-center shrink-0"
+                                                style={{ background: "var(--accent-dim)", border: "1px solid var(--accent-border)" }}
+                                            >
+                                                <span
+                                                    className="block w-[9px] h-[5px] -rotate-45"
+                                                    style={{ borderLeft: "1.5px solid var(--accent)", borderBottom: "1.5px solid var(--accent)" }}
+                                                />
+                                            </span>
                                             {item}
                                         </li>
                                     ))}
@@ -752,13 +474,13 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* ─────────────────────── 3. ZERO ──────────────────────────────── */}
-                <section style={{ padding: "clamp(56px, 9vw, 112px) 0", textAlign: "center" }}>
+                {/* ── 3. ZERO ─────────────────────────────────────────────────── */}
+                <section className="text-center" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <div
+                            className="serif m-0"
                             aria-label="Zero kilobytes sent to our servers"
                             style={{
-                                ...serif,
                                 fontSize: "clamp(110px, 18vw, 220px)",
                                 lineHeight: 1,
                                 letterSpacing: "-0.04em",
@@ -766,29 +488,13 @@ export default function HomePage() {
                                 WebkitBackgroundClip: "text",
                                 backgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
-                                margin: 0,
                             }}
                         >
                             0
                         </div>
-                        <div style={{ ...sans, fontSize: "18px", fontWeight: 500, lineHeight: 1.4, color: "var(--fg-1)", marginTop: "12px", letterSpacing: "-0.005em" }}>
-                            Kilobytes sent to our servers.
-                        </div>
-                        <div
-                            style={{
-                                ...sans,
-                                fontSize: "14px",
-                                fontWeight: 400,
-                                lineHeight: 1.5,
-                                color: "var(--fg-2)",
-                                marginTop: "6px",
-                                maxWidth: "50ch",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                            }}
-                        >
-                            Not today. Not ever. There is no endpoint that accepts file uploads.{" "}
-                            <span style={{ ...mono, color: "var(--fg-1)", fontWeight: 500, fontSize: "13px" }}>By each feature.</span>
+                        <div className="text-lg font-medium leading-[1.4] text-fg-1 mt-3 tracking-[-0.005em]">Kilobytes sent to our servers.</div>
+                        <div className="text-sm font-normal leading-[1.5] text-fg-2 mt-1.5 max-w-[50ch] mx-auto">
+                            Not today. Not ever. There is no endpoint that accepts file uploads. <span className="mono text-fg-1 font-medium text-[13px]">By each feature.</span>
                         </div>
 
                         {/* Cards */}
@@ -813,74 +519,41 @@ export default function HomePage() {
                                     desc: "Our server delivers only the app. It physically cannot receive file bytes. The architecture makes data leakage structurally impossible.",
                                 },
                             ].map(({ cat, catLabel, title, desc }) => (
-                                <div
-                                    key={title}
-                                    style={{ background: "var(--bg-surface)", border: "1px solid var(--border-2)", borderRadius: "14px", padding: "26px 24px", textAlign: "left" }}
-                                >
+                                <div key={title} className="bg-surface bd-2 rounded-[14px] py-[26px] px-6 text-left">
                                     <span
-                                        style={{
-                                            ...mono,
-                                            fontSize: "10.5px",
-                                            fontWeight: 500,
-                                            letterSpacing: "0.16em",
-                                            textTransform: "uppercase",
-                                            padding: "6px 10px",
-                                            borderRadius: "6px",
-                                            display: "inline-block",
-                                            marginBottom: "16px",
-                                            ...zeroCatStyle(cat),
-                                        }}
+                                        className="mono text-[10.5px] font-medium tracking-[0.16em] uppercase py-1.5 px-[10px] rounded-md inline-block mb-4"
+                                        style={zeroCatStyle(cat)}
                                     >
                                         {catLabel}
                                     </span>
-                                    <h4 style={{ ...sans, fontSize: "17px", fontWeight: 500, lineHeight: 1.3, color: "var(--fg-1)", margin: "0 0 8px", letterSpacing: "-0.005em" }}>
-                                        {title}
-                                    </h4>
-                                    <p style={{ ...sans, fontSize: "13.5px", fontWeight: 400, lineHeight: 1.55, color: "var(--fg-2)", margin: 0 }}>{desc}</p>
+                                    <h4 className="text-[17px] font-medium leading-[1.3] text-fg-1 m-0 mb-2 tracking-[-0.005em]">{title}</h4>
+                                    <p className="text-[13.5px] font-normal leading-[1.55] text-fg-2 m-0">{desc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* ────────────────────── 4. STEPS ──────────────────────────────── */}
-                <section style={{ position: "relative", padding: "clamp(48px, 7vw, 88px) 0" }}>
-                    <style>{`
-            .step-card { padding: 28px 0 32px; border-bottom: 1px solid var(--border-1); position: relative; overflow: hidden; }
-            @media (min-width: 768px) {
-              .step-card { padding: 36px 36px 40px 0; border-bottom: none; overflow: visible; }
-              .step-card:not(:first-child) { padding-left: 36px; }
-              .step-card:not(:last-child) { border-right: 1px solid var(--border-1); }
-            }
-          `}</style>
+                {/* ── 4. STEPS ────────────────────────────────────────────────── */}
+                <section className="relative" style={{ padding: "clamp(48px, 7vw, 88px) 0" }}>
                     <div className={C}>
-                        <span
-                            style={{
-                                display: "block",
-                                ...mono,
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                color: "var(--fg-2)",
-                                letterSpacing: "0.18em",
-                                textTransform: "uppercase",
-                                marginBottom: "20px",
-                            }}
+                        <span className="hp-eyebrow text-center">It just works</span>
+                        <h2
+                            className="serif italic text-fg-1 text-center"
+                            style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", margin: "0 0 clamp(28px, 4vw, 48px)" }}
                         >
-                            It just works
-                        </span>
-                        <h2 style={{ ...serif, fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "var(--fg-1)", margin: "0 0 clamp(28px, 4vw, 48px)" }}>
                             Done in three steps.
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3" style={{ borderTop: "1px solid var(--border-1)", borderBottom: "1px solid var(--border-1)" }}>
+                        <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
                             {[
                                 {
                                     num: "01",
                                     title: "Pick a tool. Drop your file.",
                                     desc: (
-                                        <p style={{ ...sans, fontSize: "14px", lineHeight: 1.65, color: "var(--fg-2)", margin: 0, maxWidth: "38ch" }}>
-                                            Choose from <span style={{ ...mono, color: "var(--fg-1)", fontWeight: 500, fontSize: "13px" }}>30+</span> tools for images and PDFs.
-                                            Drop your file onto the page or click to browse. No account, no fuss, no waiting.
+                                        <p className="text-sm leading-[1.65] text-fg-2 m-0 max-w-[38ch]">
+                                            Choose from <span className="mono text-fg-1 font-medium text-[13px]">30+</span> tools for images and PDFs. Drop your file onto the page
+                                            or click to browse. No account, no fuss, no waiting.
                                         </p>
                                     ),
                                     icon: (
@@ -895,9 +568,9 @@ export default function HomePage() {
                                     num: "02",
                                     title: "Your browser handles the rest.",
                                     desc: (
-                                        <p style={{ ...sans, fontSize: "14px", lineHeight: 1.65, color: "var(--fg-2)", margin: 0, maxWidth: "38ch" }}>
+                                        <p className="text-sm leading-[1.65] text-fg-2 m-0 max-w-[38ch]">
                                             WebAssembly runs the processing on your own CPU, the same engine used in native desktop apps. No network request is made for your file.
-                                            Typically done in under <span style={{ ...mono, color: "var(--fg-1)", fontWeight: 500, fontSize: "13px" }}>2 seconds</span>.
+                                            Typically done in under <span className="mono text-fg-1 font-medium text-[13px]">2 seconds</span>.
                                         </p>
                                     ),
                                     icon: (
@@ -910,7 +583,7 @@ export default function HomePage() {
                                     num: "03",
                                     title: "Download. Close the tab. Done.",
                                     desc: (
-                                        <p style={{ ...sans, fontSize: "14px", lineHeight: 1.65, color: "var(--fg-2)", margin: 0, maxWidth: "38ch" }}>
+                                        <p className="text-sm leading-[1.65] text-fg-2 m-0 max-w-[38ch]">
                                             The result downloads directly to your device. When you close the tab, browser memory clears completely. Nothing is stored, cached, or
                                             logged.
                                         </p>
@@ -925,36 +598,11 @@ export default function HomePage() {
                                 },
                             ].map(({ num, title, desc, icon }) => (
                                 <div key={num} className="step-card">
-                                    <div style={{ width: "32px", height: "32px", display: "grid", placeItems: "center", color: "var(--fg-2)", marginBottom: "18px" }}>{icon}</div>
-                                    <span
-                                        aria-hidden="true"
-                                        style={{
-                                            position: "absolute",
-                                            right: "10px",
-                                            top: "28px",
-                                            ...serif,
-                                            fontSize: "56px",
-                                            lineHeight: 1,
-                                            color: "var(--accent)",
-                                            letterSpacing: "-0.04em",
-                                            opacity: 0.18,
-                                        }}
-                                    >
+                                    <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
+                                    <span aria-hidden="true" className="serif absolute right-9 top-8 text-[56px] leading-none text-fg-3 tracking-[-0.04em] opacity-40">
                                         {num}
                                     </span>
-                                    <h3
-                                        style={{
-                                            ...sans,
-                                            fontSize: "17px",
-                                            fontWeight: 500,
-                                            lineHeight: 1.35,
-                                            color: "var(--fg-1)",
-                                            letterSpacing: "-0.005em",
-                                            margin: "0 0 10px",
-                                        }}
-                                    >
-                                        {title}
-                                    </h3>
+                                    <h3 className="text-[17px] font-medium leading-[1.35] text-fg-1 tracking-[-0.005em] m-0 mb-[10px]">{title}</h3>
                                     {desc}
                                 </div>
                             ))}
@@ -962,41 +610,33 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* ─────────────────── 5. PULL QUOTE ────────────────────────────── */}
+                {/* ── 5. PULL QUOTE ───────────────────────────────────────────── */}
                 <div className={C}>
-                    <div style={{ padding: "clamp(48px, 7vw, 96px) 0 32px", maxWidth: "1000px", margin: "0 auto" }}>
+                    <div className="max-w-[1000px] mx-auto" style={{ padding: "clamp(48px, 7vw, 96px) 0 32px" }}>
                         <p
-                            style={{
-                                ...serif,
-                                fontSize: "clamp(24px, 3.5vw, 38px)",
-                                lineHeight: 1.25,
-                                color: "var(--fg-1)",
-                                letterSpacing: "-0.015em",
-                                margin: "0 auto",
-                                maxWidth: "44ch",
-                                textAlign: "center",
-                            }}
+                            className="serif italic text-fg-1 m-0 max-w-[44ch] text-center mx-auto"
+                            style={{ fontSize: "clamp(24px, 3.5vw, 38px)", lineHeight: 1.25, letterSpacing: "-0.015em" }}
                         >
-                            <span style={{ color: "var(--accent)" }}>&ldquo;</span>
+                            <span className="text-accent not-italic">&ldquo;</span>
                             Built for people who don&rsquo;t want to explain why they won&rsquo;t upload client files to a random website.
-                            <span style={{ color: "var(--accent)" }}>&rdquo;</span>
+                            <span className="text-accent not-italic">&rdquo;</span>
                         </p>
                     </div>
                 </div>
 
-                {/* ───────────────────── 6. TOOLS INDEX ────────────────────────── */}
-                <section id="tools" style={{ padding: "32px 0 56px" }}>
+                {/* ── 6. TOOLS INDEX ──────────────────────────────────────────── */}
+                <section id="tools" className="py-8 pb-14">
                     <div className={C}>
                         {TOOL_CATS.map(({ cat, label, items }, ci) => (
                             <div
                                 key={cat}
-                                className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8 items-start"
-                                style={{ borderBottom: ci < TOOL_CATS.length - 1 ? "1px solid var(--border-1)" : "none", padding: "28px 0" }}
+                                className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8 items-start py-7"
+                                style={{ borderBottom: ci < TOOL_CATS.length - 1 ? "1px solid var(--border-1)" : "none" }}
                             >
                                 {/* Category head */}
-                                <div style={{ display: "flex", alignItems: "center", gap: "12px", paddingTop: "10px" }}>
-                                    <span style={{ width: "8px", height: "8px", borderRadius: "999px", background: `var(--cat-${cat})`, flexShrink: 0 }} aria-hidden="true" />
-                                    <span style={{ ...mono, fontSize: "11px", fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase", color: `var(--cat-${cat})` }}>
+                                <div className="flex items-center gap-3 pt-[10px]">
+                                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: `var(--cat-${cat})` }} aria-hidden="true" />
+                                    <span className="mono text-[11px] font-medium tracking-[0.18em] uppercase" style={{ color: `var(--cat-${cat})` }}>
                                         ◆ {label}
                                     </span>
                                 </div>
@@ -1007,26 +647,11 @@ export default function HomePage() {
                                         <Link
                                             key={href}
                                             href={href}
-                                            className="hp-tool-row"
-                                            style={{
-                                                display: "grid",
-                                                gridTemplateColumns: "1fr auto",
-                                                gap: "16px",
-                                                alignItems: "baseline",
-                                                padding: "12px 0",
-                                                borderBottom: "1px dashed var(--border-1)",
-                                                textDecoration: "none",
-                                            }}
+                                            className="hp-tool-row grid gap-4 items-baseline py-3 bd-b-dash-1 no-underline"
+                                            style={{ gridTemplateColumns: "1fr auto" }}
                                         >
-                                            <span
-                                                className="hp-tool-name"
-                                                style={{ ...sans, fontSize: "14.5px", fontWeight: 500, color: "var(--fg-1)", letterSpacing: "-0.005em", transition: "color 0.15s" }}
-                                            >
-                                                {name}
-                                            </span>
-                                            <span style={{ ...sans, fontSize: "12.5px", fontWeight: 400, color: "var(--fg-2)", lineHeight: 1.5 }}>
-                                                {desc}
-                                            </span>
+                                            <span className="hp-tool-name text-[14.5px] font-medium text-fg-1 tracking-[-0.005em] transition-colors duration-150">{name}</span>
+                                            <span className="text-[12.5px] font-normal text-fg-2 leading-[1.5]">{desc}</span>
                                         </Link>
                                     ))}
                                 </div>
@@ -1034,7 +659,7 @@ export default function HomePage() {
                         ))}
 
                         {/* Hub links */}
-                        <div className="flex flex-wrap gap-2.5 mt-7">
+                        <div className="flex flex-wrap justify-center gap-2.5 mt-7">
                             {[
                                 { href: "/image-tools", label: "All image tools" },
                                 { href: "/pdf-tools", label: "All PDF tools" },
@@ -1042,58 +667,21 @@ export default function HomePage() {
                                 <Link
                                     key={href}
                                     href={href}
-                                    style={{
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        gap: "8px",
-                                        height: "34px",
-                                        padding: "0 16px",
-                                        borderRadius: "30px",
-                                        background: "var(--bg-surface)",
-                                        border: "1px solid var(--border-2)",
-                                        color: "var(--fg-1)",
-                                        fontSize: "12.5px",
-                                        fontWeight: 500,
-                                        textDecoration: "none",
-                                        ...sans,
-                                    }}
+                                    className="flex items-center gap-2 no-underline h-[34px] px-4 rounded-full bg-accent text-[12.5px] font-medium"
+                                    style={{ color: 'var(--on-accent)' }}
                                 >
-                                    {label} <span style={{ color: "var(--fg-3)" }}>→</span>
+                                    {label} →
                                 </Link>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* ──────────────────────── 7. FORMATS ─────────────────────────── */}
-                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
+                {/* ── 7. FORMATS ──────────────────────────────────────────────── */}
+                <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
-                        <span
-                            style={{
-                                display: "block",
-                                textAlign: "center",
-                                ...mono,
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                color: "var(--fg-2)",
-                                letterSpacing: "0.18em",
-                                textTransform: "uppercase",
-                                marginBottom: "20px",
-                            }}
-                        >
-                            Supported formats
-                        </span>
-                        <h2
-                            style={{
-                                ...serif,
-                                fontSize: "clamp(32px, 4vw, 48px)",
-                                lineHeight: 1.05,
-                                letterSpacing: "-0.025em",
-                                color: "var(--fg-1)",
-                                margin: "0 0 18px",
-                                textAlign: "center",
-                            }}
-                        >
+                        <span className="hp-eyebrow text-center">Supported formats</span>
+                        <h2 className="serif italic text-center text-fg-1 m-0 mb-[18px]" style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}>
                             Every major format. <em>All in the browser.</em>
                         </h2>
 
@@ -1130,182 +718,79 @@ export default function HomePage() {
                                     desc: "Operates on PDFs with StructLevel-1 WASM. Single-page files, split by tag-design, add page numbers or watermarks, or assemble a set of images into a single PDF document.",
                                 },
                             ].map(({ fmt, chip, accent, desc }) => (
-                                <div key={fmt} style={{ padding: "24px 0", borderTop: "1px solid var(--border-1)" }}>
-                                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "12px" }}>
-                                        <span style={{ ...mono, fontSize: "13px", fontWeight: 500, letterSpacing: "0.14em", color: accent ? "var(--accent)" : "var(--fg-2)" }}>
-                                            {fmt}
-                                        </span>
-                                        <span
-                                            style={{
-                                                ...mono,
-                                                fontSize: "10.5px",
-                                                fontWeight: 500,
-                                                padding: "4px 8px",
-                                                borderRadius: "6px",
-                                                background: "var(--bg-elevated)",
-                                                border: "1px solid var(--border-2)",
-                                                color: "var(--fg-2)",
-                                            }}
-                                        >
-                                            {chip}
-                                        </span>
+                                <div key={fmt} className="py-6 bd-t-1">
+                                    <div className="flex items-baseline justify-between mb-3">
+                                        <span className={`mono text-[13px] font-medium tracking-[0.14em] ${accent ? "text-accent" : "text-fg-2"}`}>{fmt}</span>
+                                        <span className="mono text-[10.5px] font-medium py-1 px-2 rounded-md bg-elevated bd-2 text-fg-2">{chip}</span>
                                     </div>
-                                    <p style={{ ...sans, fontSize: "14px", fontWeight: 400, lineHeight: 1.65, color: "var(--fg-2)", margin: 0 }}>{desc}</p>
+                                    <p className="text-sm font-normal leading-[1.65] text-fg-2 m-0">{desc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* ───────────────────────── 8. FAQ ────────────────────────────── */}
-                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
+                {/* ── 8. FAQ ──────────────────────────────────────────────────── */}
+                <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <h2
-                            style={{
-                                ...serif,
-                                fontSize: "clamp(32px, 4vw, 48px)",
-                                lineHeight: 1.05,
-                                letterSpacing: "-0.025em",
-                                color: "var(--fg-1)",
-                                margin: "0 0 clamp(28px, 4vw, 48px)",
-                                textAlign: "center",
-                            }}
+                            className="serif italic text-center text-fg-1"
+                            style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", margin: "0 0 clamp(28px, 4vw, 48px)" }}
                         >
                             Questions answered.
                         </h2>
-                        <div style={{ maxWidth: "820px", margin: "0 auto", borderTop: "1px solid var(--border-1)" }}>
+                        <div className="max-w-[820px] mx-auto bd-t-1">
                             {FAQS.map(({ q, a }) => (
-                                <details key={q} className="hp-faq" style={{ borderBottom: "1px solid var(--border-1)" }}>
-                                    <summary
-                                        style={{
-                                            listStyle: "none",
-                                            cursor: "pointer",
-                                            padding: "22px 0",
-                                            display: "flex",
-                                            alignItems: "flex-start",
-                                            justifyContent: "space-between",
-                                            gap: "24px",
-                                        }}
-                                    >
-                                        <span style={{ ...sans, fontSize: "16.5px", fontWeight: 500, lineHeight: 1.4, color: "var(--fg-1)", letterSpacing: "-0.005em", flex: 1 }}>
-                                            {q}
-                                        </span>
-                                        <span
-                                            className="hp-faq-toggle"
-                                            style={{
-                                                width: "32px",
-                                                height: "32px",
-                                                borderRadius: "999px",
-                                                border: "1px solid var(--border-2)",
-                                                display: "grid",
-                                                placeItems: "center",
-                                                color: "var(--fg-2)",
-                                                flexShrink: 0,
-                                            }}
-                                        >
+                                <details key={q} className="hp-faq bd-b-1">
+                                    <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                                        <span className="text-[16.5px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                                        <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                                                 <line x1="12" y1="5" x2="12" y2="19" />
                                                 <line x1="5" y1="12" x2="19" y2="12" />
                                             </svg>
                                         </span>
                                     </summary>
-                                    <div className="hp-faq-answer" style={{ ...sans, fontSize: "14.5px", fontWeight: 400, lineHeight: 1.7, color: "var(--fg-2)" }}>{a}</div>
+                                    <div className="hp-faq-answer text-[14.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
                                 </details>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* ─────────────────── 9. FINAL CTA ────────────────────────────── */}
-                <section style={{ padding: "clamp(64px, 10vw, 120px) 0 clamp(56px, 8vw, 96px)", textAlign: "center", position: "relative" }}>
+                {/* ── 9. FINAL CTA ────────────────────────────────────────────── */}
+                <section className="text-center relative" style={{ padding: "clamp(64px, 10vw, 120px) 0 clamp(56px, 8vw, 96px)" }}>
                     <div
                         aria-hidden="true"
+                        className="absolute pointer-events-none z-0 opacity-90"
                         style={{
-                            position: "absolute",
                             left: "50%",
-                            top: "40%",
+                            top: "30%",
                             width: "min(600px, 100vw)",
                             height: "min(600px, 100vw)",
                             transform: "translate(-50%,-50%)",
                             background: "radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)",
                             filter: "blur(60px)",
-                            zIndex: 0,
-                            opacity: 0.9,
                         }}
                     />
-                    <div className={C} style={{ position: "relative", zIndex: 1 }}>
-                        <span
-                            style={{
-                                display: "block",
-                                textAlign: "center",
-                                ...mono,
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                color: "var(--fg-2)",
-                                letterSpacing: "0.18em",
-                                textTransform: "uppercase",
-                                marginBottom: "20px",
-                            }}
-                        >
-                            Start now. It&apos;s free.
-                        </span>
+                    <div className={`${C} relative z-[1]`}>
+                        <span className="hp-eyebrow text-center">Start now. It&apos;s free.</span>
 
-                        {/* h2 — clamp scales from 44px on small phones to 96px on desktop */}
-                        <h2 style={{ ...serif, fontSize: "clamp(44px, 11vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em", color: "var(--fg-1)", margin: "0 0 24px" }}>
+                        <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: "clamp(44px, 11vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
                             Your files.
                             <br />
-                            Your <span style={{ color: "var(--accent)" }}>rules.</span>
+                            Your <span className="text-accent">rules.</span>
                         </h2>
 
-                        <p
-                            style={{
-                                ...sans,
-                                fontSize: "15px",
-                                fontWeight: 400,
-                                lineHeight: 1.6,
-                                color: "var(--fg-2)",
-                                margin: "0 0 36px",
-                                maxWidth: "44ch",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                            }}
-                        >
-                            No sign-up. No download. No upload. Open a tool and go.
-                        </p>
+                        <p className="text-[15px] font-normal leading-[1.6] text-fg-2 mx-auto mb-9 max-w-[44ch]">No sign-up. No download. No upload. Open a tool and go.</p>
 
-                        {/* Button group — stacked column on mobile, pill row on sm+ */}
-                        <div
-                            className="flex flex-col sm:inline-flex sm:flex-row items-stretch sm:items-center w-full sm:w-auto rounded-[14px] sm:rounded-[30px]"
-                            style={{ background: "var(--bg-surface)", border: "1px solid var(--border-2)", padding: "6px", gap: "4px" }}
-                        >
+                        {/* Button group */}
+                        <div className="flex flex-col sm:inline-flex sm:flex-row items-stretch sm:items-center w-full sm:w-auto rounded-[14px] sm:rounded-[30px] bg-surface bd-2 p-2 gap-[10px]">
                             <Link
                                 href="/compress-image"
-                                className="justify-center"
-                                style={{
-                                    height: "38px",
-                                    padding: "0 18px",
-                                    borderRadius: "30px",
-                                    background: "var(--accent-dim)",
-                                    color: "var(--accent)",
-                                    border: "1px solid var(--accent-border)",
-                                    ...sans,
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                }}
+                                className="flex items-center justify-center no-underline h-[38px] px-[18px] rounded-full bg-accent-dim text-accent bd-accent text-[13px] font-medium"
                             >
-                                <svg
-                                    width="13"
-                                    height="13"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    aria-hidden="true"
-                                    style={{ marginRight: "6px", flexShrink: 0 }}
-                                >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mr-1.5 shrink-0">
                                     <polyline points="9 11 12 14 22 4" />
                                     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                                 </svg>
@@ -1313,32 +798,9 @@ export default function HomePage() {
                             </Link>
                             <Link
                                 href="/compress-pdf"
-                                className="justify-center"
-                                style={{
-                                    height: "38px",
-                                    padding: "0 18px",
-                                    borderRadius: "30px",
-                                    background: "transparent",
-                                    color: "var(--fg-2)",
-                                    border: 0,
-                                    ...sans,
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                }}
+                                className="flex items-center justify-center no-underline h-[38px] px-[18px] rounded-full bg-transparent text-fg-2 text-[13px] font-medium"
                             >
-                                <svg
-                                    width="13"
-                                    height="13"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    aria-hidden="true"
-                                    style={{ marginRight: "6px", flexShrink: 0 }}
-                                >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mr-1.5 shrink-0">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                                     <polyline points="14 2 14 8 20 8" />
                                 </svg>
@@ -1346,23 +808,9 @@ export default function HomePage() {
                             </Link>
                             <Link
                                 href="#tools"
-                                className="hp-seg-ghost justify-center"
-                                style={{
-                                    height: "38px",
-                                    padding: "0 12px",
-                                    borderRadius: "30px",
-                                    background: "transparent",
-                                    color: "var(--fg-2)",
-                                    border: 0,
-                                    ...sans,
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                }}
+                                className="hp-seg-ghost flex items-center justify-center no-underline h-[38px] px-3 rounded-full bg-transparent text-fg-2 text-[13px] font-medium"
                             >
-                                See all 30+ tools <span style={{ color: "var(--fg-3)", marginLeft: "6px" }}>→</span>
+                                See all 30+ tools <span className="text-fg-3 ml-1.5">→</span>
                             </Link>
                         </div>
                     </div>

@@ -247,6 +247,18 @@ html body { margin-top: 0 !important; }
 }
 .goog-te-combo:hover { border-color: #9D95F5 !important; }
 
+/* ── Homepage: eyebrow label ────────────────────────────── */
+.hp-eyebrow {
+  display: block;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 16px;
+}
+
 /* ── Homepage: FAQ details/summary ─────────────────────── */
 .hp-faq summary::-webkit-details-marker { display: none; }
 .hp-faq[open] .hp-faq-toggle {
@@ -270,3 +282,42 @@ html body { margin-top: 0 !important; }
 
 /* ── Homepage: CTA seg-btn hover ───────────────────────── */
 .hp-seg-ghost:hover { color: var(--fg-1) !important; }
+
+/* ── Step cards ─────────────────────────────────────────── */
+.step-card {
+  padding: 28px 0 32px;
+  border-bottom: 1px solid var(--border-1);
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .step-card                   { padding: 36px 36px 40px 0; border-bottom: none; overflow: visible; }
+  .step-card:not(:first-child) { padding-left: 36px; }
+  .step-card:not(:last-child)  { border-right: 1px solid var(--border-1); }
+}
+.hp-faq-answer { padding: 0 0 26px; }
+@media (min-width: 640px) { .hp-faq-answer { padding: 0 56px 26px 0; } }
+
+/* ── Design token utilities ──────────────────────────────── */
+@layer utilities {
+  .text-fg-1     { color: var(--fg-1); }
+  .text-fg-2     { color: var(--fg-2); }
+  .text-fg-3     { color: var(--fg-3); }
+  .text-accent   { color: var(--accent); }
+  .text-cat-edit { color: var(--cat-edit); }
+
+  .bg-page       { background: var(--bg); }
+  .bg-surface    { background: var(--bg-surface); }
+  .bg-elevated   { background: var(--bg-elevated); }
+  .bg-accent     { background: var(--accent); }
+  .bg-accent-dim { background: var(--accent-dim); }
+
+  .bd-1          { border: 1px solid var(--border-1); }
+  .bd-2          { border: 1px solid var(--border-2); }
+  .bd-3          { border: 1px solid var(--border-3); }
+  .bd-accent     { border: 1px solid var(--accent-border); }
+  .bd-t-1        { border-top: 1px solid var(--border-1); }
+  .bd-b-1        { border-bottom: 1px solid var(--border-1); }
+  .bd-r-1        { border-right: 1px solid var(--border-1); }
+  .bd-b-dash-1   { border-bottom: 1px dashed var(--border-1); }
+}
