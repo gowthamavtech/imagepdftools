@@ -79,7 +79,7 @@ function AuthSection() {
   return (
     <Show when="signed-out">
       <SignInButton mode="modal">
-        <button style={{ fontFamily: sans, fontSize: '13px', fontWeight: 500, height: '34px', padding: '0 16px', borderRadius: '30px', background: 'var(--accent)', color: 'var(--on-accent)', border: '1px solid transparent', cursor: 'pointer', transition: 'background 0.15s' }}>
+        <button className="btn-accent" style={{ fontFamily: sans, fontSize: '13px', fontWeight: 500, height: '34px', padding: '0 16px', borderRadius: '30px', color: 'var(--on-accent)', border: '1px solid transparent', cursor: 'pointer' }}>
           Sign In
         </button>
       </SignInButton>

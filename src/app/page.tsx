@@ -223,18 +223,20 @@ export default function HomePage() {
                                 <div className="flex flex-wrap items-center gap-3 mb-6">
                                     <Link
                                         href="/pdf-tools"
-                                        className="inline-flex items-center gap-2 h-12 px-[22px] rounded-[10px] bg-accent text-[14.5px] font-medium no-underline" style={{ color: 'var(--on-accent)' }}
+                                        className="inline-flex items-center gap-2 h-12 px-[22px] rounded-[10px] bg-accent text-[14.5px] font-medium no-underline btn-accent"
+                                        style={{ color: "var(--on-accent)" }}
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
                                         </svg>
                                         All PDF tools
                                     </Link>
                                     <Link
                                         href="/image-tools"
-                                        className="inline-flex items-center gap-1.5 h-12 px-[22px] rounded-[10px] bg-transparent bd-2 text-fg-2 text-[14.5px] font-medium no-underline"
+                                        className="inline-flex items-center gap-1.5 h-12 px-[22px] rounded-[10px] bg-transparent bd-accent text-accent text-[14.5px] font-medium no-underline btn-accent-outline"
                                     >
-                                        All image tools <span className="text-fg-3">→</span>
+                                        All image tools →
                                     </Link>
                                 </div>
 
@@ -343,7 +345,8 @@ export default function HomePage() {
                                             <p className="text-[11.5px] font-normal leading-[1.4] text-fg-2 m-0 mb-3">JPEG · PNG · WebP · SVG</p>
                                             <button
                                                 tabIndex={-1}
-                                                className="inline-flex items-center h-7 px-3 rounded-md bg-accent text-[11.5px] font-medium border-0 cursor-default" style={{ color: 'var(--on-accent)' }}
+                                                className="inline-flex items-center h-7 px-3 rounded-md bg-accent text-[11.5px] font-medium border-0 cursor-default btn-accent"
+                                                style={{ color: "var(--on-accent)" }}
                                             >
                                                 Browse files
                                             </button>
@@ -398,7 +401,10 @@ export default function HomePage() {
                 <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <span className="hp-eyebrow text-center">The problem with every other tool</span>
-                        <h2 className="serif italic text-center text-fg-1 m-0 mb-[18px]" style={{ fontSize: "clamp(36px, 5.5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}>
+                        <h2
+                            className="serif italic text-center text-fg-1 m-0 mb-[18px]"
+                            style={{ fontSize: "clamp(36px, 5.5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
+                        >
                             Every other tool
                             <br />
                             <em className="text-accent">uploads your files.</em>
@@ -542,7 +548,7 @@ export default function HomePage() {
                             className="serif italic text-fg-1 text-center"
                             style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", margin: "0 0 clamp(28px, 4vw, 48px)" }}
                         >
-                            Done in three steps.
+                            Done in <span className="text-accent">three</span> steps.
                         </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
@@ -599,7 +605,11 @@ export default function HomePage() {
                             ].map(({ num, title, desc, icon }) => (
                                 <div key={num} className="step-card">
                                     <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
-                                    <span aria-hidden="true" className="serif absolute right-9 top-8 text-[56px] leading-none text-fg-3 tracking-[-0.04em] opacity-40">
+                                    <span
+                                        aria-hidden="true"
+                                        className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none"
+                                        style={{ fontSize: "clamp(72px, 10vw, 108px)", opacity: 0.18, letterSpacing: "-0.05em" }}
+                                    >
                                         {num}
                                     </span>
                                     <h3 className="text-[17px] font-medium leading-[1.35] text-fg-1 tracking-[-0.005em] m-0 mb-[10px]">{title}</h3>
@@ -618,7 +628,8 @@ export default function HomePage() {
                             style={{ fontSize: "clamp(24px, 3.5vw, 38px)", lineHeight: 1.25, letterSpacing: "-0.015em" }}
                         >
                             <span className="text-accent not-italic">&ldquo;</span>
-                            Built for people who don&rsquo;t want to explain why they won&rsquo;t upload client files to a random website.
+                            Built for <span className="text-accent">people </span> who don&rsquo;t want to explain why they{" "}
+                            <span className="text-accent"> won&rsquo;t upload </span> client files to a random website.
                             <span className="text-accent not-italic">&rdquo;</span>
                         </p>
                     </div>
@@ -660,19 +671,19 @@ export default function HomePage() {
 
                         {/* Hub links */}
                         <div className="flex flex-wrap justify-center gap-2.5 mt-7">
-                            {[
-                                { href: "/image-tools", label: "All image tools" },
-                                { href: "/pdf-tools", label: "All PDF tools" },
-                            ].map(({ href, label }) => (
-                                <Link
-                                    key={href}
-                                    href={href}
-                                    className="flex items-center gap-2 no-underline h-[34px] px-4 rounded-full bg-accent text-[12.5px] font-medium"
-                                    style={{ color: 'var(--on-accent)' }}
-                                >
-                                    {label} →
-                                </Link>
-                            ))}
+                            <Link
+                                href="/pdf-tools"
+                                className="flex items-center gap-2 no-underline h-[34px] px-4 rounded-full bg-accent text-[12.5px] font-medium btn-accent"
+                                style={{ color: "var(--on-accent)" }}
+                            >
+                                All PDF tools →
+                            </Link>
+                            <Link
+                                href="/image-tools"
+                                className="flex items-center gap-2 no-underline h-[34px] px-4 rounded-full bg-transparent bd-accent text-accent text-[12.5px] font-medium btn-accent-outline"
+                            >
+                                All image tools →
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -681,8 +692,11 @@ export default function HomePage() {
                 <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <span className="hp-eyebrow text-center">Supported formats</span>
-                        <h2 className="serif italic text-center text-fg-1 m-0 mb-[18px]" style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}>
-                            Every major format. <em>All in the browser.</em>
+                        <h2
+                            className="serif italic text-center text-fg-1 m-0 mb-[18px]"
+                            style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
+                        >
+                            Every major format. <em className="text-accent">All in the browser.</em>
                         </h2>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-14 max-w-[1000px] mx-auto mt-12">
