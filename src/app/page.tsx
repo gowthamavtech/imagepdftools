@@ -180,8 +180,12 @@ export default function HomePage() {
             ))}
 
             <main style={{ background: "var(--bg)", color: "var(--fg-1)" }}>
+                <style>{`
+                  .hp-faq-answer { padding: 0 0 26px; }
+                  @media (min-width: 640px) { .hp-faq-answer { padding: 0 56px 26px 0; } }
+                `}</style>
                 {/* ─────────────────────────── 1. HERO ─────────────────────────── */}
-                <section style={{ position: "relative", padding: "72px 0 84px", overflow: "hidden" }}>
+                <section style={{ position: "relative", padding: "clamp(40px, 7vw, 72px) 0 clamp(48px, 7vw, 84px)", overflow: "hidden" }}>
                     {/* Ambient glows */}
                     <div
                         aria-hidden="true"
@@ -596,7 +600,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ─────────────────── 2. PROBLEM: Every other tool ────────────── */}
-                <section style={{ position: "relative", padding: "112px 0" }}>
+                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <span
                             style={{
@@ -749,7 +753,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ─────────────────────── 3. ZERO ──────────────────────────────── */}
-                <section style={{ padding: "112px 0", textAlign: "center" }}>
+                <section style={{ padding: "clamp(56px, 9vw, 112px) 0", textAlign: "center" }}>
                     <div className={C}>
                         <div
                             aria-label="Zero kilobytes sent to our servers"
@@ -840,7 +844,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ────────────────────── 4. STEPS ──────────────────────────────── */}
-                <section style={{ position: "relative", padding: "88px 0" }}>
+                <section style={{ position: "relative", padding: "clamp(48px, 7vw, 88px) 0" }}>
                     <style>{`
             .step-card { padding: 28px 0 32px; border-bottom: 1px solid var(--border-1); position: relative; overflow: hidden; }
             @media (min-width: 768px) {
@@ -864,7 +868,7 @@ export default function HomePage() {
                         >
                             It just works
                         </span>
-                        <h2 style={{ ...serif, fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "var(--fg-1)", margin: "0 0 48px" }}>
+                        <h2 style={{ ...serif, fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "var(--fg-1)", margin: "0 0 clamp(28px, 4vw, 48px)" }}>
                             Done in three steps.
                         </h2>
 
@@ -960,7 +964,7 @@ export default function HomePage() {
 
                 {/* ─────────────────── 5. PULL QUOTE ────────────────────────────── */}
                 <div className={C}>
-                    <div style={{ padding: "96px 0 32px", maxWidth: "1000px", margin: "0 auto" }}>
+                    <div style={{ padding: "clamp(48px, 7vw, 96px) 0 32px", maxWidth: "1000px", margin: "0 auto" }}>
                         <p
                             style={{
                                 ...serif,
@@ -968,8 +972,9 @@ export default function HomePage() {
                                 lineHeight: 1.25,
                                 color: "var(--fg-1)",
                                 letterSpacing: "-0.015em",
-                                margin: 0,
-                                maxWidth: "22ch",
+                                margin: "0 auto",
+                                maxWidth: "44ch",
+                                textAlign: "center",
                             }}
                         >
                             <span style={{ color: "var(--accent)" }}>&ldquo;</span>
@@ -1019,7 +1024,7 @@ export default function HomePage() {
                                             >
                                                 {name}
                                             </span>
-                                            <span style={{ ...sans, fontSize: "12.5px", fontWeight: 400, color: "var(--fg-2)", lineHeight: 1.5, whiteSpace: "nowrap" }}>
+                                            <span style={{ ...sans, fontSize: "12.5px", fontWeight: 400, color: "var(--fg-2)", lineHeight: 1.5 }}>
                                                 {desc}
                                             </span>
                                         </Link>
@@ -1061,7 +1066,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ──────────────────────── 7. FORMATS ─────────────────────────── */}
-                <section style={{ position: "relative", padding: "112px 0" }}>
+                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <span
                             style={{
@@ -1153,7 +1158,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ───────────────────────── 8. FAQ ────────────────────────────── */}
-                <section style={{ position: "relative", padding: "112px 0" }}>
+                <section style={{ position: "relative", padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <h2
                             style={{
@@ -1162,7 +1167,7 @@ export default function HomePage() {
                                 lineHeight: 1.05,
                                 letterSpacing: "-0.025em",
                                 color: "var(--fg-1)",
-                                margin: "0 0 48px",
+                                margin: "0 0 clamp(28px, 4vw, 48px)",
                                 textAlign: "center",
                             }}
                         >
@@ -1204,7 +1209,7 @@ export default function HomePage() {
                                             </svg>
                                         </span>
                                     </summary>
-                                    <div style={{ ...sans, padding: "0 56px 26px 0", fontSize: "14.5px", fontWeight: 400, lineHeight: 1.7, color: "var(--fg-2)" }}>{a}</div>
+                                    <div className="hp-faq-answer" style={{ ...sans, fontSize: "14.5px", fontWeight: 400, lineHeight: 1.7, color: "var(--fg-2)" }}>{a}</div>
                                 </details>
                             ))}
                         </div>
@@ -1212,7 +1217,7 @@ export default function HomePage() {
                 </section>
 
                 {/* ─────────────────── 9. FINAL CTA ────────────────────────────── */}
-                <section style={{ padding: "120px 0 96px", textAlign: "center", position: "relative" }}>
+                <section style={{ padding: "clamp(64px, 10vw, 120px) 0 clamp(56px, 8vw, 96px)", textAlign: "center", position: "relative" }}>
                     <div
                         aria-hidden="true"
                         style={{

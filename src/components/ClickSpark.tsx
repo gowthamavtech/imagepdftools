@@ -34,23 +34,26 @@ export function ClickSpark({
 
   const easeFunc = useCallback((t: number): number => {
     switch (easing) {
-      case 'linear':     return t;
-      case 'ease-in':    return t * t;
+      case 'linear':      return t;
+      case 'ease-in':     return t * t;
       case 'ease-in-out': return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      default:           return t * (2 - t); // ease-out
+      default:            return t * (2 - t);
     }
   }, [easing]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    resize();
-    window.addEventListener('resize', resize);
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // Match buffer size to the actual CSS pixel size so coordinates are 1:1
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
 
     const draw = (timestamp: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,10 +89,14 @@ export function ClickSpark({
     rafRef.current = requestAnimationFrame(draw);
 
     const onClick = (e: MouseEvent) => {
+      // Compute position relative to canvas origin — handles any offset correctly
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
       const now = performance.now();
       for (let i = 0; i < sparkCount; i++) {
         sparksRef.current.push({
-          x: e.clientX, y: e.clientY,
+          x, y,
           angle: (2 * Math.PI * i) / sparkCount,
           startTime: now,
         });

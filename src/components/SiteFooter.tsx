@@ -102,7 +102,7 @@ const TRUST_BADGES = [
 
 export function SiteFooter() {
   return (
-    <footer style={{ borderTop: '1px solid var(--border-1)', background: 'var(--bg-elevated)' }}>
+    <footer style={{ borderTop: '1px solid var(--border-1)', background: 'var(--bg-surface)' }}>
 
       {/* Brand strip */}
       <div className="max-w-6xl mx-auto px-4 pt-10 pb-8" style={{ borderBottom: '1px solid var(--border-1)' }}>
