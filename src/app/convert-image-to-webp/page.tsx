@@ -45,22 +45,55 @@ const jsonLd = {
   ],
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
 const STEPS = [
   {
     n: '01',
     title: 'Drop your image',
     desc: 'Drag a JPEG, PNG, or WebP file onto the zone or click to browse. Up to 50 MB per file.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <path d="M17 8l-5-5-5 5" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
   },
   {
     n: '02',
     title: 'Output format: WebP',
-    desc: 'The converter uses the browser\'s built-in WebP encoder. Adjust quality with the slider.',
+    desc: "The converter uses the browser's built-in WebP encoder. Adjust quality with the slider.",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <polyline points="17 1 21 5 17 9" />
+        <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+        <polyline points="7 23 3 19 7 15" />
+        <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+      </svg>
+    ),
   },
   {
     n: '03',
     title: 'Download your WebP',
     desc: 'Your browser converts locally. The WebP file downloads directly to your device.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
   },
+];
+
+const FORMAT_ROWS = [
+  { feature: 'Compression',    jpeg: 'Lossy',       png: 'Lossless',   webp: 'Both' },
+  { feature: 'Transparency',   jpeg: '✗',           png: '✓',          webp: '✓' },
+  { feature: 'Typical size',   jpeg: '100%',        png: '150–300%',   webp: '65–75%' },
+  { feature: 'Browser support',jpeg: '100%',        png: '100%',       webp: '97%+' },
+  { feature: 'Best for',       jpeg: 'Photos',      png: 'Logos, UI',  webp: 'Everything' },
 ];
 
 const FAQS = [
@@ -113,160 +146,268 @@ export default function ConvertToWebpPage() {
                         transform 500ms cubic-bezier(0.23,1,0.32,1) 80ms;
           }
           .cw-trust { transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms; }
-          @keyframes cw-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .cw-fact { animation: cw-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .cw-fact:nth-child(1) { animation-delay: 240ms; }
-          .cw-fact:nth-child(2) { animation-delay: 290ms; }
-          .cw-fact:nth-child(3) { animation-delay: 340ms; }
-          .cw-fact:nth-child(4) { animation-delay: 390ms; }
         }
       `}</style>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <main className="flex-1">
-        <div id="webp-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="cw-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            Convert Image to WebP
-          </h1>
-          <p className="cw-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Convert any JPEG or PNG to modern WebP format — up to 35% smaller than JPEG with the same visual quality. Nothing uploaded.
-          </p>
-          <p className="cw-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">
-            Free · No account · No upload
-          </p>
-        </div>
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        <CompressorUI />
+        {/* ── Hero ──────────────────────────────────────────── */}
+        <section
+          id="webp-tool"
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}
+        >
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              right: '-10%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
 
-        <div className="border-t border-slate-100 dark:border-white/5 bg-white dark:bg-[#0C0C1A]">
-          <div className="max-w-4xl mx-auto px-4 py-5">
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5" aria-label="Key guarantees">
-              {['Zero bytes sent to any server', 'Browser-native WebP encoder', 'Free with no account required', 'Transparency preserved'].map((fact) => (
-                <li key={fact} className="cw-fact flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" aria-hidden="true" />
-                  {fact}
-                </li>
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">WebP Converter</span>
+
+            <h1
+              className="cw-h1 serif italic text-fg-1 m-0 mb-4"
+              style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
+            >
+              Convert image to WebP.<br />
+              <span className="text-accent">25–35% smaller files.</span>
+            </h1>
+
+            <p className="cw-sub text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Convert any JPEG or PNG to modern WebP — same visual quality, smaller download. Browser-native encoding. Nothing uploaded.
+            </p>
+
+            <p className="cw-trust text-[12px] text-fg-3 tracking-wide m-0 mb-8">
+              Free · No account · Transparency preserved
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', 'Transparency preserved', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
+        </section>
+
+        {/* ── Tool ──────────────────────────────────────────── */}
+        <div className={C}>
+          <CompressorUI />
         </div>
 
-        <section aria-labelledby="cw-how-heading" className="bg-[#F7F8FC] dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 id="cw-how-heading" className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-10">Three steps. Under 5 seconds.</h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/6">
-              {STEPS.map((step, i) => (
-                <div key={step.n} className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}>
-                  <span className="block text-[11px] font-bold tracking-[0.16em] mb-3" style={{ color: 'oklch(70% 0.158 293)' }} aria-hidden="true">{step.n}</span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">{step.title}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+        {/* ── How it works ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2
+              className="serif italic text-fg-1 text-center m-0 mb-10"
+              style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
+              Three steps. <em className="text-accent">Under 5 seconds.</em>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
+                  <span
+                    aria-hidden="true"
+                    className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none"
+                    style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}
+                  >
+                    {n}
+                  </span>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">
+                    {title}
+                  </h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="max-w-3xl mx-auto px-4 pt-16 pb-8">
-          <div className="space-y-12 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+        {/* ── What is WebP ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            >
+              What is WebP — <em className="text-accent">and why does it matter?</em>
+            </h2>
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-4">
+              WebP is an image format developed by Google and released in 2010. It uses advanced compression algorithms that produce files 25–35% smaller than JPEG and 25% smaller than PNG, while maintaining near-identical visual quality. It supports both lossy and lossless compression, transparency (alpha channel), and even animation.
+            </p>
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-6">
+              Google included WebP support in Lighthouse and PageSpeed Insights as a core recommendation, and it is now one of the key factors in the Largest Contentful Paint (LCP) metric — a Core Web Vital that Google uses as a ranking signal.
+            </p>
 
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">What is WebP and why does it matter?</h2>
-              <p className="mb-3">WebP is an image format developed by Google and released in 2010. It uses advanced compression algorithms — a mix of predictive coding and discrete cosine transformation — that produce files 25–35% smaller than JPEG and 25% smaller than PNG, while maintaining near-identical visual quality. It supports both lossy and lossless compression, transparency (alpha channel), and even animation.</p>
-              <p>Google included WebP support in Lighthouse and PageSpeed Insights as a core recommendation, and it is now one of the key factors in the Largest Contentful Paint (LCP) metric — a Core Web Vital that Google uses as a ranking signal. Switching your images from JPEG and PNG to WebP is one of the highest-impact single changes you can make to improve your website&apos;s speed score.</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">Who should convert images to WebP?</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Website owners and bloggers.</strong> Replacing JPEG hero images and blog post photos with WebP equivalents can shave hundreds of kilobytes per page load, directly improving Google PageSpeed scores.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">E-commerce store owners.</strong> Product images are often the largest assets on a page. WebP product photos load faster, reducing bounce rate and improving conversion.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">WordPress site owners.</strong> WordPress 5.8+ natively serves WebP images. Converting your existing library to WebP is the fastest way to speed up a WordPress site without changing plugins.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Shopify merchants.</strong> Shopify&apos;s CDN automatically serves WebP to supporting browsers, but uploading WebP gives you the best result and smallest fallback file.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Developers and designers.</strong> Including WebP in your design handoffs and asset exports helps developers meet performance budgets without extra work on their end.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">WebP vs JPEG vs PNG — format comparison</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-200 dark:border-white/8">
-                      <th className="text-left py-2.5 pr-4 font-semibold text-slate-800 dark:text-slate-200">Feature</th>
-                      <th className="text-left py-2.5 pr-4 font-semibold text-slate-800 dark:text-slate-200">JPEG</th>
-                      <th className="text-left py-2.5 pr-4 font-semibold text-slate-800 dark:text-slate-200">PNG</th>
-                      <th className="text-left py-2.5 font-semibold" style={{ color: 'oklch(70% 0.158 293)' }}>WebP</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-white/5">
-                    {[
-                      ['Compression', 'Lossy', 'Lossless', 'Both'],
-                      ['Transparency', '✗', '✓', '✓'],
-                      ['Typical file size', '100%', '150–300%', '65–75%'],
-                      ['Browser support', '100%', '100%', '97%+'],
-                      ['Best for', 'Photos', 'Logos, UI', 'Everything'],
-                    ].map(([f, j, p, w]) => (
-                      <tr key={f}>
-                        <td className="py-2.5 pr-4 font-medium text-slate-700 dark:text-slate-300">{f}</td>
-                        <td className="py-2.5 pr-4">{j}</td>
-                        <td className="py-2.5 pr-4">{p}</td>
-                        <td className="py-2.5 font-medium" style={{ color: 'oklch(70% 0.158 293)' }}>{w}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">How the conversion works</h2>
-              <p>When you drop an image into the converter, it is decoded by the browser&apos;s native image decoder and drawn onto an HTML Canvas element. The canvas is then exported as a WebP-encoded image using the browser&apos;s built-in WebP encoder — the same encoder that Google Chrome uses internally. The quality slider controls the compression ratio of the WebP output. Nothing is uploaded to any server at any point in this process.</p>
-            </div>
-
-          </div>
-        </section>
-
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3" style={{ color: 'oklch(70% 0.158 293)' }}>Privacy by architecture</p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">Your files never leave your browser.</h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-[60ch] mb-6">Conversion runs entirely via the browser&apos;s built-in Canvas API and WebP encoder. No upload endpoint exists. Your image is converted on your own CPU and downloaded directly.</p>
-            <ul className="space-y-2.5">
-              {['No file data transmitted over the network at any point', 'No account, sign-in, or email required to use any feature', 'Closing the tab clears all data from browser memory completely', 'Browser-native WebP encoding — same as Chrome uses internally'].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <svg className="w-3.5 h-3.5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{ color: 'oklch(70% 0.158 293)' }} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {item}
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
+              {[
+                { label: 'Website owners and bloggers.', text: 'Replacing JPEG hero images with WebP equivalents can shave hundreds of kilobytes per page load, directly improving Google PageSpeed scores.' },
+                { label: 'E-commerce store owners.', text: 'Product images are often the largest assets on a page. WebP product photos load faster, reducing bounce rate and improving conversion.' },
+                { label: 'WordPress site owners.', text: 'WordPress 5.8+ natively serves WebP images. Converting your existing library is the fastest way to speed up a WordPress site.' },
+                { label: 'Developers and designers.', text: 'Including WebP in design handoffs and asset exports helps developers meet performance budgets without extra work on their end.' },
+              ].map(({ label, text }) => (
+                <li key={label} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                    aria-hidden="true"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">
+                    <strong className="font-medium text-fg-1">{label}</strong> {text}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <div className="border-t border-slate-100 dark:border-white/5 bg-[#F7F8FC] dark:bg-[#0C0C1A] py-10 px-4 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">The converter is at the top of this page.</p>
-          <a href="#webp-tool" className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg transition-colors duration-150" style={{ color: 'oklch(70% 0.158 293)', background: 'oklch(70% 0.158 293 / 0.08)' }}>
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg>
+        {/* ── Format comparison table ───────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            >
+              WebP vs JPEG vs PNG — <em className="text-accent">format comparison.</em>
+            </h2>
+
+            <div className="rounded-[10px] overflow-hidden bd-2">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-elevated">
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Feature</th>
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">JPEG</th>
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">PNG</th>
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-accent px-4 py-3">WebP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {FORMAT_ROWS.map(({ feature, jpeg, png, webp }, i) => (
+                    <tr key={feature} className={i % 2 === 0 ? 'bg-surface' : 'bg-page'}>
+                      <td className="px-4 py-3 text-[13px] font-medium text-fg-1">{feature}</td>
+                      <td className="px-4 py-3 text-[13px] text-fg-2">{jpeg}</td>
+                      <td className="px-4 py-3 text-[13px] text-fg-2">{png}</td>
+                      <td className="px-4 py-3 text-[13px] font-medium text-accent">{webp}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-[13px] text-fg-3 mt-4 m-0">
+              File sizes relative to JPEG at equivalent visual quality. WebP percentage varies by image content.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Privacy card ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">
+                Privacy by architecture
+              </p>
+              <h2
+                className="serif italic text-fg-1 m-0 mb-4"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+              >
+                Your files never leave your browser.
+              </h2>
+              <p className="text-[13.5px] text-fg-2 leading-[1.6] m-0 mb-5 max-w-[56ch]">
+                Conversion runs entirely via the browser&apos;s built-in Canvas API and WebP encoder. No upload endpoint exists. Your image is converted on your own CPU and downloaded directly.
+              </p>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+                {[
+                  'No file data transmitted over the network at any point',
+                  'No account, sign-in, or email required to use any feature',
+                  'Closing the tab clears all data from browser memory completely',
+                  'Browser-native WebP encoding — same as Chrome uses internally',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-[13px] text-fg-2">
+                    <span
+                      className="shrink-0 w-4 h-4 rounded-full grid place-items-center"
+                      style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                      aria-hidden="true"
+                    >
+                      <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 6l3 3 5-5" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ────────────────────────────── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
+          <a
+            href="#webp-tool"
+            className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
             Back to converter
           </a>
         </div>
 
-        <section aria-labelledby="cw-faq-heading" className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 id="cw-faq-heading" className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">Frequently asked questions</h2>
-            <dl className="divide-y divide-slate-100 dark:divide-white/5">
+        {/* ── FAQ ───────────────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-8"
+              style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
+              Frequently asked questions
+            </h2>
+
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
-                <div key={q} className="py-5">
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
-                </div>
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
               ))}
-            </dl>
+            </div>
           </div>
         </section>
 

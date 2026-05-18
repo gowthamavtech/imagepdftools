@@ -46,22 +46,56 @@ const jsonLd = {
   ],
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
 const STEPS = [
   {
     n: '01',
     title: 'Drop your JPEG',
     desc: 'Drag a JPEG or JPG file onto the zone or click to browse. Up to 50 MB per file on the free tier.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <path d="M17 8l-5-5-5 5" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
   },
   {
     n: '02',
     title: 'Adjust the quality slider',
     desc: 'Lower values produce smaller files. Quality 75–85 is the standard for web and email use.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+        <circle cx="9" cy="6" r="2" fill="currentColor" stroke="none" />
+        <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+        <circle cx="10" cy="18" r="2" fill="currentColor" stroke="none" />
+      </svg>
+    ),
   },
   {
     n: '03',
     title: 'Download your JPEG',
     desc: 'Your browser compresses using the Canvas API. No data is sent over the network at any point.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
   },
+];
+
+const QUALITY_ROWS = [
+  { range: '90–100', use: 'Print, archival, portfolios',   size: '10–30% smaller' },
+  { range: '75–85',  use: 'Web images, social media',      size: '50–75% smaller' },
+  { range: '60–75',  use: 'Email attachments, previews',   size: '65–80% smaller' },
+  { range: '40–60',  use: 'Thumbnails, rough previews',    size: '75–90% smaller' },
 ];
 
 const FAQS = [
@@ -102,7 +136,6 @@ const FAQS = [
 export default function CompressJpegPage() {
   return (
     <>
-      {/* Page-load entrance animations — CSS only, respects prefers-reduced-motion */}
       <style>{`
         @media (prefers-reduced-motion: no-preference) {
           @starting-style {
@@ -121,15 +154,6 @@ export default function CompressJpegPage() {
           .cj-trust {
             transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms;
           }
-          @keyframes cj-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .cj-fact { animation: cj-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .cj-fact:nth-child(1) { animation-delay: 240ms; }
-          .cj-fact:nth-child(2) { animation-delay: 290ms; }
-          .cj-fact:nth-child(3) { animation-delay: 340ms; }
-          .cj-fact:nth-child(4) { animation-delay: 390ms; }
         }
       `}</style>
 
@@ -138,22 +162,61 @@ export default function CompressJpegPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="flex-1">
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <div id="jpeg-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="cj-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            Compress JPEG Online
-          </h1>
-          <p className="cj-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Reduce JPEG file sizes by up to 90% with fine-grained quality control. Uses the Canvas API directly in your browser. Nothing uploaded.
-          </p>
-          <p className="cj-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">
-            Free · No account · No upload
-          </p>
-        </div>
+        {/* ── Hero ──────────────────────────────────────────── */}
+        <section
+          id="jpeg-tool"
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}
+        >
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              right: '-10%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
 
-        <div className="text-left">
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">JPEG Compressor</span>
+
+            <h1
+              className="cj-h1 serif italic text-fg-1 m-0 mb-4"
+              style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
+            >
+              Compress JPEG online.<br />
+              <span className="text-accent">Up to 90% smaller.</span>
+            </h1>
+
+            <p className="cj-sub text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Fine-grained quality control via the Canvas API — directly in your browser. Nothing uploaded, nothing stored.
+            </p>
+
+            <p className="cj-trust text-[12px] text-fg-3 tracking-wide m-0 mb-8">
+              Free · No account · No upload
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Tool ──────────────────────────────────────────── */}
+        <div className={C}>
           <CompressorUI
             initialFormat="image/jpeg"
             dropLabel="Drop your JPEG files here"
@@ -163,197 +226,199 @@ export default function CompressJpegPage() {
           />
         </div>
 
-        {/* ── Trust strip ──────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/[0.05] bg-white dark:bg-[#0C0C1A]">
-          <div className="max-w-4xl mx-auto px-4 py-5">
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5" aria-label="Key guarantees">
-              {[
-                'Zero bytes sent to any server',
-                'Canvas API runs on your own CPU',
-                'Free with no account required',
-                'Typically done in under 2 seconds',
-              ].map((fact) => (
-                <li key={fact} className="cj-fact flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" aria-hidden="true" />
-                  {fact}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* ── How it works ─────────────────────────────────────────── */}
-        <section
-          aria-labelledby="cj-how-heading"
-          className="bg-[#F7F8FC] dark:bg-[#0C0C1A] border-t border-black/[0.06] dark:border-white/[0.04] py-16 px-4"
-        >
-          <div className="max-w-3xl mx-auto">
+        {/* ── How it works ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
             <h2
-              id="cj-how-heading"
-              className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-10"
+              className="serif italic text-fg-1 text-center m-0 mb-10"
+              style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
             >
-              Three steps. Under 10 seconds.
+              Three steps. <em className="text-accent">Under 10 seconds.</em>
             </h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/[0.06]">
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.n}
-                  className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}
-                >
+
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
                   <span
-                    className="block text-[11px] font-bold tracking-[0.16em] mb-3"
-                    style={{ color: 'oklch(70% 0.158 293)' }}
                     aria-hidden="true"
+                    className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none"
+                    style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}
                   >
-                    {step.n}
+                    {n}
                   </span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">
-                    {step.title}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">
+                    {title}
+                  </h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── SEO content block ────────────────────────────────────── */}
-        <section className="max-w-3xl mx-auto px-4 pt-16 pb-8">
-          <div className="space-y-12 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+        {/* ── Quality guide table ───────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            >
+              The right quality setting <em className="text-accent">for every use case.</em>
+            </h2>
+            <p className="text-[14px] text-fg-2 leading-[1.6] m-0 mb-6 max-w-[60ch]">
+              JPEG quality controls how aggressively high-frequency image data is discarded. At quality 100, files are large. At quality 50, artefacts may be visible in fine-detail areas.
+            </p>
 
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                What is JPEG compression and how does it work?
-              </h2>
-              <p className="mb-3">
-                JPEG is a lossy image compression standard designed for photographs and colour-rich images. It divides the image into 8×8 pixel blocks and applies a Discrete Cosine Transform (DCT) to each block, discarding high-frequency detail the human eye is less sensitive to. The result is a much smaller file with minimal perceptible quality loss at moderate compression levels.
-              </p>
-              <p>
-                The quality level — expressed as a number from 1 to 100 — controls how aggressively the high-frequency data is discarded. At quality 100, the file is large. At quality 50, significant data is discarded and artefacts may be visible in fine detail areas.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                The right quality setting for every use case
-              </h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-200 dark:border-white/[0.08]">
-                      <th className="text-left py-2.5 pr-4 font-semibold text-slate-800 dark:text-slate-200">Quality</th>
-                      <th className="text-left py-2.5 pr-4 font-semibold text-slate-800 dark:text-slate-200">Best for</th>
-                      <th className="text-left py-2.5 font-semibold text-slate-800 dark:text-slate-200">Typical reduction</th>
+            <div className="rounded-[10px] overflow-hidden bd-2">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-elevated">
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Quality</th>
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Best for</th>
+                    <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Typical reduction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {QUALITY_ROWS.map(({ range, use, size }, i) => (
+                    <tr key={range} className={i % 2 === 0 ? 'bg-surface' : 'bg-page'}>
+                      <td className="px-4 py-3 text-[13px]">
+                        <span className="font-data text-[11px] font-bold text-accent">{range}</span>
+                      </td>
+                      <td className="px-4 py-3 text-[13px] text-fg-2">{use}</td>
+                      <td className="px-4 py-3 text-[13px] text-fg-2 font-medium">{size}</td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-white/[0.05]">
-                    {[
-                      ['90–100', 'Print, archival, portfolios', '10–30%'],
-                      ['75–85', 'Web images, social media', '50–75%'],
-                      ['60–75', 'Email attachments, previews', '65–80%'],
-                      ['40–60', 'Thumbnails, rough previews', '75–90%'],
-                    ].map(([q, use, size]) => (
-                      <tr key={q}>
-                        <td className="py-2.5 pr-4 font-medium" style={{ color: 'oklch(70% 0.158 293)' }}>{q}</td>
-                        <td className="py-2.5 pr-4">{use}</td>
-                        <td className="py-2.5">{size}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                Why compress JPEG images?
-              </h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Web performance.</strong> Images account for most of the page weight on websites. Compressing JPEGs reduces load times, improves Core Web Vitals scores, and directly impacts Google rankings.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Email attachments.</strong> Most email providers limit attachments to 10–25 MB. Compressing your photos before attaching ensures they send without bouncing.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Platform upload limits.</strong> Real estate listing sites, job boards, and school portals often cap image uploads at 1–5 MB. Compressing first prevents upload rejections.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Storage efficiency.</strong> Whether archiving photos on a hard drive or in cloud storage, compressed JPEGs let you store more images in the same space.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Faster sharing on mobile.</strong> Sending large JPEGs over WhatsApp, Telegram, or iMessage consumes significant mobile data. Compressing first makes sharing faster and cheaper.</li>
-              </ul>
-            </div>
-
           </div>
         </section>
 
-        {/* ── Privacy callout ───────────────────────────────────────── */}
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/[0.06] dark:border-white/[0.04] py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p
-              className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3"
-              style={{ color: 'oklch(70% 0.158 293)' }}
+        {/* ── Why compress JPEG ─────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
             >
-              Privacy by architecture
-            </p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-              Your files never leave your browser.
+              Why compress <em className="text-accent">JPEG images?</em>
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-[60ch] mb-6">
-              Most online tools upload your file to a server, process it remotely, then send it back. This tool is architecturally different: compression runs via the Canvas API on your CPU. There is no server that receives your image. Not even temporarily.
-            </p>
-            <ul className="space-y-2.5">
+
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
               {[
-                'No file data transmitted over the network at any point',
-                'No account, sign-in, or email required to use any feature',
-                'Closing the tab clears all data from browser memory completely',
-                'Open-source processing: browser-native Canvas API encoder',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <svg
-                    className="w-3.5 h-3.5 shrink-0 mt-0.5"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    style={{ color: 'oklch(70% 0.158 293)' }}
+                { label: 'Web performance.', text: 'Images account for most page weight on websites. Compressing JPEGs reduces load times, improves Core Web Vitals scores, and directly impacts Google rankings.' },
+                { label: 'Email attachments.', text: 'Most email providers limit attachments to 10–25 MB. Compressing your photos before attaching ensures they send without bouncing.' },
+                { label: 'Platform upload limits.', text: 'Real estate sites, job boards, and school portals often cap image uploads at 1–5 MB. Compressing first prevents upload rejections.' },
+                { label: 'Storage efficiency.', text: 'Whether archiving photos on a hard drive or in cloud storage, compressed JPEGs let you store more images in the same space.' },
+                { label: 'Faster sharing on mobile.', text: 'Sending large JPEGs over WhatsApp, Telegram, or iMessage consumes significant mobile data. Compressing first makes sharing faster and cheaper.' },
+              ].map(({ label, text }) => (
+                <li key={label} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
                     aria-hidden="true"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {item}
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">
+                    <strong className="font-medium text-fg-1">{label}</strong> {text}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {/* ── Mid-page nudge ────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/[0.05] bg-[#F7F8FC] dark:bg-[#0C0C1A] py-10 px-4 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-            The compressor is at the top of this page.
-          </p>
+        {/* ── Privacy card ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">
+                Privacy by architecture
+              </p>
+              <h2
+                className="serif italic text-fg-1 m-0 mb-4"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+              >
+                Your files never leave your browser.
+              </h2>
+              <p className="text-[13.5px] text-fg-2 leading-[1.6] m-0 mb-5 max-w-[56ch]">
+                Most online tools upload your file to a server, process it remotely, then send it back. This tool is architecturally different: compression runs via the Canvas API on your CPU. There is no server that receives your image. Not even temporarily.
+              </p>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+                {[
+                  'No file data transmitted over the network at any point',
+                  'No account, sign-in, or email required to use any feature',
+                  'Closing the tab clears all data from browser memory completely',
+                  'Open-source processing: browser-native Canvas API encoder',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-[13px] text-fg-2">
+                    <span
+                      className="shrink-0 w-4 h-4 rounded-full grid place-items-center"
+                      style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                      aria-hidden="true"
+                    >
+                      <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 6l3 3 5-5" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ────────────────────────────── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
           <a
             href="#jpeg-tool"
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg transition-colors duration-150"
-            style={{ color: 'oklch(70% 0.158 293)', background: 'oklch(70% 0.158 293 / 0.08)' }}
+            className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
             </svg>
             Back to compressor
           </a>
         </div>
 
-        {/* ── FAQ ──────────────────────────────────────────────────── */}
-        <section
-          aria-labelledby="cj-faq-heading"
-          className="bg-white dark:bg-[#0C0C1A] border-t border-black/[0.06] dark:border-white/[0.04] py-16 px-4"
-        >
-          <div className="max-w-3xl mx-auto">
-            <h2 id="cj-faq-heading" className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">
+        {/* ── FAQ ───────────────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-8"
+              style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
               Frequently asked questions
             </h2>
-            <dl className="divide-y divide-slate-100 dark:divide-white/[0.05]">
+
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
-                <div key={q} className="py-5">
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
-                </div>
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
               ))}
-            </dl>
+            </div>
           </div>
         </section>
 

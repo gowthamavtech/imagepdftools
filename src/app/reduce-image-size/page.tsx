@@ -46,21 +46,48 @@ const jsonLd = {
   ],
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
 const STEPS = [
   {
     n: '01',
     title: 'Drop your image',
     desc: 'Drag any JPEG, PNG, WebP, or SVG onto the zone or click to browse. Up to 50 MB per file.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <path d="M17 8l-5-5-5 5" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
   },
   {
     n: '02',
     title: 'Adjust quality',
     desc: 'The slider controls how aggressively image data is discarded. Quality 80 is a good starting point.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+        <circle cx="9" cy="6" r="2" fill="currentColor" stroke="none" />
+        <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+        <circle cx="10" cy="18" r="2" fill="currentColor" stroke="none" />
+      </svg>
+    ),
   },
   {
     n: '03',
     title: 'Download the result',
     desc: 'Your browser compresses locally. Compare sizes before downloading. No data leaves your device.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
   },
 ];
 
@@ -102,7 +129,6 @@ const FAQS = [
 export default function ReduceImageSizePage() {
   return (
     <>
-      {/* Page-load entrance animations — CSS only, respects prefers-reduced-motion */}
       <style>{`
         @media (prefers-reduced-motion: no-preference) {
           @starting-style {
@@ -121,15 +147,6 @@ export default function ReduceImageSizePage() {
           .ris-trust {
             transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms;
           }
-          @keyframes ris-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .ris-fact { animation: ris-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .ris-fact:nth-child(1) { animation-delay: 240ms; }
-          .ris-fact:nth-child(2) { animation-delay: 290ms; }
-          .ris-fact:nth-child(3) { animation-delay: 340ms; }
-          .ris-fact:nth-child(4) { animation-delay: 390ms; }
         }
       `}</style>
 
@@ -138,197 +155,260 @@ export default function ReduceImageSizePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="flex-1">
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <div id="reduce-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="ris-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            Reduce Image Size Online
-          </h1>
-          <p className="ris-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Make your images smaller for web, email, or social media. Supports JPEG, PNG, WebP, and SVG — no account required.
-          </p>
-          <p className="ris-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">
-            Free · No account · No upload
-          </p>
-        </div>
-
-        <CompressorUI />
-
-        {/* ── Trust strip ──────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/5 bg-white dark:bg-[#0C0C1A]">
-          <div className="max-w-4xl mx-auto px-4 py-5">
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5" aria-label="Key guarantees">
-              {[
-                'Zero bytes sent to any server',
-                'WebAssembly runs on your own CPU',
-                'Free with no account required',
-                'Supports JPEG · PNG · WebP · SVG',
-              ].map((fact) => (
-                <li key={fact} className="ris-fact flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" aria-hidden="true" />
-                  {fact}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* ── How it works ─────────────────────────────────────────── */}
+        {/* ── Hero ──────────────────────────────────────────── */}
         <section
-          aria-labelledby="ris-how-heading"
-          className="bg-[#F7F8FC] dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4"
+          id="reduce-tool"
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}
         >
-          <div className="max-w-3xl mx-auto">
-            <h2
-              id="ris-how-heading"
-              className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-10"
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              right: '-10%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
+
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">Image Size Reducer</span>
+
+            <h1
+              className="ris-h1 serif italic text-fg-1 m-0 mb-4"
+              style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
             >
-              Three steps. Under 10 seconds.
-            </h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/6">
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.n}
-                  className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}
+              Reduce image size online.<br />
+              <span className="text-accent">No account needed.</span>
+            </h1>
+
+            <p className="ris-sub text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Compress JPEG, PNG, WebP, and SVG images for web, email, or social media. Everything runs in your browser — nothing uploaded.
+            </p>
+
+            <p className="ris-trust text-[12px] text-fg-3 tracking-wide m-0 mb-8">
+              Free · No account · Supports JPEG · PNG · WebP · SVG
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
                 >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Tool ──────────────────────────────────────────── */}
+        <div className={C}>
+          <CompressorUI />
+        </div>
+
+        {/* ── How it works ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2
+              className="serif italic text-fg-1 text-center m-0 mb-10"
+              style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
+              Three steps. <em className="text-accent">Under 10 seconds.</em>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
                   <span
-                    className="block text-[11px] font-bold tracking-[0.16em] mb-3"
-                    style={{ color: 'oklch(70% 0.158 293)' }}
                     aria-hidden="true"
+                    className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none"
+                    style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}
                   >
-                    {step.n}
+                    {n}
                   </span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">
-                    {step.title}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">
+                    {title}
+                  </h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── SEO content block ────────────────────────────────────── */}
-        <section className="max-w-3xl mx-auto px-4 pt-16 pb-8">
-          <div className="space-y-12 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                Why is reducing image size important?
-              </h2>
-              <p className="mb-3">
-                Image file sizes have grown dramatically as camera sensors have improved. A photo from a modern smartphone is often 4–10 MB. While this resolution is excellent for printing, it is far more than needed for web use, email, or social media — and sending or uploading oversized images creates friction at every step.
-              </p>
-              <p>
-                Reducing image size eliminates that friction: images attach to emails without rejection, upload to platforms without errors, load faster on web pages, and transfer more quickly over mobile networks.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                The most common situations where image size matters
-              </h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Email attachments.</strong> Gmail limits attachments to 25 MB; Outlook to 20 MB. But even within those limits, large images slow down delivery and frustrate recipients. A 2 MB image is universally easier to work with than an 8 MB original.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Website uploads.</strong> WordPress, Squarespace, Wix, and most CMS platforms have upload size limits (often 2–10 MB). Reducing image size before uploading avoids rejected uploads and keeps your media library manageable.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Social media.</strong> Instagram, Facebook, Twitter, and LinkedIn recompress images on upload, often degrading quality. Uploading a pre-compressed image at an appropriate size gives you more control over the final quality the platform produces.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Messaging apps.</strong> WhatsApp compresses images automatically, often significantly. Sharing a pre-compressed image at a reasonable size preserves more detail than letting the app crush it.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Online marketplaces.</strong> eBay, Etsy, Amazon, and other selling platforms have image size limits for listings. Reducing image size ensures your product photos upload correctly.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Web performance and SEO.</strong> Google uses page speed as a ranking factor. The largest images on a page directly affect Largest Contentful Paint (LCP) — a Core Web Vital. Smaller images load faster and improve your search ranking.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Cloud storage management.</strong> If you back up photos to Google Photos, iCloud, or Dropbox, reducing image sizes before backup can save gigabytes of storage over time.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                How to get the best results
-              </h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li>For photos (JPEG, WebP): start at quality 80. Compare the original and compressed versions. If they look identical, try 70. Most people cannot see a difference between quality 75 and 100 on screen.</li>
-                <li>For graphics, logos, and screenshots (PNG): the compressor uses colour quantisation. Start at quality 80 for transparent PNGs; you can often go lower for solid-colour graphics.</li>
-                <li>If you need the absolute smallest file and format is flexible, try converting to WebP — it almost always produces smaller files than compressed JPEG or PNG.</li>
-                <li>Always keep the original file. Compress a copy. Lossy compression is irreversible.</li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ── Privacy callout ───────────────────────────────────────── */}
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p
-              className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3"
-              style={{ color: 'oklch(70% 0.158 293)' }}
+        {/* ── Why reduce image size ─────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
             >
-              Privacy by architecture
-            </p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-              Your files never leave your browser.
+              Why does <em className="text-accent">image size matter?</em>
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-[60ch] mb-6">
-              Most online tools upload your file to a server, process it remotely, then send it back. This tool is architecturally different: compression runs via WebAssembly on your CPU. There is no server that receives your image. Not even temporarily.
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-4">
+              A photo from a modern smartphone is often 4–10 MB. While excellent for printing, it is far more than needed for web use, email, or social media — and sending oversized images creates friction at every step.
             </p>
-            <ul className="space-y-2.5">
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-6">
+              Reducing image size eliminates that friction: images attach to emails without rejection, upload to platforms without errors, load faster on web pages, and transfer more quickly over mobile networks.
+            </p>
+
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
               {[
-                'No file data transmitted over the network at any point',
-                'No account, sign-in, or email required to use any feature',
-                'Closing the tab clears all data from browser memory completely',
-                'Open-source processing: Canvas API and pngquant WASM',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <svg
-                    className="w-3.5 h-3.5 shrink-0 mt-0.5"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    style={{ color: 'oklch(70% 0.158 293)' }}
+                { label: 'Email attachments.', text: 'Gmail limits attachments to 25 MB; Outlook to 20 MB. A 2 MB image is universally easier to work with than an 8 MB original.' },
+                { label: 'Website uploads.', text: 'WordPress, Squarespace, and most CMS platforms have upload size limits (often 2–10 MB). Reducing image size before uploading avoids rejected uploads.' },
+                { label: 'Social media.', text: 'Instagram, Facebook, and LinkedIn recompress images on upload. Uploading a pre-compressed image gives you more control over the final quality.' },
+                { label: 'Messaging apps.', text: 'WhatsApp compresses images automatically, often significantly. Sharing a pre-compressed image preserves more detail than letting the app crush it.' },
+                { label: 'Web performance and SEO.', text: "Google uses page speed as a ranking factor. The largest images on a page directly affect Largest Contentful Paint (LCP). Smaller images improve your search ranking." },
+                { label: 'Cloud storage management.', text: 'If you back up photos to Google Photos, iCloud, or Dropbox, reducing sizes before backup can save gigabytes of storage over time.' },
+              ].map(({ label, text }) => (
+                <li key={label} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
                     aria-hidden="true"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {item}
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">
+                    <strong className="font-medium text-fg-1">{label}</strong> {text}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {/* ── Mid-page nudge ────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/5 bg-[#F7F8FC] dark:bg-[#0C0C1A] py-10 px-4 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-            The tool is at the top of this page.
-          </p>
+        {/* ── Best results tips ─────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            >
+              How to get <em className="text-accent">the best results.</em>
+            </h2>
+
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
+              {[
+                'For photos (JPEG, WebP): start at quality 80. If the result looks identical to the original, try 70. Most people cannot see a difference between quality 75 and 100 on screen.',
+                'For graphics, logos, and screenshots (PNG): the compressor uses colour quantisation. Start at quality 80 for transparent PNGs; you can often go lower for solid-colour graphics.',
+                'If you need the absolute smallest file and format is flexible, try converting to WebP — it almost always produces smaller files than compressed JPEG or PNG.',
+                'Always keep the original file. Compress a copy. Lossy compression is irreversible.',
+              ].map((tip, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                    aria-hidden="true"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── Privacy card ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">
+                Privacy by architecture
+              </p>
+              <h2
+                className="serif italic text-fg-1 m-0 mb-4"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+              >
+                Your files never leave your browser.
+              </h2>
+              <p className="text-[13.5px] text-fg-2 leading-[1.6] m-0 mb-5 max-w-[56ch]">
+                Most online tools upload your file to a server, process it remotely, then send it back. This tool is architecturally different: compression runs via WebAssembly on your CPU. There is no server that receives your image. Not even temporarily.
+              </p>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+                {[
+                  'No file data transmitted over the network at any point',
+                  'No account, sign-in, or email required to use any feature',
+                  'Closing the tab clears all data from browser memory completely',
+                  'Open-source processing: Canvas API and pngquant WASM',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-[13px] text-fg-2">
+                    <span
+                      className="shrink-0 w-4 h-4 rounded-full grid place-items-center"
+                      style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                      aria-hidden="true"
+                    >
+                      <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 6l3 3 5-5" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ────────────────────────────── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
           <a
             href="#reduce-tool"
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg transition-colors duration-150"
-            style={{ color: 'oklch(70% 0.158 293)', background: 'oklch(70% 0.158 293 / 0.08)' }}
+            className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
             </svg>
             Back to tool
           </a>
         </div>
 
-        {/* ── FAQ ──────────────────────────────────────────────────── */}
-        <section
-          aria-labelledby="ris-faq-heading"
-          className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4"
-        >
-          <div className="max-w-3xl mx-auto">
-            <h2 id="ris-faq-heading" className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">
+        {/* ── FAQ ───────────────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-8"
+              style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
               Frequently asked questions
             </h2>
-            <dl className="divide-y divide-slate-100 dark:divide-white/5">
+
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
-                <div key={q} className="py-5">
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
-                </div>
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
               ))}
-            </dl>
+            </div>
           </div>
         </section>
 

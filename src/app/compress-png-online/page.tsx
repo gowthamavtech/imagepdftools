@@ -46,21 +46,48 @@ const jsonLd = {
   ],
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
 const STEPS = [
   {
     n: '01',
     title: 'Drop your PNG',
     desc: 'Drag a PNG file onto the zone or click to browse. Up to 50 MB per file. Transparency is preserved.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <path d="M17 8l-5-5-5 5" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
   },
   {
     n: '02',
     title: 'Set the quality level',
     desc: 'pngquant runs in your browser via WebAssembly. Higher quality preserves more colour depth.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+        <circle cx="9" cy="6" r="2" fill="currentColor" stroke="none" />
+        <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+        <circle cx="10" cy="18" r="2" fill="currentColor" stroke="none" />
+      </svg>
+    ),
   },
   {
     n: '03',
     title: 'Download your smaller PNG',
     desc: 'Typically 40–80% smaller than the original. Transparency preserved. Nothing sent to any server.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
   },
 ];
 
@@ -102,7 +129,6 @@ const FAQS = [
 export default function CompressPngPage() {
   return (
     <>
-      {/* Page-load entrance animations — CSS only, respects prefers-reduced-motion */}
       <style>{`
         @media (prefers-reduced-motion: no-preference) {
           @starting-style {
@@ -121,15 +147,6 @@ export default function CompressPngPage() {
           .cpng-trust {
             transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms;
           }
-          @keyframes cpng-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .cpng-fact { animation: cpng-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .cpng-fact:nth-child(1) { animation-delay: 240ms; }
-          .cpng-fact:nth-child(2) { animation-delay: 290ms; }
-          .cpng-fact:nth-child(3) { animation-delay: 340ms; }
-          .cpng-fact:nth-child(4) { animation-delay: 390ms; }
         }
       `}</style>
 
@@ -138,22 +155,61 @@ export default function CompressPngPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="flex-1">
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <div id="png-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="cpng-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            Compress PNG Online
-          </h1>
-          <p className="cpng-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Shrink PNG files by up to 80% using pngquant lossy colour quantisation — the same algorithm behind TinyPNG. Runs entirely in your browser. Nothing uploaded.
-          </p>
-          <p className="cpng-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">
-            Free · No account · No upload
-          </p>
-        </div>
+        {/* ── Hero ──────────────────────────────────────────── */}
+        <section
+          id="png-tool"
+          className="relative"
+          style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}
+        >
+          <div
+            aria-hidden="true"
+            className="absolute pointer-events-none z-0"
+            style={{
+              right: '-10%', top: '-10%',
+              width: 'min(900px, 100vw)', height: 'min(600px, 100vw)',
+              background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)',
+              filter: 'blur(48px)',
+              opacity: 0.5,
+            }}
+          />
 
-        <div className="text-left">
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">PNG Compressor</span>
+
+            <h1
+              className="cpng-h1 serif italic text-fg-1 m-0 mb-4"
+              style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
+            >
+              Compress PNG online.<br />
+              <span className="text-accent">Up to 80% smaller.</span>
+            </h1>
+
+            <p className="cpng-sub text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Powered by pngquant lossy colour quantisation — the same algorithm behind TinyPNG. Transparency preserved. Nothing uploaded.
+            </p>
+
+            <p className="cpng-trust text-[12px] text-fg-3 tracking-wide m-0 mb-8">
+              Free · No account · No upload
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', 'Transparency preserved', 'Free forever'].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Tool ──────────────────────────────────────────── */}
+        <div className={C}>
           <CompressorUI
             initialFormat="image/png"
             dropLabel="Drop your PNG files here"
@@ -163,185 +219,207 @@ export default function CompressPngPage() {
           />
         </div>
 
-        {/* ── Trust strip ──────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/5 bg-white dark:bg-[#0C0C1A]">
-          <div className="max-w-4xl mx-auto px-4 py-5">
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5" aria-label="Key guarantees">
-              {[
-                'Zero bytes sent to any server',
-                'pngquant WASM runs on your CPU',
-                'Free with no account required',
-                'Transparency fully preserved',
-              ].map((fact) => (
-                <li key={fact} className="cpng-fact flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" aria-hidden="true" />
-                  {fact}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* ── How it works ─────────────────────────────────────────── */}
-        <section
-          aria-labelledby="cpng-how-heading"
-          className="bg-[#F7F8FC] dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4"
-        >
-          <div className="max-w-3xl mx-auto">
+        {/* ── How it works ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
             <h2
-              id="cpng-how-heading"
-              className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-10"
+              className="serif italic text-fg-1 text-center m-0 mb-10"
+              style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
             >
-              Three steps. Under 10 seconds.
+              Three steps. <em className="text-accent">Under 10 seconds.</em>
             </h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/6">
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.n}
-                  className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}
-                >
+
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
                   <span
-                    className="block text-[11px] font-bold tracking-[0.16em] mb-3"
-                    style={{ color: 'oklch(70% 0.158 293)' }}
                     aria-hidden="true"
+                    className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none"
+                    style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}
                   >
-                    {step.n}
+                    {n}
                   </span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">
-                    {step.title}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">
+                    {title}
+                  </h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── SEO content block ────────────────────────────────────── */}
-        <section className="max-w-3xl mx-auto px-4 pt-16 pb-8">
-          <div className="space-y-12 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                Why is PNG so large — and how do you make it smaller?
-              </h2>
-              <p className="mb-3">
-                PNG uses lossless compression, meaning every pixel is preserved exactly. This is great for quality but results in much larger files than JPEG or WebP for photographic content. A 4000 × 3000 px photo saved as PNG can easily be 8–15 MB versus 1–3 MB as JPEG at equivalent quality.
-              </p>
-              <p>
-                The standard way to compress a PNG without converting it is <strong className="text-slate-800 dark:text-slate-200">colour quantisation</strong> — reducing unique colours from 16.7 million (24-bit) down to 256 (8-bit indexed). For logos, icons, screenshots, and flat-colour graphics, this reduction is nearly invisible to the human eye.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                When to compress PNG vs. convert to JPEG or WebP
-              </h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Compress the PNG</strong> when your image has transparency, is a logo, icon, illustration, or screenshot, or when you specifically need PNG format.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Convert to JPEG</strong> when the image is a photograph with no transparency and file size matters most — JPEG achieves far smaller files than PNG compression for photos.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Convert to WebP</strong> when the image is for a website — WebP outperforms both PNG and JPEG in most cases while supporting transparency.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                How the PNG compressor works
-              </h2>
-              <p>
-                This tool runs <strong className="text-slate-800 dark:text-slate-200">pngquant</strong> as a WebAssembly module directly in your browser — the same open-source algorithm used by TinyPNG, Squoosh, and professional image optimisation pipelines. It uses a modified median-cut algorithm to find the optimal 256-colour palette for each image, minimising visible quality loss. The entire process is local — no PNG data is ever sent to any server.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-                Common use cases for PNG compression
-              </h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Website performance.</strong> Large PNGs slow page load times and hurt Core Web Vitals scores. Compressing them reduces bytes the browser must download.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">App and game development.</strong> Sprite sheets, UI assets, and texture atlases must be as small as possible to minimise bundle size and load times.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Email logos and signatures.</strong> Large embedded PNGs can cause emails to load slowly or trigger spam filters. A compressed PNG logo under 100 KB loads instantly.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Docs and presentations.</strong> Screenshots and diagram exports saved as PNG are often oversized. Compressing before embedding in PDFs or slide decks reduces the document file size significantly.</li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ── Privacy callout ───────────────────────────────────────── */}
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p
-              className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3"
-              style={{ color: 'oklch(70% 0.158 293)' }}
+        {/* ── Why compress PNG ──────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
             >
-              Privacy by architecture
-            </p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
-              Your files never leave your browser.
+              Why is PNG so large — <em className="text-accent">and how do you fix it?</em>
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-[60ch] mb-6">
-              pngquant runs as a WebAssembly module compiled directly into the page. There is no server-side component — no upload endpoint, no remote processing, no data retained. Your PNG is compressed on your own CPU and downloaded directly to your device.
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-4">
+              PNG uses lossless compression, meaning every pixel is preserved exactly. A 4000 × 3000 px photo saved as PNG can easily be 8–15 MB versus 1–3 MB as JPEG at equivalent quality.
             </p>
-            <ul className="space-y-2.5">
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-6">
+              The standard way to compress a PNG without converting it is <strong className="font-medium text-fg-1">colour quantisation</strong> — reducing unique colours from 16.7 million (24-bit) down to 256 (8-bit indexed). For logos, icons, screenshots, and flat-colour graphics, this reduction is nearly invisible to the human eye.
+            </p>
+
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
               {[
-                'No file data transmitted over the network at any point',
-                'No account, sign-in, or email required to use any feature',
-                'Closing the tab clears all data from browser memory completely',
-                'Open-source processing: pngquant WebAssembly',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <svg
-                    className="w-3.5 h-3.5 shrink-0 mt-0.5"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    style={{ color: 'oklch(70% 0.158 293)' }}
+                { label: 'Compress the PNG', text: 'when your image has transparency, is a logo, icon, illustration, or screenshot, or when you specifically need PNG format.' },
+                { label: 'Convert to JPEG', text: 'when the image is a photograph with no transparency — JPEG achieves far smaller files than PNG compression for photos.' },
+                { label: 'Convert to WebP', text: 'when the image is for a website — WebP outperforms both PNG and JPEG while supporting transparency.' },
+              ].map(({ label, text }) => (
+                <li key={label} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
                     aria-hidden="true"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {item}
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">
+                    <strong className="font-medium text-fg-1">{label}</strong> {text}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {/* ── Mid-page nudge ────────────────────────────────────────── */}
-        <div className="border-t border-slate-100 dark:border-white/5 bg-[#F7F8FC] dark:bg-[#0C0C1A] py-10 px-4 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-            The compressor is at the top of this page.
-          </p>
+        {/* ── How it works (technical) ──────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(48px, 7vw, 80px) 0' }}>
+          <div className={Cnarrow}>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-5"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 34px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            >
+              How the <em className="text-accent">compressor works.</em>
+            </h2>
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-4">
+              This tool runs <strong className="font-medium text-fg-1">pngquant</strong> as a WebAssembly module directly in your browser — the same open-source algorithm used by TinyPNG, Squoosh, and professional image optimisation pipelines.
+            </p>
+            <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-6">
+              It uses a modified median-cut algorithm to find the optimal 256-colour palette for each image, minimising visible quality loss. The entire process is local — no PNG data is ever sent to any server.
+            </p>
+
+            <ul className="m-0 p-0 list-none flex flex-col gap-3">
+              {[
+                { label: 'Website performance.', text: 'Large PNGs slow page load times and hurt Core Web Vitals scores. Compressing reduces bytes the browser must download.' },
+                { label: 'App and game development.', text: 'Sprite sheets, UI assets, and texture atlases must be as small as possible to minimise bundle size and load times.' },
+                { label: 'Email logos and signatures.', text: 'Large embedded PNGs can cause emails to load slowly. A compressed PNG logo under 100 KB loads instantly.' },
+                { label: 'Docs and presentations.', text: 'Screenshots saved as PNG are often oversized. Compressing before embedding reduces the document file size significantly.' },
+              ].map(({ label, text }) => (
+                <li key={label} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full grid place-items-center mt-0.5"
+                    style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                    aria-hidden="true"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 6l3 3 5-5" />
+                    </svg>
+                  </span>
+                  <span className="text-[13.5px] text-fg-2 leading-[1.55]">
+                    <strong className="font-medium text-fg-1">{label}</strong> {text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── Privacy card ──────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div
+                aria-hidden="true"
+                className="absolute top-[-1px] left-[8%] right-[8%] h-px"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }}
+              />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">
+                Privacy by architecture
+              </p>
+              <h2
+                className="serif italic text-fg-1 m-0 mb-4"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+              >
+                Your files never leave your browser.
+              </h2>
+              <p className="text-[13.5px] text-fg-2 leading-[1.6] m-0 mb-5 max-w-[56ch]">
+                pngquant runs as a WebAssembly module compiled directly into the page. There is no server-side component — no upload endpoint, no remote processing, no data retained. Your PNG is compressed on your own CPU and downloaded directly to your device.
+              </p>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+                {[
+                  'No file data transmitted over the network at any point',
+                  'No account, sign-in, or email required to use any feature',
+                  'Closing the tab clears all data from browser memory completely',
+                  'Open-source processing: pngquant WebAssembly',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-[13px] text-fg-2">
+                    <span
+                      className="shrink-0 w-4 h-4 rounded-full grid place-items-center"
+                      style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)' }}
+                      aria-hidden="true"
+                    >
+                      <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 6l3 3 5-5" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ────────────────────────────── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
           <a
             href="#png-tool"
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg transition-colors duration-150"
-            style={{ color: 'oklch(70% 0.158 293)', background: 'oklch(70% 0.158 293 / 0.08)' }}
+            className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
             </svg>
             Back to compressor
           </a>
         </div>
 
-        {/* ── FAQ ──────────────────────────────────────────────────── */}
-        <section
-          aria-labelledby="cpng-faq-heading"
-          className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/4 py-16 px-4"
-        >
-          <div className="max-w-3xl mx-auto">
-            <h2 id="cpng-faq-heading" className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">
+        {/* ── FAQ ───────────────────────────────────────────── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2
+              className="serif italic text-fg-1 m-0 mb-8"
+              style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
+            >
               Frequently asked questions
             </h2>
-            <dl className="divide-y divide-slate-100 dark:divide-white/5">
+
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
-                <div key={q} className="py-5">
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
-                </div>
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
               ))}
-            </dl>
+            </div>
           </div>
         </section>
 
