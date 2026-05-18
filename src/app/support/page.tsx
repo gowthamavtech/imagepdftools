@@ -40,28 +40,26 @@ const FAQS = [
 
 export default function SupportPage() {
   return (
-    <main className="flex-1 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
+      <div className="max-w-[780px] mx-auto px-8">
 
-        {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-2">Support</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            We aim to respond to all enquiries within 24 hours.
-          </p>
+          <span data-animate="hero" className="hp-eyebrow">Help</span>
+          <h1 data-animate="hero" className="serif italic text-fg-1 m-0 mb-2" style={{ fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Support</h1>
+          <p data-animate="hero" className="text-[13.5px] text-fg-2 m-0">We aim to respond to all enquiries within 24 hours.</p>
         </div>
 
         {/* Contact card */}
-        <div className="border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6 mb-10 bg-violet-50 dark:bg-violet-950/20">
-          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50 mb-1">Email support</h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+        <div data-animate="scroll" className="rounded-[10px] bg-accent-dim bd-accent p-6 mb-10">
+          <h2 className="serif italic text-fg-1 m-0 mb-1" style={{ fontSize: 'clamp(21px, 3vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Email support</h2>
+          <p className="text-[13.5px] text-fg-2 mb-4">
             For billing questions, bug reports, refund requests, or anything else — reach us at:
           </p>
           <a
             href="mailto:support@imagepdf.tools"
-            className="inline-flex items-center gap-2 text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline"
+            className="inline-flex items-center gap-2 text-[13.5px] font-medium text-accent hover:underline"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             support@imagepdf.tools
@@ -69,22 +67,32 @@ export default function SupportPage() {
         </div>
 
         {/* FAQs */}
-        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-50 mb-5">Frequently asked questions</h2>
-        <div className="space-y-4">
+        <span data-animate="scroll" className="hp-eyebrow">FAQ</span>
+        <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+          Frequently asked questions
+        </h2>
+        <div data-animate-stagger className="bd-t-1">
           {FAQS.map(({ q, a }) => (
-            <div key={q} className="border border-slate-200 dark:border-slate-600 rounded-xl p-5 bg-white dark:bg-slate-800/40">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-1.5">{q}</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{a}</p>
-            </div>
+            <details key={q} className="hp-faq bd-b-1">
+              <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+            </details>
           ))}
         </div>
 
         {/* Useful links */}
-        <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-wrap gap-4 text-sm">
-          <Link href="/privacy-policy" className="text-violet-600 dark:text-violet-400 hover:underline">Privacy Policy</Link>
-          <Link href="/terms" className="text-violet-600 dark:text-violet-400 hover:underline">Terms of Service</Link>
-          <Link href="/whats-new" className="text-violet-600 dark:text-violet-400 hover:underline">What&apos;s New</Link>
-          <Link href="/" className="text-violet-600 dark:text-violet-400 hover:underline">&#8592; Back to app</Link>
+        <div className="mt-10 pt-6 bd-t-1 flex flex-wrap gap-4 text-[13px]">
+          <Link href="/privacy-policy" className="text-accent hover:underline">Privacy Policy</Link>
+          <Link href="/terms" className="text-accent hover:underline">Terms of Service</Link>
+          <Link href="/whats-new" className="text-accent hover:underline">What&apos;s New</Link>
+          <Link href="/" className="text-accent hover:underline">&#8592; Back to app</Link>
         </div>
 
       </div>

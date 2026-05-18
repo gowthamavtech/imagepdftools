@@ -201,12 +201,12 @@ export default function HomePage() {
                             {/* Left — text */}
                             <div>
                                 {/* Status pill */}
-                                <span className="inline-flex items-center gap-[10px] h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium mb-[26px]">
+                                <span data-animate="hero" className="inline-flex items-center gap-[10px] h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium mb-[26px]">
                                     <span className="hp-pill-dot w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                                     100% private · No servers · Your browser
                                 </span>
 
-                                <h1 className="serif italic text-fg-1 m-0 mb-7" style={{ fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
+                                <h1 data-animate="hero" className="serif italic text-fg-1 m-0 mb-7" style={{ fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
                                     Your files.
                                     <br />
                                     Your device.
@@ -214,13 +214,13 @@ export default function HomePage() {
                                     <span className="text-accent">Your rules.</span>
                                 </h1>
 
-                                <p className="font-light text-[19px] leading-[1.6] text-fg-2 max-w-[46ch] m-0 mb-8">
+                                <p data-animate="hero" className="font-light text-[19px] leading-[1.6] text-fg-2 max-w-[46ch] m-0 mb-8">
                                     Drop a file. Every operation runs via <strong className="text-fg-1 font-normal">WebAssembly</strong> on your own device. No servers, no sign-up,
                                     30+ tools — permanently free.
                                 </p>
 
                                 {/* CTAs */}
-                                <div className="flex flex-wrap items-center gap-3 mb-6">
+                                <div data-animate="hero" className="flex flex-wrap items-center gap-3 mb-6">
                                     <Link
                                         href="/pdf-tools"
                                         className="inline-flex items-center gap-2 h-12 px-[22px] rounded-[10px] bg-accent text-[14.5px] font-medium no-underline btn-accent"
@@ -241,7 +241,7 @@ export default function HomePage() {
                                 </div>
 
                                 {/* Trust chips */}
-                                <div className="flex flex-wrap gap-2">
+                                <div data-animate="hero" className="flex flex-wrap gap-2">
                                     {[
                                         {
                                             label: "No upload limit",
@@ -293,7 +293,7 @@ export default function HomePage() {
                             </div>
 
                             {/* Right — browser mockup */}
-                            <div>
+                            <div data-animate="hero">
                                 <div
                                     className="relative bg-surface bd-2 rounded-xl overflow-hidden"
                                     style={{ boxShadow: "0 32px 80px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02)" }}
@@ -400,8 +400,9 @@ export default function HomePage() {
                 {/* ── 2. PROBLEM ──────────────────────────────────────────────── */}
                 <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
-                        <span className="hp-eyebrow text-center">The problem with every other tool</span>
+                        <span data-animate="scroll" className="hp-eyebrow text-center">The problem with every other tool</span>
                         <h2
+                            data-animate="scroll"
                             className="serif italic text-center text-fg-1 m-0 mb-[18px]"
                             style={{ fontSize: "clamp(36px, 5.5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
                         >
@@ -409,13 +410,13 @@ export default function HomePage() {
                             <br />
                             <em className="text-accent">uploads your files.</em>
                         </h2>
-                        <p className="text-base font-normal leading-[1.6] text-fg-2 text-center max-w-[54ch] mx-auto mb-14">
+                        <p data-animate="scroll" className="text-base font-normal leading-[1.6] text-fg-2 text-center max-w-[54ch] mx-auto mb-14">
                             The moment you drop a file into an upload tool, it leaves your device, traveling to a server you have never met and is processed by code you cannot
                             inspect.
                         </p>
 
                         {/* Compare panels */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[1000px] mx-auto">
+                        <div data-animate-stagger className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[1000px] mx-auto">
                             {/* Bad */}
                             <div className="rounded-[14px] p-7" style={{ border: "1px solid rgba(232,133,106,0.18)", background: "rgba(232,133,106,0.03)" }}>
                                 <div className="mono text-[11px] font-medium tracking-[0.16em] uppercase text-cat-edit mb-5">Other tools</div>
@@ -484,6 +485,7 @@ export default function HomePage() {
                 <section className="text-center" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <div
+                            data-animate="scroll"
                             className="serif m-0"
                             aria-label="Zero kilobytes sent to our servers"
                             style={{
@@ -498,13 +500,13 @@ export default function HomePage() {
                         >
                             0
                         </div>
-                        <div className="text-lg font-medium leading-[1.4] text-fg-1 mt-3 tracking-[-0.005em]">Kilobytes sent to our servers.</div>
-                        <div className="text-sm font-normal leading-[1.5] text-fg-2 mt-1.5 max-w-[50ch] mx-auto">
+                        <div data-animate="scroll" className="text-lg font-medium leading-[1.4] text-fg-1 mt-3 tracking-[-0.005em]">Kilobytes sent to our servers.</div>
+                        <div data-animate="scroll" className="text-sm font-normal leading-[1.5] text-fg-2 mt-1.5 max-w-[50ch] mx-auto">
                             Not today. Not ever. There is no endpoint that accepts file uploads. <span className="mono text-fg-1 font-medium text-[13px]">By each feature.</span>
                         </div>
 
                         {/* Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-[1000px] mx-auto mt-14">
+                        <div data-animate-stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-[1000px] mx-auto mt-14">
                             {[
                                 {
                                     cat: "compress",
@@ -543,15 +545,16 @@ export default function HomePage() {
                 {/* ── 4. STEPS ────────────────────────────────────────────────── */}
                 <section className="relative" style={{ padding: "clamp(48px, 7vw, 88px) 0" }}>
                     <div className={C}>
-                        <span className="hp-eyebrow text-center">It just works</span>
+                        <span data-animate="scroll" className="hp-eyebrow text-center">It just works</span>
                         <h2
+                            data-animate="scroll"
                             className="serif italic text-fg-1 text-center"
                             style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", margin: "0 0 clamp(28px, 4vw, 48px)" }}
                         >
                             Done in <span className="text-accent">three</span> steps.
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+                        <div data-animate-stagger className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
                             {[
                                 {
                                     num: "01",
@@ -624,6 +627,7 @@ export default function HomePage() {
                 <div className={C}>
                     <div className="max-w-[1000px] mx-auto" style={{ padding: "clamp(48px, 7vw, 96px) 0 32px" }}>
                         <p
+                            data-animate="scroll"
                             className="serif italic text-fg-1 m-0 max-w-[44ch] text-center mx-auto"
                             style={{ fontSize: "clamp(24px, 3.5vw, 38px)", lineHeight: 1.25, letterSpacing: "-0.015em" }}
                         >
@@ -691,15 +695,16 @@ export default function HomePage() {
                 {/* ── 7. FORMATS ──────────────────────────────────────────────── */}
                 <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
-                        <span className="hp-eyebrow text-center">Supported formats</span>
+                        <span data-animate="scroll" className="hp-eyebrow text-center">Supported formats</span>
                         <h2
+                            data-animate="scroll"
                             className="serif italic text-center text-fg-1 m-0 mb-[18px]"
                             style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
                         >
                             Every major format. <em className="text-accent">All in the browser.</em>
                         </h2>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-14 max-w-[1000px] mx-auto mt-12">
+                        <div data-animate-stagger className="grid grid-cols-1 sm:grid-cols-2 gap-x-14 max-w-[1000px] mx-auto mt-12">
                             {[
                                 {
                                     fmt: "JPEG",
@@ -748,12 +753,13 @@ export default function HomePage() {
                 <section className="relative" style={{ padding: "clamp(56px, 9vw, 112px) 0" }}>
                     <div className={C}>
                         <h2
+                            data-animate="scroll"
                             className="serif italic text-center text-fg-1"
                             style={{ fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.025em", margin: "0 0 clamp(28px, 4vw, 48px)" }}
                         >
                             Questions answered.
                         </h2>
-                        <div className="max-w-[820px] mx-auto bd-t-1">
+                        <div data-animate-stagger className="max-w-[820px] mx-auto bd-t-1">
                             {FAQS.map(({ q, a }) => (
                                 <details key={q} className="hp-faq bd-b-1">
                                     <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
@@ -788,18 +794,18 @@ export default function HomePage() {
                         }}
                     />
                     <div className={`${C} relative z-[1]`}>
-                        <span className="hp-eyebrow text-center">Start now. It&apos;s free.</span>
+                        <span data-animate="scroll" className="hp-eyebrow text-center">Start now. It&apos;s free.</span>
 
-                        <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: "clamp(44px, 11vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
+                        <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: "clamp(44px, 11vw, 96px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}>
                             Your files.
                             <br />
                             Your <span className="text-accent">rules.</span>
                         </h2>
 
-                        <p className="text-[15px] font-normal leading-[1.6] text-fg-2 mx-auto mb-9 max-w-[44ch]">No sign-up. No download. No upload. Open a tool and go.</p>
+                        <p data-animate="scroll" className="text-[15px] font-normal leading-[1.6] text-fg-2 mx-auto mb-9 max-w-[44ch]">No sign-up. No download. No upload. Open a tool and go.</p>
 
                         {/* Button group */}
-                        <div className="flex flex-col sm:inline-flex sm:flex-row items-stretch sm:items-center w-full sm:w-auto rounded-[14px] sm:rounded-[30px] bg-surface bd-2 p-2 gap-[10px]">
+                        <div data-animate="scroll" className="flex flex-col sm:inline-flex sm:flex-row items-stretch sm:items-center w-full sm:w-auto rounded-[14px] sm:rounded-[30px] bg-surface bd-2 p-2 gap-[10px]">
                             <Link
                                 href="/compress-image"
                                 className="flex items-center justify-center no-underline h-[38px] px-[18px] rounded-full bg-accent-dim text-accent bd-accent text-[13px] font-medium"

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { POSTS, CATEGORY_META, getPost, getRelatedPosts, type Block } from '@/lib/blog';
@@ -45,19 +45,19 @@ function BlockRenderer({ block }: { block: Block }) {
     case 'p':
       return (
         <p
-          className="text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+          className="text-[13.5px] text-fg-2 leading-[1.75]"
           dangerouslySetInnerHTML={{ __html: block.html }}
         />
       );
     case 'h2':
       return (
-        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mt-10 mb-4 scroll-mt-20">
+        <h2 className="serif italic text-fg-1 m-0 mt-10 mb-3 scroll-mt-20" style={{ fontSize: 'clamp(21px, 3vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
           {block.text}
         </h2>
       );
     case 'h3':
       return (
-        <h3 className="text-base font-bold text-slate-900 dark:text-slate-50 mt-6 mb-2">
+        <h3 className="text-[15px] font-semibold text-fg-1 mt-6 mb-2">
           {block.text}
         </h3>
       );
@@ -66,9 +66,9 @@ function BlockRenderer({ block }: { block: Block }) {
         <ul className="space-y-2.5 my-4">
           {block.items.map((item, i) => (
             <li key={i} className="flex gap-2.5">
-              <span className="text-violet-500 mt-1.5 shrink-0 text-xs">●</span>
+              <span className="text-accent mt-1.5 shrink-0 text-xs">●</span>
               <span
-                className="text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+                className="text-[13.5px] text-fg-2 leading-[1.75]"
                 dangerouslySetInnerHTML={{ __html: item }}
               />
             </li>
@@ -80,11 +80,11 @@ function BlockRenderer({ block }: { block: Block }) {
         <ol className="space-y-2.5 my-4">
           {block.items.map((item, i) => (
             <li key={i} className="flex gap-3">
-              <span className="text-violet-600 dark:text-violet-400 font-bold tabular-nums shrink-0 mt-0.5">
+              <span className="text-accent font-bold tabular-nums shrink-0 mt-0.5 text-[13.5px]">
                 {i + 1}.
               </span>
               <span
-                className="text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+                className="text-[13.5px] text-fg-2 leading-[1.75]"
                 dangerouslySetInnerHTML={{ __html: item }}
               />
             </li>
@@ -93,14 +93,10 @@ function BlockRenderer({ block }: { block: Block }) {
       );
     case 'callout': {
       const icons = { tip: '💡', warning: '⚠️', info: 'ℹ️' } as const;
-      const colors = {
-        tip:     'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60 text-violet-800 dark:text-violet-300',
-        warning: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300',
-        info:    'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/60 text-violet-800 dark:text-violet-300',
-      } as const;
       const kind = block.kind ?? 'info';
+      const isWarning = kind === 'warning';
       return (
-        <div className={`my-6 flex gap-3 p-4 rounded-xl border text-sm leading-relaxed ${colors[kind]}`}>
+        <div className={`my-6 flex gap-3 p-4 rounded-[10px] bd-2 text-[13px] leading-relaxed ${isWarning ? 'bg-surface text-fg-2' : 'bg-accent-dim text-fg-1'}`}>
           <span className="text-base shrink-0">{icons[kind]}</span>
           <p>{block.text}</p>
         </div>
@@ -108,38 +104,38 @@ function BlockRenderer({ block }: { block: Block }) {
     }
     case 'code':
       return (
-        <div className="my-6 rounded-xl overflow-hidden border border-slate-700">
-          <div className="bg-slate-800 dark:bg-slate-900 px-4 py-2 text-[11px] text-slate-400 font-mono border-b border-slate-700 flex items-center gap-2">
+        <div className="my-6 rounded-[10px] overflow-hidden bd-2">
+          <div className="bg-slate-800 px-4 py-2 text-[11px] text-slate-400 font-mono border-b border-slate-700 flex items-center gap-2">
             <span className="uppercase tracking-wider">{block.lang}</span>
           </div>
-          <pre className="bg-slate-900 px-4 py-4 overflow-x-auto text-sm text-slate-100 font-mono leading-relaxed">
+          <pre className="bg-slate-900 px-4 py-4 overflow-x-auto text-[13px] text-slate-100 font-mono leading-relaxed">
             <code>{block.text}</code>
           </pre>
         </div>
       );
     case 'table':
       return (
-        <figure className="my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-slate-50 dark:bg-slate-800/80">
+        <figure className="my-8 overflow-x-auto rounded-[10px] bd-2">
+          <table className="w-full text-[13px] text-left">
+            <thead className="bg-surface">
               <tr>
                 {block.headers.map((h) => (
                   <th
                     key={h}
-                    className="px-4 py-3 font-semibold text-slate-700 dark:text-slate-200 text-xs uppercase tracking-wide border-b border-slate-200 dark:border-slate-700 whitespace-nowrap"
+                    className="px-4 py-3 font-medium text-fg-2 text-[11px] uppercase tracking-wide bd-b-1 whitespace-nowrap"
                   >
                     {h}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
+            <tbody>
               {block.rows.map((row, ri) => (
-                <tr key={ri} className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors">
+                <tr key={ri} className="bd-t-1">
                   {row.map((cell, ci) => (
                     <td
                       key={ci}
-                      className="px-4 py-3 text-slate-700 dark:text-slate-300 leading-snug"
+                      className="px-4 py-3 text-fg-2 leading-snug"
                       dangerouslySetInnerHTML={{ __html: cell }}
                     />
                   ))}
@@ -148,7 +144,7 @@ function BlockRenderer({ block }: { block: Block }) {
             </tbody>
           </table>
           {block.caption && (
-            <figcaption className="px-4 py-2 text-xs text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 text-center">
+            <figcaption className="px-4 py-2 text-[11px] text-fg-3 bg-surface bd-t-1 text-center">
               {block.caption}
             </figcaption>
           )}
@@ -160,12 +156,12 @@ function BlockRenderer({ block }: { block: Block }) {
           <img
             src={block.src}
             alt={block.alt}
-            className="w-full rounded-xl border border-slate-200 dark:border-slate-700"
+            className="w-full rounded-[10px] bd-2"
             loading="lazy"
             decoding="async"
           />
           {block.caption && (
-            <figcaption className="mt-2 text-center text-xs text-slate-500 dark:text-slate-400 italic">
+            <figcaption className="mt-2 text-center text-[11px] text-fg-3 italic">
               {block.caption}
             </figcaption>
           )}
@@ -180,12 +176,12 @@ function BlockRenderer({ block }: { block: Block }) {
               <img
                 src={img.src}
                 alt={img.alt}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full rounded-[10px] bd-2"
                 loading="lazy"
                 decoding="async"
               />
               {img.caption && (
-                <figcaption className="mt-1.5 text-center text-[11px] text-slate-500 dark:text-slate-400 italic">
+                <figcaption className="mt-1.5 text-center text-[11px] text-fg-3 italic">
                   {img.caption}
                 </figcaption>
               )}
@@ -247,40 +243,40 @@ export default async function BlogPostPage({
   };
 
   return (
-    <main className="flex-1 py-10 px-4">
+    <main className="bg-page text-fg-1" style={{ padding: 'clamp(40px, 5vw, 72px) 0' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[1180px] mx-auto px-8">
 
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-8">
-          <Link href="/" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors">Home</Link>
+        <nav className="flex items-center gap-1.5 text-[12px] text-fg-3 mb-8">
+          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/blog" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors">Blog</Link>
+          <Link href="/blog" className="hover:text-accent transition-colors">Blog</Link>
           <span>/</span>
-          <Link href={`/blog?category=${post.category}`} className={`${cat.color} hover:underline`}>
+          <Link href={`/blog?category=${post.category}`} className="text-accent hover:underline">
             {cat.label}
           </Link>
         </nav>
 
-        <div className="lg:grid lg:grid-cols-[1fr_300px] lg:gap-12">
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-12">
 
           {/* ── Article ── */}
           <article>
             {/* Header */}
             <header className="mb-8">
-              <span className={`inline-flex text-xs font-semibold px-3 py-1.5 rounded-full mb-4 ${cat.color} ${cat.bg}`}>
+              <span className="inline-flex text-[11px] font-semibold px-3 py-1.5 rounded-full mb-4 bg-accent-dim text-accent">
                 {cat.label}
               </span>
-              <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
+              <h1 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}>
                 {post.title}
               </h1>
-              <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+              <p className="text-[14px] text-fg-2 leading-[1.7] mb-5">
                 {post.description}
               </p>
-              <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-slate-500 pb-6 border-b border-slate-200 dark:border-slate-700">
+              <div className="flex items-center gap-4 text-[12px] text-fg-3 pb-6 bd-b-1">
                 <span>
                   {new Date(post.date).toLocaleDateString('en-US', {
                     month: 'long',
@@ -303,16 +299,16 @@ export default async function BlogPostPage({
             </div>
 
             {/* Bottom CTA */}
-            <div className="mt-12 p-6 rounded-2xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-1">
+            <div className="mt-12 p-6 rounded-[14px] bg-accent-dim bd-accent">
+              <p className="text-[15px] font-semibold text-fg-1 mb-1">
                 Ready to try it?
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+              <p className="text-[13px] text-fg-2 mb-4">
                 All tools run entirely in your browser — no uploads, no account required.
               </p>
               <Link
                 href={post.relatedTool.href}
-                className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors"
+                className="inline-flex items-center gap-2 text-[13.5px] font-medium text-accent bd-accent hover:bg-surface px-5 py-2.5 rounded-[10px] transition-colors"
               >
                 {post.relatedTool.label}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -324,7 +320,7 @@ export default async function BlogPostPage({
             {/* Related posts */}
             {related.length > 0 && (
               <div className="mt-12">
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-50 mb-4">
+                <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(21px, 3vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
                   More in {cat.label}
                 </h2>
                 <div className="space-y-3">
@@ -332,15 +328,15 @@ export default async function BlogPostPage({
                     <Link
                       key={rp.slug}
                       href={`/blog/${rp.slug}`}
-                      className="group flex items-start gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700 bg-white dark:bg-slate-800 transition-colors"
+                      className="group flex items-start gap-3 p-4 rounded-[10px] bd-2 bg-surface hover:bd-accent transition-colors"
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors line-clamp-1">
+                        <p className="text-[13.5px] font-semibold text-fg-1 group-hover:text-accent transition-colors line-clamp-1">
                           {rp.title}
                         </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{rp.readingTime} min read</p>
+                        <p className="text-[12px] text-fg-3 mt-0.5">{rp.readingTime} min read</p>
                       </div>
-                      <svg className="w-4 h-4 text-slate-400 group-hover:text-violet-500 transition-colors shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-4 h-4 text-fg-3 group-hover:text-accent transition-colors shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
@@ -352,22 +348,22 @@ export default async function BlogPostPage({
 
           {/* ── Sidebar ── */}
           <aside className="hidden lg:block">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-24 space-y-5">
 
               {/* Tool widget */}
-              <div className="bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/60 rounded-2xl p-5">
-                <p className="text-xs font-bold uppercase tracking-widest text-violet-700 dark:text-violet-400 mb-3">
+              <div className="bg-accent-dim bd-accent rounded-[14px] p-5">
+                <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent mb-3">
                   Try the tool
                 </p>
-                <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-1">
+                <p className="text-[14px] font-semibold text-fg-1 mb-1">
                   {post.relatedTool.label}
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+                <p className="text-[12.5px] text-fg-2 mb-4 leading-relaxed">
                   100% in-browser — your files never leave your device.
                 </p>
                 <Link
                   href={post.relatedTool.href}
-                  className="flex items-center justify-center gap-2 w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm py-2.5 rounded-xl transition-colors"
+                  className="flex items-center justify-center gap-2 w-full text-[13.5px] font-medium text-accent bd-accent hover:bg-surface py-2.5 rounded-[10px] transition-colors"
                 >
                   Open Tool
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -377,17 +373,17 @@ export default async function BlogPostPage({
               </div>
 
               {/* All blog posts mini-list */}
-              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5">
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
+              <div className="bg-surface bd-2 rounded-[14px] p-5">
+                <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-4">
                   More Articles
                 </p>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {POSTS.filter((p) => p.slug !== post.slug).slice(0, 5).map((p) => {
                     const c = CATEGORY_META[p.category];
                     return (
                       <Link key={p.slug} href={`/blog/${p.slug}`} className="group block">
-                        <span className={`text-[10px] font-semibold ${c.color}`}>{c.label}</span>
-                        <p className="text-xs text-slate-700 dark:text-slate-300 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug mt-0.5">
+                        <span className="text-[10px] font-semibold text-accent">{c.label}</span>
+                        <p className="text-[12.5px] text-fg-2 group-hover:text-accent transition-colors line-clamp-2 leading-snug mt-0.5">
                           {p.title}
                         </p>
                       </Link>
@@ -396,7 +392,7 @@ export default async function BlogPostPage({
                 </div>
                 <Link
                   href="/blog"
-                  className="block text-center text-xs text-violet-600 dark:text-violet-400 hover:underline mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"
+                  className="block text-center text-[12px] text-accent hover:underline mt-4 pt-4 bd-t-1"
                 >
                   View all posts →
                 </Link>

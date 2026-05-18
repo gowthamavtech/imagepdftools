@@ -42,6 +42,7 @@ export default function PricingPage() {
           <div className="relative z-[1]">
             {/* Eyebrow */}
             <span
+              data-animate="hero"
               className="inline-flex items-center gap-2 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" style={{ animation: 'pulse 2s infinite' }} />
@@ -50,19 +51,20 @@ export default function PricingPage() {
 
             {/* Heading */}
             <h1
+              data-animate="hero"
               className="serif italic text-fg-1 m-0 mb-4"
               style={{ fontSize: 'clamp(36px, 6vw, 60px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
             >
               Pro is on its way.
             </h1>
 
-            <p className="text-[15px] font-normal leading-[1.65] text-fg-2 max-w-[42ch] mx-auto m-0 mb-8">
+            <p data-animate="hero" className="text-[15px] font-normal leading-[1.65] text-fg-2 max-w-[42ch] mx-auto m-0 mb-8">
               Unlimited files, batch export, and an ad-free experience. Everything is{' '}
               <span className="text-accent font-medium">100% free</span> in the meantime.
             </p>
 
             {/* Feature card */}
-            <div className="relative rounded-[14px] bg-surface bd-2 p-6 mb-8 text-left">
+            <div data-animate="hero" className="relative rounded-[14px] bg-surface bd-2 p-6 mb-8 text-left">
               {/* Accent hairline */}
               <div
                 aria-hidden="true"
@@ -94,6 +96,7 @@ export default function PricingPage() {
 
             {/* CTA */}
             <Link
+              data-animate="hero"
               href="/compress-image"
               className="inline-flex items-center gap-2 h-11 px-6 rounded-[10px] text-[13.5px] font-medium no-underline btn-accent"
               style={{ color: 'var(--on-accent)' }}

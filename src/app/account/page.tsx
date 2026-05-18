@@ -18,72 +18,72 @@ export default async function AccountPage() {
   const isPro = plan === 'pro';
 
   return (
-    <main className="flex-1 py-16 px-4">
-      <div className="max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-8">Account</h1>
+    <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
+      <div className="max-w-[480px] mx-auto px-8">
+        <h1 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Account</h1>
 
-        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6 mb-4">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+        <div className="bg-surface bd-2 rounded-[14px] p-6 mb-4">
+          <h2 className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-4">
             Current Plan
           </h2>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-slate-900 dark:text-slate-50">
+              <p className="text-[20px] font-semibold text-fg-1">
                 {isPro ? 'Pro' : 'Free'}
               </p>
-              <p className="text-sm text-slate-500 mt-0.5">
+              <p className="text-[13px] text-fg-2 mt-0.5">
                 {isPro
                   ? 'Unlimited files, ZIP export, ad-free.'
                   : 'Up to 5 files per session, ads shown.'}
               </p>
             </div>
             {isPro && (
-              <span className="bg-violet-100 dark:bg-violet-950 text-violet-700 dark:text-violet-300 text-xs font-semibold px-3 py-1 rounded-full">
+              <span className="bg-accent-dim bd-accent text-accent text-[11px] font-semibold px-3 py-1 rounded-full">
                 Active
               </span>
             )}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6 mb-4">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+        <div className="bg-surface bd-2 rounded-[14px] p-6 mb-4">
+          <h2 className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-4">
             Profile
           </h2>
-          <p className="text-sm text-slate-700 dark:text-slate-300">
+          <p className="text-[13.5px] text-fg-1">
             {user.emailAddresses?.[0]?.emailAddress ?? 'No email on file'}
           </p>
         </div>
 
         {isPro ? (
-          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-6">
-            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+          <div className="bg-surface bd-2 rounded-[14px] p-6">
+            <h2 className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-fg-3 mb-4">
               Billing
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+            <p className="text-[13.5px] text-fg-2 mb-4 leading-[1.65]">
               Manage your subscription, update payment method, or cancel at any time via the
               Stripe billing portal.
             </p>
             <form action="/api/portal" method="POST">
               <button
                 type="submit"
-                className="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+                className="text-[13.5px] font-medium px-5 py-2.5 rounded-[10px] transition-colors bg-surface bd-2 text-fg-1 hover:text-accent hover:bd-accent"
               >
                 Open Billing Portal
               </button>
             </form>
           </div>
         ) : (
-          <div className="bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 rounded-2xl p-6">
-            <h2 className="text-sm font-semibold text-violet-700 dark:text-violet-400 uppercase tracking-wide mb-2">
+          <div className="bg-accent-dim bd-accent rounded-[14px] p-6">
+            <h2 className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent mb-2">
               Upgrade to Pro
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+            <p className="text-[13.5px] text-fg-2 mb-4 leading-[1.65]">
               Unlock unlimited files, batch ZIP export, format conversion, and an ad-free
-              experience for $4.99/month.
+              experience.
             </p>
             <a
               href="/pricing"
-              className="inline-block bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+              className="inline-block text-[13.5px] font-medium px-5 py-2.5 rounded-[10px] transition-colors text-accent bd-accent hover:bg-surface"
             >
               View Pricing
             </a>

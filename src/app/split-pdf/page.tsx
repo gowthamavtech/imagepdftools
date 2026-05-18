@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { SplitPdfUI } from '@/components/SplitPdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -33,8 +33,7 @@ const jsonLd = {
         'No file upload — 100% private',
       ],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      description:
-        'Free online PDF splitter. Extract pages or split by range — all in your browser. Your file never leaves your device.',
+      description: 'Free online PDF splitter. Extract pages or split by range — all in your browser. Your file never leaves your device.',
     },
     {
       '@type': 'HowTo',
@@ -60,126 +59,279 @@ const jsonLd = {
   ],
 };
 
-const features = [
-  { icon: '⊞', label: 'Page thumbnail grid' },
-  { icon: '⬚', label: 'Drag-select pages' },
-  { icon: '◫', label: 'Split by range' },
-  { icon: '◎', label: 'Preview before saving' },
-  { icon: '⬡', label: 'Download as ZIP' },
-  { icon: '✦', label: '100% in-browser' },
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
+const STEPS = [
+  {
+    n: '01',
+    title: 'Upload your PDF',
+    desc: 'Drop your PDF onto the tool or click Browse. Thumbnails of every page render automatically in your browser.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
+  },
+  {
+    n: '02',
+    title: 'Choose pages or ranges',
+    desc: 'Click thumbnails to pick pages, or drag to select a range. Switch to Split by Range and type ranges like 1-5, 8, 12-15.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="2" y="3" width="6" height="8" rx="1" />
+        <rect x="10" y="3" width="6" height="8" rx="1" />
+        <rect x="18" y="3" width="4" height="8" rx="1" />
+        <rect x="2" y="14" width="4" height="7" rx="1" />
+        <rect x="9" y="14" width="6" height="7" rx="1" />
+        <rect x="18" y="14" width="4" height="7" rx="1" />
+      </svg>
+    ),
+  },
+  {
+    n: '03',
+    title: 'Save your files',
+    desc: 'Click Extract or Split. Single results download immediately. Multiple parts are bundled into a ZIP file.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
+  },
+];
+
+const FEATURES = [
+  { label: 'Select Pages mode', desc: 'Click individual thumbnails or drag across multiple to select a range. Works on desktop and mobile.' },
+  { label: 'Split by Range mode', desc: 'Type comma-separated ranges like 1-5, 6-10, 11-20. Each range becomes its own PDF file.' },
+  { label: 'Page preview lightbox', desc: 'Tap the eye icon on any thumbnail to open a full-size preview with prev/next navigation before committing.' },
+  { label: 'Original quality preserved', desc: 'pdf-lib copies page objects directly — no re-rendering, no recompression. Text stays selectable.' },
+  { label: 'Password-protected PDFs', desc: 'The tool prompts for the password and decrypts locally in your browser before splitting.' },
+  { label: 'ZIP download', desc: 'When you produce multiple parts, they are bundled into a ZIP for convenient one-click downloading.' },
+];
+
+const USE_CASES = [
+  { label: 'Extracting a signed page', desc: 'Pull just the signature page from a contract to attach to an email without sending the full document.' },
+  { label: 'Splitting a scanned book', desc: 'Divide a 300-page scan into chapters for easier reading or distribution.' },
+  { label: 'Isolating individual invoices', desc: 'When your accounting software generates one PDF for 12 months of invoices, split them into separate files.' },
+  { label: 'Sharing a specific section', desc: 'If a PDF is too large to email, extract only the relevant pages and send that portion instead.' },
+  { label: 'Separating appendices', desc: 'Pull supporting annexes from a main report so each can be stored and referenced independently.' },
+  { label: 'Preparing application packets', desc: 'Extract specific pages from a multi-section form to submit only the parts required by each recipient.' },
+];
+
+const FAQS = [
+  {
+    q: 'Can I extract just a few pages from a large PDF?',
+    a: 'Yes. Use Select Pages mode — click or drag across the page thumbnails to pick any pages, then click Extract. The result is a new PDF containing only your selected pages.',
+  },
+  {
+    q: 'Can I split a PDF into multiple separate files?',
+    a: 'Yes. Use Split by Range and type comma-separated ranges, e.g. "1-5, 6-10, 11-20". Each range becomes its own PDF. If you create more than one part, they are also bundled as a ZIP for convenient downloading.',
+  },
+  {
+    q: 'Does splitting affect the PDF quality?',
+    a: 'No. Pages are copied directly from the source PDF using pdf-lib without any re-rendering. Text stays selectable, images keep their original quality, and fonts are preserved exactly.',
+  },
+  {
+    q: 'Is my PDF uploaded to a server?',
+    a: 'No. All processing happens locally in your browser using PDF.js and pdf-lib. Your file never leaves your device — we never see it.',
+  },
+  {
+    q: 'Can I split a password-protected PDF?',
+    a: 'The tool will prompt you for the password and decrypt the file locally in your browser. If the encryption algorithm is unsupported, remove the password first using another tool, then split.',
+  },
+  {
+    q: 'Can I preview pages before extracting?',
+    a: 'Yes. Every page is rendered as a thumbnail. Tap the eye icon on any thumbnail to open a full-size preview with previous and next navigation before you commit to your selection.',
+  },
 ];
 
 export default function SplitPdfPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 pt-12 sm:pt-18 pb-6 text-center">
-          <div className="inline-flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 text-violet-600 dark:text-violet-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            No upload &middot; 100% Private &middot; Instant
+
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
+
+        {/* ── Hero ── */}
+        <section id="split-tool" className="relative" style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}>
+          <div aria-hidden="true" className="absolute pointer-events-none z-0" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">Split PDF</span>
+            <h1 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}>
+              Extract pages.<br /><span className="text-accent">Split by range.</span>
+            </h1>
+            <p className="text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Pull individual pages or split into multiple parts by range. Preview every page before you save — all inside your browser.
+            </p>
+            <p className="text-[12px] text-fg-3 tracking-wide m-0 mb-8">Free · No account · No upload</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span key={label} className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{label}
+                </span>
+              ))}
+            </div>
           </div>
+        </section>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 leading-tight mb-4">
-            Split PDF{' '}
-            <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
-              Online
-            </span>
-          </h1>
-          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-8">
-            Extract individual pages or split into multiple parts by range. Preview every page before you save. Everything runs in your browser — nothing is ever uploaded.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {features.map(({ icon, label }) => (
-              <span key={label} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full">
-                <span className="text-violet-500">{icon}</span>
-                {label}
-              </span>
-            ))}
-          </div>
-
+        {/* ── Tool ── */}
+        <div className={C}>
           <SplitPdfUI />
         </div>
 
-        {/* Content */}
-        <section className="max-w-3xl mx-auto px-4 pb-24 mt-6">
-          <div className="space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+        {/* ── How it works ── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Three steps. <em className="text-accent">Exactly the pages you need.</em>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
+                  <span aria-hidden="true" className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none" style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}>{n}</span>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">{title}</h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Why split a PDF?</h2>
-              <p className="mb-3">
-                PDFs are often delivered as single monolithic files — a full contract with appendices, a scanned book, a year&apos;s worth of invoices bundled together. But the recipient usually only needs a specific section, and the full document may be too large to email or impractical to store alongside other records.
-              </p>
-              <p>
-                Splitting lets you extract exactly what you need: the signed page of a contract, a single chapter from a 300-page report, or one month&apos;s invoice from a bundle of twelve. The output is a clean, standalone PDF — identical in quality to the original.
+        {/* ── Features ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">Features</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Two modes. <em className="text-accent">Full control.</em>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {FEATURES.map(({ label, desc }) => (
+                <div key={label} className="rounded-[10px] bg-surface bd-2 p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <h3 className="text-[14px] font-semibold text-fg-1 m-0 leading-snug">{label}</h3>
+                  </div>
+                  <p className="text-[13px] leading-[1.7] text-fg-2 m-0">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Use cases ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">Use cases</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              When splitting a PDF <em className="text-accent">is the answer.</em>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {USE_CASES.map(({ label, desc }) => (
+                <div key={label} className="rounded-[10px] bg-surface bd-2 p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <h3 className="text-[14px] font-semibold text-fg-1 m-0 leading-snug">{label}</h3>
+                  </div>
+                  <p className="text-[13px] leading-[1.7] text-fg-2 m-0">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Under the hood ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">Under the hood</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              How splitting actually works
+            </h2>
+            <p className="text-[15px] leading-[1.75] text-fg-2 m-0 mb-4">
+              When you drop a PDF, PDF.js reads the file entirely in your browser and renders a thumbnail of each page to a canvas at low resolution — fast enough to show previews for a 100-page document in seconds. Tapping the eye icon triggers a high-res render of that specific page, cached so subsequent views are instant.
+            </p>
+            <p className="text-[15px] leading-[1.75] text-fg-2 m-0 mb-6">
+              When you click Extract or Split, pdf-lib copies the selected page objects from the source PDF into a new output document — without re-rendering or recompressing anything. Text remains selectable, images keep their original resolution, and embedded fonts are preserved exactly. The resulting files are created as Blobs in memory and offered via a Save dialog directly from your browser.
+            </p>
+            <div className="rounded-[10px] bg-surface bd-2 px-6 py-5 flex gap-4">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--fg-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-[2px]" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <p className="text-[13px] leading-[1.7] text-fg-2 m-0">
+                Processing happens on your device. Large PDFs with many pages may take a moment to render thumbnails, depending on your device speed and available memory. If things feel slow, give it a moment — it&apos;s working.
               </p>
             </div>
+          </div>
+        </section>
 
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">What this tool can do</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Select Pages mode.</strong> Thumbnails of every page render in your browser. Click individual pages to toggle them on or off, or hold and drag across multiple thumbnails to select a run of pages in one gesture — works on desktop and mobile.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Split by Range mode.</strong> Type comma-separated page ranges such as <code className="text-[11px] bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded font-mono">1-5, 6-10, 11-20</code>. Each range is saved as its own PDF. If you produce more than one part, they are also bundled into a ZIP for easy downloading.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Page preview lightbox.</strong> Tap the eye icon on any thumbnail to open a full-size preview with prev/next navigation so you can confirm the content before committing to your selection.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Original quality preserved.</strong> pdf-lib copies page objects directly — no re-rendering, no recompression. Text stays selectable and images keep their original resolution.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Password-protected PDFs.</strong> The tool prompts for the password and decrypts the file locally in your browser before splitting. The password is never transmitted.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Common use cases</h2>
-              <ul className="space-y-2 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Extracting a signed page.</strong> Pull just the signature page from a contract to attach to an email without sending the full document.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Splitting a scanned book.</strong> Divide a 300-page scan into chapters for easier reading or distribution.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Isolating individual invoices.</strong> When your accounting software generates one PDF for 12 months of invoices, split them into separate files for each month.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Sharing a specific section.</strong> If a PDF is too large to email, extract only the relevant pages and send that portion instead.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Separating appendices.</strong> Pull supporting annexes from a main report so each can be stored and referenced independently.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Preparing application packets.</strong> Extract specific pages from a multi-section form to submit only the parts required by each recipient.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">How it works under the hood</h2>
-              <p className="mb-4">
-                When you drop a PDF, <strong className="text-slate-800 dark:text-slate-200">PDF.js</strong> reads the file entirely in your browser and renders a thumbnail of each page to a canvas at low resolution — fast enough to show previews for a 100-page document in a few seconds. Tapping the eye icon triggers a hi-res render of that specific page at 1.8× scale, cached so subsequent views are instant. No data leaves your device at any point during thumbnail generation.
-              </p>
-              <p className="mb-4">
-                When you click Extract or Split, <strong className="text-slate-800 dark:text-slate-200">pdf-lib</strong> copies the selected page objects from the source PDF into a new output document — without re-rendering or recompressing anything. Text remains selectable, images keep their original resolution, and embedded fonts are preserved exactly. The resulting files are created as Blobs in memory and offered via a Save dialog directly from your browser.
-              </p>
-              <div className="flex gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60">
-                <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                </svg>
-                <p className="text-amber-800 dark:text-amber-300">
-                  <strong>Processing happens on your device.</strong> Because no files are uploaded, all the work is done by your computer or phone — not our servers. Large PDFs with many pages may take a moment to render thumbnails, depending on your device&apos;s speed and available memory. If things feel slow, give it a moment — it&apos;s working.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-4">Frequently asked questions</h2>
-              <div className="space-y-4">
+        {/* ── Privacy card ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div aria-hidden="true" className="absolute top-[-1px] left-[8%] right-[8%] h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }} />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">Privacy by architecture</p>
+              <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Your PDF never leaves your browser.</h2>
+              <div className="space-y-3">
                 {[
-                  { q: 'Can I extract just a few pages from a large PDF?', a: 'Yes. Use Select Pages mode — click or drag across the page thumbnails to pick any pages, then click Extract. The result is a new PDF containing only your selected pages.' },
-                  { q: 'Can I split a PDF into multiple separate files?', a: 'Yes. Use Split by Range and type comma-separated ranges, e.g. "1-5, 6-10, 11-20". Each range becomes its own PDF. If you create more than one part, they are also bundled as a ZIP for convenient downloading.' },
-                  { q: 'Does splitting affect the PDF quality?', a: 'No. Pages are copied directly from the source PDF using pdf-lib without any re-rendering. Text stays selectable, images keep their original quality, and fonts are preserved exactly.' },
-                  { q: 'Is my PDF uploaded to a server?', a: 'No. All processing happens locally in your browser using PDF.js and pdf-lib. Your file never leaves your device — we never see it.' },
-                  { q: 'Can I split a password-protected PDF?', a: 'The tool will prompt you for the password and decrypt the file locally in your browser. If the encryption algorithm is unsupported, remove the password first using another tool, then split.' },
-                  { q: 'Can I preview pages before extracting?', a: 'Yes. Every page is rendered as a thumbnail. Tap the eye icon on any thumbnail to open a full-size preview with previous and next navigation before you commit to your selection.' },
-                ].map(({ q, a }) => (
-                  <div key={q} className="border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 bg-white dark:bg-slate-800/40">
-                    <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">{q}</p>
-                    <p>{a}</p>
+                  'All splitting and extraction runs locally via PDF.js and pdf-lib',
+                  'No file data is transmitted to any server, logged, or stored',
+                  'Passwords for encrypted PDFs never leave your device',
+                  'Close the tab and your file is gone — nothing persists',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-[2px]" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span className="text-[13.5px] leading-[1.6] text-fg-2">{item}</span>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+        </section>
 
+        {/* ── Back to tool nudge ── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
+          <a href="#split-tool" className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+            Back to tool
+          </a>
+        </div>
+
+        {/* ── FAQ ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Frequently asked questions</h2>
+            <div className="bd-t-1">
+              {FAQS.map(({ q, a }) => (
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 
         <RelatedTools hrefs={['/merge-pdf', '/compress-pdf', '/image-to-pdf', '/remove-metadata']} />
+
       </main>
     </>
   );

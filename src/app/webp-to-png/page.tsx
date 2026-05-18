@@ -24,9 +24,9 @@ const jsonLd = {
       '@type': 'HowTo',
       name: 'How to convert WebP to PNG online',
       step: [
-        { '@type': 'HowToStep', text: 'Drop your WebP file onto the converter.' },
-        { '@type': 'HowToStep', text: 'The output format is set to PNG (lossless) automatically.' },
-        { '@type': 'HowToStep', text: 'Download your PNG file.' },
+        { '@type': 'HowToStep', position: 1, name: 'Drop your WebP', text: 'Drop your WebP file onto the converter.' },
+        { '@type': 'HowToStep', position: 2, name: 'Format: PNG', text: 'The output format is set to PNG (lossless) automatically.' },
+        { '@type': 'HowToStep', position: 3, name: 'Download', text: 'Download your PNG file.' },
       ],
     },
     {
@@ -35,20 +35,79 @@ const jsonLd = {
         { '@type': 'Question', name: 'Why convert WebP to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'PNG is a lossless format supported by every image editor, design tool, and platform. If you need to edit a WebP image in Photoshop, Illustrator, or Figma, or upload it to a platform that does not accept WebP, converting to PNG gives you maximum compatibility.' } },
         { '@type': 'Question', name: 'Does converting WebP to PNG lose quality?', acceptedAnswer: { '@type': 'Answer', text: 'No. PNG is a lossless format. Once your WebP is decoded and exported as PNG, every pixel is preserved without any additional compression artefacts.' } },
         { '@type': 'Question', name: 'Is transparency preserved when converting WebP to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Both WebP and PNG support alpha-channel transparency. Converting a transparent WebP image to PNG preserves the transparent areas exactly.' } },
-        { '@type': 'Question', name: 'Will the PNG file be larger than the WebP?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. PNG uses lossless compression, which is less efficient than WebP for photographs and complex images. A WebP photo converted to PNG will typically be 3-5x larger. PNG is best when you need to edit the file further or need lossless quality.' } },
         { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using the Canvas API. Your WebP file never leaves your device.' } },
-        { '@type': 'Question', name: 'Can I batch convert WebP files to PNG?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop up to 5 files at once on the Free tier, or unlimited files with Pro.' } },
-        { '@type': 'Question', name: 'Can I use the converted PNG for printing?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. PNG is a lossless format and is widely accepted by print services and professional software. For best print results, make sure your original WebP image has sufficient resolution (at least 300 DPI for the intended print size).' } },
-        { '@type': 'Question', name: 'What is the difference between WebP to PNG and WebP to JPG?', acceptedAnswer: { '@type': 'Answer', text: 'PNG is lossless and preserves transparency — ideal for logos, icons, and images you want to edit further. JPEG is lossy with no transparency support but produces smaller files. Use PNG when quality and transparency matter; use JPEG when file size is the priority.' } },
       ],
     },
   ],
 };
 
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
+
 const STEPS = [
-  { n: '01', title: 'Drop your WebP', desc: 'Drag and drop WebP files onto the converter, or click to browse. Convert up to 5 files at once on the free plan.' },
-  { n: '02', title: 'Output format: PNG', desc: 'The format is set to PNG (lossless) automatically. Transparency is fully preserved — no additional settings needed.' },
-  { n: '03', title: 'Download your PNG', desc: 'Your converted PNG file is ready instantly. Download it directly or save the whole batch as a ZIP.' },
+  {
+    n: '01',
+    title: 'Drop your WebP',
+    desc: 'Drag and drop WebP files onto the converter, or click to browse. Convert up to 5 files at once on the free plan.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
+  },
+  {
+    n: '02',
+    title: 'Format: PNG (lossless)',
+    desc: 'The format is set to PNG (lossless) automatically. Transparency is fully preserved — no additional settings needed.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+      </svg>
+    ),
+  },
+  {
+    n: '03',
+    title: 'Download',
+    desc: 'Your converted PNG file is ready instantly. Download it directly or save the whole batch as a ZIP.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    ),
+  },
+];
+
+const WHEN_TO_CONVERT = [
+  {
+    title: 'Editing in Photoshop, Illustrator, or GIMP',
+    desc: 'While newer versions support WebP natively, many design teams run older versions that do not. Converting to PNG first ensures the file opens correctly.',
+  },
+  {
+    title: 'Figma and design handoff',
+    desc: 'PNG is the universally accepted format for design assets. Converting WebP screenshots or assets to PNG ensures compatibility across all design workflows.',
+  },
+  {
+    title: 'Platform upload restrictions',
+    desc: 'Some government portals, academic submission systems, and older CMS platforms only accept JPEG and PNG. Converting WebP removes upload rejections.',
+  },
+  {
+    title: 'Archival and lossless storage',
+    desc: 'If you want to store an image long-term with guaranteed lossless quality for printing or future re-editing, PNG is more widely supported than WebP for archival purposes.',
+  },
+  {
+    title: 'Windows legacy compatibility',
+    desc: 'Older Windows tools like classic Windows Photo Viewer and legacy business applications do not open WebP files. PNG opens in all of them.',
+  },
+  {
+    title: 'Preserving transparency for editing',
+    desc: 'If you have a WebP file with a transparent background and need to composite it into a design, converting to PNG preserves the transparency in a universally editable format.',
+  },
 ];
 
 const FAQS = [
@@ -90,181 +149,146 @@ export default function WebpToPngPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <style>{`
-        @media (prefers-reduced-motion: no-preference) {
-          @starting-style {
-            .w2p-h1    { opacity: 0; transform: translateY(10px); }
-            .w2p-sub   { opacity: 0; transform: translateY(10px); }
-            .w2p-trust { opacity: 0; }
-          }
-          .w2p-h1 {
-            transition: opacity 500ms cubic-bezier(0.23,1,0.32,1),
-                        transform 500ms cubic-bezier(0.23,1,0.32,1);
-          }
-          .w2p-sub {
-            transition: opacity 500ms cubic-bezier(0.23,1,0.32,1) 80ms,
-                        transform 500ms cubic-bezier(0.23,1,0.32,1) 80ms;
-          }
-          .w2p-trust { transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms; }
-          @keyframes w2p-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .w2p-fact { animation: w2p-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .w2p-fact:nth-child(1) { animation-delay: 240ms; }
-          .w2p-fact:nth-child(2) { animation-delay: 290ms; }
-          .w2p-fact:nth-child(3) { animation-delay: 340ms; }
-          .w2p-fact:nth-child(4) { animation-delay: 390ms; }
-        }
-      `}</style>
 
-      <main className="flex-1">
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
+
         {/* ── Hero ── */}
-        <div id="w2p-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="w2p-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            WebP to PNG Converter
-          </h1>
-          <p className="w2p-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Convert WebP images to lossless PNG — full quality, transparency preserved. Works with every image editor and platform. No upload required.
-          </p>
-          <p className="w2p-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">
-            Free · No account · No upload
-          </p>
-        </div>
+        <section id="webp-to-png-tool" className="relative" style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}>
+          <div aria-hidden="true" className="absolute pointer-events-none z-0" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">WebP to PNG</span>
+            <h1 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}>
+              WebP to PNG.<br /><span className="text-accent">Lossless. Compatible everywhere.</span>
+            </h1>
+            <p className="text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Convert WebP images to PNG — full quality preserved, transparency intact. Works with every image editor and platform.
+            </p>
+            <p className="text-[12px] text-fg-3 tracking-wide m-0 mb-8">Free · No account · No upload</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span key={label} className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── Tool ── */}
         <CompressorUI initialFormat="image/png" />
 
-        {/* ── Trust strip ── */}
-        <div className="border-t border-slate-100 dark:border-white/5 bg-white dark:bg-[#0C0C1A]">
-          <div className="max-w-4xl mx-auto px-4 py-5">
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2.5" aria-label="Key guarantees">
-              {['Zero bytes sent to any server', 'Lossless PNG export', 'Free with no account required', 'Transparency preserved'].map((fact) => (
-                <li key={fact} className="w2p-fact flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0" aria-hidden="true" />
-                  {fact}
-                </li>
+        {/* ── How it works ── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Three steps. <em className="text-accent">Full quality PNG.</em>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
+                  <span aria-hidden="true" className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none" style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}>{n}</span>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">{title}</h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
+        </section>
+
+        {/* ── When to convert ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={C}>
+            <span className="hp-eyebrow">When to convert</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-10" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              When WebP to PNG makes sense
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {WHEN_TO_CONVERT.map(({ title, desc }) => (
+                <div key={title} className="rounded-[10px] bg-surface bd-2 p-6">
+                  <h3 className="text-[15px] font-medium text-fg-1 m-0 mb-2 leading-[1.4]">{title}</h3>
+                  <p className="text-[13.5px] font-normal text-fg-2 m-0 leading-[1.65]">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Under the hood ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">Under the hood</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              How the conversion works
+            </h2>
+            <p className="text-[15px] leading-[1.75] text-fg-2 m-0">
+              When you drop a WebP file, the browser decodes it using its native WebP decoder and draws it to an HTML Canvas element. The canvas is then exported as PNG using lossless compression. Since PNG is lossless, no quality is lost in the conversion. The alpha channel (transparency) is fully preserved. No data leaves your device — the entire process runs in your browser.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Privacy card ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div aria-hidden="true" className="absolute top-[-1px] left-[8%] right-[8%] h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }} />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">Privacy by architecture</p>
+              <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Your images never leave your browser.</h2>
+              <div className="space-y-3">
+                {[
+                  'Conversion runs locally via the Canvas API — no server upload',
+                  'No file data is transmitted, logged, or stored',
+                  'Lossless PNG output — every pixel preserved',
+                  'Works offline once the page has loaded',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-[2px]" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span className="text-[13.5px] leading-[1.6] text-fg-2">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
+          <a href="#webp-to-png-tool" className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+            Back to converter
+          </a>
         </div>
 
-        {/* ── How it works ── */}
-        <section className="bg-slate-50 dark:bg-[#0F0F1C] border-t border-black/6 dark:border-white/5 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3" style={{ color: 'oklch(70% 0.158 293)' }}>How it works</p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">Convert WebP to PNG in 3 steps</h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/6">
-              {STEPS.map((step, i) => (
-                <div key={step.n} className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}>
-                  <span className="block text-[11px] font-bold tracking-[0.16em] mb-3" style={{ color: 'oklch(70% 0.158 293)' }} aria-hidden="true">{step.n}</span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">{step.title}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── SEO content ── */}
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/5 py-14 px-4">
-          <div className="max-w-3xl mx-auto space-y-10 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">Why convert WebP to PNG?</h2>
-              <p className="mb-3">
-                WebP is an excellent format for the web — small files, great quality. But it is a relatively young format and not universally supported by professional tools and platforms. PNG, by contrast, has been the standard lossless image format for 25+ years and is supported by every image editor, graphics application, operating system, and image platform in existence.
-              </p>
-              <p>
-                If you downloaded a WebP image from the web or received one from a client, converting it to PNG is the most reliable way to open it, edit it, and share it without worrying about format compatibility.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">When to convert WebP to PNG</h2>
-              <ul className="space-y-3">
-                {[
-                  ['Editing in Photoshop, Illustrator, or GIMP', 'While newer versions of Photoshop support WebP natively, many design teams still run older versions or use tools that do not support it. Converting to PNG first ensures the file opens correctly for editing.'],
-                  ['Figma and design handoff', 'Figma supports WebP in some contexts but PNG is the universally accepted format for design assets. Converting WebP screenshots or assets to PNG ensures compatibility across all design workflows.'],
-                  ['Platform upload restrictions', 'Some government portals, job application systems, academic submission platforms, and older CMS platforms only accept JPEG and PNG. Converting WebP to PNG removes upload rejections.'],
-                  ['Preserving transparent backgrounds for editing', 'If you have a WebP file with a transparent background and need to composite it into a design, converting to PNG preserves the transparency in a universally editable format.'],
-                  ['Archival and lossless storage', 'If you want to store an image long-term with guaranteed lossless quality — for printing, archiving, or future re-editing — PNG is more widely supported than WebP for archival purposes.'],
-                  ['Windows legacy compatibility', 'Older Windows tools like Paint (pre-2023), classic Windows Photo Viewer, and legacy business applications do not open WebP files. PNG opens in all of them.'],
-                ].map(([label, desc]) => (
-                  <li key={label} className="flex items-start gap-3">
-                    <span className="w-1 h-1 rounded-full bg-violet-400 shrink-0 mt-2" aria-hidden="true" />
-                    <span><strong className="font-semibold text-slate-800 dark:text-slate-200">{label}.</strong> {desc}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">How the conversion works</h2>
-              <p>
-                When you drop a WebP file, the browser decodes it using its native WebP decoder (all modern browsers support WebP) and draws it to an HTML Canvas element. The canvas is then exported as a PNG using lossless compression. Since PNG is lossless, no quality is lost in the conversion. The alpha channel (transparency) is fully preserved. No data leaves your device — the entire process runs in your browser.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Privacy callout ── */}
-        <section className="bg-white dark:bg-[#0C0C1A] border-t border-black/6 dark:border-white/5 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3" style={{ color: 'oklch(70% 0.158 293)' }}>Privacy by architecture</p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">Your files never leave your browser.</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
-              The converter uses the {"browser's"} native Canvas API. Your WebP images are decoded and exported as PNG entirely on your own hardware — nothing is transmitted, stored, or logged at any point.
-            </p>
-            <ul className="space-y-2.5">
-              {[
-                'No server upload — conversion happens on your CPU',
-                'No account or sign-up required',
-                'Lossless PNG output — every pixel preserved',
-                'Works offline once the page has loaded',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <svg className="w-4 h-4 shrink-0 mt-px" style={{ color: 'oklch(70% 0.158 293)' }} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
         {/* ── FAQ ── */}
-        <section className="bg-slate-50 dark:bg-[#0F0F1C] border-t border-black/6 dark:border-white/5 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-              <div>
-                <p className="text-[11px] font-bold tracking-[0.16em] uppercase mb-2" style={{ color: 'oklch(70% 0.158 293)' }}>FAQ</p>
-                <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50">Common questions about WebP to PNG</h2>
-              </div>
-              <a
-                href="#w2p-tool"
-                className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg transition-colors duration-150 shrink-0"
-                style={{ color: 'oklch(70% 0.158 293)', background: 'oklch(70% 0.158 293 / 0.08)' }}
-              >
-                Back to converter
-                <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M6 1v10M1 6l5-5 5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </div>
-            <dl className="divide-y divide-slate-100 dark:divide-white/5">
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Frequently asked questions</h2>
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
-                <div key={q} className="py-5">
-                  <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                  <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
-                </div>
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
               ))}
-            </dl>
+            </div>
           </div>
         </section>
 
         <RelatedTools hrefs={['/webp-to-jpg', '/jpg-to-png', '/png-to-webp', '/compress-png-online']} />
+
       </main>
     </>
   );

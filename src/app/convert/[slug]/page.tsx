@@ -109,12 +109,12 @@ function OtherConversions({ current, from }: { current: string; from: string }) 
   if (others.length === 0) return null;
   return (
     <div className="mt-4 flex flex-wrap items-center gap-2 justify-center">
-      <span className="text-sm text-slate-500 dark:text-slate-400">Also convert {from} to:</span>
+      <span className="text-sm text-fg-2">Also convert {from} to:</span>
       {others.map(([slug, cfg]) => (
         <Link
           key={slug}
           href={`/convert/${slug}`}
-          className="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-600 hover:text-violet-600 dark:hover:text-violet-400 px-3 py-1 rounded-full text-xs font-medium transition-colors"
+          className="inline-flex items-center gap-1 bg-surface bd-2 text-fg-2 hover:text-accent hover:bd-accent px-3 py-1 rounded-full text-xs font-medium transition-colors"
         >
           {cfg.from} → {cfg.to}
         </Link>
@@ -134,6 +134,10 @@ export default async function ConvertPage(
 
   const BASE = 'https://imagepdf.tools';
   const toolUrl = `${BASE}/convert/${slug}`;
+  const toolId = `convert-${slug}-tool`;
+
+  const C = 'max-w-[1180px] mx-auto px-8';
+  const Cnarrow = 'max-w-[780px] mx-auto px-8';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -159,68 +163,118 @@ export default async function ConvertPage(
     ],
   };
 
+  const STEPS = [
+    { n: '01', title: `Drop your ${cfg.from}`, desc: `Drag and drop your ${cfg.from} file onto the converter, or click to browse.` },
+    { n: '02', title: `Output: ${cfg.to}`, desc: `Format is pre-set to ${cfg.to}. Adjust quality if needed.` },
+    { n: '03', title: 'Download', desc: 'Your converted file is ready instantly. Download it or save the whole batch as a ZIP.' },
+  ];
+
+  const STEP_ICONS = [
+    <svg key="upload" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>,
+    <svg key="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="M12 5l7 7-7 7" />
+    </svg>,
+    <svg key="download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>,
+  ];
+
   return (
-    <main className="flex-1 py-10">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <div className="max-w-4xl mx-auto px-4 text-center mb-8">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 px-3 py-1 rounded-full mb-3">
-          Free &middot; No Upload &middot; Private
-        </span>
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
-        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-3">
-          Convert{' '}
-          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
-            {cfg.from}
-          </span>
-          {' '}to{' '}
-          <span className="italic bg-linear-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
-            {cfg.to}
-          </span>
-        </h1>
-
-        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed mb-6">
-          {cfg.why}
-        </p>
-
-        {/* Format pill */}
-        <div className="inline-flex items-center gap-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-full px-5 py-2 mb-4 shadow-sm">
-          <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 px-2.5 py-1 rounded-full">
-            {cfg.from}
-          </span>
-          <svg className="w-4 h-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-          <span className="text-sm font-semibold text-white bg-violet-600 px-2.5 py-1 rounded-full">
-            {cfg.to}
-          </span>
-        </div>
-
-        <OtherConversions current={slug} from={cfg.from} />
-
-        {/* Steps */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mt-8 mb-10 text-left">
-          {[
-            { n: '1', text: `Drop your ${cfg.from} file below` },
-            { n: '2', text: `Output is pre-set to ${cfg.to} — change if needed` },
-            { n: '3', text: 'Click Compress All, then download' },
-          ].map(({ n, text }) => (
-            <div key={n} className="flex items-center gap-3 bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3">
-              <span className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-950 text-violet-600 dark:text-violet-400 text-xs font-bold flex items-center justify-center shrink-0">
-                {n}
-              </span>
-              <span className="text-xs text-slate-600 dark:text-slate-400 leading-snug">{text}</span>
+        {/* ── Hero ── */}
+        <section id={toolId} className="relative" style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}>
+          <div aria-hidden="true" className="absolute pointer-events-none z-0" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">{cfg.from} to {cfg.to}</span>
+            <h1 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}>
+              Convert {cfg.from} to {cfg.to}.<br /><span className="text-accent">Free. Private. Instant.</span>
+            </h1>
+            <p className="text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              {cfg.why}
+            </p>
+            <p className="text-[12px] text-fg-3 tracking-wide m-0 mb-8">Free · No account · No upload</p>
+            <div className="flex flex-wrap justify-center gap-2 mb-4">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span key={label} className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{label}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+            <OtherConversions current={slug} from={cfg.from} />
+          </div>
+        </section>
 
-      <div className="text-left">
+        {/* ── Tool ── */}
         <CompressorUI initialFormat={cfg.toMime} />
-      </div>
-    </main>
+
+        {/* ── How it works ── */}
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Three steps. <em className="text-accent">Done.</em>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc }, i) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{STEP_ICONS[i]}</div>
+                  <span aria-hidden="true" className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none" style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}>{n}</span>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">{title}</h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Privacy card ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div aria-hidden="true" className="absolute top-[-1px] left-[8%] right-[8%] h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }} />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">Privacy by architecture</p>
+              <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Your images never leave your browser.</h2>
+              <div className="space-y-3">
+                {[
+                  'Conversion runs locally via the Canvas API — no server upload',
+                  'No file data is transmitted, logged, or stored',
+                  'We cannot see, access, or retain your images at any point',
+                  'Works offline once the page has loaded',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-[2px]" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span className="text-[13.5px] leading-[1.6] text-fg-2">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
+          <a href={`#${toolId}`} className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+            Back to converter
+          </a>
+        </div>
+
+      </main>
+    </>
   );
 }

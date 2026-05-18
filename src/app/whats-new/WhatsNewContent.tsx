@@ -21,9 +21,9 @@ interface Month {
 }
 
 const TAG_STYLES: Record<TagType, string> = {
-  NEW:      'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800',
-  IMPROVED: 'bg-violet-50 text-violet-700 border border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800',
-  FIXED:    'bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800',
+  NEW:      'bg-accent-dim text-accent',
+  IMPROVED: 'bg-surface bd-2 text-fg-1',
+  FIXED:    'bg-surface bd-2 text-fg-2',
 };
 
 const CHANGELOG: Month[] = [
@@ -157,18 +157,28 @@ function Tag({ type }: { type: TagType }) {
   );
 }
 
-function MonthSection({ month }: { month: Month }) {
-  const [open, setOpen] = useState(month.label.includes('April'));
+function MonthSection({ month, isFirst }: { month: Month; isFirst: boolean }) {
+  const [open, setOpen] = useState(isFirst);
 
   return (
-    <div className="border-b border-slate-200 dark:border-slate-700">
+    <div>
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between py-4 text-left"
       >
-        <span className="text-base font-semibold text-slate-900 dark:text-slate-50">{month.label}</span>
+        <div className="flex items-center gap-3">
+          <span className="serif italic text-fg-1" style={{ fontSize: 'clamp(21px, 3vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+            {month.label}
+          </span>
+          {isFirst && (
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-accent-dim text-accent">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse inline-block" />
+              Latest
+            </span>
+          )}
+        </div>
         <svg
-          className={`w-4 h-4 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-fg-3 transition-transform shrink-0 ${open ? 'rotate-180' : ''}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -178,14 +188,14 @@ function MonthSection({ month }: { month: Month }) {
       {open && (
         <div className="pb-6 space-y-3">
           {month.releases.map((release) => (
-            <div key={release.title} className="border border-slate-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/60 overflow-hidden">
-              <div className="flex items-baseline gap-3 px-5 py-4 border-b border-slate-200 dark:border-slate-700">
-                <h3 className="font-semibold text-slate-900 dark:text-slate-50 text-sm">{release.title}</h3>
-                <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap shrink-0">{release.date}</span>
+            <div key={release.title} className="bd-2 rounded-[10px] bg-surface overflow-hidden">
+              <div className="flex items-baseline gap-3 px-5 py-4 bd-b-1">
+                <h3 className="font-semibold text-fg-1 text-[13.5px] flex-1">{release.title}</h3>
+                <span className="text-[11px] text-fg-3 whitespace-nowrap shrink-0">{release.date}</span>
               </div>
               <ul className="px-5 py-3 space-y-2.5">
                 {release.entries.map((entry, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400">
+                  <li key={i} className="flex items-start gap-2.5 text-[13px] text-fg-2">
                     <Tag type={entry.tag} />
                     <span className="leading-relaxed">{entry.text}</span>
                   </li>
@@ -201,17 +211,39 @@ function MonthSection({ month }: { month: Month }) {
 
 export default function WhatsNewContent() {
   return (
-    <main className="flex-1 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-1">What&apos;s New</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">The latest features and improvements in ImagePDF.Tools.</p>
+    <main className="bg-page text-fg-1 relative overflow-hidden" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
+      <div aria-hidden="true" className="absolute pointer-events-none" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
+      <div className="max-w-[780px] mx-auto px-8 relative z-[1]">
+
+        <div className="mb-10">
+          <span data-animate="hero" className="hp-eyebrow">Changelog</span>
+          <h1 data-animate="hero" className="serif italic text-fg-1 m-0 mb-2" style={{ fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+            What&apos;s New
+          </h1>
+          <p data-animate="hero" className="text-[13.5px] text-fg-2 m-0">The latest features and improvements in ImagePDF.Tools.</p>
         </div>
-        <div>
-          {CHANGELOG.map((month) => (
-            <MonthSection key={month.label} month={month} />
+
+        {/* Timeline */}
+        <div data-animate-stagger>
+          {CHANGELOG.map((month, i) => (
+            <div key={month.label} className="flex gap-5">
+              {/* Timeline column */}
+              <div className="flex flex-col items-center w-5 shrink-0 pt-[26px]">
+                <div
+                  className={`w-2.5 h-2.5 rounded-full shrink-0 ${i === 0 ? 'bg-accent' : 'bg-surface bd-2'}`}
+                />
+                {i < CHANGELOG.length - 1 && (
+                  <div className="w-px flex-1 mt-2" style={{ background: 'var(--border-1)' }} />
+                )}
+              </div>
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <MonthSection month={month} isFirst={i === 0} />
+              </div>
+            </div>
           ))}
         </div>
+
       </div>
     </main>
   );

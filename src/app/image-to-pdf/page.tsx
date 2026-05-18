@@ -45,17 +45,93 @@ const jsonLd = {
   ],
 };
 
-const FACTS = [
-  'Zero bytes sent to any server',
-  'JPEG · PNG · WebP supported',
-  'Free with no account required',
-  'Drag to reorder pages',
-];
+const C = 'max-w-[1180px] mx-auto px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-8';
 
 const STEPS = [
-  { n: '01', title: 'Add your images', desc: 'Drop JPEG, PNG, or WebP images onto the tool. Add as many as you need — each becomes one page in the PDF.' },
-  { n: '02', title: 'Choose page size & order', desc: 'Select A4, Letter, or Fit to Image. Drag images into the order you want before generating.' },
-  { n: '03', title: 'Download your PDF', desc: 'Click Generate PDF. Your multi-page document is built in the browser and downloads instantly.' },
+  {
+    n: '01',
+    title: 'Add your images',
+    desc: 'Drop JPEG, PNG, or WebP images onto the tool. Add as many as you need — each becomes one page in the PDF.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    ),
+  },
+  {
+    n: '02',
+    title: 'Choose size & order',
+    desc: 'Select A4, Letter, or Fit to Image. Drag images into the order you want before generating.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+      </svg>
+    ),
+  },
+  {
+    n: '03',
+    title: 'Download your PDF',
+    desc: 'Click Generate PDF. Your multi-page document is built in the browser and downloads instantly.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="12" y1="18" x2="12" y2="12" />
+        <polyline points="9 15 12 18 15 15" />
+      </svg>
+    ),
+  },
+];
+
+const USE_CASES = [
+  {
+    label: 'Sending multiple photos as one attachment',
+    desc: 'Attaching 10 separate JPEG files to an email is messy. Converting them to a single PDF means one attachment, one download, and a clear page-by-page presentation.',
+  },
+  {
+    label: 'Portfolio submissions',
+    desc: 'Job applications, design briefs, photography portfolios, and art school applications often require work samples as a PDF.',
+  },
+  {
+    label: 'Document submissions',
+    desc: 'Many official portals — visa applications, university enrolment, insurance claims — accept only PDF. Photos of documents can be converted and submitted.',
+  },
+  {
+    label: 'Scanning physical documents',
+    desc: 'If you photograph documents page by page with your phone, combining the images into a single PDF creates a proper document ready to share.',
+  },
+  {
+    label: 'Invoices and expense reports',
+    desc: 'Finance workflows often require receipts as PDF. Taking a photo of a paper receipt and converting it to PDF is the fastest way to prepare it for reimbursement.',
+  },
+  {
+    label: 'Real estate and insurance documentation',
+    desc: 'Property condition reports, damage assessments, and inventory records are often submitted as PDFs with embedded photos.',
+  },
+];
+
+const PAGE_SIZES = [
+  {
+    name: 'A4',
+    dim: '210 × 297 mm',
+    desc: 'The international standard. Use for document submissions, formal correspondence, and anything for a European or international audience.',
+  },
+  {
+    name: 'US Letter',
+    dim: '8.5 × 11 in',
+    desc: 'The North American standard. Use for submissions to US and Canadian institutions, companies, and portals.',
+  },
+  {
+    name: 'Fit to Image',
+    dim: 'Matches image',
+    desc: 'The page dimensions match the image exactly. No white borders, no letterboxing. Best for photography portfolios and photo books.',
+  },
 ];
 
 const FAQS = [
@@ -96,163 +172,176 @@ const FAQS = [
 export default function ImageToPdfPage() {
   return (
     <>
-      <style>{`
-        @media (prefers-reduced-motion: no-preference) {
-          @starting-style {
-            .itp-h1    { opacity: 0; transform: translateY(10px); }
-            .itp-sub   { opacity: 0; transform: translateY(10px); }
-            .itp-trust { opacity: 0; }
-          }
-          .itp-h1 {
-            transition: opacity 500ms cubic-bezier(0.23,1,0.32,1),
-                        transform 500ms cubic-bezier(0.23,1,0.32,1);
-          }
-          .itp-sub {
-            transition: opacity 500ms cubic-bezier(0.23,1,0.32,1) 80ms,
-                        transform 500ms cubic-bezier(0.23,1,0.32,1) 80ms;
-          }
-          .itp-trust { transition: opacity 400ms cubic-bezier(0.23,1,0.32,1) 160ms; }
-          @keyframes itp-fact-in {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: none; }
-          }
-          .itp-fact { animation: itp-fact-in 400ms cubic-bezier(0.23,1,0.32,1) both; }
-          .itp-fact:nth-child(1) { animation-delay: 240ms; }
-          .itp-fact:nth-child(2) { animation-delay: 290ms; }
-          .itp-fact:nth-child(3) { animation-delay: 340ms; }
-          .itp-fact:nth-child(4) { animation-delay: 390ms; }
-        }
-      `}</style>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <main className="flex-1">
+      <main className="bg-page text-fg-1" style={{ overflowX: 'clip' }}>
 
         {/* ── Hero ── */}
-        <div id="itp-tool" className="max-w-5xl mx-auto px-4 pt-10 sm:pt-14 text-center">
-          <h1 className="itp-h1 text-3xl sm:text-4xl md:text-[2.75rem] leading-tight tracking-tight text-slate-900 dark:text-slate-50 mb-3">
-            Image to PDF Converter
-          </h1>
-          <p className="itp-sub text-base font-light text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-2">
-            Bundle multiple images into a single PDF file. Choose your page size, reorder images by dragging,
-            and download — all processing stays in your browser.
-          </p>
-          <p className="itp-trust text-xs text-slate-400 dark:text-slate-500 mb-8 tracking-wide">Free · No account · No upload</p>
-
-          {/* Trust strip */}
-          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-10 list-none p-0">
-            {FACTS.map((f) => (
-              <li key={f} className="itp-fact flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <circle cx="6" cy="6" r="6" fill="oklch(70% 0.158 293)" fillOpacity="0.18" />
-                  <path d="M3.5 6l1.8 1.8L8.5 4.2" stroke="oklch(70% 0.158 293)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <section id="itp-tool" className="relative" style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(32px, 4vw, 56px)' }}>
+          <div aria-hidden="true" className="absolute pointer-events-none z-0" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
+          <div className={`${C} relative z-[1] text-center`}>
+            <span className="hp-eyebrow">Image to PDF</span>
+            <h1 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}>
+              Multiple images.<br /><span className="text-accent">One clean PDF.</span>
+            </h1>
+            <p className="text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[46ch] mx-auto m-0 mb-3">
+              Bundle JPEG, PNG, and WebP images into a single PDF. Choose your page size, reorder by dragging, and download instantly.
+            </p>
+            <p className="text-[12px] text-fg-3 tracking-wide m-0 mb-8">Free · No account · No upload</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {['No upload', '100% private', 'Free forever'].map((label) => (
+                <span key={label} className="inline-flex items-center gap-1.5 h-[30px] px-[14px] rounded-full bg-accent-dim bd-accent text-accent text-[11.5px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── Tool ── */}
-        <ImageToPdfUI />
-
-        {/* ── Mid-page anchor ── */}
-        <div className="text-center mt-10 mb-2">
-          <a
-            href="#itp-tool"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M6 2v8M2.5 6.5L6 10l3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Learn how it works
-          </a>
+        <div className={C}>
+          <ImageToPdfUI />
         </div>
 
         {/* ── How it works ── */}
-        <section className="bg-slate-50 dark:bg-[#0F0F1C] border-t border-black/6 dark:border-white/5 py-14 px-4">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.16em] uppercase mb-3" style={{ color: 'oklch(70% 0.158 293)' }}>How it works</p>
-            <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-8">From individual images to a polished PDF in three steps</h2>
-            <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-white/6">
-              {STEPS.map((step, i) => (
-                <div key={step.n} className={`py-8 sm:py-0 ${i === 0 ? 'sm:pr-10' : i === 1 ? 'sm:px-10' : 'sm:pl-10'}`}>
-                  <span className="block text-[11px] font-bold tracking-[0.16em] mb-3" style={{ color: 'oklch(70% 0.158 293)' }}>{step.n}</span>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5 leading-snug">{step.title}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+        <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">How it works</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Three steps. <em className="text-accent">One polished document.</em>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+              {STEPS.map(({ n, title, desc, icon }) => (
+                <div key={n} className="step-card">
+                  <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
+                  <span aria-hidden="true" className="font-data absolute right-4 top-2 leading-none text-accent select-none pointer-events-none" style={{ fontSize: 'clamp(72px, 10vw, 108px)', opacity: 0.18, letterSpacing: '-0.05em' }}>{n}</span>
+                  <h3 className="text-[17px] font-medium text-fg-1 m-0 mb-[10px] leading-[1.35] tracking-[-0.005em]">{title}</h3>
+                  <p className="text-sm font-normal text-fg-2 m-0 leading-[1.65] max-w-[38ch]">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Content ── */}
-        <section className="max-w-3xl mx-auto px-4 pt-14 pb-10">
-          <div className="space-y-12 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-3">Why convert images to PDF?</h2>
-              <p className="mb-3">
-                PDF (Portable Document Format) is the universal standard for sharing documents that need to look the same on every device, regardless of operating system, software, or screen size. While images are great for individual photos, PDF is the right choice when you need to send multiple images together, submit documents formally, or ensure the recipient sees exactly what you intended.
-              </p>
-              <p>
-                Converting images to PDF consolidates them into a single file, makes them easier to share, and allows the recipient to view them in page order without having to open multiple separate files.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">When converting images to PDF is the right choice</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">Sending multiple photos as one attachment.</strong> Attaching 10 separate JPEG files to an email is messy. Converting them to a single PDF means one attachment, one download, and a clear page-by-page presentation for the recipient.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Portfolio submissions.</strong> Job applications, design briefs, photography portfolios, and art school applications often require work samples as a PDF. Converting your best images to a single PDF gives a polished, professional presentation.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Document submissions to universities and government.</strong> Many official submission portals — visa applications, university enrolment, insurance claims — accept only PDF. If you have taken photos of your documents (ID, utility bills, certificates), converting them to PDF allows you to submit them through these systems.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Scanning physical documents.</strong> If you photograph documents page by page with your phone instead of using a scanner, combining the images into a single PDF creates a proper document that can be easily shared and archived.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Invoices, receipts, and expense reports.</strong> Finance and accounting workflows often require expense receipts as PDF. Taking a photo of a paper receipt and converting it to PDF is the fastest way to prepare it for a reimbursement submission.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Publishing photo books and albums.</strong> Multi-page PDF is a simple format for self-published photo collections that can be shared digitally or sent to a print-on-demand service.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Real estate and insurance documentation.</strong> Property condition reports, damage assessments, and inventory records are often submitted as PDFs with embedded photos. This tool lets you compile photographic evidence into a single document quickly.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">Choosing the right page size</h2>
-              <ul className="space-y-3 list-disc list-inside marker:text-violet-400">
-                <li><strong className="text-slate-800 dark:text-slate-200">A4 (210 × 297 mm)</strong> — the international standard. Use this for document submissions, formal correspondence, and anything intended for a European or international audience.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">US Letter (8.5 × 11 inches)</strong> — the North American standard. Use this for submissions to US and Canadian institutions, companies, and portals.</li>
-                <li><strong className="text-slate-800 dark:text-slate-200">Fit to Image</strong> — the page dimensions match the image dimensions exactly. No white borders, no letterboxing. Best for photography portfolios, photo books, and cases where you want the image to fill the full page.</li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ── Privacy callout ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-10">
-          <div className="rounded-2xl border border-slate-200 dark:border-white/8 bg-slate-50 dark:bg-white/3 px-6 py-5 flex gap-4">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="shrink-0 mt-0.5" aria-hidden="true">
-              <path d="M9 1.5L2.25 4.5v4.875C2.25 13.028 5.143 16.5 9 17.25c3.857-.75 6.75-4.222 6.75-7.875V4.5L9 1.5z" stroke="oklch(70% 0.158 293)" strokeWidth="1.4" strokeLinejoin="round" />
-            </svg>
-            <div>
-              <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mb-0.5">Your images never leave your device</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                All PDF generation runs in your browser using jsPDF and the Canvas API. No file data is transmitted to any server, logged, or stored. ImagePDF.Tools cannot see, access, or retain your images at any point.
-              </p>
+        {/* ── Use cases ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={C}>
+            <span className="hp-eyebrow text-center">Use cases</span>
+            <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              When converting to PDF <em className="text-accent">is the right call.</em>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {USE_CASES.map(({ label, desc }) => (
+                <div key={label} className="rounded-[10px] bg-surface bd-2 p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <h3 className="text-[14px] font-semibold text-fg-1 m-0 leading-snug">{label}</h3>
+                  </div>
+                  <p className="text-[13px] leading-[1.7] text-fg-2 m-0">{desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ── FAQs ── */}
-        <section className="max-w-3xl mx-auto px-4 pb-20">
-          <h2 className="text-xl tracking-tight text-slate-900 dark:text-slate-50 mb-6">Frequently asked questions</h2>
-          <dl className="divide-y divide-slate-100 dark:divide-white/5">
-            {FAQS.map(({ q, a }) => (
-              <div key={q} className="py-5">
-                <dt className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1.5">{q}</dt>
-                <dd className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{a}</dd>
+        {/* ── Page sizes ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">Page sizes</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Choosing the right page size
+            </h2>
+            <div className="space-y-4">
+              {PAGE_SIZES.map(({ name, dim, desc }) => (
+                <div key={name} className="flex items-start gap-5 rounded-[10px] bg-surface bd-2 px-6 py-5">
+                  <div className="shrink-0 min-w-[80px]">
+                    <span className="text-[15px] font-semibold text-fg-1">{name}</span>
+                    <span className="block font-data text-[11px] text-accent mt-0.5">{dim}</span>
+                  </div>
+                  <p className="text-[13.5px] leading-[1.7] text-fg-2 m-0">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Why PDF ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">Why PDF</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
+              Why convert images to PDF?
+            </h2>
+            <p className="text-[15px] leading-[1.75] text-fg-2 m-0 mb-4">
+              PDF (Portable Document Format) is the universal standard for sharing documents that need to look the same on every device, regardless of operating system, software, or screen size. While images are great for individual photos, PDF is the right choice when you need to send multiple images together, submit documents formally, or ensure the recipient sees exactly what you intended.
+            </p>
+            <p className="text-[15px] leading-[1.75] text-fg-2 m-0">
+              Converting images to PDF consolidates them into a single file, makes them easier to share, and allows the recipient to view them in page order without having to open multiple separate files.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Privacy card ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+              <div aria-hidden="true" className="absolute top-[-1px] left-[8%] right-[8%] h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }} />
+              <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">Privacy by architecture</p>
+              <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Your images never leave your browser.</h2>
+              <div className="space-y-3">
+                {[
+                  'All PDF generation runs locally using jsPDF and the Canvas API',
+                  'No file data is transmitted to any server, logged, or stored',
+                  'We cannot see, access, or retain your images at any point',
+                  'Close the tab and the images are gone — nothing persists',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-[2px]" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span className="text-[13.5px] leading-[1.6] text-fg-2">{item}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </dl>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Back to tool nudge ── */}
+        <div className="text-center" style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
+          <a href="#itp-tool" className="inline-flex items-center gap-2 h-9 px-5 rounded-full text-[12.5px] font-medium bd-accent text-accent btn-accent-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+            Back to tool
+          </a>
+        </div>
+
+        {/* ── FAQ ── */}
+        <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
+          <div className={Cnarrow}>
+            <span className="hp-eyebrow">FAQ</span>
+            <h2 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Frequently asked questions</h2>
+            <div className="bd-t-1">
+              {FAQS.map(({ q, a }) => (
+                <details key={q} className="hp-faq bd-b-1">
+                  <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">
+                    <span className="text-[15px] font-medium leading-[1.4] text-fg-1 tracking-[-0.005em] flex-1">{q}</span>
+                    <span className="hp-faq-toggle w-8 h-8 rounded-full bd-2 grid place-items-center text-fg-2 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="hp-faq-answer text-[13.5px] font-normal leading-[1.7] text-fg-2">{a}</div>
+                </details>
+              ))}
+            </div>
+          </div>
         </section>
 
         <RelatedTools hrefs={['/compress-pdf', '/compress-image', '/resize-image', '/reduce-image-size']} />
+
       </main>
     </>
   );

@@ -8,6 +8,7 @@ import { FeedbackButton } from "@/components/FeedbackModal";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { ClickSpark } from "@/components/ClickSpark";
+import GlobalAnimations from "@/components/GlobalAnimations";
 import "./globals.css";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", weight: ["300", "400", "500", "600", "700"] });
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </head>
                 <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text-1)" }}>
                     <ThemeProvider>
+                        <GlobalAnimations />
                         <SiteHeader />
 
                         <div className="flex flex-1">
