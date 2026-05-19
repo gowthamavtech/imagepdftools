@@ -19,6 +19,7 @@ export function CompressorUI({ initialFormat, dropLabel, dropHint, dropFileTypeN
     setFileQuality,
     setFileFormat,
     setFileStripMeta,
+    compressToTarget,
     removeFile,
     downloadZip,
     setShowUpgradeModal,
@@ -167,6 +168,7 @@ export function CompressorUI({ initialFormat, dropLabel, dropHint, dropFileTypeN
                 onQualityChange={setFileQuality}
                 onFormatChange={setFileFormat}
                 onStripMetaChange={setFileStripMeta}
+                onCompressToTarget={compressToTarget}
                 onRemove={removeFile}
                 isSelected={selectedIds.has(file.id)}
                 onToggleSelect={toggleSelect}

@@ -27,6 +27,7 @@ interface Props {
   onQualityChange: (id: string, quality: number) => void;
   onFormatChange: (id: string, format: string) => void;
   onStripMetaChange: (id: string, strip: boolean) => void;
+  onCompressToTarget: (id: string, targetBytes: number) => void;
   onRemove?: (id: string) => void;
   isSelected?: boolean;
   onToggleSelect?: (id: string) => void;
@@ -57,6 +58,7 @@ function triggerDownload(result: CompressionResult) {
 }
 
 const TARGET_SIZES = [
+  { label: '< 50 KB',  bytes: 50 * 1024 },
   { label: '< 100 KB', bytes: 100 * 1024 },
   { label: '< 500 KB', bytes: 500 * 1024 },
   { label: '< 1 MB',   bytes: 1000 * 1024 },
@@ -79,11 +81,14 @@ const BTN_INCREMENT = `flex items-center justify-center min-w-[36px] min-h-[36px
 
 export function ImageCard({
   file, result, isCompressing,
-  onQualityChange, onFormatChange, onStripMetaChange, onRemove,
+  onQualityChange, onFormatChange, onStripMetaChange, onCompressToTarget, onRemove,
   isSelected, onToggleSelect,
 }: Props) {
   const [showCompare, setShowCompare] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [mode, setMode] = useState<'quality' | 'target'>('quality');
+  const [customKb, setCustomKb] = useState('');
+  const [activeTargetBytes, setActiveTargetBytes] = useState<number | null>(null);
 
   const [compressedSrc, setCompressedSrc] = useState<string | null>(null);
   useEffect(() => {
@@ -185,77 +190,122 @@ export function ImageCard({
         </div>
       </div>
 
-      {/* ── Quality slider ── */}
+      {/* ── Compression controls ── */}
       <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
-        <div className="flex items-center justify-between mb-2.5">
+
+        {/* Mode toggle */}
+        <div className="flex items-center justify-between mb-3">
           <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Compression</label>
-          <span className={`text-[11px] font-medium ${isLowQuality ? 'text-amber-400' : 'text-violet-400'}`}>
-            {file.quality >= 85 ? 'High quality' : file.quality >= 60 ? 'Balanced' : isLowQuality ? 'May look poor' : 'Smaller file'}
-            <span className="font-data text-slate-500 dark:text-slate-500 ml-1">({file.quality})</span>
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 shrink-0">
-            <button onClick={() => onQualityChange(file.id, Math.max(1, file.quality - 10))}
-              className={`hidden sm:flex ${BTN_INCREMENT}`} aria-label="Decrease quality by 10">−10</button>
-            <button onClick={() => onQualityChange(file.id, Math.max(1, file.quality - 1))}
-              className={`flex ${BTN_INCREMENT}`} aria-label="Decrease quality by 1">−1</button>
-          </div>
-
-          <input
-            type="range" min={1} max={100} value={file.quality}
-            onChange={(e) => onQualityChange(file.id, Number(e.target.value))}
-            className="flex-1 h-1.5 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-violet-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-            aria-label="Compression quality"
-          />
-
-          <div className="flex items-center gap-1 shrink-0">
-            <button onClick={() => onQualityChange(file.id, Math.min(100, file.quality + 1))}
-              className={`flex ${BTN_INCREMENT}`} aria-label="Increase quality by 1">+1</button>
-            <button onClick={() => onQualityChange(file.id, Math.min(100, file.quality + 10))}
-              className={`hidden sm:flex ${BTN_INCREMENT}`} aria-label="Increase quality by 10">+10</button>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
-          <span>Reduced size</span>
-          <span>Original size</span>
-        </div>
-
-        {/* Quality floor warning */}
-        {isLowQuality && (
-          <p className="mt-2 text-[10px] text-amber-400 leading-relaxed">
-            Quality below 20 may produce visible artifacts. Use this only for thumbnails.
-          </p>
-        )}
-
-        {/* Target size presets */}
-        <div className="flex items-center gap-1.5 mt-3 flex-wrap">
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 shrink-0">Target:</span>
-          {TARGET_SIZES.map(({ label, bytes }) => {
-            const isDisabled = file.file.size <= bytes;
-            const q = estimateQuality(file.file.size, bytes);
-            const isActive = !isDisabled && file.quality === q;
-            return (
+          <div className="flex items-center rounded-lg bg-slate-100 dark:bg-slate-700/60 p-0.5 gap-0.5">
+            {(['quality', 'target'] as const).map((m) => (
               <button
-                key={label}
-                disabled={isDisabled}
-                onClick={() => onQualityChange(file.id, q)}
-                title={isDisabled ? 'File is already under this size' : `Set quality to ~${q}`}
-                className={`text-[10px] font-semibold px-2.5 py-1.5 rounded-md transition-colors ${FOCUS_RING} ${
-                  isDisabled
-                    ? 'opacity-30 cursor-not-allowed text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800'
-                    : isActive
-                    ? 'bg-violet-600 text-white'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:bg-violet-100 dark:hover:bg-violet-900/40 hover:text-violet-600 dark:hover:text-violet-400'
+                key={m}
+                onClick={() => { setMode(m); setCustomKb(''); setActiveTargetBytes(null); }}
+                className={`text-[10px] font-semibold px-2.5 py-1 rounded-md transition-colors ${FOCUS_RING} ${
+                  mode === m
+                    ? 'bg-white dark:bg-slate-600 text-violet-600 dark:text-violet-400 shadow-sm'
+                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
                 }`}
               >
-                {label}
+                {m === 'quality' ? 'Quality' : 'Target Size'}
               </button>
-            );
-          })}
+            ))}
+          </div>
         </div>
+
+        {mode === 'quality' ? (
+          /* ── Quality slider mode ── */
+          <>
+            <div className="flex items-center justify-between mb-2">
+              <span className={`text-[11px] font-medium ${isLowQuality ? 'text-amber-400' : 'text-violet-400'}`}>
+                {file.quality >= 85 ? 'High quality' : file.quality >= 60 ? 'Balanced' : isLowQuality ? 'May look poor' : 'Smaller file'}
+                <span className="font-data text-slate-500 dark:text-slate-500 ml-1">({file.quality})</span>
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => onQualityChange(file.id, Math.max(1, file.quality - 10))}
+                  className={`hidden sm:flex ${BTN_INCREMENT}`} aria-label="Decrease quality by 10">−10</button>
+                <button onClick={() => onQualityChange(file.id, Math.max(1, file.quality - 1))}
+                  className={`flex ${BTN_INCREMENT}`} aria-label="Decrease quality by 1">−1</button>
+              </div>
+              <input
+                type="range" min={1} max={100} value={file.quality}
+                onChange={(e) => onQualityChange(file.id, Number(e.target.value))}
+                className="flex-1 h-1.5 appearance-none rounded-full bg-slate-200 dark:bg-slate-600 accent-violet-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                aria-label="Compression quality"
+              />
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => onQualityChange(file.id, Math.min(100, file.quality + 1))}
+                  className={`flex ${BTN_INCREMENT}`} aria-label="Increase quality by 1">+1</button>
+                <button onClick={() => onQualityChange(file.id, Math.min(100, file.quality + 10))}
+                  className={`hidden sm:flex ${BTN_INCREMENT}`} aria-label="Increase quality by 10">+10</button>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
+              <span>Reduced size</span>
+              <span>Original size</span>
+            </div>
+            {isLowQuality && (
+              <p className="mt-2 text-[10px] text-amber-400 leading-relaxed">
+                Quality below 20 may produce visible artifacts. Use this only for thumbnails.
+              </p>
+            )}
+          </>
+        ) : (
+          /* ── Target size mode ── */
+          <div className="flex flex-col gap-2">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500">
+              The output will be compressed until it is under your chosen target.
+            </p>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {TARGET_SIZES.map(({ label, bytes }) => {
+                const isDisabled = file.file.size <= bytes;
+                return (
+                  <button
+                    key={label}
+                    disabled={isDisabled}
+                    onClick={() => { setCustomKb(''); setActiveTargetBytes(bytes); onCompressToTarget(file.id, bytes); }}
+                    title={isDisabled ? 'File is already under this size' : `Compress to under ${label}`}
+                    className={`text-[10px] font-semibold px-2.5 py-1.5 rounded-md transition-colors ${FOCUS_RING} ${
+                      isDisabled
+                        ? 'opacity-30 cursor-not-allowed text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800'
+                        : activeTargetBytes === bytes && customKb === ''
+                          ? 'bg-violet-600 text-white shadow-sm'
+                          : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:bg-violet-100 dark:hover:bg-violet-900/40 hover:text-violet-600 dark:hover:text-violet-400'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+
+              {/* Custom KB input */}
+              <div className="flex items-center rounded-md overflow-hidden bg-slate-100 dark:bg-slate-700 border border-transparent focus-within:border-violet-500">
+                <input
+                  type="number"
+                  min={1}
+                  placeholder="custom"
+                  value={customKb}
+                  onChange={(e) => { setCustomKb(e.target.value); setActiveTargetBytes(null); }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const kb = parseFloat(customKb);
+                      if (!isNaN(kb) && kb > 0) onCompressToTarget(file.id, kb * 1024);
+                    }
+                  }}
+                  onBlur={() => {
+                    const kb = parseFloat(customKb);
+                    if (!isNaN(kb) && kb > 0) onCompressToTarget(file.id, kb * 1024);
+                  }}
+                  className="w-16 bg-transparent text-[10px] font-semibold text-slate-500 dark:text-slate-400 px-2 py-1.5 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 pr-2 select-none">KB</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── Format selector ── */}

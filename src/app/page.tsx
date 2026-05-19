@@ -645,6 +645,7 @@ export default function HomePage() {
                         {TOOL_CATS.map(({ cat, label, items }, ci) => (
                             <div
                                 key={cat}
+                                data-animate="scroll"
                                 className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8 items-start py-7"
                                 style={{ borderBottom: ci < TOOL_CATS.length - 1 ? "1px solid var(--border-1)" : "none" }}
                             >
@@ -674,7 +675,7 @@ export default function HomePage() {
                         ))}
 
                         {/* Hub links */}
-                        <div className="flex flex-wrap justify-center gap-2.5 mt-7">
+                        <div data-animate="scroll" className="flex flex-wrap justify-center gap-2.5 mt-7">
                             <Link
                                 href="/pdf-tools"
                                 className="flex items-center gap-2 no-underline h-[34px] px-4 rounded-full bg-accent text-[12.5px] font-medium btn-accent"

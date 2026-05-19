@@ -166,6 +166,63 @@ export function useCompressor({ initialFormat }: { initialFormat?: string } = {}
     [compressSingle],
   );
 
+  // ── Compress to exact target size — binary search over quality ───────────
+  const compressToTarget = useCallback(
+    async (id: string, targetBytes: number) => {
+      const entry = filesRef.current.find((f) => f.id === id);
+      if (!entry) return;
+
+      setProcessingIds((prev) => new Set(prev).add(id));
+      try {
+        let lo = 1, hi = 92;
+        let bestQuality = 1;
+        let bestBlob: Blob | null = null;
+        let bestName = entry.file.name;
+
+        // Binary search: find highest quality whose output size < targetBytes
+        for (let iter = 0; iter < 14 && lo <= hi; iter++) {
+          const mid = Math.round((lo + hi) / 2);
+          const result = await compressImage(entry.file, {
+            quality: mid,
+            colors: Math.max(2, Math.round(mid * 2.56)),
+            precision: Math.round((100 - mid) / 100 * 6),
+            outputFormat: entry.format,
+          });
+
+          if (result.blob.size < targetBytes) {
+            bestQuality = mid;
+            bestBlob = result.blob;
+            bestName = result.name;
+            lo = mid + 1; // try higher quality
+          } else {
+            hi = mid - 1; // too big, go lower
+          }
+        }
+
+        // Apply EXIF strip if needed
+        if (bestBlob && entry.stripMeta && (entry.format === 'image/jpeg' || entry.format === 'image/jpg')) {
+          const { stripJpegExif } = await import('@/lib/stripMetadata');
+          const buf = await bestBlob.arrayBuffer();
+          bestBlob = new Blob([stripJpegExif(buf)], { type: 'image/jpeg' });
+        }
+
+        setFiles((prev) => prev.map((f) => f.id === id ? { ...f, quality: bestQuality } : f));
+
+        if (bestBlob) {
+          setResults((prev) => [
+            ...prev.filter((r) => r.id !== id),
+            { id, blob: bestBlob!, name: bestName, size: bestBlob!.size },
+          ]);
+        }
+      } catch {
+        // silent
+      } finally {
+        setProcessingIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+      }
+    },
+    [compressSingle],
+  );
+
   // ── Download All as ZIP (Pro only) ────────────────────────────────────────
   const downloadZip = useCallback(async () => {
     if (!isPro) { setShowUpgradeModal(true); return; }
@@ -210,5 +267,6 @@ export function useCompressor({ initialFormat }: { initialFormat?: string } = {}
     removeFile,
     clearAll,
     setShowUpgradeModal,
+    compressToTarget,
   };
 }
