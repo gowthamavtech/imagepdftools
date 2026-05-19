@@ -777,28 +777,30 @@ export function MergePdfUI() {
                         </div>
                     )}
 
-                    <button
-                        onClick={merge}
-                        disabled={isWorking || entries.length < 2 || entries.some((e) => e.locked)}
-                        className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
-                    >
-                        {isWorking ? (
-                            <>
-                                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                                </svg>
-                                Merging…
-                            </>
-                        ) : (
-                            <>
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 3M21 7.5H7.5" />
-                                </svg>
-                                Merge {entries.length >= 2 ? `${entries.length} PDFs` : "PDFs"}
-                            </>
-                        )}
-                    </button>
+                    {entries.length >= 2 && (
+                        <button
+                            onClick={merge}
+                            disabled={isWorking || entries.some((e) => e.locked)}
+                            className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all"
+                        >
+                            {isWorking ? (
+                                <>
+                                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                                    </svg>
+                                    Merging…
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 3M21 7.5H7.5" />
+                                    </svg>
+                                    Merge {entries.length} PDFs
+                                </>
+                            )}
+                        </button>
+                    )}
 
                     {entries.length === 1 && <p className="text-center text-xs text-slate-400">Add at least one more PDF to merge</p>}
                 </div>

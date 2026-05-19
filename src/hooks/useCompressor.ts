@@ -59,6 +59,11 @@ export function useCompressor({ initialFormat }: { initialFormat?: string } = {}
         blob = new Blob([stripJpegExif(buf)], { type: 'image/jpeg' });
       }
 
+      // Never return a result larger than the original — use original as fallback.
+      if (blob.size >= entry.file.size) {
+        blob = entry.file;
+      }
+
       setResults((prev) => [
         ...prev.filter((r) => r.id !== entry.id),
         { id: entry.id, blob, name: result.name, size: blob.size },

@@ -217,9 +217,8 @@ export function ImageCard({
           /* ── Quality slider mode ── */
           <>
             <div className="flex items-center justify-between mb-2">
-              <span className={`text-[11px] font-medium ${isLowQuality ? 'text-amber-400' : 'text-violet-400'}`}>
-                {file.quality >= 85 ? 'High quality' : file.quality >= 60 ? 'Balanced' : isLowQuality ? 'May look poor' : 'Smaller file'}
-                <span className="font-data text-slate-500 dark:text-slate-500 ml-1">({file.quality})</span>
+              <span className="text-sm font-bold tracking-tight text-violet-500">
+                {`Size − ${file.quality}%`}
               </span>
             </div>
 
@@ -248,7 +247,7 @@ export function ImageCard({
               <span>Original size</span>
             </div>
             {isLowQuality && (
-              <p className="mt-2 text-[10px] text-amber-400 leading-relaxed">
+              <p className="mt-2 text-[10px] text-violet-400 leading-relaxed">
                 Quality below 20 may produce visible artifacts. Use this only for thumbnails.
               </p>
             )}
