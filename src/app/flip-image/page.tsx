@@ -203,7 +203,7 @@ export default function FlipImagePage() {
         {/* ── How it works ──────────────────────────────────── */}
         <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
           <div className={C}>
-            <span className="hp-eyebrow text-center">How it works</span>
+            <span data-animate="scroll" className="hp-eyebrow text-center">How it works</span>
             <h2
               className="serif italic text-fg-1 text-center m-0 mb-10"
               style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
@@ -211,7 +211,7 @@ export default function FlipImagePage() {
               Three steps. <em className="text-accent">Instant results.</em>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+            <div data-animate-stagger className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
               {STEPS.map(({ n, title, desc, icon }) => (
                 <div key={n} className="step-card">
                   <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
@@ -349,15 +349,16 @@ export default function FlipImagePage() {
         {/* ── FAQ ───────────────────────────────────────────── */}
         <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
           <div className={Cnarrow}>
-            <span className="hp-eyebrow">FAQ</span>
+            <span data-animate="scroll" className="hp-eyebrow">FAQ</span>
             <h2
+              data-animate="scroll"
               className="serif italic text-fg-1 m-0 mb-8"
               style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
             >
               Frequently asked questions
             </h2>
 
-            <div className="bd-t-1">
+            <div data-animate-stagger className="bd-t-1">
               {FAQS.map(({ q, a }) => (
                 <details key={q} className="hp-faq bd-b-1">
                   <summary className="list-none cursor-pointer py-[22px] flex items-start justify-between gap-6">

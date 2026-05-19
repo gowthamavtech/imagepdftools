@@ -221,11 +221,11 @@ export default async function ConvertPage(
         {/* ── How it works ── */}
         <section className="bd-t-1" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)' }}>
           <div className={C}>
-            <span className="hp-eyebrow text-center">How it works</span>
+            <span data-animate="scroll" className="hp-eyebrow text-center">How it works</span>
             <h2 className="serif italic text-fg-1 text-center m-0 mb-10" style={{ fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
               Three steps. <em className="text-accent">Done.</em>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+            <div data-animate-stagger className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
               {STEPS.map(({ n, title, desc }, i) => (
                 <div key={n} className="step-card">
                   <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{STEP_ICONS[i]}</div>
@@ -241,7 +241,7 @@ export default async function ConvertPage(
         {/* ── Privacy card ── */}
         <section className="bd-t-1" style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
           <div className={Cnarrow}>
-            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
+            <div data-animate="scroll" className="relative rounded-[14px] bg-surface bd-2 p-8">
               <div aria-hidden="true" className="absolute top-[-1px] left-[8%] right-[8%] h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--accent-glow), transparent)' }} />
               <p className="font-data text-[11px] font-medium tracking-[0.16em] uppercase text-accent m-0 mb-3">Privacy by architecture</p>
               <h2 className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>Your images never leave your browser.</h2>

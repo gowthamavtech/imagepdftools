@@ -14,13 +14,16 @@ export default function GlobalAnimations() {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // Strong ease-out: starts fast, decelerates sharply — feels responsive
+    const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
     const ctx = gsap.context(() => {
-      gsap.set('[data-animate="hero"]', { opacity: 0, y: 32 });
-      gsap.set('[data-animate="scroll"]', { opacity: 0, y: 28 });
+      gsap.set('[data-animate="hero"]', { opacity: 0, y: 20 });
+      gsap.set('[data-animate="scroll"]', { opacity: 0, y: 16 });
 
       document.querySelectorAll('[data-animate-stagger]').forEach((parent) => {
         if (parent.children.length) {
-          gsap.set(Array.from(parent.children), { opacity: 0, y: 22 });
+          gsap.set(Array.from(parent.children), { opacity: 0, y: 14 });
         }
       });
 
@@ -29,16 +32,16 @@ export default function GlobalAnimations() {
         gsap.to(heroes, {
           opacity: 1,
           y: 0,
-          duration: 0.65,
-          stagger: 0.1,
-          ease: 'power3.out',
-          delay: 0.08,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: EASE_OUT,
+          delay: 0.06,
         });
       }
 
       ScrollTrigger.batch('[data-animate="scroll"]', {
         onEnter: (batch) =>
-          gsap.to(batch, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' }),
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: EASE_OUT }),
         start: 'top 90%',
         once: true,
       });
@@ -54,9 +57,9 @@ export default function GlobalAnimations() {
             gsap.to(children, {
               opacity: 1,
               y: 0,
-              duration: 0.55,
-              stagger: 0.09,
-              ease: 'power3.out',
+              duration: 0.38,
+              stagger: 0.055,
+              ease: EASE_OUT,
             }),
         });
       });

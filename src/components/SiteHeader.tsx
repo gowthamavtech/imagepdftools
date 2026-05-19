@@ -127,11 +127,9 @@ export function SiteHeader() {
   const [menuOpen,      setMenuOpen]      = useState(false);
   const [openDropdown,  setOpenDropdown]  = useState<DropdownKey>(null);
   const [drawerSection, setDrawerSection] = useState<DropdownKey>(null);
-  const [pdfRight,      setPdfRight]      = useState(0);
   const outerRef   = useRef<HTMLElement>(null);
   const drawerRef  = useRef<HTMLDivElement>(null);
   const headerRef  = useRef<HTMLDivElement>(null);
-  const pdfBtnRef  = useRef<HTMLDivElement>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -172,11 +170,6 @@ export function SiteHeader() {
 
   function openMenu(key: DropdownKey) {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
-    if (key === 'pdf' && pdfBtnRef.current && headerRef.current) {
-      const btn    = pdfBtnRef.current.getBoundingClientRect();
-      const header = headerRef.current.getBoundingClientRect();
-      setPdfRight(header.right - btn.right);
-    }
     setOpenDropdown(key);
   }
 
@@ -208,7 +201,9 @@ export function SiteHeader() {
 
         {/* ── Desktop nav links ───────────────────────────── */}
         <nav className="hidden lg:flex items-center" style={{ gap: '26px', marginLeft: '18px' }}>
+          {/* Image Tools trigger + mega menu */}
           <div
+            style={{ position: 'relative' }}
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
@@ -217,18 +212,76 @@ export function SiteHeader() {
               open={openDropdown === 'image'}
               onClick={() => setOpenDropdown(openDropdown === 'image' ? null : 'image')}
             />
+            {openDropdown === 'image' && (
+              <div
+                style={{ position: 'absolute', top: '100%', left: '0', width: '560px', zIndex: 50, paddingTop: '8px' }}
+                onMouseEnter={() => openMenu('image')}
+                onMouseLeave={scheduleClose}
+              >
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', padding: '16px', gap: '4px' }}>
+                    {IMAGE_TOOLS.map((group, gi) => (
+                      <div key={group.group} style={{ borderLeft: gi > 0 ? '1px solid var(--border-1)' : 'none', paddingLeft: gi > 0 ? '12px' : 0 }}>
+                        <p style={{ fontFamily: sans, fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--fg-3)', padding: '4px 8px 8px', margin: 0 }}>
+                          {group.group}
+                        </p>
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={closeAll}
+                            style={{ display: 'flex', flexDirection: 'column', padding: '8px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
+                            <span style={{ fontFamily: sans, fontSize: '11.5px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* PDF Tools trigger + dropdown */}
           <div
-            ref={pdfBtnRef}
+            style={{ position: 'relative' }}
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
             <NavLink
               label="PDF Tools"
               open={openDropdown === 'pdf'}
-              onClick={() => { openMenu('pdf'); setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf'); }}
+              onClick={() => setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf')}
             />
+            {openDropdown === 'pdf' && (
+              <div
+                style={{ position: 'absolute', top: '100%', left: '0', width: '220px', zIndex: 50, paddingTop: '8px' }}
+                onMouseEnter={() => openMenu('pdf')}
+                onMouseLeave={scheduleClose}
+              >
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+                  <div style={{ padding: '8px' }}>
+                    {PDF_TOOLS.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={closeAll}
+                        style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
+                        <span style={{ fontFamily: sans, fontSize: '11px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <Link
@@ -284,66 +337,6 @@ export function SiteHeader() {
           </button>
         </div>
 
-        {/* ── Image Tools mega menu ───────────────────────── */}
-        {openDropdown === 'image' && (
-          <div
-            style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', width: '560px', zIndex: 50, paddingTop: '8px' }}
-            onMouseEnter={() => openMenu('image')}
-            onMouseLeave={scheduleClose}
-          >
-            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', padding: '16px', gap: '4px' }}>
-                {IMAGE_TOOLS.map((group, gi) => (
-                  <div key={group.group} style={{ borderLeft: gi > 0 ? '1px solid var(--border-1)' : 'none', paddingLeft: gi > 0 ? '12px' : 0 }}>
-                    <p style={{ fontFamily: sans, fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--fg-3)', padding: '4px 8px 8px', margin: 0 }}>
-                      {group.group}
-                    </p>
-                    {group.items.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={closeAll}
-                        style={{ display: 'flex', flexDirection: 'column', padding: '8px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                      >
-                        <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
-                        <span style={{ fontFamily: sans, fontSize: '11.5px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── PDF Tools dropdown ──────────────────────────── */}
-        {openDropdown === 'pdf' && (
-          <div
-            style={{ position: 'absolute', top: '100%', right: pdfRight, width: '220px', zIndex: 50, paddingTop: '8px' }}
-            onMouseEnter={() => openMenu('pdf')}
-            onMouseLeave={scheduleClose}
-          >
-            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
-              <div style={{ padding: '8px' }}>
-                {PDF_TOOLS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={closeAll}
-                    style={{ display: 'flex', flexDirection: 'column', padding: '8px 10px', borderRadius: '8px', textDecoration: 'none', transition: 'background 0.12s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                  >
-                    <span style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 500, color: 'var(--fg-1)', lineHeight: 1.3 }}>{item.label}</span>
-                    <span style={{ fontFamily: sans, fontSize: '11px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
     </header>
