@@ -2,6 +2,12 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  async rewrites() {
+    return [
+      // All existing /og-image.png references resolve to the generated OG image
+      { source: '/og-image.png', destination: '/opengraph-image' },
+    ];
+  },
   turbopack: {
     root: __dirname,
   },

@@ -7,7 +7,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FeedbackButton } from "@/components/FeedbackModal";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { OfflineBanner } from "@/components/OfflineBanner";
-import { ClickSpark } from "@/components/ClickSpark";
 import GlobalAnimations from "@/components/GlobalAnimations";
 import "./globals.css";
 
@@ -17,10 +16,10 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mon
 
 export const metadata: Metadata = {
     title: {
-        default: "ImagePDF.Tools — Free Image Compressor Online",
+        default: "ImagePDF.Tools — Free Image & PDF Tools Online",
         template: "%s | ImagePDF.Tools",
     },
-    description: "Compress JPEG, PNG, and WebP images in your browser. No uploads, no limits. Free online image compressor.",
+    description: "Compress, convert, crop, and edit images and PDFs entirely in your browser. 30+ free tools. No uploads, no account, 100% private.",
     openGraph: {
         type: "website",
         url: "https://imagepdf.tools",
@@ -68,7 +67,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <SiteFooter />
                         <FeedbackButton />
                         <OfflineBanner />
-                        <ClickSpark sparkColor="#9d95f5" sparkSize={6} sparkRadius={22} sparkCount={9} duration={450} />
                     </ThemeProvider>
 
                     {/* Google Translate mount point — must NOT be display:none or GT won't init */}

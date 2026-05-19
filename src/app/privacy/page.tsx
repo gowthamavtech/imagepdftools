@@ -107,8 +107,8 @@ export default function PrivacyPage() {
                     ['Subscription status', 'Clerk user metadata', 'Yes — free or pro flag', false],
                     ['Payment details', 'Stripe (never touches our servers)', 'Stripe only', false],
                     ['Page visits', 'Plausible Analytics (no cookies)', 'Anonymised only', false],
-                  ].map(([data, where, sent, isNever]) => (
-                    <tr key={data}>
+                  ].map(([data, where, sent, isNever], i) => (
+                    <tr key={i}>
                       <td className="py-3 px-4 text-fg-2 bd-t-1">{data}</td>
                       <td className="py-3 px-4 text-fg-2 bd-t-1">{where}</td>
                       <td className={`py-3 px-4 bd-t-1 font-medium ${isNever ? 'text-accent' : 'text-fg-2'}`}>{sent}</td>

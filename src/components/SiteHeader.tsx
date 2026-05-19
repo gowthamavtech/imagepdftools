@@ -236,6 +236,15 @@ export function SiteHeader() {
                       </div>
                     ))}
                   </div>
+                  <div style={{ borderTop: '1px solid var(--border-1)', padding: '10px 16px' }}>
+                    <Link
+                      href="/image-tools"
+                      onClick={closeAll}
+                      style={{ fontFamily: sans, fontSize: '12px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
+                    >
+                      View all image tools →
+                    </Link>
+                  </div>
                 </div>
               </div>
             )}

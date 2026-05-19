@@ -125,9 +125,10 @@ export default function PdfToolsPage() {
           />
 
           <div className={`${C} relative z-[1] text-center`}>
-            <span className="hp-eyebrow">10 PDF Tools</span>
+            <span data-animate="hero" className="hp-eyebrow">10 PDF Tools</span>
 
             <h1
+              data-animate="hero"
               className="serif italic text-fg-1 m-0 mb-5"
               style={{ fontSize: 'clamp(40px, 6vw, 72px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
             >
@@ -135,13 +136,13 @@ export default function PdfToolsPage() {
               <span className="text-accent">Right in your browser.</span>
             </h1>
 
-            <p className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
+            <p data-animate="hero" className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
               Merge, split, compress, rotate, protect — 10 tools that process your PDFs
               entirely on your device. No uploads, no account.
             </p>
 
             {/* Trust chips */}
-            <div className="flex flex-wrap justify-center gap-2">
+            <div data-animate="hero" className="flex flex-wrap justify-center gap-2">
               {['No upload', '100% private', 'Free forever'].map((label) => (
                 <span
                   key={label}
@@ -172,7 +173,7 @@ export default function PdfToolsPage() {
               </div>
 
               {/* Tool cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div data-animate-stagger className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                 {PDF_TOOLS.map(({ href, name, badge, blurb }) => (
                   <Link
                     key={href}
@@ -198,15 +199,16 @@ export default function PdfToolsPage() {
         {/* ── Why section ───────────────────────────────────── */}
         <section style={{ paddingBottom: 'clamp(56px, 8vw, 96px)' }}>
           <div className={C}>
-            <span className="hp-eyebrow">Why ImagePDF.Tools</span>
+            <span data-animate="scroll" className="hp-eyebrow">Why ImagePDF.Tools</span>
             <h2
+              data-animate="scroll"
               className="serif italic text-fg-1 m-0 mb-10"
               style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}
             >
               Built different. <em className="text-accent">By design.</em>
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div data-animate-stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {FEATURES.map(({ title, desc, icon }) => (
                 <div key={title} className="bg-surface bd-2 rounded-[14px] py-[26px] px-6">
                   <div className="w-9 h-9 grid place-items-center rounded-[10px] bg-accent-dim bd-accent text-accent mb-4">

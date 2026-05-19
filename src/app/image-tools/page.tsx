@@ -127,9 +127,10 @@ export default function ImageToolsPage() {
           />
 
           <div className={`${C} relative z-[1] text-center`}>
-            <span className="hp-eyebrow">14 Image Tools</span>
+            <span data-animate="hero" className="hp-eyebrow">14 Image Tools</span>
 
             <h1
+              data-animate="hero"
               className="serif italic text-fg-1 m-0 mb-5"
               style={{ fontSize: 'clamp(40px, 6vw, 72px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
             >
@@ -137,13 +138,13 @@ export default function ImageToolsPage() {
               <span className="text-accent">All in your browser.</span>
             </h1>
 
-            <p className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
+            <p data-animate="hero" className="text-[17px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-8">
               Compress, convert, crop, resize — 14 tools that run entirely on your device.
               No uploads, no account, no waiting.
             </p>
 
             {/* Trust chips */}
-            <div className="flex flex-wrap justify-center gap-2">
+            <div data-animate="hero" className="flex flex-wrap justify-center gap-2">
               {['No upload', '100% private', 'Free forever'].map((label) => (
                 <span
                   key={label}
@@ -185,7 +186,7 @@ export default function ImageToolsPage() {
                 </div>
 
                 {/* Tool cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div data-animate-stagger className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   {tools.map(({ href, name, badge, blurb }) => (
                     <Link
                       key={href}

@@ -179,9 +179,8 @@ export default function CompressImagePage() {
           style={{ padding: 'clamp(48px, 7vw, 88px) 0' }}
         >
           <div className={C}>
-            <span data-animate="scroll" className="hp-eyebrow text-center">How it works</span>
+            <span className="hp-eyebrow text-center">How it works</span>
             <h2
-              data-animate="scroll"
               id="how-it-works-heading"
               className="serif italic text-fg-1 text-center"
               style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', lineHeight: 1.05, letterSpacing: '-0.025em', margin: '0 0 clamp(28px, 4vw, 48px)' }}
@@ -189,7 +188,7 @@ export default function CompressImagePage() {
               Three steps. <span className="text-accent">Under 30 seconds.</span>
             </h2>
 
-            <div data-animate-stagger className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
+            <div className="grid grid-cols-1 md:grid-cols-3 bd-t-1 bd-b-1">
               {STEPS.map(({ n, title, desc, icon }) => (
                 <div key={n} className="step-card">
                   <div className="w-8 h-8 grid place-items-center text-fg-2 mb-[18px]">{icon}</div>
@@ -212,7 +211,6 @@ export default function CompressImagePage() {
         <section style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
           <div className={Cnarrow}>
             <h2
-              data-animate="scroll"
               className="serif italic text-fg-1 m-0 mb-4"
               style={{ fontSize: 'clamp(22px, 2.8vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
             >
@@ -231,7 +229,6 @@ export default function CompressImagePage() {
         <section className="bd-t-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
           <div className={Cnarrow}>
             <h2
-              data-animate="scroll"
               className="serif italic text-fg-1 m-0 mb-6"
               style={{ fontSize: 'clamp(22px, 2.8vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
             >
@@ -267,7 +264,6 @@ export default function CompressImagePage() {
         <section className="bd-t-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
           <div className={Cnarrow}>
             <h2
-              data-animate="scroll"
               className="serif italic text-fg-1 m-0 mb-2"
               style={{ fontSize: 'clamp(22px, 2.8vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
             >
@@ -311,7 +307,7 @@ export default function CompressImagePage() {
         {/* ── Privacy card ─────────────────────────────────── */}
         <section className="bd-t-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
           <div className={Cnarrow}>
-            <div data-animate="scroll" className="relative rounded-[14px] bg-surface bd-2 p-8">
+            <div className="relative rounded-[14px] bg-surface bd-2 p-8">
               <div
                 aria-hidden="true"
                 className="absolute top-[-1px] left-[8%] right-[8%] h-px"
@@ -448,7 +444,6 @@ export default function CompressImagePage() {
         >
           <div className={Cnarrow}>
             <h2
-              data-animate="scroll"
               id="faq-heading"
               className="serif italic text-fg-1 text-center"
               style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', lineHeight: 1.05, letterSpacing: '-0.025em', margin: '0 0 clamp(28px, 4vw, 48px)' }}
@@ -456,7 +451,7 @@ export default function CompressImagePage() {
               Questions answered.
             </h2>
 
-            <div data-animate-stagger className="bd-t-1">
+            <div className="bd-t-1">
               {FAQS.map(({ q, a }) => (
                 <details key={q} className="hp-faq bd-b-1">
                   <summary className="list-none cursor-pointer py-[20px] flex items-start justify-between gap-6">
