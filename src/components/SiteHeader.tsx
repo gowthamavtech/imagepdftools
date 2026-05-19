@@ -87,23 +87,18 @@ function AuthSection() {
   );
 }
 
-/* ── Dropdown trigger button styled as nav link ────────── */
-function NavLink({ label, open, onClick, onMouseEnter, onMouseLeave }: {
-  label: string; open: boolean;
-  onClick: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-}) {
+/* ── Dropdown trigger — navigates on click, shows dropdown on hover ── */
+function NavLink({ label, href, open }: { label: string; href: string; open: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--fg-1)'; onMouseEnter?.(); }}
-      onMouseLeave={(e) => { if (!open) e.currentTarget.style.color = 'var(--fg-2)'; onMouseLeave?.(); }}
-      style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: open ? 'var(--fg-1)' : 'var(--fg-2)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.15s' }}
+    <Link
+      href={href}
+      style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: open ? 'var(--fg-1)' : 'var(--fg-2)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.15s' }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
+      onMouseLeave={(e) => { if (!open) e.currentTarget.style.color = 'var(--fg-2)'; }}
     >
       {label}
       <span style={{ color: 'var(--fg-3)', fontSize: '10px' }}>▾</span>
-    </button>
+    </Link>
   );
 }
 
@@ -209,8 +204,8 @@ export function SiteHeader() {
           >
             <NavLink
               label="Image Tools"
+              href="/image-tools"
               open={openDropdown === 'image'}
-              onClick={() => setOpenDropdown(openDropdown === 'image' ? null : 'image')}
             />
             {openDropdown === 'image' && (
               <div
@@ -254,8 +249,8 @@ export function SiteHeader() {
           >
             <NavLink
               label="PDF Tools"
+              href="/pdf-tools"
               open={openDropdown === 'pdf'}
-              onClick={() => setOpenDropdown(openDropdown === 'pdf' ? null : 'pdf')}
             />
             {openDropdown === 'pdf' && (
               <div
