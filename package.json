@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "postinstall": "node -e \"require('fs').copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs', 'public/pdf.worker.min.mjs')\""
+        "postinstall": "node -e \"const fs=require('fs'); fs.copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs','public/pdf.worker.min.mjs'); fs.copyFileSync('node_modules/pandoc-wasm/src/pandoc.wasm','public/pandoc.wasm');\""
     },
     "dependencies": {
         "@clerk/nextjs": "^7.0.8",
@@ -16,13 +16,18 @@
         "@dnd-kit/utilities": "^3.2.2",
         "@jsquash/jpeg": "^1.6.0",
         "@jsquash/webp": "^1.5.0",
+        "@myriaddreamin/typst-all-in-one.ts": "^0.7.0-rc2",
         "browser-image-compression": "^2.0.2",
+        "docx": "^9.6.1",
         "exifr": "^7.1.3",
         "gsap": "^3.15.0",
+        "html2canvas": "^1.4.1",
         "jspdf": "^4.2.1",
         "jszip": "^3.10.1",
+        "mammoth": "^1.12.0",
         "next": "^16.2.4",
         "next-pwa": "^2.0.2",
+        "pandoc-wasm": "^1.0.1",
         "pdf-lib": "^1.17.1",
         "pdfjs-dist": "^5.6.205",
         "piexifjs": "^1.0.6",
