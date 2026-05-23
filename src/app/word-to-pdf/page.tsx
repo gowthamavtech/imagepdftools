@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { WordToPdfUI } from '@/components/WordToPdfUI';
+import { WordToPdfUILoader as WordToPdfUI } from '@/components/WordToPdfUILoader';
 import { RelatedTools } from '@/components/RelatedTools';
 
 export const metadata: Metadata = {

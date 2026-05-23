@@ -238,9 +238,9 @@ export function NumberPdfUI() {
       {resultBytes && (
         <div className="p-5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl text-center space-y-3">
           <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">Page numbers added!</p>
-          <p className="text-xs text-emerald-700 dark:text-emerald-400">{formatBytes(resultBytes.length)} · ready to download</p>
+          <p className="text-xs text-emerald-700 dark:text-emerald-400">{formatBytes(resultBytes.length)} · ready to save</p>
           <div className="flex gap-3 justify-center">
-            <button onClick={download} className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors">Download PDF</button>
+            <button onClick={download} className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors">Save PDF</button>
             <button onClick={reset} className="px-5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium transition-colors hover:border-slate-300 dark:hover:border-slate-500">Start over</button>
           </div>
         </div>

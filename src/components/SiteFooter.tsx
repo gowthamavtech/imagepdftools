@@ -45,6 +45,8 @@ const CAT_COLS = [
     cat: 'pdf',
     title: 'PDF',
     links: [
+      { href: '/word-to-pdf',   label: 'Word to PDF' },
+      { href: '/pdf-to-word',   label: 'PDF to Word' },
       { href: '/merge-pdf',     label: 'Merge PDF' },
       { href: '/split-pdf',     label: 'Split PDF' },
       { href: '/compress-pdf',  label: 'Compress PDF' },
@@ -150,7 +152,7 @@ export function SiteFooter() {
               ◆ PDF Tools
             </span>
             <span className="font-data text-[9px] font-medium px-2 py-0.5 rounded-full bg-accent-dim bd-accent text-accent">
-              10 tools
+              12 tools
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-2.5">

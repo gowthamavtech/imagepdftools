@@ -40,6 +40,8 @@ const IMAGE_TOOLS = [
 ];
 
 const PDF_TOOLS = [
+  { href: '/word-to-pdf',   label: 'Word to PDF',         desc: 'Convert .docx to PDF' },
+  { href: '/pdf-to-word',   label: 'PDF to Word',         desc: 'Extract PDF text to .docx' },
   { href: '/merge-pdf',     label: 'Merge PDF',          desc: 'Combine PDFs into one' },
   { href: '/split-pdf',     label: 'Split PDF',           desc: 'Extract pages or ranges' },
   { href: '/compress-pdf',  label: 'Compress PDF',        desc: 'Shrink PDF file size' },
@@ -111,6 +113,8 @@ const DRAWER_IMAGE_LINKS = [
   { href: '/rotate-image',          label: 'Rotate Image' },
 ];
 const DRAWER_PDF_LINKS = [
+  { href: '/word-to-pdf',   label: 'Word to PDF' },
+  { href: '/pdf-to-word',   label: 'PDF to Word' },
   { href: '/compress-pdf',  label: 'Compress PDF' },
   { href: '/image-to-pdf',  label: 'Image to PDF' },
   { href: '/merge-pdf',     label: 'Merge PDF' },

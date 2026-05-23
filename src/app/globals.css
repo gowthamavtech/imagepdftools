@@ -328,10 +328,12 @@ html body { margin-top: 0 !important; }
 
   .btn-accent {
     background: var(--accent);
-    transition: background-color 0.15s ease;
+    color: var(--on-accent);
+    transition: background-color 0.15s ease, color 0.15s ease;
   }
   .btn-accent:hover {
     background: var(--accent-hover);
+    color: var(--on-accent);
   }
 
   .btn-accent-outline {

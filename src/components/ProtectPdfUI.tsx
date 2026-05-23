@@ -176,14 +176,14 @@ export function ProtectPdfUI() {
             {mode === 'protect' ? '🔒 PDF protected!' : '🔓 PDF unlocked!'}
           </p>
           <p className="text-xs text-emerald-700 dark:text-emerald-400">
-            {formatBytes(resultBytes.length)} · ready to download
+            {formatBytes(resultBytes.length)} · ready to save
           </p>
           <div className="flex gap-3 justify-center">
             <button
               onClick={download}
               className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors"
             >
-              Download PDF
+              Save PDF
             </button>
             <button
               onClick={reset}
