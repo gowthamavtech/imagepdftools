@@ -152,7 +152,7 @@ async function ensurePandoc(): Promise<PandocConvertFn> {
   if (!res.ok) throw new Error(`Failed to fetch pandoc.wasm: ${res.status}`);
   const wasmBuf = await res.arrayBuffer();
   const instance = await createPandocInstance(wasmBuf);
-  _pandocConvert = instance.convert as PandocConvertFn;
+  _pandocConvert = instance.convert as unknown as PandocConvertFn;
   return _pandocConvert;
 }
 

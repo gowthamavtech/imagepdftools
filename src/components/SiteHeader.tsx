@@ -6,6 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 import { Show, SignInButton, UserButton } from '@clerk/nextjs';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSelector } from './LanguageSelector';
+import { useInstallPrompt } from '@/hooks/useInstallPrompt';
 
 const IMAGE_TOOLS = [
   {
@@ -126,6 +127,9 @@ export function SiteHeader() {
   const [menuOpen,      setMenuOpen]      = useState(false);
   const [openDropdown,  setOpenDropdown]  = useState<DropdownKey>(null);
   const [drawerSection, setDrawerSection] = useState<DropdownKey>(null);
+  const { showButton, platform, install } = useInstallPrompt();
+  const [iosTooltip, setIosTooltip] = useState(false);
+  const installAreaRef = useRef<HTMLDivElement>(null);
   const outerRef   = useRef<HTMLElement>(null);
   const drawerRef  = useRef<HTMLDivElement>(null);
   const headerRef  = useRef<HTMLDivElement>(null);
@@ -146,11 +150,22 @@ export function SiteHeader() {
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
-      if (e.key === 'Escape') { setOpenDropdown(null); setMenuOpen(false); setDrawerSection(null); }
+      if (e.key === 'Escape') { setOpenDropdown(null); setMenuOpen(false); setDrawerSection(null); setIosTooltip(false); }
     }
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
   }, []);
+
+  useEffect(() => {
+    if (!iosTooltip) return;
+    function handler(e: MouseEvent) {
+      if (installAreaRef.current && !installAreaRef.current.contains(e.target as Node)) {
+        setIosTooltip(false);
+      }
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [iosTooltip]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -316,6 +331,32 @@ export function SiteHeader() {
             100% local
           </span>
 
+          {showButton && (
+            <div ref={installAreaRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => platform === 'ios' ? setIosTooltip((v) => !v) : install()}
+                aria-label={platform === 'ios' ? 'How to install app on iOS' : 'Install app'}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', height: '28px', padding: '0 12px', borderRadius: '30px', background: 'var(--accent-dim)', border: '1px solid var(--accent)', fontFamily: sans, fontSize: '11.5px', fontWeight: 500, color: 'var(--accent)', cursor: 'pointer', transition: 'opacity 0.15s' }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.8')}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M12 3v13M7 11l5 5 5-5" /><path d="M5 21h14" />
+                </svg>
+                Install App
+              </button>
+              {platform === 'ios' && iosTooltip && (
+                <div style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, width: '240px', background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', padding: '14px 16px', boxShadow: '0 16px 50px -8px rgba(0,0,0,0.35)', zIndex: 60 }}>
+                  <p style={{ fontFamily: sans, fontSize: '12.5px', fontWeight: 600, color: 'var(--fg-1)', margin: '0 0 10px' }}>Add to Home Screen</p>
+                  <ol style={{ fontFamily: sans, fontSize: '12px', color: 'var(--fg-2)', paddingLeft: '16px', margin: 0, lineHeight: '1.7', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari's toolbar</li>
+                    <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>"Add to Home Screen"</strong></li>
+                    <li>Tap <strong style={{ color: 'var(--fg-1)' }}>Add</strong> to confirm</li>
+                  </ol>
+                </div>
+              )}
+            </div>
+          )}
           <LanguageSelector />
           <ThemeToggle />
           <AuthSection />
@@ -446,6 +487,31 @@ export function SiteHeader() {
               <Link href="/pricing" onClick={closeAll} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--fg-1)', borderBottom: '1px solid var(--border-1)', textDecoration: 'none' }}>
                 Pricing <span style={{ color: 'var(--fg-3)', fontSize: '12px' }}>→</span>
               </Link>
+
+              {/* Install App */}
+              {showButton && (
+                <>
+                  <button
+                    onClick={() => platform === 'ios' ? setIosTooltip((v) => !v) : install()}
+                    style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 24px', fontFamily: sans, fontSize: '15px', fontWeight: 500, color: 'var(--accent)', background: 'none', border: 'none', borderBottom: platform === 'ios' && iosTooltip ? 'none' : '1px solid var(--border-1)', cursor: 'pointer', textAlign: 'left' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 3v13M7 11l5 5 5-5" /><path d="M5 21h14" />
+                    </svg>
+                    Install App
+                  </button>
+                  {platform === 'ios' && iosTooltip && (
+                    <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)', padding: '12px 24px 14px 32px' }}>
+                      <p style={{ fontFamily: sans, fontSize: '12px', fontWeight: 600, color: 'var(--fg-1)', margin: '0 0 8px' }}>Add to Home Screen</p>
+                      <ol style={{ fontFamily: sans, fontSize: '12px', color: 'var(--fg-2)', paddingLeft: '16px', margin: 0, lineHeight: '1.75', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari's toolbar</li>
+                        <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>"Add to Home Screen"</strong></li>
+                        <li>Tap <strong style={{ color: 'var(--fg-1)' }}>Add</strong> to confirm</li>
+                      </ol>
+                    </div>
+                  )}
+                </>
+              )}
 
               {/* Live badge */}
               <div style={{ padding: '20px 24px' }}>

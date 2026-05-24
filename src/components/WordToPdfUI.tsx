@@ -1,9 +1,68 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { DropZone } from './DropZone';
 import { useDocxConverter, type ConversionStatus } from '@/hooks/useDocxConverter';
 import { PdfNextActions } from './PdfNextActions';
+
+// ── Inline PDF viewer — canvas-based, works on Android/mobile ─────────────────
+function PdfJsViewer({ blob }: { blob: Blob }) {
+  const [pageUrls, setPageUrls] = useState<string[]>([]);
+  const [rendered, setRendered] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const urls: string[] = [];
+    (async () => {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      if (cancelled) return;
+      setTotal(pdf.numPages);
+      for (let i = 1; i <= pdf.numPages; i++) {
+        if (cancelled) break;
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        await page.render({ canvasContext: canvas.getContext('2d')!, viewport, canvas }).promise;
+        const pageBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
+        if (pageBlob) {
+          const url = URL.createObjectURL(pageBlob);
+          urls.push(url);
+          if (!cancelled) { setPageUrls([...urls]); setRendered(i); }
+        }
+      }
+    })().catch(() => {});
+    return () => { cancelled = true; urls.forEach(URL.revokeObjectURL); };
+  }, [blob]);
+
+  if (pageUrls.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-3 text-slate-400">
+        <svg className="w-6 h-6 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+        </svg>
+        {total > 0 && <p className="text-xs">{rendered} / {total} pages</p>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="overflow-y-auto h-full bg-slate-700 flex flex-col items-center gap-2 py-4 px-2">
+      {pageUrls.map((url, i) => (
+        <img key={i} src={url} alt={`Page ${i + 1}`} className="max-w-full shadow-lg rounded" />
+      ))}
+      {rendered < total && (
+        <p className="text-xs text-slate-400 py-2">{rendered} / {total} pages rendered…</p>
+      )}
+    </div>
+  );
+}
 
 type PageSize = 'a4' | 'letter';
 
@@ -39,10 +98,20 @@ function progressPercent(status: ConversionStatus, progress: string): number {
 }
 
 export function WordToPdfUI() {
-  const [preview, setPreview]     = useState<Preview | null>(null);
-  const [pageSize, setPageSize]   = useState<PageSize>('a4');
-  const [isReading, setIsReading] = useState(false);
-  const [readError, setReadError] = useState<string | null>(null);
+  const [preview, setPreview]       = useState<Preview | null>(null);
+  const [pageSize, setPageSize]     = useState<PageSize>('a4');
+  const [isReading, setIsReading]   = useState(false);
+  const [readError, setReadError]   = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+
+  const nativePdf = typeof navigator !== 'undefined' && navigator.pdfViewerEnabled && !/android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (!showPreview) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowPreview(false); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [showPreview]);
 
   const { status, progress, pdfBlob, error, fontCount, convert, reset } =
     useDocxConverter();
@@ -102,13 +171,10 @@ export function WordToPdfUI() {
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
   }, [pdfBlob, preview]);
 
-  // ── View in browser ────────────────────────────────────────────────────────
+  // ── View in modal ──────────────────────────────────────────────────────────
   const viewInBrowser = useCallback(() => {
-    if (!pdfBlob) return;
-    const url = URL.createObjectURL(pdfBlob);
-    window.open(url, '_blank', 'noopener');
-    setTimeout(() => URL.revokeObjectURL(url), 60_000);
-  }, [pdfBlob]);
+    setShowPreview(true);
+  }, []);
 
   // ── Full reset ─────────────────────────────────────────────────────────────
   const handleReset = useCallback(() => {
@@ -288,7 +354,7 @@ export function WordToPdfUI() {
                     className="w-1/2 inline-flex items-center justify-center gap-2 h-12 rounded-xl bd-2 text-[14px] font-semibold text-fg-2 hover:text-fg-1 transition-colors cursor-pointer"
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" /><circle cx="12" cy="12" r="3" />
                     </svg>
                     View PDF
                   </button>
@@ -332,6 +398,55 @@ export function WordToPdfUI() {
             )}
           </div>
         </>
+      )}
+
+      {/* ── PDF preview modal ── */}
+      {showPreview && pdfBlob && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-sm"
+          onClick={() => setShowPreview(false)}
+        >
+          <div
+            className="relative w-full max-w-5xl h-full max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-3 px-3 py-2.5 bg-slate-900 border-b border-white/8 shrink-0">
+              <button
+                onClick={() => setShowPreview(false)}
+                title="Close (Esc)"
+                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors shrink-0"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+              </button>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                <p className="text-sm font-medium text-slate-100 truncate">{preview?.filename ?? 'document.pdf'}</p>
+                <span className="hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 tracking-wide shrink-0">PDF</span>
+              </div>
+              <button
+                onClick={() => setShowPreview(false)}
+                title="Close (Esc)"
+                className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {/* Viewer */}
+            <div className="flex-1 overflow-hidden relative">
+              {nativePdf
+                ? <iframe src={URL.createObjectURL(pdfBlob)} title="PDF Preview" className="border-0 absolute inset-0 w-full h-full" />
+                : <PdfJsViewer blob={pdfBlob} />
+              }
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
