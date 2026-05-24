@@ -164,6 +164,15 @@ export const TOOLS: Record<string, ToolDef> = {
     iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
     hoverBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
   },
+  '/image-to-text': {
+    href: '/image-to-text',
+    label: 'Image to Text',
+    desc: 'Extract readable text from any image using Tesseract OCR — 12 languages, fully private.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />,
+    color: 'text-sky-600 dark:text-sky-400',
+    iconBg: 'bg-sky-100 dark:bg-sky-900/30',
+    hoverBorder: 'hover:border-sky-300 dark:hover:border-sky-700',
+  },
   '/pdf-to-word': {
     href: '/pdf-to-word',
     label: 'PDF to Word',

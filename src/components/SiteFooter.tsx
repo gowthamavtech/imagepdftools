@@ -39,6 +39,7 @@ const CAT_COLS = [
       { href: '/rotate-image',    label: 'Rotate Image' },
       { href: '/remove-metadata', label: 'Remove Metadata' },
       { href: '/metadata-editor', label: 'Metadata Editor' },
+      { href: '/image-to-text',   label: 'Image to Text' },
     ],
   },
   {

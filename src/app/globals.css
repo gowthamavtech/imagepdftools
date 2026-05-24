@@ -58,6 +58,16 @@
   --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-pill: 30px;
   --nav-bg:     rgba(244, 241, 234, 0.82);
   --on-accent:  #ffffff;
+
+  /* ── Scrollbar ───────────────────────────────────────── */
+  --sb-size:          6px;
+  --sb-radius:        3px;
+  --sb-track-bg:      transparent;
+  --sb-thumb-bg:      var(--accent);
+  --sb-thumb-radius:  999px;
+  --sb-thumb-border:  none;
+  --sb-thumb-hover:   var(--accent-hover);
+  --sb-thumb-active:  var(--accent-hover);
 }
 
 .dark {
@@ -90,6 +100,7 @@
   --border-3:       rgba(255, 255, 255, 0.13);
   --nav-bg:         rgba(11, 11, 13, 0.82);
   --on-accent:      #0b0b0d;
+
 }
 
 /* ── Base typography ────────────────────────────────────── */
@@ -418,3 +429,39 @@ html[data-anim-failed] [data-animate-stagger] > * {
 .docx-preview th { background: #f0f0f0; font-weight: 700; }
 .docx-preview a  { color: #4040cc; text-decoration: underline; }
 .docx-preview img { max-width: 100%; height: auto; margin: 8px 0; }
+
+/* ── Custom scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sb-track-bg);
+  border-radius: var(--sb-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-bg);
+  border-radius: var(--sb-thumb-radius);
+  border: var(--sb-thumb-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--sb-thumb-active);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--sb-track-bg);
+}
+
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: var(--sb-thumb-bg) var(--sb-track-bg);
+  }
+}

@@ -34,8 +34,9 @@ const IMAGE_TOOLS = [
       { href: '/resize-image',    label: 'Resize Image',    desc: 'Custom px dimensions' },
       { href: '/flip-image',      label: 'Flip Image',      desc: 'Mirror H or V' },
       { href: '/rotate-image',    label: 'Rotate Image',    desc: 'Rotate 90° or 180°' },
-      { href: '/metadata-editor', label: 'Metadata Editor', desc: 'View & edit EXIF data' },
-      { href: '/remove-metadata', label: 'Remove Metadata', desc: 'Strip EXIF for privacy' },
+      { href: '/metadata-editor',  label: 'Metadata Editor', desc: 'View & edit EXIF data' },
+      { href: '/remove-metadata',  label: 'Remove Metadata', desc: 'Strip EXIF for privacy' },
+      { href: '/image-to-text',    label: 'Image to Text',   desc: 'OCR — extract text' },
     ],
   },
 ];
@@ -109,6 +110,7 @@ const DRAWER_IMAGE_LINKS = [
   { href: '/crop-image',            label: 'Crop Image' },
   { href: '/resize-image',          label: 'Resize Image' },
   { href: '/rotate-image',          label: 'Rotate Image' },
+  { href: '/image-to-text',         label: 'Image to Text' },
 ];
 const DRAWER_PDF_LINKS = [
   { href: '/word-to-pdf',   label: 'Word to PDF' },
@@ -219,7 +221,7 @@ export function SiteHeader() {
         <nav className="hidden lg:flex items-center" style={{ gap: '26px', marginLeft: '18px' }}>
           {/* Image Tools trigger + mega menu */}
           <div
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', height: '64px', display: 'flex', alignItems: 'center' }}
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
@@ -229,11 +231,22 @@ export function SiteHeader() {
             />
             {openDropdown === 'image' && (
               <div
-                style={{ position: 'absolute', top: '100%', left: '0', width: '560px', zIndex: 50, paddingTop: '8px' }}
+                style={{ position: 'absolute', top: '100%', left: '0', width: '560px', zIndex: 50 }}
                 onMouseEnter={() => openMenu('image')}
                 onMouseLeave={scheduleClose}
               >
-                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden', maxHeight: 'calc(100vh - 64px - 16px)', overflowY: 'auto' }}>
+                  {/* Summary page link */}
+                  <Link
+                    href="/image-tools"
+                    onClick={closeAll}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid var(--border-1)', textDecoration: 'none', transition: 'background 0.12s' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <span style={{ fontFamily: sans, fontSize: '12.5px', fontWeight: 600, color: 'var(--fg-1)' }}>All Image Tools</span>
+                    <span style={{ fontFamily: sans, fontSize: '11.5px', color: 'var(--accent)' }}>View all →</span>
+                  </Link>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', padding: '16px', gap: '4px' }}>
                     {IMAGE_TOOLS.map((group, gi) => (
                       <div key={group.group} style={{ borderLeft: gi > 0 ? '1px solid var(--border-1)' : 'none', paddingLeft: gi > 0 ? '12px' : 0 }}>
@@ -263,7 +276,7 @@ export function SiteHeader() {
 
           {/* PDF Tools trigger + dropdown */}
           <div
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', height: '64px', display: 'flex', alignItems: 'center' }}
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
@@ -273,11 +286,22 @@ export function SiteHeader() {
             />
             {openDropdown === 'pdf' && (
               <div
-                style={{ position: 'absolute', top: '100%', left: '0', width: '420px', zIndex: 50, paddingTop: '8px' }}
+                style={{ position: 'absolute', top: '100%', left: '0', width: '420px', zIndex: 50 }}
                 onMouseEnter={() => openMenu('pdf')}
                 onMouseLeave={scheduleClose}
               >
-                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden', maxHeight: 'calc(100vh - 64px - 16px)', overflowY: 'auto' }}>
+                  {/* Summary page link */}
+                  <Link
+                    href="/pdf-tools"
+                    onClick={closeAll}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid var(--border-1)', textDecoration: 'none', transition: 'background 0.12s' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-dim)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <span style={{ fontFamily: sans, fontSize: '12.5px', fontWeight: 600, color: 'var(--fg-1)' }}>All PDF Tools</span>
+                    <span style={{ fontFamily: sans, fontSize: '11.5px', color: 'var(--accent)' }}>View all →</span>
+                  </Link>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', padding: '8px', gap: '2px' }}>
                     {PDF_TOOLS.map((item) => (
                       <Link
@@ -431,6 +455,9 @@ export function SiteHeader() {
               <div style={{ display: 'grid', gridTemplateRows: drawerSection === 'image' ? '1fr' : '0fr', transition: 'grid-template-rows 260ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
                 <div style={{ overflow: 'hidden' }}>
                   <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)' }}>
+                    <Link href="/image-tools" onClick={closeAll}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', borderBottom: '1px solid var(--border-1)' }}
+                    >All Image Tools <span style={{ fontSize: '11px' }}>→</span></Link>
                     {DRAWER_IMAGE_LINKS.map(({ href, label }) => (
                       <Link key={href} href={href} onClick={closeAll}
                         style={{ display: 'block', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '14px', fontWeight: 400, color: 'var(--fg-2)', textDecoration: 'none', transition: 'color 0.15s' }}
@@ -455,6 +482,9 @@ export function SiteHeader() {
               <div style={{ display: 'grid', gridTemplateRows: drawerSection === 'pdf' ? '1fr' : '0fr', transition: 'grid-template-rows 260ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
                 <div style={{ overflow: 'hidden' }}>
                   <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)' }}>
+                    <Link href="/pdf-tools" onClick={closeAll}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', borderBottom: '1px solid var(--border-1)' }}
+                    >All PDF Tools <span style={{ fontSize: '11px' }}>→</span></Link>
                     {DRAWER_PDF_LINKS.map(({ href, label }) => (
                       <Link key={href} href={href} onClick={closeAll}
                         style={{ display: 'block', padding: '10px 24px 10px 32px', fontFamily: sans, fontSize: '14px', fontWeight: 400, color: 'var(--fg-2)', textDecoration: 'none', transition: 'color 0.15s' }}
