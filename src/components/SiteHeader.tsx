@@ -90,18 +90,15 @@ function AuthSection() {
   );
 }
 
-/* ── Dropdown trigger — navigates on click, shows dropdown on hover ── */
-function NavLink({ label, href, open }: { label: string; href: string; open: boolean }) {
+/* ── Dropdown trigger — hover only, no navigation ── */
+function NavLabel({ label, open }: { label: string; open: boolean }) {
   return (
-    <Link
-      href={href}
-      style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: open ? 'var(--fg-1)' : 'var(--fg-2)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.15s' }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg-1)')}
-      onMouseLeave={(e) => { if (!open) e.currentTarget.style.color = 'var(--fg-2)'; }}
+    <span
+      style={{ fontFamily: sans, fontSize: '13.5px', fontWeight: 400, color: open ? 'var(--fg-1)' : 'var(--fg-2)', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.15s', cursor: 'default', userSelect: 'none' }}
     >
       {label}
       <span style={{ color: 'var(--fg-3)', fontSize: '10px' }}>▾</span>
-    </Link>
+    </span>
   );
 }
 
@@ -226,9 +223,8 @@ export function SiteHeader() {
             onMouseEnter={() => openMenu('image')}
             onMouseLeave={scheduleClose}
           >
-            <NavLink
+            <NavLabel
               label="Image Tools"
-              href="/image-tools"
               open={openDropdown === 'image'}
             />
             {openDropdown === 'image' && (
@@ -260,15 +256,6 @@ export function SiteHeader() {
                       </div>
                     ))}
                   </div>
-                  <div style={{ borderTop: '1px solid var(--border-1)', padding: '10px 16px' }}>
-                    <Link
-                      href="/image-tools"
-                      onClick={closeAll}
-                      style={{ fontFamily: sans, fontSize: '12px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
-                    >
-                      View all image tools →
-                    </Link>
-                  </div>
                 </div>
               </div>
             )}
@@ -280,9 +267,8 @@ export function SiteHeader() {
             onMouseEnter={() => openMenu('pdf')}
             onMouseLeave={scheduleClose}
           >
-            <NavLink
+            <NavLabel
               label="PDF Tools"
-              href="/pdf-tools"
               open={openDropdown === 'pdf'}
             />
             {openDropdown === 'pdf' && (
@@ -306,15 +292,6 @@ export function SiteHeader() {
                         <span style={{ fontFamily: sans, fontSize: '11px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
                       </Link>
                     ))}
-                  </div>
-                  <div style={{ borderTop: '1px solid var(--border-1)', padding: '10px 16px' }}>
-                    <Link
-                      href="/pdf-tools"
-                      onClick={closeAll}
-                      style={{ fontFamily: sans, fontSize: '12px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
-                    >
-                      View all PDF tools →
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -461,9 +438,6 @@ export function SiteHeader() {
                         onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
                       >{label}</Link>
                     ))}
-                    <Link href="/image-tools" onClick={closeAll}
-                      style={{ display: 'block', padding: '10px 24px 14px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
-                    >View all image tools →</Link>
                   </div>
                 </div>
               </div>
@@ -488,9 +462,6 @@ export function SiteHeader() {
                         onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-2)')}
                       >{label}</Link>
                     ))}
-                    <Link href="/pdf-tools" onClick={closeAll}
-                      style={{ display: 'block', padding: '10px 24px 14px 32px', fontFamily: sans, fontSize: '13px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
-                    >View all PDF tools →</Link>
                   </div>
                 </div>
               </div>
