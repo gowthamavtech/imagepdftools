@@ -1,5 +1,5 @@
-import { HeroSkeleton } from '@/components/Shimmer';
+import { ToolPageSkeleton } from '@/components/Shimmer';
 
 export default function Loading() {
-  return <HeroSkeleton />;
+  return <ToolPageSkeleton />;
 }

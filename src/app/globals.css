@@ -278,6 +278,42 @@ html body { margin-top: 0 !important; }
 .tool-card:hover { border-color: var(--accent-border); }
 .tool-card:hover .hp-tool-name { color: var(--accent); }
 
+/* ── Pre-GSAP: set hero + scroll elements invisible before JS runs ── */
+/* Prevents the visible→invisible flicker when GSAP loads async.      */
+/* GSAP will override these with inline styles once it fires.          */
+[data-animate="hero"] {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: opacity, transform;
+}
+[data-animate="scroll"] {
+  opacity: 0;
+  transform: translateY(16px);
+  will-change: opacity, transform;
+}
+[data-animate-stagger] > * {
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: opacity, transform;
+}
+/* Reduced-motion: show everything immediately, skip all animations */
+@media (prefers-reduced-motion: reduce) {
+  [data-animate="hero"],
+  [data-animate="scroll"],
+  [data-animate-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+}
+/* Fallback: if GSAP fails, html[data-anim-failed] makes elements visible */
+html[data-anim-failed] [data-animate="hero"],
+html[data-anim-failed] [data-animate="scroll"],
+html[data-anim-failed] [data-animate-stagger] > * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* ── Homepage: hero pill dot pulse ─────────────────────── */
 @keyframes hp-pulse {
   0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
