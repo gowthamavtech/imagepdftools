@@ -49,8 +49,8 @@ export default function TermsPage() {
 
           <Section num={1} title="Acceptance of Terms">
             <p>
-              By using ImagePDF.Tools ("the Service"), you agree to these Terms of Service. If you do not
-              agree, please do not use the Service. ImagePDF.Tools is operated by its creator ("we", "us")
+              By using ImagePDF.Tools (&quot;the Service&quot;), you agree to these Terms of Service. If you do not
+              agree, please do not use the Service. ImagePDF.Tools is operated by its creator (&quot;we&quot;, &quot;us&quot;)
               and is currently in active development.
             </p>
           </Section>
@@ -103,7 +103,7 @@ export default function TermsPage() {
 
           <Section num={6} title="Disclaimer of Warranties">
             <p>
-              ImagePDF.Tools is provided "as is" and "as available" without warranties of any kind, whether
+              ImagePDF.Tools is provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, whether
               express or implied. We do not guarantee that the Service will be uninterrupted,
               error-free, or that output file sizes will meet any particular target. Use the Service at
               your own risk and always keep backups of your original images.

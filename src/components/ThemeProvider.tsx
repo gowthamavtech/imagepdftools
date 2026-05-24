@@ -40,6 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // On mount: read saved preference; fall back to system (respects prefers-color-scheme)
   useEffect(() => {
     const saved = (localStorage.getItem('theme') as Theme) ?? 'system';
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(saved);
     applyTheme(saved);
   }, []);

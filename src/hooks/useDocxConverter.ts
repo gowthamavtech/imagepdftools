@@ -167,7 +167,8 @@ let _typstAPI: TypstAPI | null = null;
 async function ensureTypst(): Promise<TypstAPI> {
   if (_typstAPI) return _typstAPI;
   const mod = await import('@myriaddreamin/typst-all-in-one.ts');
-  _typstAPI = mod.$typst as unknown as TypstAPI;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _typstAPI = (mod as any).$typst as unknown as TypstAPI;
   return _typstAPI;
 }
 

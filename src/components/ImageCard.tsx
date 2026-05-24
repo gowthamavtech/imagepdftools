@@ -92,6 +92,7 @@ export function ImageCard({
 
   const [compressedSrc, setCompressedSrc] = useState<string | null>(null);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!result) { setCompressedSrc(null); return; }
     const url = URL.createObjectURL(result.blob);
     setCompressedSrc(url);
@@ -102,6 +103,7 @@ export function ImageCard({
   const hasAutoOpened = useRef(false);
   useEffect(() => {
     if (result && !hasAutoOpened.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowCompare(true);
       hasAutoOpened.current = true;
     }

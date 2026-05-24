@@ -224,7 +224,7 @@ export default function JpgToWebpPage() {
               How the conversion works
             </h2>
             <p className="text-[15px] leading-[1.75] text-fg-2 m-0">
-              When you upload a JPEG, the browser decodes it natively and draws it onto an HTML Canvas element. The canvas is then exported as WebP using the browser's built-in WebP encoder. The quality slider controls the WebP compression level. The entire process runs locally in your browser tab — no data is sent to any server.
+              When you upload a JPEG, the browser decodes it natively and draws it onto an HTML Canvas element. The canvas is then exported as WebP using the browser&apos;s built-in WebP encoder. The quality slider controls the WebP compression level. The entire process runs locally in your browser tab — no data is sent to any server.
             </p>
           </div>
         </section>

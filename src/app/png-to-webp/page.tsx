@@ -264,7 +264,7 @@ export default function PngToWebpPage() {
               How the conversion works
             </h2>
             <p className="text-[15px] leading-[1.75] text-fg-2 m-0">
-              Your PNG is decoded by the browser and drawn to an HTML Canvas element. The canvas is then exported using the browser's built-in WebP encoder. The alpha channel (transparency) is preserved throughout this process. All processing happens locally — your file never leaves your browser.
+              Your PNG is decoded by the browser and drawn to an HTML Canvas element. The canvas is then exported using the browser&apos;s built-in WebP encoder. The alpha channel (transparency) is preserved throughout this process. All processing happens locally — your file never leaves your browser.
             </p>
           </div>
         </section>

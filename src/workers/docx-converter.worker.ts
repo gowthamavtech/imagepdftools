@@ -44,7 +44,8 @@ type OutboundMsg =
   | { type: 'error'; message: string };
 
 function post(msg: OutboundMsg, transfer: Transferable[] = []) {
-  (self as unknown as DedicatedWorkerGlobalScope).postMessage(msg, transfer);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (self as any).postMessage(msg, transfer);
 }
 
 // ── WASM singleton caches (survive across repeated calls to the same worker) ──
@@ -65,7 +66,7 @@ async function ensurePandoc(): Promise<PandocConvertFn> {
   if (!res.ok) throw new Error(`Failed to fetch pandoc.wasm: ${res.status}`);
   const wasmBuf = await res.arrayBuffer();
   const instance = await createPandocInstance(wasmBuf);
-  pandocConvert = instance.convert as PandocConvertFn;
+  pandocConvert = instance.convert as unknown as PandocConvertFn;
   return pandocConvert;
 }
 
@@ -82,15 +83,15 @@ async function ensureTypst(): Promise<TypstAPI> {
   // 39 MB self-contained bundle (WASM + embedded fonts).
   // First call triggers WASM init; subsequent calls reuse the cached instance.
   const mod = await import('@myriaddreamin/typst-all-in-one.ts');
-  typstAPI = mod.$typst as unknown as TypstAPI;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  typstAPI = (mod as any).$typst as unknown as TypstAPI;
   return typstAPI;
 }
 
 // ── Main handler ───────────────────────────────────────────────────────────────
 
-(self as unknown as DedicatedWorkerGlobalScope).onmessage = async (
-  evt: MessageEvent<InboundMsg>
-) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(self as any).onmessage = async (evt: MessageEvent<InboundMsg>) => {
   const { docxBuffer, fonts, pageSize } = evt.data;
 
   try {

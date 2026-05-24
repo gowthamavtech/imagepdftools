@@ -71,7 +71,8 @@ export function LanguageSelector({ mobileAlign, openUp }: { mobileAlign?: 'left'
     // Map our codes to Google Translate's internal codes ('' = restore original)
     const gtCode = lang.code === 'en' ? '' : lang.code === 'zh' ? 'zh-CN' : lang.code;
 
-    // Update or clear the googtrans cookie
+    // Update or clear the googtrans cookie — document.cookie setter is intentional DOM mutation
+    /* eslint-disable react-hooks/immutability */
     if (lang.code === 'en') {
       document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
       document.cookie = `googtrans=; path=/; domain=.${location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
@@ -79,6 +80,7 @@ export function LanguageSelector({ mobileAlign, openUp }: { mobileAlign?: 'left'
       document.cookie = `googtrans=/en/${lang.code}; path=/`;
       document.cookie = `googtrans=/en/${lang.code}; path=/; domain=.${location.hostname}`;
     }
+    /* eslint-enable react-hooks/immutability */
 
     // Revert to English: use GT's restore() method
     if (lang.code === 'en') {

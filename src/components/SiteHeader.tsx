@@ -349,8 +349,8 @@ export function SiteHeader() {
                 <div style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, width: '240px', background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', padding: '14px 16px', boxShadow: '0 16px 50px -8px rgba(0,0,0,0.35)', zIndex: 60 }}>
                   <p style={{ fontFamily: sans, fontSize: '12.5px', fontWeight: 600, color: 'var(--fg-1)', margin: '0 0 10px' }}>Add to Home Screen</p>
                   <ol style={{ fontFamily: sans, fontSize: '12px', color: 'var(--fg-2)', paddingLeft: '16px', margin: 0, lineHeight: '1.7', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                    <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari's toolbar</li>
-                    <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>"Add to Home Screen"</strong></li>
+                    <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari&apos;s toolbar</li>
+                    <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>&quot;Add to Home Screen&quot;</strong></li>
                     <li>Tap <strong style={{ color: 'var(--fg-1)' }}>Add</strong> to confirm</li>
                   </ol>
                 </div>
@@ -504,8 +504,8 @@ export function SiteHeader() {
                     <div style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border-1)', padding: '12px 24px 14px 32px' }}>
                       <p style={{ fontFamily: sans, fontSize: '12px', fontWeight: 600, color: 'var(--fg-1)', margin: '0 0 8px' }}>Add to Home Screen</p>
                       <ol style={{ fontFamily: sans, fontSize: '12px', color: 'var(--fg-2)', paddingLeft: '16px', margin: 0, lineHeight: '1.75', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari's toolbar</li>
-                        <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>"Add to Home Screen"</strong></li>
+                        <li>Tap the <strong style={{ color: 'var(--fg-1)' }}>Share ⬆</strong> button in Safari&apos;s toolbar</li>
+                        <li>Scroll and tap <strong style={{ color: 'var(--fg-1)' }}>&quot;Add to Home Screen&quot;</strong></li>
                         <li>Tap <strong style={{ color: 'var(--fg-1)' }}>Add</strong> to confirm</li>
                       </ol>
                     </div>

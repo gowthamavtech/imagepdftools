@@ -20,6 +20,7 @@ export function useInstallPrompt() {
       window.matchMedia('(display-mode: standalone)').matches ||
       (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (alreadyInstalled) { setIsInstalled(true); return; }
 
     const ua = navigator.userAgent;

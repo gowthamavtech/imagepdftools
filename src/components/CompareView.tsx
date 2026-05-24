@@ -157,8 +157,10 @@ function CompareSlider({ originalSrc, compressedSrc, splitPct, onSplitChange, cl
     const resetZoom = useCallback(() => { setZoom(1); setPan({ x: 0, y: 0 }); }, []);
 
     // Map screen-space split → image-local clip so they stay aligned at any zoom/pan
+    /* eslint-disable react-hooks/refs */
     const containerWidth = containerRef.current?.offsetWidth ?? 1;
     const normalizedPanX = pan.x / containerWidth;
+    /* eslint-enable react-hooks/refs */
     const clipPct = screenSplitToClipPct(splitPct, normalizedPanX, zoom);
 
     const cursor = isActivePanning

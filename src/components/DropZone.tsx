@@ -32,7 +32,9 @@ export function DropZone({
   const [isDragging, setIsDragging] = useState(false);
   const [pasteFlash, setPasteFlash] = useState(false);
   const [securityFlash, setSecurityFlash] = useState(false);
-  const [isMac, setIsMac] = useState(false);
+  const [isMac] = useState(() =>
+    typeof navigator !== 'undefined' ? /Mac|iPhone|iPad|iPod/.test(navigator.platform) : false
+  );
   const [cloudLoading, setCloudLoading] = useState<'dropbox' | 'drive' | 'onedrive' | null>(null);
 
   function triggerSecurityFlash() {
@@ -48,10 +50,6 @@ export function DropZone({
       ? 'PDF files only — processed entirely in your browser'
       : `JPG · PNG · WebP · SVG · up to ${MAX_FREE_MB} MB each`
   );
-
-  useEffect(() => {
-    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
-  }, []);
 
   const filterFiles = useCallback((raw: File[]): File[] => {
     return raw.filter(

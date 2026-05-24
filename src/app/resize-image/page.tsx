@@ -356,7 +356,7 @@ export default function ResizeImagePage() {
                 Your image never leaves your browser.
               </h2>
               <p className="text-[13.5px] text-fg-2 leading-[1.6] m-0 mb-5 max-w-[56ch]">
-                The resize tool uses the browser's native Canvas API. Your images are scaled and exported entirely on your own hardware — nothing is transmitted, stored, or logged at any point.
+                The resize tool uses the browser&apos;s native Canvas API. Your images are scaled and exported entirely on your own hardware — nothing is transmitted, stored, or logged at any point.
               </p>
               <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
                 {[
