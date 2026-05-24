@@ -73,6 +73,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     {/* Google Translate mount point — must NOT be display:none or GT won't init */}
                     <div id="gt-hidden" style={{ position: "absolute", top: "-9999px", left: "-9999px", height: 0, overflow: "hidden" }} />
 
+                    {/* Google Analytics */}
+                    <Script src="https://www.googletagmanager.com/gtag/js?id=G-D8FVR6G48F" strategy="afterInteractive" />
+                    <Script
+                        id="gtag-init"
+                        strategy="afterInteractive"
+                        dangerouslySetInnerHTML={{
+                            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-D8FVR6G48F');`,
+                        }}
+                    />
+
                     {/* Google Translate script — loaded after page content */}
                     <Script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" strategy="lazyOnload" />
                     {/* Init function for cookie-based language switching */}
