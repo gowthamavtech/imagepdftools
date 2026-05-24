@@ -116,11 +116,16 @@ const DRAWER_IMAGE_LINKS = [
 const DRAWER_PDF_LINKS = [
   { href: '/word-to-pdf',   label: 'Word to PDF' },
   { href: '/pdf-to-word',   label: 'PDF to Word' },
-  { href: '/compress-pdf',  label: 'Compress PDF' },
-  { href: '/image-to-pdf',  label: 'Image to PDF' },
   { href: '/merge-pdf',     label: 'Merge PDF' },
   { href: '/split-pdf',     label: 'Split PDF' },
+  { href: '/compress-pdf',  label: 'Compress PDF' },
+  { href: '/image-to-pdf',  label: 'Image to PDF' },
   { href: '/pdf-to-jpg',    label: 'PDF to JPG' },
+  { href: '/rotate-pdf',    label: 'Rotate PDF' },
+  { href: '/protect-pdf',   label: 'Protect / Unlock' },
+  { href: '/number-pdf',    label: 'Add Page Numbers' },
+  { href: '/organize-pdf',  label: 'Organize Pages' },
+  { href: '/watermark-pdf', label: 'Watermark PDF' },
 ];
 
 export function SiteHeader() {
@@ -282,12 +287,12 @@ export function SiteHeader() {
             />
             {openDropdown === 'pdf' && (
               <div
-                style={{ position: 'absolute', top: '100%', left: '0', width: '220px', zIndex: 50, paddingTop: '8px' }}
+                style={{ position: 'absolute', top: '100%', left: '0', width: '420px', zIndex: 50, paddingTop: '8px' }}
                 onMouseEnter={() => openMenu('pdf')}
                 onMouseLeave={scheduleClose}
               >
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-2)', borderRadius: '14px', boxShadow: '0 20px 60px -10px rgba(0,0,0,0.35)', overflow: 'hidden' }}>
-                  <div style={{ padding: '8px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', padding: '8px', gap: '2px' }}>
                     {PDF_TOOLS.map((item) => (
                       <Link
                         key={item.href}
@@ -301,6 +306,15 @@ export function SiteHeader() {
                         <span style={{ fontFamily: sans, fontSize: '11px', color: 'var(--fg-2)', lineHeight: 1.4, marginTop: '2px' }}>{item.desc}</span>
                       </Link>
                     ))}
+                  </div>
+                  <div style={{ borderTop: '1px solid var(--border-1)', padding: '10px 16px' }}>
+                    <Link
+                      href="/pdf-tools"
+                      onClick={closeAll}
+                      style={{ fontFamily: sans, fontSize: '12px', fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}
+                    >
+                      View all PDF tools →
+                    </Link>
                   </div>
                 </div>
               </div>
