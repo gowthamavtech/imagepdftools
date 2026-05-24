@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function isEncryptError(e: unknown): boolean {
   const msg = String(e).toLowerCase();
@@ -128,7 +129,14 @@ export function SplitPdfUI() {
   const [hiResUrl,       setHiResUrl]       = useState<string | null>(null);
   const pendingFilesRef = useRef<File[]>([]);
   const renderAbort = useRef(false);
-  const isDraggingRef      = useRef(false);
+  const isDraggingRef = useRef(false);
+
+  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef = useRef(consumeHandoff);
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') setFile(f);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const dragModeRef        = useRef<'select' | 'deselect'>('select');
   const longPressTimer     = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchDragActiveRef = useRef(false);

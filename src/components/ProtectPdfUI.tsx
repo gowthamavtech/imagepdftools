@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
@@ -20,6 +21,13 @@ export function ProtectPdfUI() {
   const [isWorking,       setIsWorking]       = useState(false);
   const [error,           setError]           = useState<string | null>(null);
   const [resultBytes,     setResultBytes]     = useState<Uint8Array | null>(null);
+
+  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef = useRef(consumeHandoff);
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') setFile(f);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFiles = useCallback((files: File[]) => {
     const f = files[0];

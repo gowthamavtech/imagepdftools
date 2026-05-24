@@ -11,7 +11,8 @@ export default function GlobalAnimations() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
-    let ctx: import('gsap').Context | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let ctx: any = null;
     let raf: number;
 
     // Dynamic imports keep GSAP/ScrollTrigger out of the server bundle.

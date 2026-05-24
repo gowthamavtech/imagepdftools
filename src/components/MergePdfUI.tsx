@@ -6,6 +6,7 @@ import { SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingS
 import { CSS } from "@dnd-kit/utilities";
 import { DropZone } from "./DropZone";
 import { PdfPasswordPrompt } from "./PdfPasswordPrompt";
+import { useHandoffStore } from "@/store/handoffStore";
 
 function isEncryptError(e: unknown): boolean {
     const msg = String(e).toLowerCase();
@@ -344,6 +345,9 @@ export function MergePdfUI() {
     const addMoreRef = useRef<HTMLInputElement>(null);
     const resultRef = useRef<HTMLDivElement>(null);
 
+    const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+    const consumeRef = useRef(consumeHandoff);
+
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
 
@@ -449,6 +453,11 @@ export function MergePdfUI() {
             })();
         }
     }, []);
+
+    useEffect(() => {
+        const { file: f } = consumeRef.current();
+        if (f && f.type === 'application/pdf') addFiles([f]);
+    }, [addFiles]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handlePasswordSubmit = (id: string, pw: string) => {
         const entry = entries.find((e) => e.id === id);

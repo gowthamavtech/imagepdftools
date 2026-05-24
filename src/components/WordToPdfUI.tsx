@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { DropZone } from './DropZone';
 import { useDocxConverter, type ConversionStatus } from '@/hooks/useDocxConverter';
+import { PdfNextActions } from './PdfNextActions';
 
 type PageSize = 'a4' | 'letter';
 
@@ -100,6 +101,14 @@ export function WordToPdfUI() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
   }, [pdfBlob, preview]);
+
+  // ── View in browser ────────────────────────────────────────────────────────
+  const viewInBrowser = useCallback(() => {
+    if (!pdfBlob) return;
+    const url = URL.createObjectURL(pdfBlob);
+    window.open(url, '_blank', 'noopener');
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }, [pdfBlob]);
 
   // ── Full reset ─────────────────────────────────────────────────────────────
   const handleReset = useCallback(() => {
@@ -249,18 +258,43 @@ export function WordToPdfUI() {
               </button>
             )}
 
-            {/* ── Done: save + font badge ── */}
+            {/* ── Done: save + font badge + continue with ── */}
             {isDone && pdfBlob && (
               <>
-                <button
-                  onClick={download}
-                  className="btn-accent w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl text-[14px] font-semibold tracking-[-0.01em] transition-all"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Save PDF — {preview?.filename}
-                </button>
+                {/* Success row */}
+                <div className="flex items-center gap-2 px-0.5">
+                  <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-emerald-500 shrink-0">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Converted
+                  </span>
+                  <span className="text-[12px] text-fg-3 truncate">{preview?.filename}</span>
+                </div>
+
+                {/* Primary actions */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={download}
+                    className="btn-accent w-1/2 inline-flex items-center justify-center gap-2 h-12 rounded-xl text-[14px] font-semibold tracking-[-0.01em] transition-all cursor-pointer"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Save PDF
+                  </button>
+                  <button
+                    onClick={viewInBrowser}
+                    className="w-1/2 inline-flex items-center justify-center gap-2 h-12 rounded-xl bd-2 text-[14px] font-semibold text-fg-2 hover:text-fg-1 transition-colors cursor-pointer"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    View PDF
+                  </button>
+                </div>
+
+                {/* Quality badge */}
                 {fontCount > 0 && (
                   <div className="flex items-center justify-center gap-1.5 text-[11.5px] text-fg-3">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-emerald-400" aria-hidden="true">
@@ -269,16 +303,33 @@ export function WordToPdfUI() {
                     {fontCount} system font{fontCount !== 1 ? 's' : ''} matched · vector PDF · fully searchable
                   </div>
                 )}
+
+                {/* Reset — before the tool cards so user sees it without scrolling */}
+                <button
+                  onClick={handleReset}
+                  className="w-full inline-flex items-center justify-center h-9 rounded-xl text-[13px] font-medium text-accent hover:opacity-75 transition-opacity cursor-pointer"
+                >
+                  Convert another file
+                </button>
+
+                {/* Continue with tools */}
+                <PdfNextActions
+                  blob={pdfBlob}
+                  filename={preview?.filename ?? 'document.pdf'}
+                  sourceLabel="Word to PDF"
+                />
               </>
             )}
 
-            {/* ── Reset ── */}
-            <button
-              onClick={handleReset}
-              className="w-full inline-flex items-center justify-center gap-2 h-10 rounded-xl bd-2 text-[13px] font-medium text-fg-2 hover:text-fg-1 transition-colors"
-            >
-              Convert another file
-            </button>
+            {/* ── Not done: reset to pick a different file ── */}
+            {!isDone && (
+              <button
+                onClick={handleReset}
+                className="w-full inline-flex items-center justify-center gap-2 h-10 rounded-xl bd-2 text-[13px] font-medium text-fg-2 hover:text-fg-1 transition-colors cursor-pointer"
+              >
+                Choose a different file
+              </button>
+            )}
           </div>
         </>
       )}

@@ -1,8 +1,9 @@
 ﻿'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function isPdfjsPasswordError(e: unknown): boolean {
   return (e as { name?: string })?.name === 'PasswordException';
@@ -51,6 +52,13 @@ export function PdfToJpgUI() {
   const [needsPassword, setNeedsPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const pendingFileRef = useRef<File | null>(null);
+
+  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef = useRef(consumeHandoff);
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') setFile(f);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFiles = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];

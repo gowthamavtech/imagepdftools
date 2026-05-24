@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function isEncryptError(e: unknown): boolean {
   const msg = String(e).toLowerCase();
@@ -45,6 +46,13 @@ export function NumberPdfUI() {
   const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
   const [needsPassword, setNeedsPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+
+  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef = useRef(consumeHandoff);
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') setFile(f);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFiles = useCallback((files: File[]) => {
     const f = files[0];
