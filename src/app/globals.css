@@ -93,6 +93,12 @@
 }
 
 /* ── Base typography ────────────────────────────────────── */
+/* Set on html too so the background is correct from the very first pixel,
+   before <body> is even parsed. Prevents any white flash between
+   <html> render and <body> render. */
+html {
+  background-color: var(--background);
+}
 body {
   background: var(--background);
   color: var(--text-1);

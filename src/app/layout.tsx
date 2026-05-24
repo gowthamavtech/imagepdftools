@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import Script from "next/script";
-import { cookies } from "next/headers";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FeedbackButton } from "@/components/FeedbackModal";
@@ -43,27 +42,21 @@ export const metadata: Metadata = {
     alternates: { canonical: "https://imagepdf.tools" },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-    const cookieStore = await cookies();
-    const themeCookie = cookieStore.get('theme')?.value;
-    // Default to dark. Cookie is set by ThemeProvider after first visit.
-    const isDark = themeCookie !== 'light';
-    const htmlClass = `${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased${isDark ? ' dark' : ''}`;
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <ClerkProvider>
-            <html lang="en" className={htmlClass} suppressHydrationWarning>
+            <html lang="en" className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased`} suppressHydrationWarning>
                 <head>
-                    {/* Fallback for first visit or stale cookie: correct class via localStorage.
-                        Cookie covers subsequent visits; this covers the very first load. */}
+                    {/* Runs synchronously before first paint — sets dark/light class from
+                        localStorage so there is no flash in either direction. */}
                     <script
                         dangerouslySetInnerHTML={{
-                            __html: `(function(){try{var t=localStorage.getItem('theme');var preferLight=window.matchMedia('(prefers-color-scheme:light)').matches;var wantDark=t==='dark'||(t!=='light'&&!preferLight);if(wantDark){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+                            __html: `(function(){try{var t=localStorage.getItem('theme');var dark=t==='dark'||(!t&&!window.matchMedia('(prefers-color-scheme:light)').matches);document.documentElement.classList.toggle('dark',dark);}catch(e){document.documentElement.classList.add('dark');}})();`,
                         }}
                     />
 
                 </head>
-                <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text-1)" }}>
+                <body className="min-h-full flex flex-col">
                     <ThemeProvider>
                         <GlobalAnimations />
                         <SiteHeader />

@@ -37,14 +37,12 @@ function applyTheme(theme: Theme) {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('system');
 
-  // On mount: read saved preference; fall back to dark
+  // On mount: read saved preference; fall back to dark (matches the inline script default)
   useEffect(() => {
     const saved = (localStorage.getItem('theme') as Theme) ?? 'dark';
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(saved);
     applyTheme(saved);
-    // Sync to cookie so the server can render the correct class on next request
-    document.cookie = `theme=${saved}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
   }, []);
 
   // Listen for OS preference changes (relevant when theme === 'system')
@@ -60,8 +58,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   function setTheme(t: Theme) {
     setThemeState(t);
     localStorage.setItem('theme', t);
-    // Keep cookie in sync so the server renders the right class on next navigation
-    document.cookie = `theme=${t}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
     applyTheme(t);
   }
 
