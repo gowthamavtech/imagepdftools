@@ -45,12 +45,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <ClerkProvider>
-            <html lang="en" className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased`} suppressHydrationWarning>
+            <html lang="en" className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased dark`} suppressHydrationWarning>
                 <head>
-                    {/* Apply theme before React hydrates to prevent flash */}
+                    {/* Correct theme before first paint. HTML defaults to dark so dark users
+                        see no flash. Script only acts when user explicitly chose light or
+                        system-light — i.e. it only ever *removes* the dark class. */}
                     <script
                         dangerouslySetInnerHTML={{
-                            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');}else if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
+                            __html: `(function(){try{var t=localStorage.getItem('theme');var preferLight=window.matchMedia('(prefers-color-scheme: light)').matches;if(t==='light'||(t!=='dark'&&preferLight)){document.documentElement.classList.remove('dark');}}catch(e){}})();`,
                         }}
                     />
 
