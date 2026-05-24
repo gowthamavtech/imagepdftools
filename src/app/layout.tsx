@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import Script from "next/script";
+import { cookies } from "next/headers";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FeedbackButton } from "@/components/FeedbackModal";
@@ -42,17 +43,22 @@ export const metadata: Metadata = {
     alternates: { canonical: "https://imagepdf.tools" },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+    const cookieStore = await cookies();
+    const themeCookie = cookieStore.get('theme')?.value;
+    // Default to dark. Cookie is set by ThemeProvider after first visit.
+    const isDark = themeCookie !== 'light';
+    const htmlClass = `${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased${isDark ? ' dark' : ''}`;
+
     return (
         <ClerkProvider>
-            <html lang="en" className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased dark`} suppressHydrationWarning>
+            <html lang="en" className={htmlClass} suppressHydrationWarning>
                 <head>
-                    {/* Correct theme before first paint. HTML defaults to dark so dark users
-                        see no flash. Script only acts when user explicitly chose light or
-                        system-light — i.e. it only ever *removes* the dark class. */}
+                    {/* Fallback for first visit or stale cookie: correct class via localStorage.
+                        Cookie covers subsequent visits; this covers the very first load. */}
                     <script
                         dangerouslySetInnerHTML={{
-                            __html: `(function(){try{var t=localStorage.getItem('theme');var preferLight=window.matchMedia('(prefers-color-scheme: light)').matches;if(t==='light'||(t!=='dark'&&preferLight)){document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+                            __html: `(function(){try{var t=localStorage.getItem('theme');var preferLight=window.matchMedia('(prefers-color-scheme:light)').matches;var wantDark=t==='dark'||(t!=='light'&&!preferLight);if(wantDark){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
                         }}
                     />
 
