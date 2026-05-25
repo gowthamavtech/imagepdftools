@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -39,7 +39,7 @@ export default function ContactForm() {
 
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[640px] mx-auto px-8">
+      <div className="max-w-[640px] mx-auto px-4 sm:px-8">
 
         {/* Header */}
         <div className="mb-10">

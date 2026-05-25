@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy & How It Works',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[780px] mx-auto px-8">
+      <div className="max-w-[780px] mx-auto px-4 sm:px-8">
 
         {/* Hero */}
         <div className="text-center mb-12">
@@ -88,8 +88,8 @@ export default function PrivacyPage() {
           <section>
             <h2 className="serif italic text-fg-1 m-0 mb-3"
                   style={{ fontSize: 'clamp(21px, 3vw, 32px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>What data is stored — and where</h2>
-            <div className="overflow-hidden bd-2 rounded-[10px]">
-              <table className="w-full text-[13px]">
+            <div className="overflow-x-auto overflow-hidden bd-2 rounded-[10px]">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13px]">
                 <thead>
                   <tr className="bg-surface">
                     <th className="text-left py-3 px-4 font-medium text-fg-2">Data</th>

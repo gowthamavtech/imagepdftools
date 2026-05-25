@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -41,8 +41,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {
@@ -186,8 +186,8 @@ export default function JpgToWebpPage() {
             <p className="text-[15px] leading-[1.75] text-fg-2 m-0 mb-8">
               JPEG has been the standard photo format since the 1990s and remains excellent. WebP, released by Google in 2010, offers meaningfully better compression — 25–35% smaller files at the same visual quality. For websites, that reduction directly improves Core Web Vitals and reduces bandwidth costs.
             </p>
-            <div className="rounded-[10px] overflow-hidden bd-2">
-              <table className="w-full text-[13.5px]">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13.5px]">
                 <thead>
                   <tr className="bg-surface">
                     <th className="text-left px-4 py-3 font-medium text-fg-2">Feature</th>

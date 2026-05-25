@@ -1,6 +1,6 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
-const C = 'max-w-[1180px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
 
 const CAT_COLS = [
   {
@@ -175,7 +175,7 @@ export function SiteFooter() {
         </div>
 
         {/* Other columns */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-10">
           {CAT_COLS.filter(c => c.cat !== 'pdf').map(({ cat, title, links }) => (
             <div key={cat}>
               <div className="flex items-center gap-2 mb-4">

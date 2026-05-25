@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
 export default function PrivacyPolicyPage() {
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[780px] mx-auto px-8">
+      <div className="max-w-[780px] mx-auto px-4 sm:px-8">
 
         <div className="mb-8">
           <span data-animate="hero" className="hp-eyebrow">Legal</span>
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
               ImagePDF.Tools takes the opposite approach:
             </p>
             <div className="bd-2 rounded-[10px] overflow-hidden mb-4">
-              <table className="w-full text-[13px]">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13px]">
                 <thead>
                   <tr className="bg-surface">
                     <th className="text-left py-2.5 px-4 font-medium text-fg-2 w-32">Tool</th>

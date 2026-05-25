@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CompressorUI } from '@/components/CompressorUI';
 import Link from 'next/link';
@@ -136,8 +136,8 @@ export default async function ConvertPage(
   const toolUrl = `${BASE}/convert/${slug}`;
   const toolId = `convert-${slug}-tool`;
 
-  const C = 'max-w-[1180px] mx-auto px-8';
-  const Cnarrow = 'max-w-[780px] mx-auto px-8';
+  const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+  const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
   const jsonLd = {
     '@context': 'https://schema.org',

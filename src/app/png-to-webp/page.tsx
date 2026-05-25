@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -40,8 +40,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {
@@ -227,8 +227,8 @@ export default function PngToWebpPage() {
             <h2 className="serif italic text-fg-1 m-0 mb-6" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
               PNG vs WebP
             </h2>
-            <div className="rounded-[10px] overflow-hidden bd-2">
-              <table className="w-full text-[13.5px]">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13.5px]">
                 <thead>
                   <tr className="bg-surface">
                     <th className="text-left px-4 py-3 font-medium text-fg-2">Feature</th>

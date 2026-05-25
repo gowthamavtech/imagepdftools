@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -91,8 +91,8 @@ const FAQS = [
   { q: 'Can I compare the original and compressed image?', a: 'Yes. Each file card shows the original and compressed sizes with the percentage reduction. Click the image preview to open the before/after comparison slider.' },
 ];
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 export default function CompressImagePage() {
   return (
@@ -273,8 +273,8 @@ export default function CompressImagePage() {
               The right format depends on the image type and intended use.
             </p>
 
-            <div className="rounded-[10px] overflow-hidden bd-2">
-              <table className="w-full text-[13px] border-collapse">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13px] border-collapse">
                 <thead>
                   <tr style={{ background: 'var(--bg-elevated)' }}>
                     {['Format', 'Best for', 'Transparency', 'Typical reduction'].map((h) => (
@@ -362,8 +362,8 @@ export default function CompressImagePage() {
               The quality slider controls how aggressively the encoder discards image data. Higher quality preserves more detail; lower quality produces smaller files.
             </p>
 
-            <div className="rounded-[10px] overflow-hidden bd-2">
-              <table className="w-full text-[13px] border-collapse">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2">
+              <table style={{ minWidth: '460px' }} className="w-full text-[13px] border-collapse">
                 <thead>
                   <tr style={{ background: 'var(--bg-elevated)' }}>
                     {['Quality range', 'Best for', 'Typical reduction'].map((h) => (

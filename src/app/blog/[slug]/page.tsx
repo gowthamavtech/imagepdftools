@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { POSTS, CATEGORY_META, getPost, getRelatedPosts, type Block } from '@/lib/blog';
@@ -104,7 +104,7 @@ function BlockRenderer({ block }: { block: Block }) {
     }
     case 'code':
       return (
-        <div className="my-6 rounded-[10px] overflow-hidden bd-2">
+        <div className="my-6 rounded-[10px] overflow-x-auto overflow-hidden bd-2">
           <div className="bg-slate-800 px-4 py-2 text-[11px] text-slate-400 font-mono border-b border-slate-700 flex items-center gap-2">
             <span className="uppercase tracking-wider">{block.lang}</span>
           </div>
@@ -116,7 +116,7 @@ function BlockRenderer({ block }: { block: Block }) {
     case 'table':
       return (
         <figure className="my-8 overflow-x-auto rounded-[10px] bd-2">
-          <table className="w-full text-[13px] text-left">
+          <table style={{ minWidth: '460px' }} className="w-full text-[13px] text-left">
             <thead className="bg-surface">
               <tr>
                 {block.headers.map((h) => (
@@ -248,7 +248,7 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-[1180px] mx-auto px-8">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-8">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-[12px] text-fg-3 mb-8">

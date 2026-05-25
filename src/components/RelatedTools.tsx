@@ -1,7 +1,7 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { TOOLS } from '@/lib/tools';
 
-const C = 'max-w-[1180px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
 
 export function RelatedTools({ hrefs }: { hrefs: string[] }) {
   const tools = hrefs.map((h) => TOOLS[h]).filter(Boolean);

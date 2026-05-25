@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
+﻿import { auth } from '@clerk/nextjs/server';
 import { clerkClient } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -19,7 +19,7 @@ export default async function AccountPage() {
 
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[480px] mx-auto px-8">
+      <div className="max-w-[480px] mx-auto px-4 sm:px-8">
         <h1 className="serif italic text-fg-1 m-0 mb-8" style={{ fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Account</h1>
 
         <div className="bg-surface bd-2 rounded-[14px] p-6 mb-4">

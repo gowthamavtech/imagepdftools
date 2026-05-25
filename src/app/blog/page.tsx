@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { POSTS, CATEGORY_META, type Category } from '@/lib/blog';
 
@@ -69,7 +69,7 @@ export default async function BlogPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-[1180px] mx-auto px-8 relative z-[1]">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-8 relative z-[1]">
 
         {/* Header */}
         <div className="mb-10 max-w-2xl">

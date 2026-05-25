@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { OfflineDemo } from './OfflineDemo';
 
@@ -98,7 +98,7 @@ export default function AboutPage() {
       {/* ── 1. Hero ── */}
       <section className="relative overflow-hidden" style={{ paddingTop: 'clamp(48px, 7vw, 80px)', paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
         <div aria-hidden="true" className="absolute pointer-events-none" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
-        <div className="max-w-[780px] mx-auto px-8 text-center relative z-[1]">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8 text-center relative z-[1]">
           <span data-animate="hero" className="hp-eyebrow">About</span>
           <h1 data-animate="hero" className="serif italic text-fg-1 m-0 mb-5" style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.98, letterSpacing: '-0.03em' }}>
             Privacy isn&apos;t a feature.<br /><span className="text-accent">It&apos;s our architecture.</span>
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
       {/* ── Stats strip ── */}
       <section style={{ padding: 'clamp(20px, 2.5vw, 32px) 0' }}>
-        <div className="max-w-[1180px] mx-auto px-8">
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-8">
           <div data-animate-stagger className="grid grid-cols-2 md:grid-cols-4">
             {[
               { num: '16+',  label: 'Browser tools' },
@@ -136,7 +136,7 @@ export default function AboutPage() {
 
       {/* ── 2. Mission: Local-First ── */}
       <section className="bd-t-1 bd-b-1 bg-surface" style={{ padding: 'clamp(48px, 6vw, 72px) 0' }}>
-        <div className="max-w-[1180px] mx-auto px-8">
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
             {/* Problem / Solution */}
@@ -208,7 +208,7 @@ export default function AboutPage() {
 
       {/* ── 3. How It's Free ── */}
       <section style={{ padding: 'clamp(48px, 6vw, 72px) 0' }}>
-        <div className="max-w-[780px] mx-auto px-8">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8">
           <div className="text-center mb-10">
             <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-3" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
               No account. No subscription. No catch.
@@ -250,7 +250,7 @@ export default function AboutPage() {
 
       {/* ── 4. Tech Stack ── */}
       <section className="bd-t-1 bd-b-1 bg-surface" style={{ padding: 'clamp(48px, 6vw, 72px) 0' }}>
-        <div className="max-w-[780px] mx-auto px-8">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8">
           <div className="text-center mb-10">
             <span data-animate="scroll" className="hp-eyebrow text-center">Tech stack</span>
             <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-3" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
@@ -279,7 +279,7 @@ export default function AboutPage() {
 
       {/* ── 5. Values ── */}
       <section style={{ padding: 'clamp(48px, 6vw, 72px) 0' }}>
-        <div className="max-w-[780px] mx-auto px-8">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8">
           <div className="text-center mb-10">
             <span data-animate="scroll" className="hp-eyebrow text-center">Values</span>
             <h2 data-animate="scroll" className="serif italic text-fg-1 m-0" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>Our Values</h2>
@@ -302,7 +302,7 @@ export default function AboutPage() {
 
       {/* ── 6. Offline Proof Demo ── */}
       <section className="bd-t-1 bd-b-1 bg-surface" style={{ padding: 'clamp(48px, 6vw, 72px) 0' }}>
-        <div className="max-w-[780px] mx-auto px-8 text-center">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8 text-center">
           <span data-animate="scroll" className="hp-eyebrow text-center">Technical Proof</span>
           <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
             Still don&apos;t believe us? Go offline.
@@ -318,7 +318,7 @@ export default function AboutPage() {
 
       {/* ── 7. CTA ── */}
       <section style={{ padding: 'clamp(56px, 8vw, 96px) 0' }}>
-        <div className="max-w-[780px] mx-auto px-8 text-center">
+        <div className="max-w-[780px] mx-auto px-4 sm:px-8 text-center">
           <h2 data-animate="scroll" className="serif italic text-fg-1 m-0 mb-4" style={{ fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.05, letterSpacing: '-0.025em' }}>
             Ready to experience truly private processing?
           </h2>

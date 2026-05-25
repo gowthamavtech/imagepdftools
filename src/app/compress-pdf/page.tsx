@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { PdfCompressUI } from '@/components/PdfCompressUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -45,8 +45,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {
@@ -265,8 +265,8 @@ export default function CompressPdfPage() {
               The quality setting controls how aggressively each PDF page is re-compressed. Higher quality means larger files; lower quality means smaller files with softer detail.
             </p>
 
-            <div className="rounded-[10px] overflow-hidden bd-2">
-              <table className="w-full text-left border-collapse">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2">
+              <table style={{ minWidth: '460px' }} className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-elevated">
                     <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Quality</th>

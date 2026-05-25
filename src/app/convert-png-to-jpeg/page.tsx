@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -45,8 +45,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {
@@ -180,8 +180,8 @@ export default function ConvertPngToJpegPage() {
               PNG vs JPEG — <em className="text-accent">when to use which.</em>
             </h2>
             <p className="text-[14px] text-fg-2 leading-[1.65] m-0 mb-6">PNG uses lossless compression — every pixel is stored exactly, but at the cost of large file sizes. For photographs and complex images, this is unnecessary overhead. A photo as JPEG at quality 80 is typically 60–80% smaller than the same photo as PNG with virtually no visible difference on screen.</p>
-            <div className="rounded-[10px] overflow-hidden bd-2 mb-8">
-              <table className="w-full text-left border-collapse">
+            <div className="rounded-[10px] overflow-x-auto overflow-hidden bd-2 mb-8">
+              <table style={{ minWidth: '460px' }} className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-elevated">
                     <th className="font-data text-[10.5px] font-medium tracking-[0.12em] uppercase text-fg-3 px-4 py-3">Feature</th>
