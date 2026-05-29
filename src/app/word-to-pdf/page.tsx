@@ -19,7 +19,7 @@ const jsonLd = {
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      description: 'Free online Word to PDF converter. Drop a .docx file and download the PDF instantly, with no upload required.',
+      description: 'Free online Word to PDF converter. Drop a .docx file and save the PDF instantly, with no upload required.',
     },
     {
       '@type': 'HowTo',
@@ -27,7 +27,7 @@ const jsonLd = {
       step: [
         { '@type': 'HowToStep', text: 'Drop your .docx file onto the tool or click to browse.' },
         { '@type': 'HowToStep', text: 'Preview how the document will look in the PDF.' },
-        { '@type': 'HowToStep', text: 'Choose A4 or Letter page size, then click Download PDF.' },
+        { '@type': 'HowToStep', text: 'Choose A4 or Letter page size, then click Save PDF.' },
       ],
     },
     {

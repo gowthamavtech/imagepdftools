@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FeedbackButton } from "@/components/FeedbackModal";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { OfflineBanner } from "@/components/OfflineBanner";
+import { PwaInstallBanner } from "@/components/PwaInstallBanner";
 import GlobalAnimations from "@/components/GlobalAnimations";
 import "./globals.css";
 
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <SiteFooter />
                         <FeedbackButton />
                         <OfflineBanner />
+                        <PwaInstallBanner />
                     </ThemeProvider>
 
                     {/* Google Translate mount point — must NOT be display:none or GT won't init */}
@@ -80,6 +82,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         strategy="afterInteractive"
                         dangerouslySetInnerHTML={{
                             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-D8FVR6G48F');`,
+                        }}
+                    />
+
+                    {/* Service worker — caches LibreOffice WASM files permanently */}
+                    <Script
+                        id="sw-register"
+                        strategy="afterInteractive"
+                        dangerouslySetInnerHTML={{
+                            __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}`,
                         }}
                     />
 
