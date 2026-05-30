@@ -19,7 +19,7 @@ const jsonLd = {
       operatingSystem: 'Any (browser-based)',
       applicationCategory: 'UtilitiesApplication',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      description: 'Free online Word to PDF converter. Drop a .docx file and download the PDF instantly, with no upload required.',
+      description: 'Free online Word to PDF converter. Drop a .docx file and save the PDF instantly, with no upload required.',
     },
     {
       '@type': 'HowTo',
@@ -27,7 +27,7 @@ const jsonLd = {
       step: [
         { '@type': 'HowToStep', text: 'Drop your .docx file onto the tool or click to browse.' },
         { '@type': 'HowToStep', text: 'Preview how the document will look in the PDF.' },
-        { '@type': 'HowToStep', text: 'Choose A4 or Letter page size, then click Download PDF.' },
+        { '@type': 'HowToStep', text: 'Choose A4 or Letter page size, then click Save PDF.' },
       ],
     },
     {
@@ -62,7 +62,7 @@ const STEPS = [
   {
     n: '02',
     title: 'Preview and adjust',
-    desc: 'See a live preview of how your document will appear as a PDF. Switch between A4 and US Letter page size before downloading.',
+    desc: 'See a live preview of how your document will appear as a PDF. Switch between A4 and US Letter page size before saving.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
@@ -71,8 +71,8 @@ const STEPS = [
   },
   {
     n: '03',
-    title: 'Download your PDF',
-    desc: 'Click Download PDF. The file is built locally and downloaded instantly — no account, no wait, no watermark.',
+    title: 'Save your PDF',
+    desc: 'Click Save PDF. The file is built locally and saved instantly — no account, no wait, no watermark.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -126,7 +126,7 @@ export default function WordToPdfPage() {
               Word document.<br /><span className="text-accent">Clean PDF. Instantly.</span>
             </h1>
             <p className="text-[16px] font-normal leading-[1.6] text-fg-2 max-w-[48ch] mx-auto m-0 mb-3">
-              Convert .docx files to PDF in your browser. Preview before you download. No upload, no watermark, no limits.
+              Convert .docx files to PDF in your browser. Preview before you save. No upload, no watermark, no limits.
             </p>
             <p className="text-[12px] text-fg-3 tracking-wide m-0 mb-8">Free · No account · No upload</p>
             <div className="flex flex-wrap justify-center gap-2">

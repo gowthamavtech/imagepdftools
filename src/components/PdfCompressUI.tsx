@@ -1,25 +1,95 @@
-﻿'use client';
+'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
-import { PdfPasswordPrompt } from './PdfPasswordPrompt';
 
-function isPdfjsPasswordError(e: unknown): boolean {
-  return (e as { name?: string })?.name === 'PasswordException';
+// ── Canvas-based PDF viewer (works on Android / no native PDF support) ────────
+function PdfJsViewer({ url }: { url: string }) {
+  const [pageUrls, setPageUrls] = useState<string[]>([]);
+  const [rendered, setRendered] = useState(0);
+  const [total, setTotal]       = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const urls: string[] = [];
+    (async () => {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+      const res  = await fetch(url);
+      const buf  = await res.arrayBuffer();
+      const pdf  = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+      if (cancelled) return;
+      setTotal(pdf.numPages);
+      for (let i = 1; i <= pdf.numPages; i++) {
+        if (cancelled) break;
+        const page     = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas   = document.createElement('canvas');
+        canvas.width   = viewport.width;
+        canvas.height  = viewport.height;
+        await page.render({ canvasContext: canvas.getContext('2d')!, viewport, canvas }).promise;
+        const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/jpeg', 0.9));
+        if (blob) {
+          const pageUrl = URL.createObjectURL(blob);
+          urls.push(pageUrl);
+          if (!cancelled) { setPageUrls([...urls]); setRendered(i); }
+        }
+      }
+    })().catch(() => {});
+    return () => { cancelled = true; urls.forEach(URL.revokeObjectURL); };
+  }, [url]);
+
+  if (pageUrls.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-3 text-slate-400">
+        <svg className="w-6 h-6 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+        </svg>
+        {total > 0 && <p className="text-xs">{rendered} / {total} pages</p>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="overflow-y-auto h-full bg-slate-700 flex flex-col items-center gap-2 py-4 px-2">
+      {pageUrls.map((u, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={i} src={u} alt={`Page ${i + 1}`} className="max-w-full shadow-lg rounded" />
+      ))}
+      {rendered < total && (
+        <p className="text-xs text-slate-400 py-2">{rendered} / {total} pages rendered…</p>
+      )}
+    </div>
+  );
 }
 
-interface PageInfo {
-  index: number;
-  originalSize: number;
-  compressedSize: number;
+// ── Types ─────────────────────────────────────────────────────────────────────
+const PRESETS = [
+  { id: 'low',    label: 'Low',    quality: 85 },
+  { id: 'medium', label: 'Medium', quality: 65 },
+  { id: 'strong', label: 'Strong', quality: 30 },
+] as const;
+
+type PresetId = (typeof PRESETS)[number]['id'] | null;
+
+interface PdfFileEntry {
+  id: string;
+  file: File;
+  quality: number;
+  preset: PresetId;
 }
 
-const QUICK_PRESETS = [
-  { label: 'Low',    value: 30 },
-  { label: 'Medium', value: 65 },
-  { label: 'High',   value: 85 },
-];
+interface PdfResult {
+  bytes: Uint8Array;
+  url: string;
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function generateId(): string {
+  return Math.random().toString(36).slice(2, 10);
+}
 
 function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
@@ -31,371 +101,6 @@ function pct(before: number, after: number) {
   return Math.round((1 - after / before) * 100);
 }
 
-export function PdfCompressUI() {
-  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
-  const consumeRef     = useRef(consumeHandoff);
-
-  const [file,          setFile]          = useState<File | null>(null);
-  const [quality,       setQuality]       = useState(65);   // 10–95 JPEG quality %
-  const [progress,      setProgress]      = useState(0);    // 0–100
-  const [isWorking,     setIsWorking]     = useState(false);
-  const [result,        setResult]        = useState<{ bytes: Uint8Array; pages: PageInfo[] } | null>(null);
-  const [resultUrl,     setResultUrl]     = useState<string | null>(null);
-  const [error,         setError]         = useState<string | null>(null);
-  const [sourceLabel,   setSourceLabel]   = useState<string | null>(null);
-  const [downloaded,    setDownloaded]    = useState(false);
-  const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
-  const [needsPassword, setNeedsPassword] = useState(false);
-  const [wrongPassword, setWrongPassword] = useState(false);
-
-  // Auto-load PDF handed off from another tool (e.g. image-to-pdf)
-  useEffect(() => {
-    const { file: f, sourceLabel: sl } = consumeRef.current();
-    if (f && f.type === 'application/pdf') { setSourceLabel(sl); setFile(f); }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleFile = useCallback((f: File) => {
-    if (f.type !== 'application/pdf') {
-      setError('Please upload a PDF file.');
-      return;
-    }
-    setFile(f);
-    setResult(null);
-    setError(null);
-    setProgress(0);
-  }, []);
-
-  const compress = useCallback(async (pw?: string) => {
-    const password = pw ?? pdfPassword ?? undefined;
-    if (!file) return;
-    setIsWorking(true);
-    setError(null);
-    setProgress(0);
-
-    try {
-      const jpegQuality = quality / 100;
-      // Higher quality → higher render scale for better fidelity (1.2 – 2.0)
-      const renderScale = 1.2 + (quality / 95) * 0.8;
-
-      // ── 1. Load pdfjs-dist ──────────────────────────────────────────────
-      const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
-
-      const pdfBytes  = new Uint8Array(await file.arrayBuffer());
-      const loadTask  = pdfjsLib.getDocument({ data: pdfBytes, ...(password ? { password } : {}) });
-      const pdfDoc    = await loadTask.promise;
-      const numPages  = pdfDoc.numPages;
-
-      // ── 2. Load pdf-lib for output PDF ──────────────────────────────────
-      const { PDFDocument } = await import('pdf-lib');
-      const outDoc = await PDFDocument.create();
-
-      const pageInfos: PageInfo[] = [];
-
-      // ── 3. Render each page → JPEG → embed into new PDF ─────────────────
-      for (let i = 1; i <= numPages; i++) {
-        const page     = await pdfDoc.getPage(i);
-        const viewport = page.getViewport({ scale: renderScale });
-
-        // Render to offscreen canvas
-        const canvas    = document.createElement('canvas');
-        canvas.width    = Math.floor(viewport.width);
-        canvas.height   = Math.floor(viewport.height);
-
-        // pdfjs-dist v5: `canvas` is the primary required field
-        await page.render({ canvas, viewport }).promise;
-
-        // Compress canvas → JPEG blob
-        const jpegBlob  = await canvasToJpeg(canvas, jpegQuality);
-        const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
-
-        // Embed JPEG into output PDF at the original page's pt dimensions
-        const { width: ptW, height: ptH } = page.getViewport({ scale: 1 });
-        const embedded  = await outDoc.embedJpg(jpegBytes);
-        const outPage   = outDoc.addPage([ptW, ptH]);
-        outPage.drawImage(embedded, { x: 0, y: 0, width: ptW, height: ptH });
-
-        pageInfos.push({
-          index: i,
-          originalSize: Math.round((pdfBytes.byteLength / numPages)),
-          compressedSize: jpegBytes.byteLength,
-        });
-
-        setProgress(Math.round((i / numPages) * 100));
-      }
-
-      // ── 4. Save ──────────────────────────────────────────────────────────
-      const outBytes = await outDoc.save();
-      const blob = new Blob([outBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-      const url  = URL.createObjectURL(blob);
-      setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return url; });
-      setResult({ bytes: outBytes, pages: pageInfos });
-    } catch (err) {
-      if (isPdfjsPasswordError(err)) {
-        setNeedsPassword(true);
-        if (password) setWrongPassword(true);
-      } else {
-        setError((err as Error).message || 'Compression failed. Please try again.');
-      }
-    } finally {
-      setIsWorking(false);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file, quality, pdfPassword]);
-
-  const download = useCallback(() => {
-    if (!result || !file) return;
-    const blob = new Blob([result.bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = file.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
-    a.click();
-    URL.revokeObjectURL(url);
-  }, [result, file]);
-
-  const reset = () => {
-    setFile(null);
-    setResult(null);
-    setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
-    setError(null);
-    setProgress(0);
-    setPdfPassword(null);
-    setNeedsPassword(false);
-    setWrongPassword(false);
-  };
-
-  const originalSize  = file?.size ?? 0;
-  const compressedSize = result?.bytes.byteLength ?? 0;
-  const saving        = result ? pct(originalSize, compressedSize) : 0;
-
-  return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-16">
-
-      {/* Drop zone — hidden once a file is loaded */}
-      {!file && (
-        <div className="mt-6">
-          <DropZone
-            onFiles={(files) => { if (files[0]) handleFile(files[0]); }}
-            accept={['application/pdf']}
-            multiple={false}
-            label="Drop your PDF here"
-            hint="PDF files only · processed entirely in your browser"
-            browseLabel="Browse PDF"
-            fileTypeName="PDF"
-          />
-        </div>
-      )}
-
-      {/* File loaded — quality controls */}
-      {file && !result && (
-        <div className="mt-6 space-y-4">
-
-          {/* Handoff source pill */}
-          {sourceLabel && (
-            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
-              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-              </svg>
-              From: {sourceLabel}
-            </div>
-          )}
-
-          {/* File info */}
-          <div className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/30 flex items-center justify-center shrink-0">
-              <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-900 dark:text-slate-50 truncate">{file.name}</p>
-              <p className="text-xs text-slate-500">{formatBytes(file.size)}</p>
-            </div>
-            <button onClick={reset} className="p-1.5 text-slate-500 hover:text-red-500 transition-colors shrink-0">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Password prompt */}
-          {needsPassword && (
-            <PdfPasswordPrompt
-              filename={file.name}
-              onSubmit={(pw) => { setPdfPassword(pw); setNeedsPassword(false); setWrongPassword(false); compress(pw); }}
-              wrongPassword={wrongPassword}
-            />
-          )}
-
-          {/* Quality slider + progress + compress button */}
-          {!needsPassword && (
-            <>
-              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-4 shadow-sm">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Image Quality</p>
-                  <span className="text-sm font-bold text-violet-400">{quality}%</span>
-                </div>
-                <input
-                  type="range" min={10} max={95} step={1} value={quality}
-                  onChange={(e) => setQuality(Number(e.target.value))}
-                  className="w-full h-2 rounded-full accent-violet-500 cursor-pointer"
-                />
-                <div className="flex justify-between text-[10px] text-slate-500 mt-1.5 mb-3">
-                  <span>Smaller file</span>
-                  <span>Better quality</span>
-                </div>
-                <div className="flex gap-2">
-                  {QUICK_PRESETS.map((p) => (
-                    <button key={p.label} onClick={() => setQuality(p.value)}
-                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                        quality === p.value
-                          ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
-                          : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600'
-                      }`}>
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Progress bar */}
-              {isWorking && (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-400">
-                    <span>Compressing…</span>
-                    <span>{progress}%</span>
-                  </div>
-                  <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-linear-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-300"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Error */}
-              {error && (
-                <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
-
-              {/* Compress button */}
-              <button onClick={() => compress()} disabled={isWorking}
-                className="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 rounded-xl transition-all">
-                {isWorking ? (
-                  <>
-                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                    </svg>
-                    Compressing…
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
-                    </svg>
-                    Compress PDF
-                  </>
-                )}
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Result */}
-      {result && file && (
-        <div className="mt-6 space-y-4">
-
-          {/* Handoff source pill — persists through result state */}
-          {sourceLabel && (
-            <div className="flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
-              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-              </svg>
-              From: {sourceLabel}
-            </div>
-          )}
-
-          {/* Size comparison */}
-          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-5 shadow-sm">
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div>
-                <p className="text-xs text-slate-500 mb-1">Original</p>
-                <p className="text-sm sm:text-lg font-bold text-slate-900 dark:text-slate-50 tabular-nums">{formatBytes(originalSize)}</p>
-              </div>
-              <div className="flex flex-col items-center justify-center">
-                <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs sm:text-sm font-bold ${
-                  saving > 0
-                    ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400'
-                    : saving < 0
-                    ? 'bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
-                }`}>
-                  {saving > 0 ? `−${saving}%` : saving < 0 ? `+${Math.abs(saving)}%` : 'No change'}
-                </div>
-              </div>
-              <div>
-                <p className="text-xs text-slate-500 mb-1">Compressed</p>
-                <p className="text-sm sm:text-lg font-bold text-slate-900 dark:text-slate-50 tabular-nums">{formatBytes(compressedSize)}</p>
-              </div>
-            </div>
-
-            {/* Bar chart */}
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500 w-16 sm:w-20 shrink-0">Original</span>
-                <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                  <div className="h-full bg-slate-400 dark:bg-slate-500 rounded-full w-full" />
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-violet-500 w-16 sm:w-20 shrink-0">Compressed</span>
-                <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all ${saving >= 0 ? 'bg-linear-to-r from-violet-500 to-purple-500' : 'bg-amber-400'}`}
-                    style={{ width: `${saving >= 0 ? Math.max(4, 100 - saving) : 100}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button onClick={() => { download(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-              className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all">
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              {downloaded ? 'Saved ✓' : 'Save'}
-            </button>
-            <button onClick={() => resultUrl && window.open(resultUrl, '_blank')}
-              className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all">
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              View in Browser
-            </button>
-          </div>
-          <button onClick={reset}
-            className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-sm text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600 transition-colors">
-            New File
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function canvasToJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
@@ -404,4 +109,489 @@ function canvasToJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob>
       quality,
     );
   });
+}
+
+function makeEntry(file: File): PdfFileEntry {
+  return { id: generateId(), file, quality: 65, preset: 'medium' };
+}
+
+// ── Core compression ──────────────────────────────────────────────────────────
+async function compressPdfBytes(
+  file: File,
+  quality: number,
+  onProgress: (p: number) => void,
+): Promise<Uint8Array> {
+  // Keep JPEG quality high so text stays sharp — use render scale for size reduction.
+  // JPEG quality below ~80% creates visible DCT artifacts on text edges.
+  const jpegQuality = 0.80 + (quality / 95) * 0.15;   // 0.80 – 0.95
+  const renderScale = 0.75 + (quality / 95) * 1.25;   // 0.75 – 2.0
+
+  const pdfjsLib = await import('pdfjs-dist');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+
+  const pdfBytes = new Uint8Array(await file.arrayBuffer());
+  const pdfDoc   = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+  const numPages = pdfDoc.numPages;
+
+  const { PDFDocument } = await import('pdf-lib');
+  const outDoc = await PDFDocument.create();
+
+  for (let i = 1; i <= numPages; i++) {
+    const page     = await pdfDoc.getPage(i);
+    const viewport = page.getViewport({ scale: renderScale });
+    const canvas   = document.createElement('canvas');
+    canvas.width   = Math.floor(viewport.width);
+    canvas.height  = Math.floor(viewport.height);
+    await page.render({ canvas, viewport }).promise;
+    const jpegBlob  = await canvasToJpeg(canvas, jpegQuality);
+    const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
+    const { width: ptW, height: ptH } = page.getViewport({ scale: 1 });
+    const embedded  = await outDoc.embedJpg(jpegBytes);
+    const outPage   = outDoc.addPage([ptW, ptH]);
+    outPage.drawImage(embedded, { x: 0, y: 0, width: ptW, height: ptH });
+    onProgress(Math.round((i / numPages) * 100));
+  }
+
+  return outDoc.save();
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+export function PdfCompressUI() {
+  const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef     = useRef(consumeHandoff);
+
+  const [files,         setFiles]         = useState<PdfFileEntry[]>([]);
+  const [results,       setResults]       = useState<Record<string, PdfResult>>({});
+  const [progressMap,   setProgressMap]   = useState<Record<string, number>>({});
+  const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
+  const [editingIds,    setEditingIds]    = useState<Set<string>>(new Set());
+  const [errorMap,      setErrorMap]      = useState<Record<string, string>>({});
+  const [downloadedIds, setDownloadedIds] = useState<Set<string>>(new Set());
+  const [viewerId,      setViewerId]      = useState<string | null>(null);
+  const [sourceLabel,   setSourceLabel]   = useState<string | null>(null);
+
+  const filesRef = useRef<PdfFileEntry[]>([]);
+  filesRef.current = files;
+
+  const nativePdf = typeof navigator !== 'undefined'
+    && navigator.pdfViewerEnabled
+    && !/android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (!viewerId) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setViewerId(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [viewerId]);
+
+  useEffect(() => {
+    const { file: f, sourceLabel: sl } = consumeRef.current();
+    if (f && f.type === 'application/pdf') { setSourceLabel(sl); setFiles([makeEntry(f)]); }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── File management ────────────────────────────────────────────────────────
+  const addFiles = useCallback((incoming: File[]) => {
+    const valid = incoming.filter((f) => f.type === 'application/pdf');
+    if (valid.length === 0) return;
+    setFiles((prev) => [...prev, ...valid.map(makeEntry)]);
+  }, []);
+
+  const updateEntry = useCallback((id: string, patch: Partial<Pick<PdfFileEntry, 'quality' | 'preset'>>) => {
+    setFiles((prev) => prev.map((f) => f.id === id ? { ...f, ...patch } : f));
+  }, []);
+
+  const removeFile = useCallback((id: string) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+    setResults((prev) => { if (prev[id]) URL.revokeObjectURL(prev[id].url); const n = { ...prev }; delete n[id]; return n; });
+    setProgressMap((prev) => { const n = { ...prev }; delete n[id]; return n; });
+    setErrorMap((prev) => { const n = { ...prev }; delete n[id]; return n; });
+    setProcessingIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+    setEditingIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+    setViewerId((prev) => (prev === id ? null : prev));
+  }, []);
+
+  const clearAll = useCallback(() => {
+    setFiles([]);
+    setResults((prev) => { Object.values(prev).forEach((r) => URL.revokeObjectURL(r.url)); return {}; });
+    setProgressMap({});
+    setErrorMap({});
+    setProcessingIds(new Set());
+    setEditingIds(new Set());
+    setViewerId(null);
+  }, []);
+
+  // ── Compression ────────────────────────────────────────────────────────────
+  const compressFile = useCallback(async (entry: PdfFileEntry) => {
+    setProcessingIds((prev) => new Set(prev).add(entry.id));
+    setErrorMap((prev) => { const n = { ...prev }; delete n[entry.id]; return n; });
+    setProgressMap((prev) => ({ ...prev, [entry.id]: 0 }));
+    try {
+      const bytes = await compressPdfBytes(entry.file, entry.quality, (p) => {
+        setProgressMap((prev) => ({ ...prev, [entry.id]: p }));
+      });
+      const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+      const url  = URL.createObjectURL(blob);
+      setResults((prev) => {
+        if (prev[entry.id]) URL.revokeObjectURL(prev[entry.id].url);
+        return { ...prev, [entry.id]: { bytes, url } };
+      });
+      setEditingIds((prev) => { const s = new Set(prev); s.delete(entry.id); return s; });
+    } catch (err) {
+      setErrorMap((prev) => ({
+        ...prev,
+        [entry.id]: (err as Error).message || 'Compression failed. Please try again.',
+      }));
+    } finally {
+      setProcessingIds((prev) => { const s = new Set(prev); s.delete(entry.id); return s; });
+    }
+  }, []);
+
+  const compressAll = useCallback(() => {
+    filesRef.current.forEach((entry) => {
+      if (!processingIds.has(entry.id) && !results[entry.id]) compressFile(entry);
+    });
+  }, [compressFile, processingIds, results]);
+
+  // ── Download ───────────────────────────────────────────────────────────────
+  const downloadFile = useCallback((id: string) => {
+    const result = results[id];
+    const entry  = filesRef.current.find((f) => f.id === id);
+    if (!result || !entry) return;
+    const blob = new Blob([result.bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = entry.file.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
+    setDownloadedIds((prev) => new Set(prev).add(id));
+    setTimeout(() => setDownloadedIds((prev) => { const s = new Set(prev); s.delete(id); return s; }), 1500);
+  }, [results]);
+
+  const downloadAllZip = useCallback(async () => {
+    const entries = filesRef.current
+      .filter((f) => results[f.id])
+      .map((f) => ({
+        name: f.file.name.replace(/\.pdf$/i, '') + '-compressed.pdf',
+        blob: new Blob([results[f.id].bytes.buffer as ArrayBuffer], { type: 'application/pdf' }),
+      }));
+    if (entries.length === 0) return;
+    const { downloadAllAsZip } = await import('@/lib/zip');
+    await downloadAllAsZip(entries);
+  }, [results]);
+
+  // ── Derived ────────────────────────────────────────────────────────────────
+  const doneCount    = files.filter((f) => results[f.id]).length;
+  const allDone      = files.length > 0 && doneCount === files.length;
+  const anyProcessing = processingIds.size > 0;
+  const viewerEntry  = viewerId ? filesRef.current.find((f) => f.id === viewerId) : null;
+  const viewerResult = viewerId ? results[viewerId] : null;
+
+  return (
+    <div className="w-full max-w-2xl mx-auto px-4 pb-16">
+
+      <div className="mt-6">
+        <DropZone
+          onFiles={addFiles}
+          accept={['application/pdf']}
+          multiple={true}
+          label="Drop your PDFs here"
+          hint="PDF files only · processed entirely in your browser"
+          browseLabel="Browse PDFs"
+          fileTypeName="PDF"
+        />
+      </div>
+
+      {sourceLabel && files.length > 0 && (
+        <div className="mt-3 flex items-center gap-1.5 text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800/60 px-3 py-1.5 rounded-full w-fit">
+          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          From: {sourceLabel}
+        </div>
+      )}
+
+      {files.length > 0 && (
+        <div className="mt-6 space-y-4">
+
+          {/* ── Toolbar ── */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-xs text-slate-500 dark:text-slate-400">
+              {allDone ? (
+                <span className="text-emerald-500 font-semibold">{doneCount} of {files.length} compressed ✓</span>
+              ) : (
+                <span>
+                  <span className="font-semibold text-violet-400">{doneCount}</span>
+                  {' '}of <span className="font-semibold">{files.length}</span> compressed
+                  {anyProcessing && (
+                    <span className="ml-2 inline-flex items-center gap-1 text-slate-500">
+                      <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                      </svg>
+                      {processingIds.size} pending
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+              {doneCount > 1 && (
+                <button
+                  onClick={downloadAllZip}
+                  className="inline-flex items-center gap-1.5 h-9 px-4 rounded-xl bg-accent btn-accent text-[12.5px] font-semibold"
+                  style={{ color: 'var(--on-accent)' }}
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Save All
+                </button>
+              )}
+              {!allDone && <button
+                onClick={compressAll}
+                disabled={anyProcessing}
+                className="inline-flex items-center justify-center gap-2 h-9 px-5 rounded-full bd-accent text-accent text-[12.5px] font-semibold btn-accent-outline disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {anyProcessing ? (
+                  <>
+                    <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                    Compressing…
+                  </>
+                ) : 'Compress All'}
+              </button>}
+            </div>
+          </div>
+
+          {/* ── File cards ── */}
+          <div className="space-y-3">
+            {files.map((entry) => {
+              const result       = results[entry.id];
+              const progress     = progressMap[entry.id] ?? 0;
+              const isProcessing = processingIds.has(entry.id);
+              const isEditing    = editingIds.has(entry.id);
+              const error        = errorMap[entry.id];
+              const saving       = result ? pct(entry.file.size, result.bytes.byteLength) : 0;
+              const showOptions  = !result || isEditing || !!error;
+
+              return (
+                <div key={entry.id} className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
+
+                  {/* File header */}
+                  <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+                    <div className="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-950/30 flex items-center justify-center shrink-0">
+                      <svg className="w-4.5 h-4.5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-900 dark:text-slate-50 truncate">{entry.file.name}</p>
+                      <p className="text-xs text-slate-500">{formatBytes(entry.file.size)}</p>
+                    </div>
+                    <button onClick={() => removeFile(entry.id)} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors shrink-0">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Per-file options — hidden once compressed (unless editing) */}
+                  <div className="px-4 pb-4 border-t border-slate-100 dark:border-white/6 pt-3 space-y-3">
+
+                    {showOptions && (
+                      <>
+                        {/* Preset toggle */}
+                        <div className="flex gap-1.5">
+                          {PRESETS.map((p) => {
+                            const isSelected = entry.preset === p.id;
+                            return (
+                              <button
+                                key={p.id}
+                                onClick={() => updateEntry(entry.id, { preset: p.id, quality: p.quality })}
+                                className={`flex-1 h-8 rounded-lg text-[12px] font-semibold focus:outline-none ${
+                                  isSelected ? 'bg-accent btn-accent' : 'preset-toggle'
+                                }`}
+                                style={isSelected ? { color: 'var(--on-accent)' } : undefined}
+                              >
+                                {p.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Quality slider */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11.5px] text-fg-3">Quality</span>
+                            <span className="font-data text-[11.5px] font-semibold text-accent tabular-nums">{entry.quality}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min={10}
+                            max={95}
+                            step={1}
+                            value={entry.quality}
+                            onChange={(e) => {
+                              const v = Number(e.target.value);
+                              const match = PRESETS.find((p) => p.quality === v);
+                              updateEntry(entry.id, { quality: v, preset: match ? match.id : null });
+                            }}
+                            className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                            style={{
+                              background: `linear-gradient(to right, var(--accent) 0%, var(--accent) ${((entry.quality - 10) / 85) * 100}%, var(--border-3) ${((entry.quality - 10) / 85) * 100}%, var(--border-3) 100%)`,
+                            }}
+                          />
+                          <div className="flex justify-between">
+                            <span className="text-[10px] text-fg-3">Smaller file</span>
+                            <span className="text-[10px] text-fg-3">Higher quality</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Progress bar */}
+                    {isProcessing && (
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-xs text-slate-400">
+                          <span>Compressing…</span>
+                          <span>{progress}%</span>
+                        </div>
+                        <div className="h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-linear-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-200"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error */}
+                    {error && !isProcessing && (
+                      <p className="text-xs text-red-500">{error}</p>
+                    )}
+
+                    {/* Result */}
+                    {result && !isProcessing && (
+                      <div className="space-y-2.5">
+                        <div className="flex items-center gap-2 text-xs flex-wrap">
+                          <span className="text-slate-500">{formatBytes(entry.file.size)}</span>
+                          <svg className="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                          <span className="font-semibold text-slate-900 dark:text-slate-50">{formatBytes(result.bytes.byteLength)}</span>
+                          <span className={`ml-auto font-bold px-2 py-0.5 rounded-full text-[11px] ${
+                            saving > 0
+                              ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400'
+                              : saving < 0
+                              ? 'bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400'
+                              : 'bg-slate-100 dark:bg-slate-700 text-slate-500'
+                          }`}>
+                            {saving > 0 ? `−${saving}%` : saving < 0 ? `+${Math.abs(saving)}%` : 'No change'}
+                          </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => downloadFile(entry.id)}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl bg-accent btn-accent text-[12.5px] font-semibold"
+                            style={{ color: 'var(--on-accent)' }}
+                          >
+                            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            {downloadedIds.has(entry.id) ? 'Saved ✓' : 'Save'}
+                          </button>
+                          <button
+                            onClick={() => setViewerId(entry.id)}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl bd-accent text-accent text-[12.5px] font-semibold btn-accent-outline"
+                          >
+                            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                            View PDF
+                          </button>
+                          <button
+                            onClick={() => setEditingIds((prev) => new Set(prev).add(entry.id))}
+                            className="h-9 px-3 rounded-xl preset-toggle text-[12px] font-medium"
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Compress / Retry / Recompress */}
+                    {showOptions && !isProcessing && (
+                      <button
+                        onClick={() => compressFile(entry)}
+                        className="w-full inline-flex items-center justify-center gap-2 h-9 rounded-xl bd-accent text-accent text-[12.5px] font-semibold btn-accent-outline"
+                      >
+                        {error ? 'Retry' : isEditing ? 'Recompress' : 'Compress'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {files.length > 1 && (
+            <button
+              onClick={clearAll}
+              className="w-full py-2.5 rounded-xl bd-2 text-sm text-fg-2 hover:text-fg-1 hover:bd-accent transition-colors"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* ── PDF viewer modal ── */}
+      {viewerEntry && viewerResult && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-sm"
+          onClick={() => setViewerId(null)}
+        >
+          <div
+            className="relative w-full max-w-5xl h-full max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 px-3 py-2.5 bg-slate-900 border-b border-white/8 shrink-0">
+              <button
+                onClick={() => setViewerId(null)}
+                title="Close (Esc)"
+                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors shrink-0"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+              </button>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                <p className="text-sm font-medium text-slate-100 truncate">
+                  {viewerEntry.file.name.replace(/\.pdf$/i, '')}-compressed.pdf
+                </p>
+                <span className="hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 tracking-wide shrink-0">PDF</span>
+              </div>
+              <button onClick={() => setViewerId(null)} className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden relative">
+              {nativePdf
+                ? <iframe src={viewerResult.url} title="PDF Preview" className="border-0 absolute inset-0 w-full h-full" />
+                : <PdfJsViewer url={viewerResult.url} />
+              }
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

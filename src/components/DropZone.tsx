@@ -3,7 +3,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 
 const IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml'];
-const MAX_FREE_MB = 50;
 
 const DROPBOX_APP_KEY   = process.env.NEXT_PUBLIC_DROPBOX_APP_KEY    ?? '';
 const GOOGLE_API_KEY    = process.env.NEXT_PUBLIC_GOOGLE_API_KEY     ?? '';
@@ -48,13 +47,11 @@ export function DropZone({
   const resolvedHint = hint ?? (
     isPdf
       ? 'PDF files only — processed entirely in your browser'
-      : `JPG · PNG · WebP · SVG · up to ${MAX_FREE_MB} MB each`
+      : 'JPG · PNG · WebP · SVG'
   );
 
   const filterFiles = useCallback((raw: File[]): File[] => {
-    return raw.filter(
-      (f) => accept.includes(f.type) && f.size <= MAX_FREE_MB * 1024 * 1024
-    );
+    return raw.filter((f) => accept.includes(f.type));
   }, [accept]);
 
   const handlePastedItems = useCallback(

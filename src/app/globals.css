@@ -397,6 +397,16 @@ html[data-anim-failed] [data-animate-stagger] > * {
     color: var(--on-accent);
     border-color: var(--accent);
   }
+
+  .preset-toggle {
+    border: 1px solid var(--border-2);
+    color: var(--fg-2);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .preset-toggle:hover {
+    border-color: var(--accent-border);
+    color: var(--fg-1);
+  }
 }
 
 /* ── DOCX preview typography (Word to PDF) ─────────────── */
@@ -464,4 +474,32 @@ html[data-anim-failed] [data-animate-stagger] > * {
     scrollbar-width: auto;
     scrollbar-color: var(--sb-thumb-bg) var(--sb-track-bg);
   }
+}
+
+/* ── Range input thumb ───────────────────────────────────────────────────── */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-page);
+  box-shadow: 0 0 0 1.5px var(--accent);
+  cursor: pointer;
+  transition: box-shadow 120ms ease, transform 120ms ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 25%, transparent);
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-page);
+  box-shadow: 0 0 0 1.5px var(--accent);
+  cursor: pointer;
 }
