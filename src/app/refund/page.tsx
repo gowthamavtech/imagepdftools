@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ function Ul({ items }: { items: React.ReactNode[] }) {
 export default function RefundPage() {
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[780px] mx-auto px-8">
+      <div className="max-w-[780px] mx-auto px-4 sm:px-8">
 
         <div className="mb-10">
           <span data-animate="hero" className="hp-eyebrow">Legal</span>

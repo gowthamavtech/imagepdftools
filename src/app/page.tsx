@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -146,7 +146,7 @@ const FAQS = [
 ];
 
 /* ── Container helper ─────────────────────────────────────── */
-const C = "max-w-[1180px] mx-auto px-8";
+const C = "max-w-[1180px] mx-auto px-4 sm:px-8";
 
 /* ── Zero cards category token map ───────────────────────── */
 const zeroCatStyle = (cat: string): React.CSSProperties => {

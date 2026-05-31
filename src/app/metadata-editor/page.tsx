@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { MetadataEditorUI } from '@/components/MetadataEditorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -46,8 +46,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {

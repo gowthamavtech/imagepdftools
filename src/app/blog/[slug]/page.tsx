@@ -248,7 +248,7 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-[1180px] mx-auto px-8">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-8">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-[12px] text-fg-3 mb-8">

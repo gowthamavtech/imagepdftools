@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { NumberPdfUI } from '@/components/NumberPdfUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -42,8 +42,8 @@ const jsonLd = {
   ],
 };
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 const STEPS = [
   {
@@ -153,7 +153,7 @@ export default function NumberPdfPage() {
         </section>
 
         {/* ── Tool ── */}
-        <div className={C}>
+        <div className={C} style={{ paddingBottom: 'clamp(40px, 5vw, 64px)' }}>
           <NumberPdfUI />
         </div>
 

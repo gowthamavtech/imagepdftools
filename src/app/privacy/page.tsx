@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy & How It Works',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="bg-page text-fg-1" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
-      <div className="max-w-[780px] mx-auto px-8">
+      <div className="max-w-[780px] mx-auto px-4 sm:px-8">
 
         {/* Hero */}
         <div className="text-center mb-12">

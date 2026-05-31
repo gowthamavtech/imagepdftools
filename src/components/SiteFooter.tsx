@@ -1,6 +1,6 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
-const C = 'max-w-[1180px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
 
 const CAT_COLS = [
   {

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { CompressorUI } from '@/components/CompressorUI';
 import { RelatedTools } from '@/components/RelatedTools';
 
@@ -91,8 +91,8 @@ const FAQS = [
   { q: 'Can I compare the original and compressed image?', a: 'Yes. Each file card shows the original and compressed sizes with the percentage reduction. Click the image preview to open the before/after comparison slider.' },
 ];
 
-const C = 'max-w-[1180px] mx-auto px-8';
-const Cnarrow = 'max-w-[780px] mx-auto px-8';
+const C = 'max-w-[1180px] mx-auto px-4 sm:px-8';
+const Cnarrow = 'max-w-[780px] mx-auto px-4 sm:px-8';
 
 export default function CompressImagePage() {
   return (

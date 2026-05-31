@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -213,7 +213,7 @@ export default function WhatsNewContent() {
   return (
     <main className="bg-page text-fg-1 relative overflow-hidden" style={{ padding: 'clamp(48px, 6vw, 80px) 0' }}>
       <div aria-hidden="true" className="absolute pointer-events-none" style={{ right: '-10%', top: '-10%', width: 'min(900px, 100vw)', height: 'min(600px, 100vw)', background: 'radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%)', filter: 'blur(48px)', opacity: 0.5 }} />
-      <div className="max-w-[780px] mx-auto px-8 relative z-[1]">
+      <div className="max-w-[780px] mx-auto px-4 sm:px-8 relative z-[1]">
 
         <div className="mb-10">
           <span data-animate="hero" className="hp-eyebrow">Changelog</span>
