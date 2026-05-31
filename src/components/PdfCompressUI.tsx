@@ -288,7 +288,7 @@ export function PdfCompressUI() {
   const viewerResult = viewerId ? results[viewerId] : null;
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-16">
+    <div className="w-full max-w-2xl mx-auto pb-16">
 
       <div className="mt-6">
         <DropZone

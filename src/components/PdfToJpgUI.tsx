@@ -17,12 +17,6 @@ interface PageResult {
   size: number;
 }
 
-const QUICK_PRESETS = [
-  { label: 'Low',    value: 60 },
-  { label: 'Medium', value: 85 },
-  { label: 'High',   value: 95 },
-];
-
 function formatBytes(b: number) {
   if (b < 1024) return `${b} B`;
   if (b < 1048576) return `${(b / 1024).toFixed(1)} KB`;
@@ -42,7 +36,6 @@ function canvasToJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob>
 export function PdfToJpgUI() {
   const [file,          setFile]          = useState<File | null>(null);
   const [pageCount,     setPageCount]     = useState(0);
-  const [quality,       setQuality]       = useState(85);
   const [isWorking,     setIsWorking]     = useState(false);
   const [progress,      setProgress]      = useState(0);
   const [results,       setResults]       = useState<PageResult[]>([]);
@@ -51,6 +44,7 @@ export function PdfToJpgUI() {
   const [pdfPassword,   setPdfPassword]   = useState<string | null>(null);
   const [needsPassword, setNeedsPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [previewIdx,    setPreviewIdx]    = useState<number | null>(null);
   const pendingFileRef = useRef<File | null>(null);
 
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
@@ -59,6 +53,17 @@ export function PdfToJpgUI() {
     const { file: f } = consumeRef.current();
     if (f && f.type === 'application/pdf') setFile(f);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (previewIdx === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPreviewIdx(null);
+      if (e.key === 'ArrowRight') setPreviewIdx((p) => p !== null && p < results.length - 1 ? p + 1 : p);
+      if (e.key === 'ArrowLeft')  setPreviewIdx((p) => p !== null && p > 0 ? p - 1 : p);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [previewIdx, results.length]);
 
   const handleFiles = useCallback(async (files: File[], pw?: string) => {
     const f = files[0];
@@ -105,7 +110,7 @@ export function PdfToJpgUI() {
       const pdfDoc   = await pdfjsLib.getDocument({ data: pdfData, ...(password ? { password } : {}) }).promise;
       const numPages = pdfDoc.numPages;
       const newResults: PageResult[] = [];
-      const jpegQuality = quality / 100;
+      const jpegQuality = 0.95;
 
       for (let i = 1; i <= numPages; i++) {
         const page     = await pdfDoc.getPage(i);
@@ -132,7 +137,7 @@ export function PdfToJpgUI() {
     } finally {
       setIsWorking(false);
     }
-  }, [file, quality, pdfPassword]);
+  }, [file, pdfPassword]);
 
   const downloadOne = (r: PageResult, filename: string) => {
     const a = document.createElement('a');
@@ -144,19 +149,19 @@ export function PdfToJpgUI() {
   const downloadAll = async () => {
     if (!file) return;
     if (results.length === 1) {
-      downloadOne(results[0], `${baseName}-page-1.jpg`);
+      downloadOne(results[0], `${baseName}-page-1-${brand}.jpg`);
       return;
     }
     const JSZip = (await import('jszip')).default;
     const zip   = new JSZip();
     for (const r of results) {
       const ab = await r.blob.arrayBuffer();
-      zip.file(`${baseName}-page-${r.pageNum}.jpg`, ab);
+      zip.file(`${baseName}-page-${r.pageNum}-${brand}.jpg`, ab);
     }
     const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
-    a.href = url; a.download = `${baseName}-pages.zip`; a.click();
+    a.href = url; a.download = `${baseName}-pages-${brand}.zip`; a.click();
     URL.revokeObjectURL(url);
   };
 
@@ -167,10 +172,11 @@ export function PdfToJpgUI() {
     pendingFileRef.current = null;
   };
 
-  const baseName = file?.name.replace(/\.pdf$/i, '') ?? 'page';
+  const baseName = file?.name.replace(/\.pdf$/i, '').replace(/[<>:"/\\|?*]/g, '-').trim() ?? 'page';
+  const brand = '(imagepdf.tools)';
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-16">
+    <div className="w-full max-w-2xl mx-auto pb-16">
 
       {/* Drop zone */}
       {!file && (
@@ -224,37 +230,6 @@ export function PdfToJpgUI() {
             </button>
           </div>
 
-          {/* Quality slider — hidden once results are showing */}
-          {results.length === 0 && (
-            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-2xl p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">JPEG Quality</p>
-                <span className="text-sm font-bold text-violet-400">{quality}%</span>
-              </div>
-              <input
-                type="range" min={30} max={100} step={1} value={quality}
-                onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full h-2 rounded-full accent-violet-500 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-500 mt-1.5 mb-3">
-                <span>Smaller file</span>
-                <span>Higher quality</span>
-              </div>
-              <div className="flex gap-2">
-                {QUICK_PRESETS.map((p) => (
-                  <button key={p.label} onClick={() => setQuality(p.value)}
-                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                      quality === p.value
-                        ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-300'
-                        : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-violet-400'
-                    }`}>
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Progress */}
           {isWorking && (
             <div className="space-y-2">
@@ -302,7 +277,7 @@ export function PdfToJpgUI() {
               {results.length === 1 && (
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
-                    onClick={() => downloadOne(results[0], `${baseName}-page-1.jpg`)}
+                    onClick={() => downloadOne(results[0], `${baseName}-page-1-${brand}.jpg`)}
                     className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
                   >
                     <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -311,14 +286,14 @@ export function PdfToJpgUI() {
                     {downloaded.has(1) ? 'Saved ✓' : 'Save JPG'}
                   </button>
                   <button
-                    onClick={() => window.open(results[0].url, '_blank')}
+                    onClick={() => setPreviewIdx(0)}
                     className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
                   >
                     <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    View in Browser
+                    Preview
                   </button>
                 </div>
               )}
@@ -341,9 +316,9 @@ export function PdfToJpgUI() {
                           </span>
                           <div className="flex items-center gap-1 shrink-0">
                             <button
-                              onClick={() => window.open(r.url, '_blank')}
+                              onClick={() => setPreviewIdx(r.pageNum - 1)}
                               className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 hover:bg-violet-100 transition-colors"
-                              title="View"
+                              title="Preview"
                             >
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
@@ -351,7 +326,7 @@ export function PdfToJpgUI() {
                               </svg>
                             </button>
                             <button
-                              onClick={() => downloadOne(r, `${baseName}-page-${r.pageNum}.jpg`)}
+                              onClick={() => downloadOne(r, `${baseName}-page-${r.pageNum}-${brand}.jpg`)}
                               className="inline-flex items-center gap-1 bg-violet-600 hover:bg-violet-700 text-white text-[10px] font-semibold px-2 py-1 rounded-md transition-colors"
                             >
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -414,6 +389,55 @@ export function PdfToJpgUI() {
             </button>
           )}
 
+        </div>
+      )}
+
+      {/* Image preview modal — merge PDF style */}
+      {previewIdx !== null && results[previewIdx] && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-sm" onClick={() => setPreviewIdx(null)}>
+          <div className="relative w-full max-w-5xl h-full max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="flex items-center gap-3 px-3 py-2.5 bg-slate-900 border-b border-white/8 shrink-0">
+              <button onClick={() => setPreviewIdx(null)} className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+              </button>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <svg className="w-4 h-4 text-violet-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-slate-100 truncate leading-tight">{`${baseName}-page-${previewIdx + 1}-${brand}.jpg`}</p>
+                  <p className="text-[11px] text-slate-500 leading-tight">{formatBytes(results[previewIdx].size)} · page {previewIdx + 1} of {results.length}</p>
+                </div>
+                <span className="hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-400 tracking-wide shrink-0">JPG</span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => setPreviewIdx((p) => p !== null && p > 0 ? p - 1 : p)}
+                  disabled={previewIdx === 0}
+                  className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 disabled:opacity-25 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </button>
+                <button
+                  onClick={() => setPreviewIdx((p) => p !== null && p < results.length - 1 ? p + 1 : p)}
+                  disabled={previewIdx === results.length - 1}
+                  className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 disabled:opacity-25 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </button>
+                <div className="w-px h-5 bg-white/10 mx-0.5" />
+                <button onClick={() => setPreviewIdx(null)} className="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-slate-100 transition-colors">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+            </div>
+            {/* Image content */}
+            <div className="flex-1 overflow-auto flex items-center justify-center bg-slate-800 p-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={results[previewIdx].dataUrl} alt={`Page ${previewIdx + 1}`} className="max-w-full max-h-full object-contain rounded shadow-2xl" draggable={false} />
+            </div>
+          </div>
         </div>
       )}
 
