@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
 import { useHandoffStore } from '@/store/handoffStore';
+import { PdfContinueTo } from './PdfContinueTo';
 
 function isEncryptError(e: unknown): boolean {
   const msg = String(e).toLowerCase();
@@ -148,6 +149,7 @@ export function SplitPdfUI() {
   const pendingFilesRef = useRef<File[]>([]);
   const renderAbort = useRef(false);
   const isDraggingRef = useRef(false);
+  const loadFileRef = useRef<((files: File[], pw?: string) => Promise<void>) | null>(null);
 
   // Responsive column count for the cuts grid
   useEffect(() => {
@@ -162,7 +164,7 @@ export function SplitPdfUI() {
   const consumeRef = useRef(consumeHandoff);
   useEffect(() => {
     const { file: f } = consumeRef.current();
-    if (f && f.type === 'application/pdf') setFile(f);
+    if (f && f.type === 'application/pdf') loadFileRef.current?.([f]);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const dragModeRef        = useRef<'select' | 'deselect'>('select');
@@ -362,6 +364,7 @@ export function SplitPdfUI() {
       }
     }
   }, []);
+  loadFileRef.current = loadFile;
 
   useEffect(() => () => { renderAbort.current = true; }, []);
 
@@ -625,14 +628,19 @@ export function SplitPdfUI() {
             })}
           </div>
         )}
+        <button
+          onClick={reset}
+          className="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-500 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-red-400 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors"
+        >
+          Split Another PDF
+        </button>
+        <PdfContinueTo
+          exclude="split"
+          pdfBlob={singleResult?.blob}
+          filename={singleResult?.name}
+          sourceLabel="Split PDF"
+        />
       </div>
-
-      <button
-        onClick={reset}
-        className="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-500 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-red-400 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors"
-      >
-        Split Another PDF
-      </button>
 
       {/* Preview modal */}
       {previewUrl && (

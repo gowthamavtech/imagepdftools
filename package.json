@@ -16,6 +16,7 @@
         "@dnd-kit/utilities": "^3.2.2",
         "@jsquash/jpeg": "^1.6.0",
         "@jsquash/webp": "^1.5.0",
+        "@libpdf/core": "^0.3.6",
         "@myriaddreamin/typst-all-in-one.ts": "^0.7.0-rc2",
         "browser-image-compression": "^2.0.2",
         "docx": "^9.6.1",

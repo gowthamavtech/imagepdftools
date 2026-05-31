@@ -1,8 +1,10 @@
 ﻿'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+import { PdfContinueTo } from './PdfContinueTo';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function isEncryptError(e: unknown): boolean {
   const msg = String(e).toLowerCase();
@@ -82,6 +84,16 @@ export function RotatePdfUI() {
     renderPreview(f);
   }, [renderPreview]);
 
+  // Consume handoff from another tool
+  const consumeHandoff  = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef      = useRef(consumeHandoff);
+  const handleFilesRef  = useRef(handleFiles);
+  handleFilesRef.current = handleFiles;
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') handleFilesRef.current([f]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const apply = useCallback(async (pw?: string) => {
     const password = pw ?? pdfPassword ?? undefined;
     if (!file) return;
@@ -135,6 +147,12 @@ export function RotatePdfUI() {
     setNeedsPassword(false);
     setWrongPassword(false);
   };
+
+  const backToEdit = useCallback(() => {
+    setResult(null);
+    setResultUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
+    setDownloaded(false);
+  }, []);
 
   const norm = ((rotation % 360) + 360) % 360;
 
@@ -308,49 +326,55 @@ export function RotatePdfUI() {
       )}
 
       {result && file && (
-        <div className="mt-6 space-y-4">
-
-          {/* Success header */}
-          <div className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 rounded-2xl p-4 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0">
-              <svg className="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
+        <div className="mt-6">
+          <div className="p-5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">Rotation applied</p>
+                <p className="text-xs text-emerald-700 dark:text-emerald-400">{formatBytes(result.byteLength)} · ready to save</p>
+              </div>
+              <button
+                onClick={backToEdit}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-300 dark:border-emerald-700 text-xs font-medium text-emerald-700 dark:text-emerald-400 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors shrink-0"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                </svg>
+                Edit
+              </button>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">Rotation applied</p>
-              <p className="text-xs text-slate-500 truncate">{file.name} · {formatBytes(result.byteLength)}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => { download(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
+                className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors"
+              >
+                {downloaded ? 'Saved ✓' : 'Save PDF'}
+              </button>
+              <button
+                onClick={() => resultUrl && window.open(resultUrl, '_blank')}
+                className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium transition-colors hover:border-slate-300 dark:hover:border-slate-500"
+              >
+                View PDF
+              </button>
+              <button
+                onClick={resetFile}
+                className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-400 text-sm font-medium transition-colors hover:border-slate-300 dark:hover:border-slate-500"
+              >
+                Start over
+              </button>
             </div>
+            <PdfContinueTo
+              exclude="rotate"
+              pdfBytes={result}
+              filename={file.name}
+              sourceLabel="Rotate PDF"
+            />
           </div>
-
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button
-              onClick={() => { download(); setDownloaded(true); setTimeout(() => setDownloaded(false), 1500); }}
-              className="flex-1 inline-flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600 text-white font-semibold text-sm py-2.5 rounded-xl transition-all"
-            >
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              {downloaded ? 'Saved ✓' : 'Save PDF'}
-            </button>
-            <button
-              onClick={() => resultUrl && window.open(resultUrl, '_blank')}
-              className="flex-1 inline-flex items-center justify-center gap-2 border border-violet-300 dark:border-violet-700/70 bg-violet-50 dark:bg-violet-950/20 hover:bg-violet-100 dark:hover:bg-violet-950/50 text-violet-600 dark:text-violet-300 font-semibold text-sm py-2.5 rounded-xl transition-all"
-            >
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              View in Browser
-            </button>
-          </div>
-          <button
-            onClick={resetFile}
-            className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-sm text-slate-500 dark:text-slate-400 hover:border-violet-400 dark:hover:border-gray-600 transition-colors"
-          >
-            New File
-          </button>
         </div>
       )}
     </div>

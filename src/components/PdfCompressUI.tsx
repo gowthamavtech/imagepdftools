@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
+import { PdfContinueTo } from './PdfContinueTo';
 
 // ── Canvas-based PDF viewer (works on Android / no native PDF support) ────────
 function PdfJsViewer({ url }: { url: string }) {
@@ -120,6 +121,7 @@ async function compressPdfBytes(
   file: File,
   quality: number,
   onProgress: (p: number) => void,
+  password?: string,
 ): Promise<Uint8Array> {
   // Keep JPEG quality high so text stays sharp — use render scale for size reduction.
   // JPEG quality below ~80% creates visible DCT artifacts on text edges.
@@ -130,7 +132,7 @@ async function compressPdfBytes(
   pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
   const pdfBytes = new Uint8Array(await file.arrayBuffer());
-  const pdfDoc   = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+  const pdfDoc   = await pdfjsLib.getDocument({ data: pdfBytes, ...(password ? { password } : {}) }).promise;
   const numPages = pdfDoc.numPages;
 
   const { PDFDocument } = await import('pdf-lib');
@@ -160,18 +162,22 @@ export function PdfCompressUI() {
   const consumeHandoff = useHandoffStore((s) => s.consumeHandoff);
   const consumeRef     = useRef(consumeHandoff);
 
-  const [files,         setFiles]         = useState<PdfFileEntry[]>([]);
-  const [results,       setResults]       = useState<Record<string, PdfResult>>({});
-  const [progressMap,   setProgressMap]   = useState<Record<string, number>>({});
-  const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
-  const [editingIds,    setEditingIds]    = useState<Set<string>>(new Set());
-  const [errorMap,      setErrorMap]      = useState<Record<string, string>>({});
-  const [downloadedIds, setDownloadedIds] = useState<Set<string>>(new Set());
-  const [viewerId,      setViewerId]      = useState<string | null>(null);
-  const [sourceLabel,   setSourceLabel]   = useState<string | null>(null);
+  const [files,           setFiles]           = useState<PdfFileEntry[]>([]);
+  const [results,         setResults]         = useState<Record<string, PdfResult>>({});
+  const [progressMap,     setProgressMap]     = useState<Record<string, number>>({});
+  const [processingIds,   setProcessingIds]   = useState<Set<string>>(new Set());
+  const [editingIds,      setEditingIds]      = useState<Set<string>>(new Set());
+  const [errorMap,        setErrorMap]        = useState<Record<string, string>>({});
+  const [passwordMap,     setPasswordMap]     = useState<Record<string, string>>({});
+  const [needsPasswordSet, setNeedsPasswordSet] = useState<Set<string>>(new Set());
+  const [downloadedIds,   setDownloadedIds]   = useState<Set<string>>(new Set());
+  const [viewerId,        setViewerId]        = useState<string | null>(null);
+  const [sourceLabel,     setSourceLabel]     = useState<string | null>(null);
 
-  const filesRef = useRef<PdfFileEntry[]>([]);
-  filesRef.current = files;
+  const filesRef       = useRef<PdfFileEntry[]>([]);
+  const passwordMapRef = useRef<Record<string, string>>({});
+  filesRef.current       = files;
+  passwordMapRef.current = passwordMap;
 
   const nativePdf = typeof navigator !== 'undefined'
     && navigator.pdfViewerEnabled
@@ -205,6 +211,8 @@ export function PdfCompressUI() {
     setResults((prev) => { if (prev[id]) URL.revokeObjectURL(prev[id].url); const n = { ...prev }; delete n[id]; return n; });
     setProgressMap((prev) => { const n = { ...prev }; delete n[id]; return n; });
     setErrorMap((prev) => { const n = { ...prev }; delete n[id]; return n; });
+    setPasswordMap((prev) => { const n = { ...prev }; delete n[id]; return n; });
+    setNeedsPasswordSet((prev) => { const s = new Set(prev); s.delete(id); return s; });
     setProcessingIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
     setEditingIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
     setViewerId((prev) => (prev === id ? null : prev));
@@ -215,6 +223,8 @@ export function PdfCompressUI() {
     setResults((prev) => { Object.values(prev).forEach((r) => URL.revokeObjectURL(r.url)); return {}; });
     setProgressMap({});
     setErrorMap({});
+    setPasswordMap({});
+    setNeedsPasswordSet(new Set());
     setProcessingIds(new Set());
     setEditingIds(new Set());
     setViewerId(null);
@@ -224,11 +234,13 @@ export function PdfCompressUI() {
   const compressFile = useCallback(async (entry: PdfFileEntry) => {
     setProcessingIds((prev) => new Set(prev).add(entry.id));
     setErrorMap((prev) => { const n = { ...prev }; delete n[entry.id]; return n; });
+    setNeedsPasswordSet((prev) => { const s = new Set(prev); s.delete(entry.id); return s; });
     setProgressMap((prev) => ({ ...prev, [entry.id]: 0 }));
     try {
+      const password = passwordMapRef.current[entry.id];
       const bytes = await compressPdfBytes(entry.file, entry.quality, (p) => {
         setProgressMap((prev) => ({ ...prev, [entry.id]: p }));
-      });
+      }, password);
       const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
       const url  = URL.createObjectURL(blob);
       setResults((prev) => {
@@ -237,10 +249,20 @@ export function PdfCompressUI() {
       });
       setEditingIds((prev) => { const s = new Set(prev); s.delete(entry.id); return s; });
     } catch (err) {
-      setErrorMap((prev) => ({
-        ...prev,
-        [entry.id]: (err as Error).message || 'Compression failed. Please try again.',
-      }));
+      const msg     = (err as Error).message || '';
+      const errName = (err as any)?.name   || '';
+      const isPasswordError = errName === 'PasswordException' || /password/i.test(msg);
+      if (isPasswordError) {
+        setNeedsPasswordSet((prev) => new Set(prev).add(entry.id));
+        if (passwordMapRef.current[entry.id]) {
+          setErrorMap((prev) => ({ ...prev, [entry.id]: 'Incorrect password. Please try again.' }));
+        }
+      } else {
+        setErrorMap((prev) => ({
+          ...prev,
+          [entry.id]: msg || 'Compression failed. Please try again.',
+        }));
+      }
     } finally {
       setProcessingIds((prev) => { const s = new Set(prev); s.delete(entry.id); return s; });
     }
@@ -281,11 +303,14 @@ export function PdfCompressUI() {
   }, [results]);
 
   // ── Derived ────────────────────────────────────────────────────────────────
-  const doneCount    = files.filter((f) => results[f.id]).length;
-  const allDone      = files.length > 0 && doneCount === files.length;
+  const doneCount     = files.filter((f) => results[f.id]).length;
+  const allDone       = files.length > 0 && doneCount === files.length;
   const anyProcessing = processingIds.size > 0;
-  const viewerEntry  = viewerId ? filesRef.current.find((f) => f.id === viewerId) : null;
-  const viewerResult = viewerId ? results[viewerId] : null;
+  const viewerEntry   = viewerId ? filesRef.current.find((f) => f.id === viewerId) : null;
+  const viewerResult  = viewerId ? results[viewerId] : null;
+  // For single-file compress we can hand off the result to the next tool
+  const handoffBytes    = allDone && files.length === 1 ? results[files[0].id]?.bytes : undefined;
+  const handoffFilename = files.length === 1 ? files[0].file.name.replace(/\.pdf$/i, '') + '-compressed.pdf' : undefined;
 
   return (
     <div className="w-full max-w-2xl mx-auto pb-16">
@@ -369,13 +394,14 @@ export function PdfCompressUI() {
           {/* ── File cards ── */}
           <div className="space-y-3">
             {files.map((entry) => {
-              const result       = results[entry.id];
-              const progress     = progressMap[entry.id] ?? 0;
-              const isProcessing = processingIds.has(entry.id);
-              const isEditing    = editingIds.has(entry.id);
-              const error        = errorMap[entry.id];
-              const saving       = result ? pct(entry.file.size, result.bytes.byteLength) : 0;
-              const showOptions  = !result || isEditing || !!error;
+              const result        = results[entry.id];
+              const progress      = progressMap[entry.id] ?? 0;
+              const isProcessing  = processingIds.has(entry.id);
+              const isEditing     = editingIds.has(entry.id);
+              const error         = errorMap[entry.id];
+              const needsPassword = needsPasswordSet.has(entry.id);
+              const saving        = result ? pct(entry.file.size, result.bytes.byteLength) : 0;
+              const showOptions   = !result || isEditing || !!error || needsPassword;
 
               return (
                 <div key={entry.id} className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/8 shadow-sm overflow-hidden">
@@ -468,8 +494,38 @@ export function PdfCompressUI() {
                       </div>
                     )}
 
-                    {/* Error */}
-                    {error && !isProcessing && (
+                    {/* Password prompt */}
+                    {needsPassword && !isProcessing && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-[11.5px] text-amber-600 dark:text-amber-400 font-medium">
+                          <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25-2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                          </svg>
+                          {error || 'This PDF is password protected'}
+                        </div>
+                        <div className="flex gap-2">
+                          <input
+                            type="password"
+                            placeholder="Enter password"
+                            value={passwordMap[entry.id] ?? ''}
+                            onChange={(e) => setPasswordMap((prev) => ({ ...prev, [entry.id]: e.target.value }))}
+                            onKeyDown={(e) => { if (e.key === 'Enter' && passwordMap[entry.id]) compressFile(entry); }}
+                            autoFocus
+                            className="flex-1 h-9 px-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900/60 text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-400 dark:focus:ring-amber-500"
+                          />
+                          <button
+                            onClick={() => compressFile(entry)}
+                            disabled={!passwordMap[entry.id]}
+                            className="h-9 px-3.5 rounded-xl bg-amber-500 text-white text-[12px] font-semibold hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+                          >
+                            Unlock &amp; Compress
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error (non-password) */}
+                    {error && !needsPassword && !isProcessing && (
                       <p className="text-xs text-red-500">{error}</p>
                     )}
 
@@ -522,8 +578,8 @@ export function PdfCompressUI() {
                       </div>
                     )}
 
-                    {/* Compress / Retry / Recompress */}
-                    {showOptions && !isProcessing && (
+                    {/* Compress / Retry / Recompress — hidden when password UI is active */}
+                    {showOptions && !isProcessing && !needsPassword && (
                       <button
                         onClick={() => compressFile(entry)}
                         className="w-full inline-flex items-center justify-center gap-2 h-9 rounded-xl bd-accent text-accent text-[12.5px] font-semibold btn-accent-outline"
@@ -544,6 +600,15 @@ export function PdfCompressUI() {
             >
               Clear All
             </button>
+          )}
+
+          {allDone && (
+            <PdfContinueTo
+              exclude="compress"
+              pdfBytes={handoffBytes}
+              filename={handoffFilename}
+              sourceLabel="Compress PDF"
+            />
           )}
         </div>
       )}

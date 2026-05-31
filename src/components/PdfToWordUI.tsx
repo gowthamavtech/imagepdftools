@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { DropZone } from './DropZone';
+import { PdfContinueTo } from './PdfContinueTo';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -485,6 +486,7 @@ export function PdfToWordUI() {
             </button>
             <p className="text-center text-[11px] text-fg-3 mt-2">No upload · No watermark · Open in Microsoft Word or Google Docs</p>
           </div>
+          <PdfContinueTo exclude="pdf-to-word" />
         </>
       )}
     </div>

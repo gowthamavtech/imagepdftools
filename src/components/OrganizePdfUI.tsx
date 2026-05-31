@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { PdfPasswordPrompt } from './PdfPasswordPrompt';
+import { PdfContinueTo } from './PdfContinueTo';
+import { useHandoffStore } from '@/store/handoffStore';
 
 function isEncryptError(e: unknown): boolean {
   const msg = String(e).toLowerCase();
@@ -168,6 +170,16 @@ export function OrganizePdfUI() {
     await loadPages(f);
   }, [loadPages]);
 
+  // Consume handoff from another tool
+  const consumeHandoff   = useHandoffStore((s) => s.consumeHandoff);
+  const consumeRef       = useRef(consumeHandoff);
+  const handleFilesRef   = useRef(handleFiles);
+  handleFilesRef.current = handleFiles;
+  useEffect(() => {
+    const { file: f } = consumeRef.current();
+    if (f && f.type === 'application/pdf') handleFilesRef.current([f]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -221,6 +233,7 @@ export function OrganizePdfUI() {
   };
 
   const reset = () => { setFile(null); setPages([]); setResultBytes(null); setError(null); setPdfPassword(null); setNeedsPassword(false); setWrongPassword(false); pendingFileRef.current = null; };
+  const backToEdit = () => { setResultBytes(null); setError(null); };
 
   return (
     <div className="max-w-4xl mx-auto px-4 space-y-5">
@@ -301,13 +314,37 @@ export function OrganizePdfUI() {
 
       {/* Result */}
       {resultBytes && (
-        <div className="p-5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl text-center space-y-3">
-          <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">PDF organized!</p>
-          <p className="text-xs text-emerald-700 dark:text-emerald-400">{formatBytes(resultBytes.length)} · {pages.length} pages · ready to save</p>
-          <div className="flex gap-3 justify-center">
-            <button onClick={download} className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors">Save PDF</button>
-            <button onClick={reset} className="px-5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium transition-colors hover:border-slate-300 dark:hover:border-slate-500">Start over</button>
+        <div className="p-5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">PDF organized!</p>
+              <p className="text-xs text-emerald-700 dark:text-emerald-400">{formatBytes(resultBytes.length)} · {pages.length} pages · ready to save</p>
+            </div>
+            <button
+              onClick={backToEdit}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-300 dark:border-emerald-700 text-xs font-medium text-emerald-700 dark:text-emerald-400 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors shrink-0"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+              </svg>
+              Edit
+            </button>
           </div>
+          <div className="flex gap-3">
+            <button onClick={download} className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors">Save PDF</button>
+            <button onClick={reset} className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium transition-colors hover:border-slate-300 dark:hover:border-slate-500">Start over</button>
+          </div>
+          <PdfContinueTo
+            exclude="organize"
+            pdfBytes={resultBytes}
+            filename={file?.name ?? 'organized.pdf'}
+            sourceLabel="Organize PDF"
+          />
         </div>
       )}
     </div>

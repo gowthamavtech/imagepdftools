@@ -7,6 +7,7 @@ import { SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingS
 import { CSS } from '@dnd-kit/utilities';
 import { DropZone } from './DropZone';
 import { useHandoffStore } from '@/store/handoffStore';
+import { PdfContinueTo } from './PdfContinueTo';
 
 interface ImageEntry {
   id: string;
@@ -438,20 +439,19 @@ export function ImageToPdfUI() {
                 Preview
               </button>
             </div>
-            <button onClick={handleCompressPdf}
-              className="mt-2 w-full inline-flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-600 hover:border-violet-400 dark:hover:border-violet-600 bg-white dark:bg-slate-800 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-slate-600 dark:text-slate-300 hover:text-violet-700 dark:hover:text-violet-300 text-sm font-medium py-2.5 rounded-xl transition-all">
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
-              </svg>
-              Compress PDF
+            <button
+              onClick={() => { images.forEach((e) => URL.revokeObjectURL(e.previewUrl)); setImages([]); setGenerated(null); setError(null); }}
+              className="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-500 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-red-400 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors"
+            >
+              Start Over
             </button>
+            <PdfContinueTo
+              exclude="image-to-pdf"
+              pdfBytes={generated.bytes}
+              filename={generated.filename}
+              sourceLabel="Image to PDF"
+            />
           </div>
-          <button
-            onClick={() => { images.forEach((e) => URL.revokeObjectURL(e.previewUrl)); setImages([]); setGenerated(null); setError(null); }}
-            className="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-500 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-red-400 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors"
-          >
-            Start Over
-          </button>
         </div>
       )}
 
